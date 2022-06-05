@@ -1,32 +1,34 @@
-import { Component } from 'react'
-import { View, Text } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
+import TabBar from "@/comps/TabBar";
+import { View } from "@tarojs/components";
+import { useDidShow } from "@tarojs/taro";
+import React, { useEffect } from "react";
+import { AtGrid } from "taro-ui";
+import "./index.scss";
 
-import "taro-ui/dist/style/components/button.scss" // 按需引入
-import './index.scss'
+export default function App() {
+  useEffect(() => {}, []);
 
-export default class Index extends Component {
+  useDidShow(() => {});
 
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    return (
-      <View className='index'>
-        <Text>Hello world!</Text>
-        <AtButton type='primary'>I need Taro UI</AtButton>
-        <Text>Taro UI 支持 Vue 了吗？</Text>
-        <AtButton type='primary' circle={true}>支持</AtButton>
-        <Text>共建？</Text>
-        <AtButton type='secondary' circle={true}>来</AtButton>
+  return (
+    <View className="index">
+      <View>
+        <AtGrid
+          data={[
+            {
+              image:
+                "https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png",
+              value: "量表自测"
+            },
+            {
+              image:
+                "https://img20.360buyimg.com/jdphoto/s72x72_jfs/t15151/308/1012305375/2300/536ee6ef/5a411466N040a074b.png",
+              value: "居家训练"
+            }
+          ]}
+        />
       </View>
-    )
-  }
+      <TabBar current="index" />
+    </View>
+  );
 }

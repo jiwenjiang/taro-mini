@@ -1,3 +1,5 @@
+const path = require("path");
+
 const config = {
   projectName: "fushu-mini",
   date: "2022-5-29",
@@ -54,6 +56,9 @@ const config = {
       }
     },
     esnextModules: ["taro-ui"]
+  },
+  alias: {
+    "@": path.resolve(__dirname, "..", "src")
   }
 };
 
