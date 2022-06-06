@@ -4,7 +4,7 @@
   "description": "fushu-mini",
   "appid": "wxc662de75e52ad4d5",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "enhance": false,
     "postcss": false,
