@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: "评测列表",
+  navigationBarTitleText: "脑瘫评测",
   usingComponents: {}
 };

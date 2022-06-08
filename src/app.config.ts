@@ -3,7 +3,9 @@ export default {
     "pages/index/index",
     "pages/mine/index",
     "pages/login/index",
-    "pages/evaluate/list"
+    "pages/evaluate/list",
+    "pages/child/choose",
+    "pages/evaluate/brain"
   ],
   window: {
     backgroundTextStyle: "light",

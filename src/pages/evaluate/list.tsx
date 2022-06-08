@@ -20,12 +20,12 @@ export default function App() {
   };
 
   const todo = () => {
-    navigateTo({ url: "" });
+    navigateTo({ url: "/pages/child/choose" });
   };
 
   return (
     <View className="index">
-      <View className="list">
+      <View className="list" onClick={gms}>
         <AtListItem
           title="蕾波儿童脑瘫危险程度量表"
           arrow="right"

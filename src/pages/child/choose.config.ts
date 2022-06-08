@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: "评测列表",
+  navigationBarTitleText: "选择儿童",
   usingComponents: {}
 };
