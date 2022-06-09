@@ -23,6 +23,13 @@
           "name": "",
           "pathName": "pages/evaluate/list",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/brain",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

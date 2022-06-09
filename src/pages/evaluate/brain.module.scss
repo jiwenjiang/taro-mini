@@ -1,0 +1,90 @@
+.box {
+    height: 100vh;
+    background-color: #f9fbfc;
+}
+
+.subject {
+    margin: 10PX 15PX;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tabBox {
+    margin: 10PX 15PX 10PX 15PX;
+    background: #ffffff;
+    box-shadow: 4PX 4PX 8PX 0PX rgba(0, 0, 0, 0.16);
+    border-radius: 8PX;
+    overflow: hidden;
+
+    .swiperBox {
+        height: 143PX;
+        width: 100%;
+        border-radius: 8PX 8PX 0PX 0PX;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .title2 {
+        font-size: 15PX;
+        font-weight: bold;
+        color: #181818;
+        border-bottom: 1PX solid #efefef;
+        height: 46PX;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        font-size: 13PX;
+        font-weight: bold;
+        color: #181818;
+        margin-bottom: 10PX;
+        padding-top: 10PX;
+    }
+
+    .tibox {
+        padding: 15PX;
+        border-top: 1PX solid #efefef;
+    }
+}
+
+.btn {
+    margin-top: 8PX;
+    color: #181818;
+}
+
+.btnbox {
+    padding: 0 15PX;
+}
+
+.iconBox {
+    width: 54PX;
+    height: 54PX;
+    background-color: #f7f8fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5PX;
+}
+
+.mediaBox {
+    display: flex;
+}
+
+.imgs {
+    width: 54PX;
+    height: 54PX;
+    margin-right: 5PX;
+}
+
+.videoBox {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    img {
+        width: 25PX;
+    }
+}
