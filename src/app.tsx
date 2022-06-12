@@ -1,5 +1,7 @@
 import "@/service/http_interceptors";
 import request from "@/service/request";
+import "@taroify/core/index.scss";
+import "@taroify/icons/index.scss";
 import { View } from "@tarojs/components";
 import Taro, { navigateTo, setStorageSync } from "@tarojs/taro";
 import React, { Component } from "react";

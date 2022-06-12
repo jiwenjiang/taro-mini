@@ -1,6 +1,9 @@
 .box {
     height: 100vh;
     background-color: #f9fbfc;
+    --primary-color: #ffd340;
+    --rv-primary-color: var(--primary-color);
+
 }
 
 .subject {
@@ -23,6 +26,8 @@
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
     }
 
     .title2 {
@@ -83,8 +88,9 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+}
 
-    img {
-        width: 25PX;
-    }
+.luxiang {
+    width: 25PX;
+    height: 25PX;
 }

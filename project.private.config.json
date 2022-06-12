@@ -30,6 +30,13 @@
           "name": "",
           "pathName": "pages/evaluate/brain",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/choose",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

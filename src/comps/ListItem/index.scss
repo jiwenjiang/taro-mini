@@ -1,0 +1,14 @@
+.list-item {
+  padding: 24rpx 24rpx;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #333;
+  font-size: 32rpx;
+  line-height: 1.5;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  position: relative;
+  display: flex;
+}
