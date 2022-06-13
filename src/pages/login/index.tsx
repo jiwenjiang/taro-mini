@@ -20,13 +20,9 @@ export default function App() {
         phoneCode: e.detail.code
       }
     });
-    console.log("🚀 ~ file: index.tsx ~ line 22 ~ App ~ res", res)
-    console.log("🚀 ~ file: index.tsx ~ line 10 ~ App ~ e", {
-      code: login.code,
-      encryptedData: userInfo.encryptedData,
-      iv: userInfo.iv,
-      phoneCode: e.detail.code
-    });
+    if (res.code === 0) {
+      Taro.switchTab({ url: "/pages/index/index" });
+    }
 
     // console.log("🚀 ~ file: index.tsx ~ line 21 ~ App ~ res", res);
   };

@@ -4,36 +4,35 @@ import upload2Server from "@/service/upload";
 import { Radio, Textarea } from "@taroify/core";
 import { PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import {
-    Form,
-    Image,
-    Swiper,
-    SwiperItem,
-    Video,
-    View
+  Form,
+  Image,
+  Swiper,
+  SwiperItem,
+  Video,
+  View
 } from "@tarojs/components";
 import {
-    atMessage,
-    createInnerAudioContext,
-    createVideoContext,
-    getRecorderManager,
-    InnerAudioContext,
-    RecorderManager,
-    useRouter
+  atMessage,
+  createInnerAudioContext,
+  createVideoContext,
+  getRecorderManager,
+  InnerAudioContext,
+  navigateTo,
+  RecorderManager,
+  useRouter
 } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 import { AtButton, AtMessage } from "taro-ui";
-import styles from "./brain.module.scss";
+import styles from "./index.module.scss";
 
 export default function App() {
   const router = useRouter();
-  console.log("🚀 ~ file: brain.tsx ~ line 31 ~ App ~ router", router);
   const [data, setData] = useState<any>([]);
   const [active, setActive] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isRecord, setIsRecord] = useState(false);
   const [isPlay, setIsPlay] = useState(false);
-  const [baseinfo, setBaseinfo] = useState(null);
   const [btnText, setBtnText] = useState("提交答案");
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
@@ -41,7 +40,7 @@ export default function App() {
   const getList = async () => {
     const res = await request({
       url: "/scaleTable/get",
-      data: { code: 9, birthday: router.params.age }
+      data: { code: router.params.code ?? 9, birthday: router.params.age ?? 0 }
     });
     const datas = res.data.subjects?.map(v => ({
       ...v,
@@ -55,20 +54,6 @@ export default function App() {
     }));
     setData(datas);
   };
-
-  //   const getBaseInfo = async () => {
-  //     const res = await request({
-  //       url: "/children/get",
-  //       data: { id: router.params.childId }
-  //     });
-  //     age.current = moment().diff(moment(res.data.birthday), "years");
-
-  //     console.log(
-  //       "🚀 ~ file: brain.tsx ~ line 65 ~ getBaseInfo ~ res",
-  //       res,
-  //       age.current
-  //     );
-  //   };
 
   useEffect(() => {
     getList();
@@ -171,8 +156,6 @@ export default function App() {
         format: "mp3"
       });
     }
-
-    // window.wx.startRecord();
   };
 
   const stopRecord = () => {
@@ -236,38 +219,15 @@ export default function App() {
     });
     if (res.success) {
       setBtnText("提交答案");
-      //   navigate(`/evaluate/brainDetail/${res.data.id}`);
+      // if (router.params.code === "9") {
+      navigateTo({ url: `/pages/evaluate/brainDetail?id=${res.data.id}` });
+      // }
     }
   };
 
   const playVideo = (v, id) => {
-    console.log("🚀 ~ file: grow.tsx ~ line 234 ~ playVideo ~ v", v);
     const videoContext = createVideoContext(id);
     videoContext.requestFullScreen({ direction: 0 });
-    // setCurrentVideo(v);
-    // setShowVideo(true);
-  };
-
-  const autoPlay = i => {
-    // if (
-    //   data[active].questions[questionIndex].carousels[i]?.includes("mp4") &&
-    //   isAndroid()
-    // ) {
-    //   videojs(
-    //     videoNode.current,
-    //     {
-    //       preload: "auto",
-    //       autoplay: "muted",
-    //       controls: false,
-    //       isFullscreen: false,
-    //       muted: true,
-    //       sources: data[active].questions[questionIndex].carousels[i]
-    //     },
-    //     () => {
-    //       console.log("play ready");
-    //     }
-    //   );
-    // }
   };
 
   return (
@@ -278,7 +238,7 @@ export default function App() {
             <View className={styles.subject}>{data[active]?.subject}</View>
 
             {data[active]?.questions[questionIndex]?.carousels?.length > 0 && (
-              <Swiper autoplay={false} onChange={i => autoPlay(i)}>
+              <Swiper autoplay={false}>
                 {data[active].questions[questionIndex].carousels.map(m => (
                   <SwiperItem key={m} className={styles.swiperBox}>
                     {m.includes("mp4") ? (

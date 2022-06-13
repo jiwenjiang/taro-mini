@@ -1,20 +1,20 @@
 import request from "@/service/request";
 import { View } from "@tarojs/components";
-import { navigateTo } from "@tarojs/taro";
+import { navigateTo, useRouter } from "@tarojs/taro";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { AtButton, AtListItem } from "taro-ui";
 import "./choose.scss";
 
-
 export default function App() {
+  const router = useRouter();
   const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
   const [data, setData] = useState([]);
   const start = () => {
     let age = moment().diff(moment(data[0]?.birthday), "years");
-    console.log("🚀 ~ file: choose.jsx ~ line 13 ~ start ~ age", age)
+    console.log("🚀 ~ file: choose.jsx ~ line 13 ~ start ~ age", age);
     navigateTo({
-      url: `/pages/evaluate/brain?childId=${data[0]?.id}&age=${age}`
+      url: `/pages/evaluate/index?childId=${data[0]?.id}&age=${age}&code=${router.params.code}`
     });
   };
 

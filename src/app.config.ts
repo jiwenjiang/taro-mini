@@ -5,7 +5,9 @@ export default {
     "pages/login/index",
     "pages/evaluate/list",
     "pages/child/choose",
-    "pages/evaluate/brain"
+    "pages/evaluate/index",
+    "pages/evaluate/brainDetail",
+    "pages/evaluate/gms"
   ],
   window: {
     backgroundTextStyle: "light",

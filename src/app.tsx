@@ -9,11 +9,11 @@ import "./app.scss";
 import "./custom-variables.scss";
 
 class App extends Component {
-  componentDidMount() {}
-
-  componentDidShow() {
+  componentDidMount() {
     this.getAuth();
   }
+
+  componentDidShow() {}
 
   componentDidHide() {}
 

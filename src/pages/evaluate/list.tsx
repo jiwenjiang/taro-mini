@@ -19,8 +19,8 @@ export default function App() {
     setIsOpened(true);
   };
 
-  const todo = () => {
-    navigateTo({ url: "/pages/child/choose" });
+  const todo = (code = 9) => {
+    navigateTo({ url: `/pages/child/choose?code=${code}` });
   };
 
   return (
@@ -37,7 +37,7 @@ export default function App() {
           title="GMs评估量表"
           arrow="right"
           hasBorder={false}
-          onClick={gms}
+          onClick={() => todo(10)}
         />
       </View>
       <AtModal isOpened={isOpened}>
