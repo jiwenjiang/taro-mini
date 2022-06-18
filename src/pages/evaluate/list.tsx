@@ -1,6 +1,6 @@
 import TabBar from "@/comps/TabBar";
 import { Button, View } from "@tarojs/components";
-import { navigateTo, useDidShow } from "@tarojs/taro";
+import { navigateTo } from "@tarojs/taro";
 import React, { useState } from "react";
 import {
   AtIcon,
@@ -13,9 +13,8 @@ import "./list.scss";
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
-  useDidShow(() => {});
 
-  const gms = () => {
+  const brain = () => {
     setIsOpened(true);
   };
 
@@ -23,9 +22,13 @@ export default function App() {
     navigateTo({ url: `/pages/child/choose?code=${code}` });
   };
 
+  const gms = () => {
+    todo(10)
+  };
+
   return (
     <View className="index">
-      <View className="list" onClick={gms}>
+      <View className="list" onClick={brain}>
         <AtListItem
           title="蕾波儿童脑瘫危险程度量表"
           arrow="right"
@@ -37,7 +40,7 @@ export default function App() {
           title="GMs评估量表"
           arrow="right"
           hasBorder={false}
-          onClick={() => todo(10)}
+          onClick={() => gms()}
         />
       </View>
       <AtModal isOpened={isOpened}>

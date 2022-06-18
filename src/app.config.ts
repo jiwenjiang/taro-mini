@@ -7,7 +7,6 @@ export default {
     "pages/child/choose",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
-    "pages/evaluate/gms"
   ],
   window: {
     backgroundTextStyle: "light",

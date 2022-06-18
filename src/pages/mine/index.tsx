@@ -1,14 +1,82 @@
+import Box from "@/comps/Box";
 import TabBar from "@/comps/TabBar";
-import { View } from "@tarojs/components";
-import React, { useEffect } from "react";
+import { Image, Text, View } from "@tarojs/components";
+import { getStorageSync } from "@tarojs/taro";
+import React, { useEffect, useState } from "react";
+import { AtListItem } from "taro-ui";
 import "./index.scss";
 
 export default function App() {
-  useEffect(() => {}, []);
+  const [user, setUser] = useState({
+    name: ""
+  });
+  useEffect(() => {
+    setUser(getStorageSync("user"));
+  }, []);
+
+  const scale = () => {
+    // navigateTo({ url: `/pages/child/choose?code=${code}` });
+  };
 
   return (
     <View className="index">
-      2
+      <View>
+        <View className="avator">
+          <Image
+            className="ava"
+            src="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+          />
+          <Text>{user.name || "张三"}</Text>
+        </View>
+        <Box title="订单管理">
+          <View className="grid">
+            <View className="item">
+              <Image
+                className="trade"
+                src="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+              />
+              <Text className="sub-title">量表订单</Text>
+            </View>
+            <View className="item">
+              <Image
+                className="trade"
+                src="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+              />
+              <Text className="sub-title">视频订单</Text>
+            </View>
+            <View className="item">
+              <Image
+                className="trade"
+                src="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+              />
+              <Text className="sub-title">预约订单</Text>
+            </View>
+          </View>
+        </Box>
+        <View>
+          <View className="list" onClick={scale}>
+            <AtListItem
+              title="自测量表记录"
+              arrow="right"
+              hasBorder={false}
+            />
+          </View>
+          <View className="list" onClick={scale}>
+            <AtListItem
+              title="儿童管理"
+              arrow="right"
+              hasBorder={false}
+            />
+          </View>
+          <View className="list" onClick={scale}>
+            <AtListItem
+              title="系统设置"
+              arrow="right"
+              hasBorder={false}
+            />
+          </View>
+        </View>
+      </View>
       <TabBar current="mine" />
     </View>
   );

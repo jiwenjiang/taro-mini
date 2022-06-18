@@ -43,7 +43,14 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainDetail",
-          "query": "id=111",
+          "query": "id=112",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }
