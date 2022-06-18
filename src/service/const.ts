@@ -1,10 +1,15 @@
 export enum MediaType {
   PICTURE = 1,
   VIDEO,
-  AUDIO,
+  AUDIO
 }
 
 export enum GenderType {
   MALE = 1,
-  FEMALE,
+  FEMALE
+}
+
+export enum ScaleTableCode {
+  BRAIN = 9,
+  GMS
 }

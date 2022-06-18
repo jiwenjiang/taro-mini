@@ -7,6 +7,9 @@ export default {
     "pages/child/choose",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
+    "pages/evaluate/detail",
+    "pages/evaluate/recordList",
+    "pages/order/gmsPay",
   ],
   window: {
     backgroundTextStyle: "light",

@@ -1,7 +1,7 @@
 import Box from "@/comps/Box";
 import TabBar from "@/comps/TabBar";
 import { Image, Text, View } from "@tarojs/components";
-import { getStorageSync } from "@tarojs/taro";
+import { getStorageSync, navigateTo } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { AtListItem } from "taro-ui";
 import "./index.scss";
@@ -16,6 +16,10 @@ export default function App() {
 
   const scale = () => {
     // navigateTo({ url: `/pages/child/choose?code=${code}` });
+  };
+
+  const record = () => {
+    navigateTo({ url: `/pages/evaluate/recordList` });
   };
 
   return (
@@ -54,26 +58,14 @@ export default function App() {
           </View>
         </Box>
         <View>
-          <View className="list" onClick={scale}>
-            <AtListItem
-              title="自测量表记录"
-              arrow="right"
-              hasBorder={false}
-            />
+          <View className="list" onClick={record}>
+            <AtListItem title="自测量表记录" arrow="right" hasBorder={false} />
           </View>
           <View className="list" onClick={scale}>
-            <AtListItem
-              title="儿童管理"
-              arrow="right"
-              hasBorder={false}
-            />
+            <AtListItem title="儿童管理" arrow="right" hasBorder={false} />
           </View>
           <View className="list" onClick={scale}>
-            <AtListItem
-              title="系统设置"
-              arrow="right"
-              hasBorder={false}
-            />
+            <AtListItem title="系统设置" arrow="right" hasBorder={false} />
           </View>
         </View>
       </View>

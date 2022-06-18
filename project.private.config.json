@@ -51,6 +51,27 @@
           "name": "",
           "pathName": "pages/mine/index",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/gmsPay",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/recordList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/detail",
+          "query": "id=114",
           "scene": null,
           "launchMode": "default"
         }

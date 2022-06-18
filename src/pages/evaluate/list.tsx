@@ -1,4 +1,6 @@
 import TabBar from "@/comps/TabBar";
+import { ScaleTableCode } from "@/service/const";
+import request from "@/service/request";
 import { Button, View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React, { useState } from "react";
@@ -18,12 +20,24 @@ export default function App() {
     setIsOpened(true);
   };
 
-  const todo = (code = 9) => {
+  const todo = (code = ScaleTableCode.BRAIN) => {
     navigateTo({ url: `/pages/child/choose?code=${code}` });
   };
 
   const gms = () => {
-    todo(10)
+    todo(ScaleTableCode.GMS);
+  };
+
+  const checkPay = async () => {
+    const res = await request({
+      url: "/order/check",
+      data: { scaleTableCode: ScaleTableCode.GMS }
+    });
+    if (!res.data.hasPaidOrder) {
+      navigateTo({ url: `/pages/order/gmsPay` });
+    } else {
+      navigateTo({ url: `/pages/child/choose?code=${ScaleTableCode.GMS}` });
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ export default function App() {
           title="GMs评估量表"
           arrow="right"
           hasBorder={false}
-          onClick={() => gms()}
+          onClick={() => checkPay()}
         />
       </View>
       <AtModal isOpened={isOpened}>
