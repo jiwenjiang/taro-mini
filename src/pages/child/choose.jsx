@@ -1,7 +1,7 @@
 import request from "@/service/request";
 import { View } from "@tarojs/components";
 import { navigateTo, useRouter } from "@tarojs/taro";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { AtButton, AtListItem } from "taro-ui";
 import "./choose.scss";
@@ -13,7 +13,8 @@ export default function App() {
   const [data, setData] = useState([]);
 
   const start = () => {
-    let age = moment().diff(moment(data[0]?.birthday), "years");
+    let age = dayjs().diff(dayjs(data[0]?.birthday), "years");
+
     navigateTo({
       url: `/pages/evaluate/index?childId=${data[active]?.id}&age=${age}&code=${router.params.code}`
     });
