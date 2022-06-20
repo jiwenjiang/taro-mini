@@ -1,14 +1,39 @@
 .list-item {
-  padding: 24rpx 24rpx;
+  padding: 38px 30px;
   position: relative;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: #333;
-  font-size: 32rpx;
-  line-height: 1.5;
-  -webkit-transition: background-color 0.3s;
-  -o-transition: background-color 0.3s;
-  transition: background-color 0.3s;
-  position: relative;
   display: flex;
+
+  .info-title {
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 38px;
+    letter-spacing: 0px;
+    color: #6A6A77;
+  }
+
+  .info-node {
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 31px;
+    letter-spacing: 0px;
+    color: #88889C;
+    margin-top: 5px;
+  }
+
+  .left {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(120, 164, 250, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+  .right {
+    align-self: flex-end;
+  }
 }

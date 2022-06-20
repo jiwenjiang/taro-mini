@@ -1,31 +1,21 @@
 import TabBar from "@/comps/TabBar";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
-import { Button, View } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React, { useState } from "react";
-import {
-  AtIcon,
-  AtListItem,
-  AtModal,
-  AtModalAction,
-  AtModalContent
-} from "taro-ui";
+import { AtListItem } from "taro-ui";
 import "./list.scss";
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
 
-  const brain = () => {
-    setIsOpened(true);
-  };
+  // const brain = () => {
+  //   setIsOpened(true);
+  // };
 
   const todo = (code = ScaleTableCode.BRAIN) => {
     navigateTo({ url: `/pages/child/choose?code=${code}` });
-  };
-
-  const gms = () => {
-    todo(ScaleTableCode.GMS);
   };
 
   const checkPay = async () => {
@@ -42,7 +32,7 @@ export default function App() {
 
   return (
     <View className="index">
-      <View className="list" onClick={brain}>
+      <View className="list" onClick={() => todo()}>
         <AtListItem
           title="蕾波儿童脑瘫危险程度量表"
           arrow="right"
@@ -57,7 +47,7 @@ export default function App() {
           onClick={() => checkPay()}
         />
       </View>
-      <AtModal isOpened={isOpened}>
+      {/* <AtModal isOpened={isOpened}>
         <AtModalContent>
           <View className="icon">
             <AtIcon value="alert-circle" color="#ffd340" size="30"></AtIcon>
@@ -68,7 +58,7 @@ export default function App() {
           <Button onClick={() => setIsOpened(false)}>取消</Button>{" "}
           <Button onClick={() => todo()}>现在去做</Button>
         </AtModalAction>
-      </AtModal>
+      </AtModal> */}
       <TabBar current="index" />
     </View>
   );

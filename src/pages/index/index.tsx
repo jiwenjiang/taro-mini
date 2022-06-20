@@ -1,13 +1,13 @@
+import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
-import { View } from "@tarojs/components";
+import SelfTest from "@/static/icons/self-test.svg";
+import Train from "@/static/icons/trans.svg";
+import { Image, View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React from "react";
-import { AtListItem } from "taro-ui";
 import "./index.scss";
 
-
 export default function App() {
-
   const goto = url => {
     navigateTo({ url });
   };
@@ -15,23 +15,20 @@ export default function App() {
   return (
     <View className="index">
       <View className="list-wrap">
-        <View className="list">
-          <AtListItem
+        <View className="list" onClick={() => goto("/pages/evaluate/list")}>
+          <ListItem
             title="量表自测"
-            note="描述信息"
-            arrow="right"
-            hasBorder={false}
-            onClick={() => goto("/pages/evaluate/list")}
-            thumb="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+            subTitle="拍摄视频，自主筛查"
+            left={<Image src={SelfTest} className="icon" />}
+            right={<SelfTest />}
           />
         </View>
         <View className="list">
-          <AtListItem
+          <ListItem
             title="居家训练"
-            note="描述信息"
-            arrow="right"
-            hasBorder={false}
-            thumb="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+            subTitle="居家康复，远程训练"
+            left={<Image src={Train} className="icon" />}
+            right={<SelfTest />}
           />
         </View>
       </View>
