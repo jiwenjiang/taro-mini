@@ -5,6 +5,8 @@ export default {
     "pages/login/index",
     "pages/evaluate/list",
     "pages/child/choose",
+    "pages/child/manage",
+    "pages/child/edit",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
     "pages/evaluate/detail",

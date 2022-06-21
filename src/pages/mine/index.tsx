@@ -14,6 +14,10 @@ export default function App() {
     setUser(getStorageSync("user"));
   }, []);
 
+  const manage = () => {
+    navigateTo({ url: '/pages/child/manage' });
+  };
+
   const scale = () => {
     // navigateTo({ url: `/pages/child/choose?code=${code}` });
   };
@@ -61,7 +65,7 @@ export default function App() {
           <View className="list" onClick={record}>
             <AtListItem title="自测量表记录" arrow="right" hasBorder={false} />
           </View>
-          <View className="list" onClick={scale}>
+          <View className="list" onClick={manage}>
             <AtListItem title="儿童管理" arrow="right" hasBorder={false} />
           </View>
           <View className="list" onClick={scale}>
