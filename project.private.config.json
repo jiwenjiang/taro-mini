@@ -65,6 +65,20 @@
           "query": "id=114",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/manage",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/edit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

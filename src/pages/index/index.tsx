@@ -2,6 +2,7 @@ import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
 import Train from "@/static/icons/jujia.svg";
 import SelfTest from "@/static/icons/self-test.svg";
+// import Select from "@/static/icons/selected.svg";
 import { Image, View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React from "react";

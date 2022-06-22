@@ -1,0 +1,37 @@
+.index {
+  background: #f6f6f6;
+  height: 100vh;
+  --primary-color: #ffd340;
+  --space: 30px;
+  
+  .row {
+    padding-top: var(--space);
+
+    .at-input {
+      margin-left: 0;
+      padding: 24px;
+    }
+
+    .at-input::after, .at-list::after, .at-list__item::after {
+      border: none;
+    }
+  }
+
+  .weight-input::after {
+    content: "KG";
+    color: #aaa;
+    font-size: 32px;
+    right: 54px;
+    top: 50%;
+    left: unset;
+    bottom: unset;
+    transform: translateY(-50%) scale(1);
+  }
+
+  .confirm {
+    width: 90%;
+    margin: var(--space) auto 0;
+    background-color: var(--primary-color);
+    border: 0;
+  }
+}
