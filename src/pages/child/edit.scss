@@ -11,6 +11,10 @@
       margin-left: 0;
       padding: 24px;
     }
+
+    .at-input::after, .at-list::after, .at-list__item::after {
+      border: none;
+    }
   }
 
   .confirm {
