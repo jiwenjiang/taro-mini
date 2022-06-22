@@ -17,6 +17,17 @@
     }
   }
 
+  .weight-input::after {
+    content: "KG";
+    color: #aaa;
+    font-size: 32px;
+    right: 54px;
+    top: 50%;
+    left: unset;
+    bottom: unset;
+    transform: translateY(-50%) scale(1);
+  }
+
   .confirm {
     width: 90%;
     margin: var(--space) auto 0;

@@ -218,6 +218,7 @@ export default function App() {
       </View>
       <View className="row">
         <AtInput
+          className="weight-input"
           name='value'
           title='出生体重'
           type='text'
