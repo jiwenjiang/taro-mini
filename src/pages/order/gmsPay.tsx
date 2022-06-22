@@ -1,16 +1,20 @@
 import Box from "@/comps/Box";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
+import Book from "@/static/icons/bookmark-3-fill.svg";
+import Cny from "@/static/icons/exchange-cny-fill.svg";
+import Psy from "@/static/icons/psychotherapy-fill.svg";
 import { Button, Checkbox, Popup } from "@taroify/core";
-import { Text, View } from "@tarojs/components";
+import { Image, Text, View } from "@tarojs/components";
 import { atMessage, navigateTo } from "@tarojs/taro";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AtMessage } from "taro-ui";
 import "./gmsPay.scss";
 
 export default function App() {
   const [value, setValue] = useState(false);
   const [open, setOpen] = useState(false);
+  const [price, setPrice] = useState(0);
 
   const buy = async () => {
     if (!value) {
@@ -41,9 +45,28 @@ export default function App() {
     });
   };
 
+  useEffect(() => {
+    (async () => {
+      const res = await request({
+        url: "/scaleTable/price",
+        data: { code: ScaleTableCode.GMS }
+      });
+      setPrice(res.data.price);
+      console.log("🚀 ~ file: gmsPay.tsx ~ line 51 ~ res", res);
+    })();
+  }, []);
+
   return (
     <View className="index">
-      <Box title="订单管理" styles={{ marginTop: 10 }}>
+      <Box
+        title={
+          <View>
+            <Image src={Book} className="icon" />
+            GMs评估的重要性
+          </View>
+        }
+        styles={{ marginTop: 10 }}
+      >
         <View className="desc">
           GMs自评建议将对宝宝面临的脑发育风险程
           度给出相应的类别，为您决定是否尽快就医诊
@@ -55,14 +78,30 @@ export default function App() {
           能为发育落后的宝宝抓住早期康复干预的黄金 时期。
         </View>
       </Box>
-      <Box title="订单管理" styles={{ marginTop: 10 }}>
+      <Box
+        title={
+          <View>
+            <Image src={Psy} className="icon" />
+            专家评估
+          </View>
+        }
+        styles={{ marginTop: 10 }}
+      >
         <View className="desc">
           行业顶级专家团队针对筛查结果进行评 估，为孩子健康发育保驾护航
         </View>
       </Box>
-      <Box title="订单管理" styles={{ marginTop: 10 }}>
+      <Box
+        title={
+          <View>
+            <Image src={Cny} className="icon" />
+            付费标准
+          </View>
+        }
+        styles={{ marginTop: 10 }}
+      >
         <View className="desc">
-          <View className="price">200元/次</View>
+          <View className="price">{price}元/次</View>
           <View className="sub-desc">
             *量表筛直为一次性消费产品，一旦购买概不退换
           </View>

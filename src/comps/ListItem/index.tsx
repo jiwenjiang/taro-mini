@@ -6,11 +6,19 @@ export default function ListItem({
   left,
   title,
   subTitle,
-  right
-}: Partial<Record<"title" | "subTitle" | "left" | "right", ReactNode>>) {
+  right,
+  click
+}: Partial<
+  Record<"title" | "subTitle" | "left" | "right", ReactNode> & {
+    click: Function;
+  }
+>) {
+  const handle = () => {
+    click?.();
+  };
   return (
-    <View className="list-item">
-      {left && <View className="left">{left}</View>}
+    <View className="list-item" onClick={handle}>
+      {left && <View className="left-box">{left}</View>}
       <View>
         <View className="info-title">{title}</View>
         <View className="info-node">{subTitle}</View>

@@ -22,18 +22,14 @@
     margin-top: 5px;
   }
 
-  .left {
-    width: 60px;
-    height: 60px;
-    border: 5px solid rgba(120, 164, 250, 0.4);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .left-box {
+    
     margin-right: 20px;
   }
 
   .right {
-    align-self: flex-end;
+    align-self: center;
+    position: absolute;
+    right: 30px;
   }
 }

@@ -21,3 +21,27 @@
 .active {
   border: 1px solid var(--primary-color);
 }
+
+.select {
+  width: 45px;
+  height: 45px;
+}
+
+.gender {
+  width: 62px;
+  height: 62px;
+}
+
+.arrow-icon {
+  width: 62px;
+  height: 62px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mt10 {
+  margin-top: 38px;
+}

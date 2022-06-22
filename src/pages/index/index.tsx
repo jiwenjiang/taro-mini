@@ -2,7 +2,7 @@ import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
 import Train from "@/static/icons/jujia.svg";
 import SelfTest from "@/static/icons/self-test.svg";
-// import Select from "@/static/icons/selected.svg";
+import { Arrow } from "@taroify/icons";
 import { Image, View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React from "react";
@@ -20,16 +20,32 @@ export default function App() {
           <ListItem
             title="量表自测"
             subTitle="拍摄视频，自主筛查"
-            left={<Image src={SelfTest} className="icon" />}
-            right={<SelfTest />}
+            left={
+              <View className="left">
+                <Image src={SelfTest} className="icon" />
+              </View>
+            }
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
           />
         </View>
         <View className="list">
           <ListItem
             title="居家训练"
             subTitle="居家康复，远程训练"
-            left={<Image src={Train} className="icon" />}
-            right={<SelfTest />}
+            left={
+              <View className="left">
+                <Image src={Train} className="icon" />
+              </View>
+            }
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
           />
         </View>
       </View>
