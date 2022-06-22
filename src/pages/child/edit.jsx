@@ -20,7 +20,7 @@ export default function App() {
 
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState(genders[0]);
   const [birthday, setBirthday] = useState('2000-01-01');
   const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([27, 0]);
   const [gestationalWeek, setGestationalWeek] = useState(gestationalWeeks[0][defaultGestationalIndex[0]]);
