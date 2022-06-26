@@ -1,3 +1,4 @@
+import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import { List, Loading } from "@taroify/core";
 import { View } from "@tarojs/components";
@@ -42,6 +43,19 @@ export default function App() {
     setLoading(false);
   };
 
+  const goReport = item => {
+    if (item.scaleTableCode === ScaleTableCode.BRAIN) {
+      navigateTo({
+        url: `/pages/evaluate/brainDetail?id=${item.id}`
+      });
+    }
+    if (item.scaleTableCode === ScaleTableCode.GMS) {
+      navigateTo({
+        url: `/pages/evaluate/gmsDetail?id=${item.id}`
+      });
+    }
+  };
+
   return (
     <View className={styles.index}>
       <List
@@ -54,12 +68,12 @@ export default function App() {
           <View className={styles.box} key={i}>
             <Card
               data={item}
-              report={() => null}
               detail={() =>
                 navigateTo({
                   url: `/pages/evaluate/detail?id=${item.id}`
                 })
               }
+              report={() => goReport(item)}
             ></Card>
           </View>
         ))}

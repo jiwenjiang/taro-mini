@@ -34,7 +34,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainDetail",
-          "query": "id=112",
+          "query": "id=120",
           "launchMode": "default",
           "scene": null
         },
@@ -77,6 +77,13 @@
           "name": "",
           "pathName": "pages/child/edit",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/gmsDetail",
+          "query": "id=121",
           "launchMode": "default",
           "scene": null
         }

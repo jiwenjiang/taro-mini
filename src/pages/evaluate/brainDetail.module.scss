@@ -1,14 +1,7 @@
 .box {
     height: 100vh;
     background-color: #f9fbfc;
-
-    :global(.rv-tabbar) {
-        border-top: 1PX solid #f0f0f0;
-    }
-
-    :global(.rv-tabs__nav) {
-        background-color: transparent;
-    }
+    --primary-color: #ffd340;
 }
 
 .cardBox {
@@ -128,19 +121,15 @@
 }
 
 .remark {
-    font-size: 13PX;
+    font-size: 32px;
     color: #181818;
     line-height: 19PX;
     margin-bottom: 15PX;
+    line-height: 48px;
 }
 
 .btnBox {
-    margin-top: 10PX;
-    padding: 0 15PX;
-
-    .btn {
-        color: #181818;
-    }
+    margin-bottom: 10PX;
 }
 
 .kefu {
@@ -148,9 +137,125 @@
     font-weight: bold;
     color: #181818;
     margin: 10PX 0;
+    display: flex;
+    justify-content: space-between;
+
+    .key {
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 42px;
+        letter-spacing: 0px;
+        color: #888888;
+    }
+
+    .val {
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 42px;
+        letter-spacing: 0px;
+        color: var(--primary-color);
+    }
 }
 
 .area {
     margin: 10PX 0;
     font-weight: bold;
+}
+
+.evaDate {
+    position: absolute;
+    right: 50px;
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 48px;
+    letter-spacing: 0px;
+    color: #888888;
+}
+
+.tag {
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 28px;
+    width: fit-content;
+}
+
+.evaBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 70px 0;
+
+    .evaRemark {
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 42px;
+        letter-spacing: 0px;
+        color: #888888;
+        margin: 20px 0;
+    }
+
+    .tagBox {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 28px;
+        letter-spacing: 0px;
+        color: #FFFFFF;
+
+        .grayTag {
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: #888888;
+        }
+    }
+}
+
+.cardContent {
+    font-size: 32px;
+    line-height: 48px;
+    letter-spacing: 0px;
+    margin-bottom: 20px;
+}
+
+.popContent {
+    font-size: 32px;
+    line-height: 48px;
+    padding: 30px;
+}
+
+.gmsEvaBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .evaTitle {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 48px;
+        letter-spacing: 0px;
+        color: #000000;
+        margin-bottom: 30px;
+    }
+
+    .evaVal {
+        font-size: 48px;
+        font-weight: 600;
+        line-height: 48px;
+        letter-spacing: 0px;
+        color: #000000;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .intro {
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 42px;
+        letter-spacing: 0px;
+        color: #888888;
+        text-align: center;
+        margin: 20px 0;
+    }
 }

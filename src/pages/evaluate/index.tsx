@@ -201,7 +201,7 @@ export default function App() {
     });
     const params = {
       childrenId: router.params.childId,
-      scaleTableCode: 9,
+      scaleTableCode: router.params.code ?? 9,
       answers
       // answers: data[active].questions?.map((v) => ({
       //   answerSn: v.answerSn ?? 1,
@@ -238,7 +238,12 @@ export default function App() {
             <View className={styles.subject}>{data[active]?.subject}</View>
 
             {data[active]?.questions[questionIndex]?.carousels?.length > 0 && (
-              <Swiper autoplay={false}>
+              <Swiper
+                autoplay={false}
+                indicatorDots={true}
+                indicatorColor="rgba(0, 0, 0, .3)"
+                indicatorActiveColor="#ffd340"
+              >
                 {data[active].questions[questionIndex].carousels.map(m => (
                   <SwiperItem key={m} className={styles.swiperBox}>
                     {m.includes("mp4") ? (

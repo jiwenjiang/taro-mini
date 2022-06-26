@@ -1,30 +1,14 @@
-import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
 import { Image, Text, View } from "@tarojs/components";
-import { useRouter } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./index.module.scss";
 
-export default function Report() {
-  const [data, setData] = useState<any>({});
-  const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      const res = await request({
-        url: "/scaleRecord/report",
-        data: { id: router.params.id }
-      });
-      setData(res.data);
-      console.log("🚀 ~ file: report.tsx ~ line 37 ~ res", res);
-    })();
-  }, []);
-
+export default function Report({ data }: any) {
   return (
     <View className={styles.cardBox}>
       <View className={styles.card}>
         <View className={styles.title}>
-          <Image src={fenxiImg} className={styles.imgIcon}/>
+          <Image src={fenxiImg} className={styles.imgIcon} />
           &nbsp; 量表信息
         </View>
         <View className={styles.kv2}>

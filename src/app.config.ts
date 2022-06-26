@@ -9,9 +9,11 @@ export default {
     "pages/child/edit",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
+    "pages/evaluate/gmsDetail",
     "pages/evaluate/detail",
     "pages/evaluate/recordList",
     "pages/order/gmsPay",
+    "pages/other/webView",
   ],
   window: {
     backgroundTextStyle: "light",
