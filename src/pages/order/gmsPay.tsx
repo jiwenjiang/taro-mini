@@ -31,6 +31,20 @@ export default function App() {
       data: { id: res.data.orderId, ip: "127.0.0.1" }
     });
 
+    const checkPay = async () => {
+      const res = await request({
+        url: "/order/check",
+        data: { scaleTableCode: ScaleTableCode.GMS }
+      });
+      if (!res.data.hasPaidOrder) {
+        navigateTo({ url: `/pages/order/gmsPay` });
+      } else {
+        navigateTo({
+          url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${res.data.orderId}`
+        });
+      }
+    };
+
     wx.requestPayment({
       timeStamp: payRes.data.timeStamp,
       nonceStr: payRes.data.nonceStr,
@@ -39,7 +53,7 @@ export default function App() {
       paySign: payRes.data.paySign,
       success(res) {
         atMessage({ type: "success", message: "支付成功" });
-        navigateTo({ url: `/pages/child/choose?code=${ScaleTableCode.GMS}` });
+        checkPay();
         console.log("🚀 ~ file: gmsPay.tsx ~ line 40 ~ success ~ res", res);
       }
     });

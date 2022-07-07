@@ -68,50 +68,60 @@ function Card() {
           </View>
         </View>
       </View>
-      <View className={styles.cardBox}>
-        <View className={styles.card}>
-          <View className={styles.title}>
-            <Image src={pingceImg} className={styles.imgIcon} />
-            &nbsp; 测评结果
-          </View>
-          <View className={styles.gmsEvaBox}>
-            {report.scaleResult?.result?.map((v, i) => (
-              <View key={i}>
-                <View className={styles.evaTitle}>{v.name}</View>
-                <View className={styles.evaVal}>{v.content}</View>
+      {report?.progressStatus === "未评估" ? (
+        <View className={styles.noEva}>
+          <View>已提交医生评估，请耐心等待，</View>
+          <View>医生评估后将通知您</View>
+          <View className={styles.phone}>客服电话：400-898-6862</View>
+        </View>
+      ) : (
+        <View>
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={pingceImg} className={styles.imgIcon} />
+                &nbsp; 测评结果
               </View>
-            ))}
+              <View className={styles.gmsEvaBox}>
+                {report.scaleResult?.result?.map((v, i) => (
+                  <View key={i}>
+                    <View className={styles.evaTitle}>{v.name}</View>
+                    <View className={styles.evaVal}>{v.content}</View>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </View>
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={fenxiImg} className={styles.imgIcon} />
+                &nbsp; 医生评估
+                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
+              </View>
+              <View className={styles.evaBox}>
+                <View>{report.conclusion}</View>
+                <View className={styles.intro}>评估结果不代表诊断结果</View>
+              </View>
+            </View>
+          </View>
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={fenxiImg} className={styles.imgIcon} />
+                &nbsp; 孩子的评估结果有风险，缺乏治疗方案？
+              </View>
+              <AtButton
+                className={styles.btnBox}
+                type="primary"
+                onClick={() => goto()}
+              >
+                免费定制专属治疗方案
+              </AtButton>
+            </View>
           </View>
         </View>
-      </View>
-      <View className={styles.cardBox}>
-        <View className={styles.card}>
-          <View className={styles.title}>
-            <Image src={fenxiImg} className={styles.imgIcon} />
-            &nbsp; 医生评估
-            <Text className={styles.evaDate}>{report.evaluateDate}</Text>
-          </View>
-          <View className={styles.evaBox}>
-            <View>{report.conclusion}</View>
-            <View className={styles.intro}>评估结果不代表诊断结果</View>
-          </View>
-        </View>
-      </View>
-      <View className={styles.cardBox}>
-        <View className={styles.card}>
-          <View className={styles.title}>
-            <Image src={fenxiImg} className={styles.imgIcon} />
-            &nbsp; 孩子的评估结果有风险，缺乏治疗方案？
-          </View>
-          <AtButton
-            className={styles.btnBox}
-            type="primary"
-            onClick={() => goto()}
-          >
-            免费定制专属治疗方案
-          </AtButton>
-        </View>
-      </View>
+      )}
     </View>
   );
 }

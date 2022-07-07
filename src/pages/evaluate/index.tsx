@@ -213,8 +213,8 @@ export default function App() {
     if (Number(router.params.code) === ScaleTableCode.GMS) {
       params.orderId = router.params.orderId;
     }
-    if (btnText === "计算中") return;
-    setBtnText("计算中");
+    if (btnText === "上传中") return;
+    setBtnText("上传中");
     const res = await request({
       url: "/scaleRecord/save",
       data: params,
@@ -222,7 +222,11 @@ export default function App() {
     });
     if (res.success) {
       setBtnText("提交答案");
-      navigateTo({ url: `/pages/evaluate/brainDetail?id=${res.data.id}` });
+      if (Number(router.params.code) === ScaleTableCode.GMS) {
+        navigateTo({ url: `/pages/evaluate/gmsDetail?id=${res.data.id}` });
+      } else {
+        navigateTo({ url: `/pages/evaluate/brainDetail?id=${res.data.id}` });
+      }
       wx.requestSubscribeMessage({
         tmplIds: ["0uUpTebwJQRY49Lcq6IysK3apBtJvKZphwCaccuLCX8"],
         success(res) {}
@@ -327,6 +331,7 @@ export default function App() {
                           />
                           <Clear
                             className={styles.clear}
+                            color="#ffd340"
                             onClick={e => del(i, e)}
                           />
                         </View>
@@ -350,6 +355,7 @@ export default function App() {
                           <Clear
                             className={styles.clear}
                             onClick={e => del(i, e)}
+                            color="#ffd340"
                           />
                           {/* <Image src={luxiang} className={styles.luxiang} /> */}
                         </View>
@@ -365,6 +371,7 @@ export default function App() {
                               <Clear
                                 className={styles.clear}
                                 onClick={e => del(i, e)}
+                                color="#ffd340"
                               />
                             </View>
                           )}
