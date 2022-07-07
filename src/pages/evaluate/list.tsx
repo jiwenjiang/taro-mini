@@ -26,7 +26,9 @@ export default function App() {
     if (!res.data.hasPaidOrder) {
       navigateTo({ url: `/pages/order/gmsPay` });
     } else {
-      navigateTo({ url: `/pages/child/choose?code=${ScaleTableCode.GMS}` });
+      navigateTo({
+        url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${res.data.orderId}`
+      });
     }
   };
 

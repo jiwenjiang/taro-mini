@@ -1,8 +1,8 @@
-import { MediaType } from "@/service/const";
+import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import { Radio, Textarea } from "@taroify/core";
-import { PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
+import { Clear, PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import {
   Form,
   Image,
@@ -199,7 +199,7 @@ export default function App() {
         });
       });
     });
-    const params = {
+    let params: any = {
       childrenId: router.params.childId,
       scaleTableCode: router.params.code ?? 9,
       answers
@@ -210,6 +210,9 @@ export default function App() {
       //   attachments: v.attachments,
       // })),
     };
+    if (Number(router.params.code) === ScaleTableCode.GMS) {
+      params.orderId = router.params.orderId;
+    }
     if (btnText === "计算中") return;
     setBtnText("计算中");
     const res = await request({
@@ -219,8 +222,12 @@ export default function App() {
     });
     if (res.success) {
       setBtnText("提交答案");
-      // if (router.params.code === "9") {
       navigateTo({ url: `/pages/evaluate/brainDetail?id=${res.data.id}` });
+      wx.requestSubscribeMessage({
+        tmplIds: ["0uUpTebwJQRY49Lcq6IysK3apBtJvKZphwCaccuLCX8"],
+        success(res) {}
+      });
+      // if (router.params.code === "9") {
       // }
     }
   };
@@ -228,6 +235,13 @@ export default function App() {
   const playVideo = (v, id) => {
     const videoContext = createVideoContext(id);
     videoContext.requestFullScreen({ direction: 0 });
+  };
+
+  const del = (i, e) => {
+    e.stopPropagation();
+    data[active].questions[questionIndex].mediaList.splice(i, 1);
+    data[active].questions[questionIndex].attachments.splice(i, 1);
+    setData([...data]);
   };
 
   return (
@@ -305,11 +319,17 @@ export default function App() {
                   {data[active].questions[questionIndex]?.mediaList?.map(
                     (v, i) =>
                       v.type === MediaType.PICTURE ? (
-                        <Image
-                          className={styles.imgs}
-                          key={i}
-                          src={v.localData}
-                        />
+                        <View className={styles.iconBox}>
+                          <Image
+                            className={styles.imgs}
+                            key={i}
+                            src={v.localData}
+                          />
+                          <Clear
+                            className={styles.clear}
+                            onClick={e => del(i, e)}
+                          />
+                        </View>
                       ) : v.type === MediaType.VIDEO ? (
                         <View
                           className={cls(styles.iconBox, styles.videoBox)}
@@ -327,6 +347,10 @@ export default function App() {
                             style={{ width: 54, height: 54 }}
                             objectFit="contain"
                           ></Video>
+                          <Clear
+                            className={styles.clear}
+                            onClick={e => del(i, e)}
+                          />
                           {/* <Image src={luxiang} className={styles.luxiang} /> */}
                         </View>
                       ) : (
@@ -334,9 +358,15 @@ export default function App() {
                           {isPlay ? (
                             <PauseCircleOutlined onClick={() => stopVoice()} />
                           ) : (
-                            <PlayCircleOutlined
-                              onClick={() => startVoice(v.localData)}
-                            />
+                            <View>
+                              <PlayCircleOutlined
+                                onClick={() => startVoice(v.localData)}
+                              />
+                              <Clear
+                                className={styles.clear}
+                                onClick={e => del(i, e)}
+                              />
+                            </View>
                           )}
                         </View>
                       )

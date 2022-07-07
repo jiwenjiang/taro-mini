@@ -1,12 +1,14 @@
 import ListItem from "@/comps/ListItem";
+import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import Select from "@/static/icons/selected.svg";
 import femaleImg from "@/static/imgs/female.png";
 import maleImg from "@/static/imgs/male.png";
 import { Image, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
+import { atMessage, navigateTo, useRouter } from "@tarojs/taro";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { AtButton } from "taro-ui";
+import { AtButton, AtMessage } from "taro-ui";
 import "./choose.scss";
 
 export default function App() {
@@ -16,10 +18,14 @@ export default function App() {
   const [data, setData] = useState([]);
 
   const start = () => {
-    // let age = dayjs().diff(dayjs(data[active]?.birthday), "years");
-
+    let age = dayjs().diff(dayjs(data[active]?.birthday), "month");
+    console.log("🚀 ~ file: choose.jsx ~ line 20 ~ start ~ age", age);
+    if (age > 5 && Number(router.params.code) === ScaleTableCode.GMS) {
+      atMessage({ type: "warning", message: "GMs评测仅限0-5个月孩子" });
+      return;
+    }
     navigateTo({
-      url: `/pages/evaluate/index?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}`
+      url: `/pages/evaluate/index?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
     });
   };
 
@@ -35,10 +41,6 @@ export default function App() {
     (async () => {
       const res = await request({ url: "/children/list", data: page });
       setData(res.data.children);
-      console.log(
-        "🚀 ~ file: choose.jsx ~ line 39 ~ es.data.children",
-        res.data.children
-      );
     })();
   }, []);
 
@@ -76,7 +78,7 @@ export default function App() {
           儿童管理
         </AtButton>
       </View>
+      <AtMessage />
     </View>
   );
 }
-
