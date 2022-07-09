@@ -22,7 +22,7 @@ export default function App() {
   };
 
   const scale = () => {
-    // navigateTo({ url: `/pages/child/choose?code=${code}` });
+    navigateTo({ url: `/pages/order/scale` });
   };
 
   const record = () => {
@@ -41,7 +41,7 @@ export default function App() {
         </View>
         <Box title="订单管理">
           <View className="grid">
-            <View className="item">
+            <View className="item" onClick={scale}>
               <Image className="trade" src={Dingdan} />
               <Text className="sub-title">量表订单</Text>
             </View>
