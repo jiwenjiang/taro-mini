@@ -12,6 +12,8 @@ export default {
     "pages/evaluate/gmsDetail",
     "pages/evaluate/detail",
     "pages/evaluate/recordList",
+    "pages/order/scale",
+    "pages/order/detail",
     "pages/order/gmsPay",
     "pages/other/webView",
   ],

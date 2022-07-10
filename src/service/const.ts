@@ -13,3 +13,11 @@ export enum ScaleTableCode {
   BRAIN = 9,
   GMS
 }
+
+
+export enum OrderStatus {
+  UNPAID = 1,
+  PAID,
+  USED,
+  CANCELLED
+}
