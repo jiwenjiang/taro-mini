@@ -58,6 +58,12 @@
 .btn {
     margin-top: 8PX;
     color: #181818;
+
+    :global(.taroify-loading) {
+        color: #1989fa;
+        margin-top: 10px;
+    }
+
 }
 
 .btnbox {

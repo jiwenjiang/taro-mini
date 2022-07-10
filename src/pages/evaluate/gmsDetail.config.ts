@@ -1,5 +1,4 @@
 export default {
-    navigationBarTitleText: "Gms评测详情",
-    usingComponents: {}
-  };
-  
+  navigationStyle: "custom",
+  usingComponents: {}
+};

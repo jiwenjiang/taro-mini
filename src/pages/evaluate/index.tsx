@@ -1,7 +1,7 @@
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
-import { Radio, Textarea } from "@taroify/core";
+import { Loading, Radio, Textarea } from "@taroify/core";
 import { Clear, PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import {
   Form,
@@ -11,7 +11,7 @@ import {
   Video,
   View
 } from "@tarojs/components";
-import {
+import Taro, {
   atMessage,
   createInnerAudioContext,
   createVideoContext,
@@ -57,6 +57,12 @@ export default function App() {
 
   useEffect(() => {
     getList();
+    Taro.setNavigationBarTitle({
+      title:
+        Number(router.params.code) === ScaleTableCode.GMS
+          ? "GMs评测"
+          : "脑瘫评测"
+    });
   }, []);
 
   const pre = () => {
@@ -223,9 +229,13 @@ export default function App() {
     if (res.success) {
       setBtnText("提交答案");
       if (Number(router.params.code) === ScaleTableCode.GMS) {
-        navigateTo({ url: `/pages/evaluate/gmsDetail?id=${res.data.id}` });
+        navigateTo({
+          url: `/pages/evaluate/gmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+        });
       } else {
-        navigateTo({ url: `/pages/evaluate/brainDetail?id=${res.data.id}` });
+        navigateTo({
+          url: `/pages/evaluate/brainDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+        });
       }
       wx.requestSubscribeMessage({
         tmplIds: ["0uUpTebwJQRY49Lcq6IysK3apBtJvKZphwCaccuLCX8"],
@@ -415,7 +425,11 @@ export default function App() {
                   onClick={submit}
                   type="primary"
                 >
-                  {btnText}
+                  {btnText === "上传中" ? (
+                    <Loading type="spinner" className={styles.customColor} />
+                  ) : (
+                    btnText
+                  )}
                 </AtButton>
                 {data[active]?.questions?.length > 1 && (
                   <AtButton className={styles.btn} onClick={pre}>

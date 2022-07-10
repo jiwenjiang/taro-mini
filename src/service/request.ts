@@ -16,7 +16,15 @@ const request = (
       success(request: any) {
         //监听成功后的操作
         if (request.statusCode === 200) {
-          resolve(request.data);
+          if (request.data?.success) {
+            resolve(request.data);
+          } else {
+            Taro.showToast({
+              title: request.data?.message,
+              icon: "error",
+              duration: 500
+            });
+          }
         } else {
           //如果没有获取成功返回值,把request.data传入到reject中
           reject(request.data);

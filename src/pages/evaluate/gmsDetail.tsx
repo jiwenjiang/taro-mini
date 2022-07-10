@@ -1,3 +1,4 @@
+import NavBar from "@/comps/NavBar";
 import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
 import pingceImg from "@/static/imgs/pingce.png";
@@ -48,6 +49,7 @@ function Card() {
 
   return (
     <View>
+      <NavBar title="GMs评估详情" />
       <View className={styles.cardBox}>
         <View className={styles.card}>
           <View className={styles.title}>
@@ -84,7 +86,7 @@ function Card() {
               </View>
               <View className={styles.gmsEvaBox}>
                 {report.scaleResult?.result?.map((v, i) => (
-                  <View key={i}>
+                  <View key={i} className={styles.evaItem}>
                     <View className={styles.evaTitle}>{v.name}</View>
                     <View className={styles.evaVal}>{v.content}</View>
                   </View>
