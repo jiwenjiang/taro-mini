@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
-import { View, Text, Picker } from "@tarojs/components";
-import { AtList, AtListItem, AtInput, AtButton, AtMessage } from "taro-ui";
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro"
+import { View, Text, Picker } from "@tarojs/components"
+import { AtList, AtListItem, AtInput, AtButton, AtMessage } from "taro-ui"
 
-import dayjs from "dayjs";
-import request from "@/service/request";
+import dayjs from "dayjs"
+import request from "@/service/request"
 
-import "./edit.scss";
+import "./edit.scss"
 
 export default function App() {
-  const router = useRouter();
+  const router = useRouter()
  
   const genders = ['男', '女']
   const gestationalWeeks = [
@@ -18,14 +18,14 @@ export default function App() {
     Array.from({ length: 31 }, (v, i) => i),
   ]
 
-  const [data, setData] = useState([]);
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState(genders[0]);
-  const [birthday, setBirthday] = useState('2000-01-01');
-  const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([27, 0]);
-  const [gestationalWeek, setGestationalWeek] = useState(gestationalWeeks[0][defaultGestationalIndex[0]]);
-  const [gestationalWeekDay, setGestationalWeekDay] = useState(gestationalWeeks[1][defaultGestationalIndex[1]]);
-  const [birthdayWeight, setBirthdayWeight] = useState(null);
+  const [data, setData] = useState([])
+  const [name, setName] = useState('')
+  const [gender, setGender] = useState(genders[0])
+  const [birthday, setBirthday] = useState('2000-01-01')
+  const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([27, 0])
+  const [gestationalWeek, setGestationalWeek] = useState(gestationalWeeks[0][defaultGestationalIndex[0]])
+  const [gestationalWeekDay, setGestationalWeekDay] = useState(gestationalWeeks[1][defaultGestationalIndex[1]])
+  const [birthdayWeight, setBirthdayWeight] = useState(null)
 
   const init = () => {
     // 路由中没有儿童 ID 时，为新增儿童，无需获取儿童信息
@@ -38,26 +38,26 @@ export default function App() {
       (async () => {
         const res = await request({
           url: `/children/get?id=${router.params.childId}`,
-        });
-        const childInfo = res.data;
+        })
+        const childInfo = res.data
 
         if (!childInfo) {
           return
         }
 
-        setName(childInfo.name);
+        setName(childInfo.name)
         // TODO: setGender 在这里无效，为什么？
-        setGender(childInfo.gender);
-        setBirthday(childInfo.birthday);
-        setGestationalWeek(childInfo.gestationalWeek);
-        setGestationalWeekDay(childInfo.gestationalWeekDay);
-        setDefaultGestationalIndex([gestationalWeeks[0].indexOf(childInfo.gestationalWeek), gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)]);
-        setBirthdayWeight(childInfo.birthdayWeight);
-      })();
-    }, []);
+        setGender(childInfo.gender)
+        setBirthday(childInfo.birthday)
+        setGestationalWeek(childInfo.gestationalWeek)
+        setGestationalWeekDay(childInfo.gestationalWeekDay)
+        setDefaultGestationalIndex([gestationalWeeks[0].indexOf(childInfo.gestationalWeek), gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)])
+        setBirthdayWeight(childInfo.birthdayWeight)
+      })()
+    }, [])
   }
 
-  init();
+  init()
 
   const onNameChange = (value) => {
     setName(value)
@@ -117,7 +117,7 @@ export default function App() {
         gestationalWeekDay,
         birthdayWeight: parseFloat(birthdayWeight),
       },
-    });
+    })
 
     if (res.code !== 0) {
       Taro.atMessage({
@@ -134,13 +134,11 @@ export default function App() {
     })
     navigateTo({
       url: `/pages/child/manage`,
-    });
+    })
   }
 
   // 更新当前儿童信息
   const doUpdate = async (index) => {
-    console.log(`will update: `);
-
     const res = await request({
       url: '/children/update',
       method: 'POST',
@@ -153,7 +151,7 @@ export default function App() {
         gestationalWeekDay,
         birthdayWeight: parseFloat(birthdayWeight),
       },
-    });
+    })
 
     if (res.code !== 0) {
       Taro.atMessage({
@@ -170,7 +168,7 @@ export default function App() {
     })
     navigateTo({
       url: `/pages/child/manage`,
-    });
+    })
   }
 
   return (
@@ -231,5 +229,5 @@ export default function App() {
         <AtButton onClick={() => onFinish()} className="action confirm">保存</AtButton>
       </View>
     </View>
-  );
+  )
 }
