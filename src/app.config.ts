@@ -2,6 +2,8 @@ export default {
   pages: [
     "pages/index/index",
     "pages/mine/index",
+    "pages/mine/setting",
+    "pages/mine/password",
     "pages/login/index",
     "pages/evaluate/list",
     "pages/child/choose",
