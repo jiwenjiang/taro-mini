@@ -135,11 +135,11 @@ export default function App() {
   }
 
   const showChildRisksSummary = () => {
-    if (childRisks.length === 0) {
+    if (childRisks.filter(item => !!item).length === 0) {
       return '无'
     }
 
-    return `共${childRisks.length}项高危因素`
+    return `共${childRisks.filter(item => !!item).length}项高危因素`
   }
 
   const onChildRisksChange = (e, item) => {
@@ -155,11 +155,11 @@ export default function App() {
   }
 
   const showMotherRisksSummary = () => {
-    if (motherRisks.length === 0) {
+    if (motherRisks.filter(item => !!item).length === 0) {
       return '无'
     }
 
-    return `共${motherRisks.length}项高危因素`
+    return `共${motherRisks.filter(item => !!item).length}项高危因素`
   }
 
   const onMotherRisksChange = (e, item) => {
@@ -197,8 +197,8 @@ export default function App() {
       gestationalWeekDay,
       birthdayWeight: parseFloat(birthdayWeight),
     }
-    childRisks.length > 0 && (payload.childRisks = childRisks)
-    motherRisks.length > 0 && (payload.motherRisks = motherRisks)
+    childRisks.length > 0 && (payload.childRisks = childRisks.filter(item => !!item))
+    motherRisks.length > 0 && (payload.motherRisks = motherRisks.filter(item => !!item))
 
     const res = await request({
       url: '/children/save',
@@ -235,8 +235,8 @@ export default function App() {
       gestationalWeekDay,
       birthdayWeight: parseFloat(birthdayWeight),
     }
-    childRisks.length > 0 && (payload.childRisks = childRisks)
-    motherRisks.length > 0 && (payload.motherRisks = motherRisks)
+    childRisks.length > 0 && (payload.childRisks = childRisks.filter(item => !!item))
+    motherRisks.length > 0 && (payload.motherRisks = motherRisks.filter(item => !!item))
     
     const res = await request({
       url: '/children/update',
