@@ -100,6 +100,20 @@
           "query": "childId=1&age=1652572800&code=10&orderId=26",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/brainDetail",
+          "query": "id=120",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/brainGmsDetail",
+          "query": "id=144",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

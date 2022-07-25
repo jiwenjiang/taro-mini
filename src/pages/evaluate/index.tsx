@@ -216,7 +216,10 @@ export default function App() {
       //   attachments: v.attachments,
       // })),
     };
-    if (Number(router.params.code) === ScaleTableCode.GMS) {
+    if (
+      Number(router.params.code) === ScaleTableCode.GMS ||
+      Number(router.params.code) === ScaleTableCode.BRAIN_GMS
+    ) {
       params.orderId = router.params.orderId;
     }
     if (btnText === "上传中") return;
@@ -232,9 +235,13 @@ export default function App() {
         navigateTo({
           url: `/pages/evaluate/gmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
         });
-      } else {
+      } else if (Number(router.params.code) === ScaleTableCode.BRAIN) {
         navigateTo({
           url: `/pages/evaluate/brainDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+        });
+      } else {
+        navigateTo({
+          url: `/pages/evaluate/brainGmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
         });
       }
       wx.requestSubscribeMessage({

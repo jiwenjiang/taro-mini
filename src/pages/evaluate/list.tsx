@@ -3,31 +3,26 @@ import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import { View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
-import React, { useState } from "react";
+import React from "react";
 import { AtListItem } from "taro-ui";
 import "./list.scss";
 
 export default function App() {
-  const [isOpened, setIsOpened] = useState(false);
-
-  // const brain = () => {
-  //   setIsOpened(true);
-  // };
 
   const todo = (code = ScaleTableCode.BRAIN) => {
     navigateTo({ url: `/pages/child/choose?code=${code}` });
   };
 
-  const checkPay = async () => {
+  const checkPay = async scaleTableCode => {
     const res = await request({
       url: "/order/check",
-      data: { scaleTableCode: ScaleTableCode.GMS }
+      data: { scaleTableCode }
     });
     if (!res.data.hasPaidOrder) {
-      navigateTo({ url: `/pages/order/gmsPay` });
+      navigateTo({ url: `/pages/order/gmsPay?code=${scaleTableCode}` });
     } else {
       navigateTo({
-        url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${res.data.orderId}`
+        url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
       });
     }
   };
@@ -46,7 +41,15 @@ export default function App() {
           title="GMs评估量表"
           arrow="right"
           hasBorder={false}
-          onClick={() => checkPay()}
+          onClick={() => checkPay(ScaleTableCode.GMS)}
+        />
+      </View>
+      <View className="list">
+        <AtListItem
+          title="GMs+脑瘫类型量表"
+          arrow="right"
+          hasBorder={false}
+          onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}
         />
       </View>
       {/* <AtModal isOpened={isOpened}>

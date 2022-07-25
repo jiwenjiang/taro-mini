@@ -1,12 +1,11 @@
 import Box from "@/comps/Box";
-import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import Book from "@/static/icons/bookmark-3-fill.svg";
 import Cny from "@/static/icons/exchange-cny-fill.svg";
 import Psy from "@/static/icons/psychotherapy-fill.svg";
 import { Button, Checkbox, Popup } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import { atMessage, navigateTo } from "@tarojs/taro";
+import { atMessage, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { AtMessage } from "taro-ui";
 import "./gmsPay.scss";
@@ -15,6 +14,7 @@ export default function App() {
   const [value, setValue] = useState(false);
   const [open, setOpen] = useState(false);
   const [price, setPrice] = useState(0);
+  const router = useRouter();
 
   const buy = async () => {
     if (!value) {
@@ -23,7 +23,7 @@ export default function App() {
     }
     const res = await request({
       url: "/order/create",
-      data: { scaleTableCode: ScaleTableCode.GMS }
+      data: { scaleTableCode: router.params.code }
     });
 
     const payRes = await request({
@@ -34,13 +34,13 @@ export default function App() {
     const checkPay = async () => {
       const res = await request({
         url: "/order/check",
-        data: { scaleTableCode: ScaleTableCode.GMS }
+        data: { scaleTableCode: router.params.code }
       });
       if (!res.data.hasPaidOrder) {
         navigateTo({ url: `/pages/order/gmsPay` });
       } else {
         navigateTo({
-          url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${res.data.orderId}`
+          url: `/pages/child/choose?code=${router.params.code}&orderId=${res.data.orderId}`
         });
       }
     };
@@ -63,7 +63,7 @@ export default function App() {
     (async () => {
       const res = await request({
         url: "/scaleTable/price",
-        data: { code: ScaleTableCode.GMS }
+        data: { code: router.params.code }
       });
       setPrice(res.data.price);
       console.log("🚀 ~ file: gmsPay.tsx ~ line 51 ~ res", res);

@@ -11,7 +11,8 @@ export enum GenderType {
 
 export enum ScaleTableCode {
   BRAIN = 9,
-  GMS
+  GMS,
+  BRAIN_GMS
 }
 
 

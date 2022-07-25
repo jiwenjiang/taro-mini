@@ -54,6 +54,11 @@ export default function App() {
         url: `/pages/evaluate/gmsDetail?id=${item.id}`
       });
     }
+    if (item.scaleTableCode === ScaleTableCode.BRAIN_GMS) {
+      navigateTo({
+        url: `/pages/evaluate/brainGmsDetail?id=${item.id}`
+      });
+    }
   };
 
   return (
