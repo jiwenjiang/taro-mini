@@ -1,31 +1,72 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
-import { View, Text, Picker } from "@tarojs/components";
-import { AtList, AtListItem, AtInput, AtButton, AtMessage } from "taro-ui";
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro"
+import { View, Text, Picker, Image } from "@tarojs/components"
+import { AtList, AtListItem, AtInput, AtButton, AtCheckbox, AtMessage } from "taro-ui"
 
-import dayjs from "dayjs";
-import request from "@/service/request";
+import DropdownIcon from "@/static/icons/dropdown.svg";
+import CheckedIcon from "@/static/icons/checked.svg";
 
-import "./edit.scss";
+import dayjs from "dayjs"
+import request from "@/service/request"
+
+import "./edit.scss"
 
 export default function App() {
-  const router = useRouter();
- 
+  const router = useRouter()
+
   const genders = ['男', '女']
   const gestationalWeeks = [
     Array.from({ length: 52 }, (v, i) => i + 1),
     Array.from({ length: 31 }, (v, i) => i),
   ]
+  const allChildRisks = [
+    '胎龄不足37周或超过42周',
+    '出生体重在2500g以下',
+    '胎儿的兄弟姊妹有严重新生儿病史',
+    '产时感染',
+    '胎儿宫内窘迫',
+    '胎儿宫内发育迟缓',
+    '缺血缺氧性脑病',
+    '颅内出血',
+    '新生儿肺炎',
+    '寒冷损伤',
+    '新生儿黄疸',
+    '高危产妇所生的新生儿',
+    '手术产儿、难产、急产、产程过 长、分娩过程使用镇静剂等',
+  ]
+  const allMotherRisks = [
+    '年龄：年龄＜18岁或＞35岁',
+    '孕产史:有异常孕产史者，如流产、早产、死胎、死产、各种难产及手术产、新生儿死亡、新生儿溶血性黄疸、先天缺陷或遗传性疾病;',
+    '孕早期先兆流产',
+    '贫血',
+    '孕期出血，如前置胎盘、胎盘早剥',
+    '妊娠高血压综合征',
+    '妊娠合并内科疾病，如心脏病、肾炎、病毒性肝炎、重度贫血、病毒感染(巨细胞病毒、疱疹病毒、风疹病毒)等',
+    '妊娠期接触有害物质，如放射线、同位素、农药、化学毒物、 CO中毒及服用对胎儿有害药物',
+    '母儿血型不合',
+    '早产或过期妊娠',
+    '胎盘及脐带异常:胎盘发育不良、前置胎盘、胎盘早剥，脐带过短、脐带扭曲等',
+    '胎位异常',
+    '产道异常(包括骨产道及软产道)',
+    '多胎妊娠',
+    '羊水过多、过少、羊水早破、羊水污染等',
+    '多年不育经治疗受孕者',
+    '曾患或现有生殖器官肿瘤者等',
+  ]
 
-  const [data, setData] = useState([]);
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState(genders[0]);
-  const [birthday, setBirthday] = useState('2000-01-01');
-  const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([27, 0]);
-  const [gestationalWeek, setGestationalWeek] = useState(gestationalWeeks[0][defaultGestationalIndex[0]]);
-  const [gestationalWeekDay, setGestationalWeekDay] = useState(gestationalWeeks[1][defaultGestationalIndex[1]]);
-  const [birthdayWeight, setBirthdayWeight] = useState(null);
+  const [data, setData] = useState([])
+  const [name, setName] = useState('')
+  const [gender, setGender] = useState(genders[0])
+  const [birthday, setBirthday] = useState('2000-01-01')
+  const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([27, 0])
+  const [gestationalWeek, setGestationalWeek] = useState(gestationalWeeks[0][defaultGestationalIndex[0]])
+  const [gestationalWeekDay, setGestationalWeekDay] = useState(gestationalWeeks[1][defaultGestationalIndex[1]])
+  const [birthdayWeight, setBirthdayWeight] = useState(null)
+  const [childRisks, setChildRisks] = useState([])
+  const [showChildRisksDropdown, setShowChildRisksDropdown] = useState(false)
+  const [motherRisks, setMotherRisks] = useState([])
+  const [showMotherRisksDropdown, setShowMotherRisksDropdown] = useState(false)
 
   const init = () => {
     // 路由中没有儿童 ID 时，为新增儿童，无需获取儿童信息
@@ -38,26 +79,28 @@ export default function App() {
       (async () => {
         const res = await request({
           url: `/children/get?id=${router.params.childId}`,
-        });
-        const childInfo = res.data;
+        })
+        const childInfo = res.data
 
         if (!childInfo) {
           return
         }
 
-        setName(childInfo.name);
+        setName(childInfo.name)
         // TODO: setGender 在这里无效，为什么？
-        setGender(childInfo.gender);
-        setBirthday(childInfo.birthday);
-        setGestationalWeek(childInfo.gestationalWeek);
-        setGestationalWeekDay(childInfo.gestationalWeekDay);
-        setDefaultGestationalIndex([gestationalWeeks[0].indexOf(childInfo.gestationalWeek), gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)]);
-        setBirthdayWeight(childInfo.birthdayWeight);
-      })();
-    }, []);
+        setGender(childInfo.gender)
+        setBirthday(childInfo.birthday)
+        setGestationalWeek(childInfo.gestationalWeek)
+        setGestationalWeekDay(childInfo.gestationalWeekDay)
+        setDefaultGestationalIndex([gestationalWeeks[0].indexOf(childInfo.gestationalWeek), gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)])
+        setBirthdayWeight(childInfo.birthdayWeight)
+        childInfo.childRisks && setChildRisks(childInfo.childRisks)
+        childInfo.motherRisks && setMotherRisks(childInfo.motherRisks)
+      })()
+    }, [])
   }
 
-  init();
+  init()
 
   const onNameChange = (value) => {
     setName(value)
@@ -87,6 +130,46 @@ export default function App() {
     setBirthdayWeight(value)
   }
 
+  const toggleChildRisksDropdown = () => {
+    setShowChildRisksDropdown(!showChildRisksDropdown)
+  }
+
+  const showChildRisksSummary = () => {
+    if (childRisks.filter(item => !!item).length === 0) {
+      return '无'
+    }
+
+    return `共${childRisks.filter(item => !!item).length}项高危因素`
+  }
+
+  const onChildRisksChange = (e, item) => {
+    if (childRisks.indexOf(item) > -1) {
+      setChildRisks(childRisks.filter(i => i !== item))
+    } else {
+      setChildRisks(childRisks.concat(item))
+    }
+  }
+
+  const toggleMotherRisksDropdown = () => {
+    setShowMotherRisksDropdown(!showMotherRisksDropdown)
+  }
+
+  const showMotherRisksSummary = () => {
+    if (motherRisks.filter(item => !!item).length === 0) {
+      return '无'
+    }
+
+    return `共${motherRisks.filter(item => !!item).length}项高危因素`
+  }
+
+  const onMotherRisksChange = (e, item) => {
+    if (motherRisks.indexOf(item) > -1) {
+      setMotherRisks(motherRisks.filter(i => i !== item))
+    } else {
+      setMotherRisks(motherRisks.concat(item))
+    }
+  }
+
   const onFinish = () => {
     if (!router.params.childId) {
       doSave()
@@ -106,18 +189,22 @@ export default function App() {
       return
     }
 
+    const payload = {
+      name,
+      gender: gender === '男' ? 1 : 2,
+      birthday: dayjs(birthday, 'YYYY-MM-DD').unix(),
+      gestationalWeek,
+      gestationalWeekDay,
+      birthdayWeight: parseFloat(birthdayWeight),
+    }
+    childRisks.length > 0 && (payload.childRisks = childRisks.filter(item => !!item))
+    motherRisks.length > 0 && (payload.motherRisks = motherRisks.filter(item => !!item))
+
     const res = await request({
       url: '/children/save',
       method: 'POST',
-      data: {
-        name,
-        gender: gender === '男' ? 1 : 2,
-        birthday: dayjs(birthday, 'YYYY-MM-DD').unix(),
-        gestationalWeek,
-        gestationalWeekDay,
-        birthdayWeight: parseFloat(birthdayWeight),
-      },
-    });
+      data: payload,
+    })
 
     if (res.code !== 0) {
       Taro.atMessage({
@@ -134,26 +221,28 @@ export default function App() {
     })
     navigateTo({
       url: `/pages/child/manage`,
-    });
+    })
   }
 
   // 更新当前儿童信息
   const doUpdate = async (index) => {
-    console.log(`will update: `);
-
+    const payload = {
+      id: router.params.childId,
+      name,
+      gender: gender === '男' ? 1 : 2,
+      birthday: dayjs(birthday, 'YYYY-MM-DD').unix(),
+      gestationalWeek,
+      gestationalWeekDay,
+      birthdayWeight: parseFloat(birthdayWeight),
+    }
+    childRisks.length > 0 && (payload.childRisks = childRisks.filter(item => !!item))
+    motherRisks.length > 0 && (payload.motherRisks = motherRisks.filter(item => !!item))
+    
     const res = await request({
       url: '/children/update',
       method: 'POST',
-      data: {
-        id: router.params.childId,
-        name,
-        gender: gender === '男' ? 1 : 2,
-        birthday: dayjs(birthday, 'YYYY-MM-DD').unix(),
-        gestationalWeek,
-        gestationalWeekDay,
-        birthdayWeight: parseFloat(birthdayWeight),
-      },
-    });
+      data: payload,
+    })
 
     if (res.code !== 0) {
       Taro.atMessage({
@@ -170,13 +259,13 @@ export default function App() {
     })
     navigateTo({
       url: `/pages/child/manage`,
-    });
+    })
   }
 
   return (
     <View className="index">
       <AtMessage />
-      <View className="row">
+      <View className="row name">
         <AtInput
           name='value'
           title='儿童姓名'
@@ -186,7 +275,7 @@ export default function App() {
           onChange={(value) => onNameChange(value)}
         />
       </View>
-      <View className="row">
+      <View className="row gender">
         <Picker mode='selector' range={genders} onChange={onGenderChange}>
           <AtList>
             <AtListItem
@@ -196,7 +285,7 @@ export default function App() {
           </AtList>
         </Picker>
       </View>
-      <View className="row">
+      <View className="row birthday">
         <Picker mode='date' value={birthday} onChange={onBirthdayChange}>
           <AtList>
             <AtListItem
@@ -206,7 +295,7 @@ export default function App() {
           </AtList>
         </Picker>
       </View>
-      <View className="row">
+      <View className="row gestational-week">
         <Picker mode='multiSelector' range={gestationalWeeks} value={defaultGestationalIndex} onColumnChange={onGestationalWeekChange}>
           <AtList>
             <AtListItem
@@ -216,7 +305,7 @@ export default function App() {
           </AtList>
         </Picker>
       </View>
-      <View className="row">
+      <View className="row birthday-weight">
         <AtInput
           className="weight-input"
           name='value'
@@ -227,9 +316,59 @@ export default function App() {
           onChange={(value) => onBirthdayWeightChange(value)}
         />
       </View>
+      <View className="row child-risks">
+        <View className="risks">
+          <View className="row-inside" onClick={toggleChildRisksDropdown}>
+            <Text>儿童高危因素</Text>
+            <View className="dropdown">
+              <View className="dropdown-text">{showChildRisksSummary()}</View>
+              <Image src={DropdownIcon} className="dropdown-icon" />
+            </View>
+          </View>
+          <View className={`dropdown-items ${!showChildRisksDropdown && 'hidden'}`}>
+            {allChildRisks.map((item, index) => (
+              <View
+                className="item"
+                key={index}
+                onClick={(e) => onChildRisksChange(e, item)}
+              >
+                <View className="icon-wrapper">
+                <Image src={CheckedIcon} className={`checked-icon ${childRisks.includes(item) && 'checked'}`} />
+                </View>
+                <View className={`item-text ${childRisks.includes(item) && 'checked'}`}>{item}</View>
+              </View>
+            ))}
+          </View>
+        </View>
+      </View>
+      <View className="row mother-risks">
+        <View className="risks">
+          <View className="row-inside" onClick={toggleMotherRisksDropdown}>
+            <Text>母亲高危因素</Text>
+            <View className="dropdown">
+              <View className="dropdown-text">{showMotherRisksSummary()}</View>
+              <Image src={DropdownIcon} className="dropdown-icon" />
+            </View>
+          </View>
+          <View className={`dropdown-items ${!showMotherRisksDropdown && 'hidden'}`}>
+            {allMotherRisks.map((item, index) => (
+              <View
+                className="item"
+                key={index}
+                onClick={(e) => onMotherRisksChange(e, item)}
+              >
+                <View className="icon-wrapper">
+                <Image src={CheckedIcon} className={`checked-icon ${motherRisks.includes(item) && 'checked'}`} />
+                </View>
+                <View className={`item-text ${motherRisks.includes(item) && 'checked'}`}>{item}</View>
+              </View>
+            ))}
+          </View>
+        </View>
+      </View>
       <View className="actions">
         <AtButton onClick={() => onFinish()} className="action confirm">保存</AtButton>
       </View>
     </View>
-  );
+  )
 }

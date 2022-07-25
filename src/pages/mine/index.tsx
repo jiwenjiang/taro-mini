@@ -29,6 +29,10 @@ export default function App() {
     navigateTo({ url: `/pages/evaluate/recordList` });
   };
 
+  const setting = () => {
+    navigateTo({ url: `/pages/mine/setting` });
+  };
+
   return (
     <View className="index">
       <View>
@@ -62,7 +66,7 @@ export default function App() {
           <View className="list" onClick={manage}>
             <AtListItem title="儿童管理" arrow="right" hasBorder={false} />
           </View>
-          <View className="list" onClick={scale}>
+          <View className="list" onClick={setting}>
             <AtListItem title="系统设置" arrow="right" hasBorder={false} />
           </View>
         </View>

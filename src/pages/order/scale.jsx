@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 
-import { View, Text } from "@tarojs/components"
-import { AtButton, AtMessage } from "taro-ui"
 import Taro, {
   navigateTo,
   useRouter,
   useDidShow,
 } from "@tarojs/taro"
+import { View, Text } from "@tarojs/components"
+import { AtButton, AtMessage } from "taro-ui"
 
 import request from "@/service/request"
 import { ScaleTableCode, OrderStatus } from "@/service/const"
@@ -37,11 +37,6 @@ export default function App() {
   useDidShow(() => {
     getAndSetOrderInfo()
   })
-
-  // 测试方法，用于新建订单
-  const create = async () => {
-    const res = await request({ url: `/order/create?scaleTableCode=${ScaleTableCode.GMS}` })
-  }
 
   // 获取订单状态并为对应文字标签设置对应类名
   const getOrderStatus = (v) => {
@@ -128,11 +123,6 @@ export default function App() {
             </View>
           </View>
         ))}
-      </View>
-      <View style='padding-top: 30px'>
-        <AtButton className="btn create" type="primary" onClick={create}>
-          创建订单
-        </AtButton>
       </View>
     </View>
   )
