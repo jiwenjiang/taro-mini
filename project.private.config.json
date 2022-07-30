@@ -114,6 +114,20 @@
           "query": "id=144",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/brainGmsDetail",
+          "query": "id=147",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/brainGmsDetail",
+          "query": "id=147",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

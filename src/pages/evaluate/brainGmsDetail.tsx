@@ -1,3 +1,4 @@
+import NavBar from "@/comps/NavBar";
 import Report from "@/comps/Report.tsx";
 import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
@@ -103,6 +104,7 @@ function Card() {
 
   return (
     <View>
+      <NavBar title="脑瘫+GMs评估详情" />
       <View className={styles.cardBox}>
         <View className={styles.card}>
           <View className={styles.title}>
@@ -135,7 +137,7 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={pingceImg} className={styles.imgIcon} />
-                &nbsp; 测评结果
+                &nbsp; 蕾波自测测评结果
               </View>
               <View className={styles.scoreBox}>
                 <View className={styles.text}>您本次评测结果风险系数</View>
@@ -145,6 +147,22 @@ function Card() {
                 >
                   {data.score}%
                 </View>
+              </View>
+            </View>
+          </View>
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={pingceImg} className={styles.imgIcon} />
+                &nbsp; GMs测评结果
+              </View>
+              <View className={styles.gmsEvaBox}>
+                {report.scaleResult?.gmsResult?.result?.map((v, i) => (
+                  <View key={i} className={styles.evaItem}>
+                    <View className={styles.evaTitle}>{v.name}</View>
+                    <View className={styles.evaVal}>{v.content}</View>
+                  </View>
+                ))}
               </View>
             </View>
           </View>
@@ -178,39 +196,60 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; 医生评估
+                &nbsp; 蕾波自测医生评估
                 <Text className={styles.evaDate}>{report.evaluateDate}</Text>
               </View>
               <View className={styles.evaBox}>
-                <View
-                  className={styles.tag}
-                  style={{
-                    backgroundColor:
-                      checkItem(report?.scaleResult?.result)?.color ?? "#000"
-                  }}
-                >
-                  {checkItem(report?.scaleResult?.result)?.text}
-                </View>
-                <View className={styles.evaRemark}>
-                  {report.scaleResult?.remark}
-                </View>
+                {report?.scaleResult?.cerebralPalsyResult && (
+                  <View
+                    className={styles.tag}
+                    style={{
+                      backgroundColor:
+                        checkItem(
+                          report?.scaleResult?.cerebralPalsyResult?.result
+                        )?.color ?? "#000"
+                    }}
+                  >
+                    {
+                      checkItem(
+                        report?.scaleResult?.cerebralPalsyResult?.result
+                      )?.text
+                    }
+                  </View>
+                )}
+
                 <View className={styles.tagBox}>
-                  {report.scaleResult?.highRisk?.map(v => (
+                  {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(v => (
                     <View className={styles.grayTag}>{v}</View>
                   ))}
                 </View>
                 <View className={styles.evaRemark}>
-                  {report.scaleResult?.remark}
+                  {report.scaleResult?.cerebralPalsyResult?.remark}
                 </View>
                 <View className={styles.tagBox}>
-                  {report.scaleResult?.abnormalIterm?.map(v => (
-                    <View className={styles.grayTag}>{v}</View>
-                  ))}
+                  {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
+                    v => (
+                      <View className={styles.grayTag}>{v}</View>
+                    )
+                  )}
                 </View>
               </View>
             </View>
           </View>
-          {report.scaleResult?.suggest?.map((v, i) => (
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={fenxiImg} className={styles.imgIcon} />
+                &nbsp; GMs医生评估
+                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
+              </View>
+              <View className={styles.evaBox}>
+                <View>{report.conclusion}</View>
+                <View className={styles.intro}>评估结果不代表诊断结果</View>
+              </View>
+            </View>
+          </View>
+          {report.scaleResult?.cerebralPalsyResult?.suggest?.map((v, i) => (
             <View className={styles.cardBox} key={i}>
               <View className={styles.card}>
                 <View className={styles.title}>

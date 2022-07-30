@@ -1,3 +1,4 @@
+import NavBar from "@/comps/NavBar";
 import Report from "@/comps/Report.tsx";
 import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
@@ -103,6 +104,7 @@ function Card() {
 
   return (
     <View>
+      <NavBar title="脑瘫评测详情" />
       <View className={styles.cardBox}>
         <View className={styles.card}>
           <View className={styles.title}>
@@ -174,18 +176,17 @@ function Card() {
             <Text className={styles.evaDate}>{report.evaluateDate}</Text>
           </View>
           <View className={styles.evaBox}>
-            <View
-              className={styles.tag}
-              style={{
-                backgroundColor:
-                  checkItem(report?.scaleResult?.result)?.color ?? "#000"
-              }}
-            >
-              {checkItem(report?.scaleResult?.result)?.text}
-            </View>
-            <View className={styles.evaRemark}>
-              {report.scaleResult?.remark}
-            </View>
+            {report?.scaleResult && (
+              <View
+                className={styles.tag}
+                style={{
+                  backgroundColor:
+                    checkItem(report?.scaleResult?.result)?.color ?? "#000"
+                }}
+              >
+                {checkItem(report?.scaleResult?.result)?.text}
+              </View>
+            )}
             <View className={styles.tagBox}>
               {report.scaleResult?.highRisk?.map(v => (
                 <View className={styles.grayTag}>{v}</View>
