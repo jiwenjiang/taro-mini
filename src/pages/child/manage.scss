@@ -50,8 +50,10 @@
       }
     
       .action {
-        width: 36px;
-        height: 36px;
+        box-sizing: border-box;
+        padding: 12px;
+        width: 60px;
+        height: 60px;
     
         &.edit {
           margin-left: 40px;
