@@ -25,6 +25,10 @@ export default function App() {
     navigateTo({ url: `/pages/order/scale` });
   };
 
+  const toVideoList = () => {
+    navigateTo({ url: `/pages/order/videoList` });
+  };
+
   const record = () => {
     navigateTo({ url: `/pages/evaluate/recordList` });
   };
@@ -49,7 +53,7 @@ export default function App() {
               <Image className="trade" src={Dingdan} />
               <Text className="sub-title">量表订单</Text>
             </View>
-            <View className="item">
+            <View className="item" onClick={toVideoList}>
               <Image className="trade" src={Shipin} />
               <Text className="sub-title">视频订单</Text>
             </View>

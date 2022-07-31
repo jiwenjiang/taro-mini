@@ -18,6 +18,7 @@ export default {
     "pages/order/scale",
     "pages/order/detail",
     "pages/order/gmsPay",
+    "pages/order/videoList",
     "pages/other/webView",
   ],
   window: {
