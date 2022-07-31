@@ -325,20 +325,6 @@ export default function App() {
               <Image src={DropdownIcon} className="dropdown-icon" />
             </View>
           </View>
-          <View className={`dropdown-items ${!showChildRisksDropdown && 'hidden'}`}>
-            {allChildRisks.map((item, index) => (
-              <View
-                className="item"
-                key={index}
-                onClick={(e) => onChildRisksChange(e, item)}
-              >
-                <View className="icon-wrapper">
-                <Image src={CheckedIcon} className={`checked-icon ${childRisks.includes(item) && 'checked'}`} />
-                </View>
-                <View className={`item-text ${childRisks.includes(item) && 'checked'}`}>{item}</View>
-              </View>
-            ))}
-          </View>
         </View>
       </View>
       <View className="row mother-risks">
@@ -350,6 +336,43 @@ export default function App() {
               <Image src={DropdownIcon} className="dropdown-icon" />
             </View>
           </View>
+
+        </View>
+      </View>
+      <View className="actions">
+        <AtButton onClick={() => onFinish()} className="confirm">保存</AtButton>
+      </View>
+      {showChildRisksDropdown && (
+        <View className="mask child-risks">
+          <View className={`dropdown-items ${!showChildRisksDropdown && 'hidden'}`}>
+            {allChildRisks.map((item, index) => (
+              <View
+                className="item"
+                key={index}
+                onClick={(e) => onChildRisksChange(e, item)}
+              >
+                <View className="icon-wrapper">
+                <Image
+                  src={CheckedIcon}
+                  className={`checked-icon ${childRisks.includes(item) && 'checked'}`}
+                />
+                </View>
+                <View
+                  className={`item-text ${childRisks.includes(item) && 'checked'}`}
+                >{item}</View>
+              </View>
+            ))}
+            <View>
+              <AtButton
+                onClick={() => setShowChildRisksDropdown(false)}
+                className="confirm"
+              >确定</AtButton>
+            </View>
+          </View>
+        </View>
+      )}
+      {showMotherRisksDropdown && (
+        <View className="mask child-risks">
           <View className={`dropdown-items ${!showMotherRisksDropdown && 'hidden'}`}>
             {allMotherRisks.map((item, index) => (
               <View
@@ -358,17 +381,25 @@ export default function App() {
                 onClick={(e) => onMotherRisksChange(e, item)}
               >
                 <View className="icon-wrapper">
-                <Image src={CheckedIcon} className={`checked-icon ${motherRisks.includes(item) && 'checked'}`} />
+                <Image
+                  src={CheckedIcon}
+                  className={`checked-icon ${motherRisks.includes(item) && 'checked'}`}
+                />
                 </View>
-                <View className={`item-text ${motherRisks.includes(item) && 'checked'}`}>{item}</View>
+                <View
+                  className={`item-text ${motherRisks.includes(item) && 'checked'}`}
+                >{item}</View>
               </View>
             ))}
+            <View>
+              <AtButton
+                onClick={() => setShowMotherRisksDropdown(false)}
+                className="confirm"
+              >确定</AtButton>
+            </View>
           </View>
         </View>
-      </View>
-      <View className="actions">
-        <AtButton onClick={() => onFinish()} className="action confirm">保存</AtButton>
-      </View>
+      )}
     </View>
   )
 }
