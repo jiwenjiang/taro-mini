@@ -104,7 +104,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainDetail",
-          "query": "id=120",
+          "query": "id=122",
           "launchMode": "default",
           "scene": null
         },
@@ -125,7 +125,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainGmsDetail",
-          "query": "id=147",
+          "query": "id=122",
           "launchMode": "default",
           "scene": null
         }
