@@ -107,6 +107,7 @@ function Card() {
   };
 
   const checkPay = async c => {
+    console.log("🚀 ~ file: brainDetail.tsx ~ line 110 ~ Card ~ c", c);
     if (c.resourceId && c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
@@ -115,6 +116,17 @@ function Card() {
         }
       });
       if (checkRes.data.hasPaidOrder) {
+        Taro.navigateToMiniProgram({
+          appId: checkRes.data.appId,
+          path: checkRes.data.page,
+          success(res) {
+            console.log(
+              "🚀 ~ file: brainDetail.tsx ~ line 94 ~ success ~ res",
+              res
+            );
+            // 打开成功
+          }
+        });
       } else {
         if (checkRes.data.orderId) {
           const payRes = await request({

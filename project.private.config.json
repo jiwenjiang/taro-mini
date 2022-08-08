@@ -111,21 +111,14 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainGmsDetail",
-          "query": "id=144",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/brainGmsDetail",
           "query": "id=147",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/brainGmsDetail",
-          "query": "id=122",
+          "pathName": "pages/evaluate/brainDetail",
+          "query": "id=151",
           "launchMode": "default",
           "scene": null
         }

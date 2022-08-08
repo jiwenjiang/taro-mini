@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: "脑瘫评测",
+  navigationStyle: "custom",
   usingComponents: {}
 };

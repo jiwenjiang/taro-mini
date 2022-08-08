@@ -46,7 +46,7 @@ export default function App() {
       </View>
       <View className="list">
         <AtListItem
-          title="GMs+脑瘫类型量表"
+          title="GMs+蕾波家庭自测"
           arrow="right"
           hasBorder={false}
           onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}

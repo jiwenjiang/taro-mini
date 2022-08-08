@@ -1,3 +1,4 @@
+import NavBar from "@/comps/NavBar";
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
@@ -11,7 +12,7 @@ import {
   Video,
   View
 } from "@tarojs/components";
-import Taro, {
+import {
   atMessage,
   createInnerAudioContext,
   createVideoContext,
@@ -26,6 +27,14 @@ import { cls } from "reactutils";
 import { AtButton, AtMessage } from "taro-ui";
 import styles from "./index.module.scss";
 
+const transTitle = e => {
+  return {
+    [ScaleTableCode.GMS]: "GMs评测",
+    [ScaleTableCode.BRAIN]: "脑瘫评测",
+    [ScaleTableCode.BRAIN_GMS]: "脑瘫+GMs评测"
+  }[e];
+};
+
 export default function App() {
   const router = useRouter();
   const [data, setData] = useState<any>([]);
@@ -36,6 +45,7 @@ export default function App() {
   const [btnText, setBtnText] = useState("提交答案");
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
+  const [title] = useState(transTitle(Number(router.params.code)));
 
   const getList = async () => {
     const res = await request({
@@ -57,12 +67,6 @@ export default function App() {
 
   useEffect(() => {
     getList();
-    Taro.setNavigationBarTitle({
-      title:
-        Number(router.params.code) === ScaleTableCode.GMS
-          ? "GMs评测"
-          : "脑瘫评测"
-    });
   }, []);
 
   const pre = () => {
@@ -76,7 +80,7 @@ export default function App() {
 
   const next = () => {
     if (
-      data[active].questions[questionIndex]?.attachments?.length === 0 &&
+      data[active].questions[questionIndex]?.mediaList?.length === 0 &&
       data[active].questions[questionIndex]?.answerSn !== 1
     ) {
       atMessage({ type: "warning", message: "请至少上传一个视频或图片" });
@@ -188,7 +192,7 @@ export default function App() {
 
   const submit = async () => {
     if (
-      data[active].questions[questionIndex]?.attachments?.length === 0 &&
+      data[active].questions[questionIndex]?.mediaList?.length === 0 &&
       data[active].questions[questionIndex]?.answerSn !== 1
     ) {
       atMessage({ type: "warning", message: "请至少上传一个视频或图片" });
@@ -266,200 +270,213 @@ export default function App() {
   };
 
   return (
-    <View className={styles.box}>
-      {data[active] && (
-        <View>
-          <View className={styles.tabBox}>
-            <View className={styles.subject}>{data[active]?.subject}</View>
+    <View>
+      <NavBar title={title} />
+      <View className={styles.box}>
+        {data[active] && (
+          <View>
+            <View className={styles.tabBox}>
+              <View className={styles.subject}>{data[active]?.subject}</View>
 
-            {data[active]?.questions[questionIndex]?.carousels?.length > 0 && (
-              <Swiper
-                autoplay={false}
-                indicatorDots={true}
-                indicatorColor="rgba(0, 0, 0, .3)"
-                indicatorActiveColor="#ffd340"
-              >
-                {data[active].questions[questionIndex].carousels.map(m => (
-                  <SwiperItem key={m} className={styles.swiperBox}>
-                    {m.includes("mp4") ? (
-                      <Video
-                        src={m}
-                        muted
-                        loop
-                        autoplay
-                        controls={false}
-                        x5-playsinline="true"
-                        webkit-playsinline="true"
-                        style={{ width: "100%", height: 143 }}
-                      />
-                    ) : (
-                      <Image style="height: 143px;background: #fff;" src={m} />
-                    )}
-                  </SwiperItem>
-                ))}
-              </Swiper>
-            )}
-            <View className={styles.tibox}>
-              <View style={{ marginBottom: 8 }}>
-                {questionIndex + 1}/{data[active].sum}
-              </View>
-              <Form>
-                <View className={styles.title}>
-                  {data[active].questions[questionIndex]?.name}
-                </View>
-                <Radio.Group
-                  value={data[active].questions[questionIndex]?.answerSn ?? 1}
-                  onChange={e =>
-                    changeVal(
-                      e,
-                      data[active].questions[questionIndex],
-                      "answerSn"
-                    )
-                  }
+              {data[active]?.questions[questionIndex]?.carousels?.length >
+                0 && (
+                <Swiper
+                  autoplay={false}
+                  indicatorDots={true}
+                  indicatorColor="rgba(0, 0, 0, .3)"
+                  indicatorActiveColor="#ffd340"
                 >
-                  {data[active].questions[questionIndex]?.answers.map(c => (
-                    <Radio name={c.sn} key={c.sn}>
-                      {c.content}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-                <View className={styles.title}>补充说明（非必填）</View>
-                <Textarea
-                  onChange={e =>
-                    changeVal(
-                      e.detail.value,
-                      data[active].questions[questionIndex],
-                      "remark"
-                    )
-                  }
-                  style={{ height: 100 }}
-                  value={data[active].questions[questionIndex]?.remark ?? ""}
-                  placeholder="填写补充说明"
-                />
-                <View className={styles.mediaBox}>
-                  {data[active].questions[questionIndex]?.mediaList?.map(
-                    (v, i) =>
-                      v.type === MediaType.PICTURE ? (
-                        <View className={styles.iconBox}>
-                          <Image
-                            className={styles.imgs}
-                            key={i}
-                            src={v.localData}
-                          />
-                          <Clear
-                            className={styles.clear}
-                            color="#ffd340"
-                            onClick={e => del(i, e)}
-                          />
-                        </View>
-                      ) : v.type === MediaType.VIDEO ? (
-                        <View
-                          className={cls(styles.iconBox, styles.videoBox)}
-                          //   style={{ backgroundImage: `url(${v.coverUrl})` }}
-                          key={i}
-                          onClick={() => playVideo(v.localData, `video${i}`)}
-                        >
-                          <Video
-                            src={v.localData}
-                            id={`video${i}`}
-                            loop={false}
-                            autoplay={false}
-                            controls={true}
-                            poster={v.coverUrl}
-                            style={{ width: 54, height: 54 }}
-                            objectFit="contain"
-                          ></Video>
-                          <Clear
-                            className={styles.clear}
-                            onClick={e => del(i, e)}
-                            color="#ffd340"
-                          />
-                          {/* <Image src={luxiang} className={styles.luxiang} /> */}
-                        </View>
+                  {data[active].questions[questionIndex].carousels.map(m => (
+                    <SwiperItem key={m} className={styles.swiperBox}>
+                      {m.includes("mp4") ? (
+                        <Video
+                          src={m}
+                          muted
+                          loop
+                          autoplay
+                          controls={false}
+                          x5-playsinline="true"
+                          webkit-playsinline="true"
+                          style={{ width: "100%", height: 143 }}
+                        />
                       ) : (
-                        <View className={styles.iconBox} key={i}>
-                          {isPlay ? (
-                            <PauseCircleOutlined onClick={() => stopVoice()} />
-                          ) : (
-                            <View>
-                              <PlayCircleOutlined
-                                onClick={() => startVoice(v.localData)}
-                              />
-                              <Clear
-                                className={styles.clear}
-                                onClick={e => del(i, e)}
-                                color="#ffd340"
-                              />
-                            </View>
-                          )}
-                        </View>
-                      )
-                  )}
-                  <View
-                    className={styles.iconBox}
-                    onClick={() => chooseMedia(MediaType.PICTURE)}
-                  >
-                    <View className="at-icon at-icon-camera"></View>
-                  </View>
-                  <View
-                    className={styles.iconBox}
-                    onClick={() => chooseMedia(MediaType.VIDEO)}
-                  >
-                    <View className="at-icon at-icon-video"></View>
-                  </View>
-                  <View
-                    className={styles.iconBox}
-                    onClick={() => {
-                      isRecord ? stopRecord() : startRecord();
-                    }}
-                  >
-                    {isRecord ? (
-                      <View className="at-icon at-icon-stop"></View>
-                    ) : (
-                      <View className="at-icon at-icon-volume-plus"></View>
-                    )}
-                  </View>
+                        <Image
+                          style="height: 143px;background: #fff;"
+                          src={m}
+                        />
+                      )}
+                    </SwiperItem>
+                  ))}
+                </Swiper>
+              )}
+              <View className={styles.tibox}>
+                <View style={{ marginBottom: 8 }}>
+                  {questionIndex + 1}/{data[active].sum}
                 </View>
-              </Form>
+                <Form>
+                  <View className={styles.title}>
+                    {data[active].questions[questionIndex]?.name}
+                  </View>
+                  <Radio.Group
+                    value={data[active].questions[questionIndex]?.answerSn ?? 1}
+                    onChange={e =>
+                      changeVal(
+                        e,
+                        data[active].questions[questionIndex],
+                        "answerSn"
+                      )
+                    }
+                  >
+                    {data[active].questions[questionIndex]?.answers.map(c => (
+                      <Radio name={c.sn} key={c.sn}>
+                        {c.content}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                  <View className={styles.title}>补充说明（非必填）</View>
+                  <Textarea
+                    onChange={e =>
+                      changeVal(
+                        e.detail.value,
+                        data[active].questions[questionIndex],
+                        "remark"
+                      )
+                    }
+                    style={{ height: 100 }}
+                    value={data[active].questions[questionIndex]?.remark ?? ""}
+                    placeholder="填写补充说明"
+                  />
+                  <View className={styles.mediaBox}>
+                    {data[active].questions[questionIndex]?.mediaList?.map(
+                      (v, i) =>
+                        v.type === MediaType.PICTURE ? (
+                          <View className={styles.iconBox}>
+                            <Image
+                              className={styles.imgs}
+                              key={i}
+                              src={v.localData}
+                            />
+                            <Clear
+                              className={styles.clear}
+                              color="#ffd340"
+                              onClick={e => del(i, e)}
+                            />
+                          </View>
+                        ) : v.type === MediaType.VIDEO ? (
+                          <View
+                            className={cls(styles.iconBox, styles.videoBox)}
+                            //   style={{ backgroundImage: `url(${v.coverUrl})` }}
+                            key={i}
+                            onClick={() => playVideo(v.localData, `video${i}`)}
+                          >
+                            <Video
+                              src={v.localData}
+                              id={`video${i}`}
+                              loop={false}
+                              autoplay={false}
+                              controls={true}
+                              poster={v.coverUrl}
+                              style={{ width: 54, height: 54 }}
+                              objectFit="contain"
+                            ></Video>
+                            <Clear
+                              className={styles.clear}
+                              onClick={e => del(i, e)}
+                              color="#ffd340"
+                            />
+                            {/* <Image src={luxiang} className={styles.luxiang} /> */}
+                          </View>
+                        ) : (
+                          <View className={styles.iconBox} key={i}>
+                            {isPlay ? (
+                              <PauseCircleOutlined
+                                onClick={() => stopVoice()}
+                              />
+                            ) : (
+                              <View>
+                                <PlayCircleOutlined
+                                  onClick={() => startVoice(v.localData)}
+                                />
+                                <Clear
+                                  className={styles.clear}
+                                  onClick={e => del(i, e)}
+                                  color="#ffd340"
+                                />
+                              </View>
+                            )}
+                          </View>
+                        )
+                    )}
+                    <View
+                      className={styles.iconBox}
+                      onClick={() => chooseMedia(MediaType.PICTURE)}
+                    >
+                      <View className="at-icon at-icon-camera"></View>
+                    </View>
+                    <View
+                      className={styles.iconBox}
+                      onClick={() => chooseMedia(MediaType.VIDEO)}
+                    >
+                      <View className="at-icon at-icon-video"></View>
+                    </View>
+                    <View
+                      className={styles.iconBox}
+                      onClick={() => {
+                        isRecord ? stopRecord() : startRecord();
+                      }}
+                    >
+                      {isRecord ? (
+                        <View className="at-icon at-icon-stop"></View>
+                      ) : (
+                        <View className="at-icon at-icon-volume-plus"></View>
+                      )}
+                    </View>
+                  </View>
+                </Form>
+              </View>
+            </View>
+            <View className={styles.btnbox}>
+              {active === data.length - 1 &&
+              questionIndex === data[active]?.questions?.length - 1 ? (
+                <View>
+                  <AtButton
+                    className={styles.btn}
+                    onClick={submit}
+                    type="primary"
+                  >
+                    {btnText === "上传中" ? (
+                      <Loading type="spinner" className={styles.customColor} />
+                    ) : (
+                      btnText
+                    )}
+                  </AtButton>
+                  {data[active]?.questions?.length > 1 && (
+                    <AtButton className={styles.btn} onClick={pre}>
+                      上一题
+                    </AtButton>
+                  )}
+                </View>
+              ) : (
+                <View>
+                  <AtButton
+                    className={styles.btn}
+                    type="primary"
+                    onClick={next}
+                  >
+                    下一题
+                  </AtButton>
+                  {(active !== 0 || questionIndex !== 0) && (
+                    <AtButton className={styles.btn} onClick={pre}>
+                      上一题
+                    </AtButton>
+                  )}
+                </View>
+              )}
             </View>
           </View>
-          <View className={styles.btnbox}>
-            {active === data.length - 1 &&
-            questionIndex === data[active]?.questions?.length - 1 ? (
-              <View>
-                <AtButton
-                  className={styles.btn}
-                  onClick={submit}
-                  type="primary"
-                >
-                  {btnText === "上传中" ? (
-                    <Loading type="spinner" className={styles.customColor} />
-                  ) : (
-                    btnText
-                  )}
-                </AtButton>
-                {data[active]?.questions?.length > 1 && (
-                  <AtButton className={styles.btn} onClick={pre}>
-                    上一题
-                  </AtButton>
-                )}
-              </View>
-            ) : (
-              <View>
-                <AtButton className={styles.btn} type="primary" onClick={next}>
-                  下一题
-                </AtButton>
-                {(active !== 0 || questionIndex !== 0) && (
-                  <AtButton className={styles.btn} onClick={pre}>
-                    上一题
-                  </AtButton>
-                )}
-              </View>
-            )}
-          </View>
-        </View>
-      )}
-      <AtMessage />
+        )}
+        <AtMessage />
+      </View>
     </View>
   );
 }

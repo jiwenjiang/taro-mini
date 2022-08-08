@@ -100,6 +100,76 @@ function Card() {
         }
       });
     }
+    if (c.type === "MINIAPP") {
+      checkPay(c);
+    }
+  };
+
+  const checkPay = async c => {
+    if (c.resourceId && c.productId) {
+      const checkRes = await request({
+        url: "/order/video/check",
+        data: {
+          resourceId: c.resourceId
+        }
+      });
+      if (checkRes.data.hasPaidOrder) {
+        Taro.navigateToMiniProgram({
+          appId: checkRes.data.appId,
+          path: checkRes.data.page,
+          success(res) {
+            // 打开成功
+          }
+        });
+      } else {
+        if (checkRes.data.orderId) {
+          const payRes = await request({
+            url: "/order/pay",
+            data: {
+              id: checkRes.data?.orderId,
+              ip: "127.0.0.1"
+            }
+          });
+
+          wx.requestPayment({
+            timeStamp: payRes.data.timeStamp,
+            nonceStr: payRes.data.nonceStr,
+            package: payRes.data.packageValue,
+            signType: payRes.data.signType,
+            paySign: payRes.data.paySign,
+            success(res) {
+              checkPay(c);
+            }
+          });
+        } else {
+          const orderRes = await request({
+            url: "/order/video/create",
+            data: {
+              resourceId: c.resourceId,
+              productId: c.productId
+            }
+          });
+          const payRes = await request({
+            url: "/order/pay",
+            data: {
+              id: orderRes.data?.orderId,
+              ip: "127.0.0.1"
+            }
+          });
+
+          wx.requestPayment({
+            timeStamp: payRes.data.timeStamp,
+            nonceStr: payRes.data.nonceStr,
+            package: payRes.data.packageValue,
+            signType: payRes.data.signType,
+            paySign: payRes.data.paySign,
+            success(res) {
+              checkPay(c);
+            }
+          });
+        }
+      }
+    }
   };
 
   return (
