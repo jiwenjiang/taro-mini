@@ -39,8 +39,12 @@
 
   .buy-book {
     margin-top: 2em;
-    background-color: var(--primary-color);
-    border-radius: 6px;
-    color: #fff;
+    padding-bottom: 2em;
+
+    .btn {
+      background-color: var(--primary-color);
+      border-radius: 6px;
+      color: #fff;
+    }
   }
 }
