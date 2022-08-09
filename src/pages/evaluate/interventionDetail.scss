@@ -1,0 +1,46 @@
+.intervention-detail {
+  background-color: #f6f6f6;
+  --primary-color: #ffd340;
+  width: 100vw;
+  height: 100vh;
+  --space: 30px;
+  box-sizing: border-box;
+  padding: var(--space);
+
+  .card {
+    background-color: #fff;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin-bottom: var(--space);
+
+    .card-header {
+      padding: 24px var(--space);
+      font-size: 32px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .card-body {
+      padding: var(--space);
+      font-size: 28px;
+      display: flex;
+      flex-direction: column;
+
+      .h5-p {
+        margin-bottom: 1em;
+        font-size: 1.1em;
+      }
+
+      .h5-img {
+        width: 100% !important;
+        height: 640px !important;
+      }
+    }
+  }
+
+  .buy-book {
+    margin-top: 2em;
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    color: #fff;
+  }
+}
