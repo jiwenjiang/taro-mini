@@ -1,7 +1,7 @@
 export default {
   pages: [
-    "pages/mine/index",
     "pages/index/index",
+    "pages/mine/index",
     "pages/mine/setting",
     "pages/mine/password",
     "pages/login/index",
