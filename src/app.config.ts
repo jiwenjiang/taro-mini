@@ -1,7 +1,7 @@
 export default {
   pages: [
-    "pages/index/index",
     "pages/mine/index",
+    "pages/index/index",
     "pages/mine/setting",
     "pages/mine/password",
     "pages/login/index",
@@ -11,6 +11,8 @@ export default {
     "pages/child/edit",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
+    "pages/evaluate/interventionList",
+    "pages/evaluate/interventionDetail",
     "pages/evaluate/gmsDetail",
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/detail",
