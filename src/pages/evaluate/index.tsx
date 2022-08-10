@@ -83,7 +83,10 @@ export default function App() {
       data[active].questions[questionIndex]?.mediaList?.length === 0 &&
       data[active].questions[questionIndex]?.answerSn !== 1
     ) {
-      atMessage({ type: "warning", message: "请至少上传一个视频或图片" });
+      atMessage({
+        type: "warning",
+        message: "请至少上传一个视频或图片"
+      });
       return;
     }
     if (questionIndex < data[active].questions.length - 1) {

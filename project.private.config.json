@@ -118,7 +118,14 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainDetail",
-          "query": "id=151",
+          "query": "id=174",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/index",
+          "query": "childId=18&age=946656000&code=9&orderId=undefined",
           "launchMode": "default",
           "scene": null
         }

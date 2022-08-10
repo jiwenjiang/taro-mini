@@ -3,7 +3,10 @@
     background-color: #f9fbfc;
     --primary-color: #ffd340;
     --rv-primary-color: var(--primary-color);
-
+    position: relative;
+    :global(.at-message) {
+        top: 82PX;
+    }
 }
 
 .subject {
