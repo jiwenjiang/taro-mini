@@ -1,3 +1,4 @@
+import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
 import Report from "@/comps/Report.tsx";
 import request from "@/service/request";
@@ -6,7 +7,7 @@ import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
 import { Popup } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import Taro, { useRouter } from "@tarojs/taro";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { AtButton } from "taro-ui";
 import styles from "./brainDetail.module.scss";
@@ -82,27 +83,32 @@ function Card() {
   }, []);
 
   const handle = async c => {
-    console.log("🚀 ~ file: brainDetail.tsx ~ line 85 ~ Card ~ c", c);
+    // console.log("🚀 ~ file: brainDetail.tsx ~ line 85 ~ Card ~ c", c);
     if (c.type === "STRING") {
       setPopObj({ visible: true, content: c.content });
     }
     if (c.type === "LINK") {
       // navigateTo({ url: `/pages/other/webView?url=${c.content}` });
-      Taro.navigateToMiniProgram({
-        appId: "wx98dc9b974915de77",
-        path:
-          "page/home/content/content_video/content_video?id=v_62c50754e4b050af2398680d",
-        success(res) {
-          console.log(
-            "🚀 ~ file: brainDetail.tsx ~ line 94 ~ success ~ res",
-            res
-          );
-          // 打开成功
-        }
-      });
+      // Taro.navigateToMiniProgram({
+      //   appId: "wx98dc9b974915de77",
+      //   path:
+      //     "page/home/content/content_video/content_video?id=v_62c50754e4b050af2398680d",
+      //   success(res) {
+      //     console.log(
+      //       "🚀 ~ file: brainDetail.tsx ~ line 94 ~ success ~ res",
+      //       res
+      //     );
+      //     // 打开成功
+      //   }
+      // });
     }
     if (c.type === "MINIAPP") {
       checkPay(c);
+    }
+    if (c.type === "SELF") {
+      navigateTo({
+        url: `${c.content}?recordId=${router.params.id}`
+      });
     }
   };
 
@@ -207,6 +213,7 @@ function Card() {
   return (
     <View>
       <NavBar title="脑瘫评测详情" />
+      <Contact />
       <View className={styles.cardBox}>
         <View className={styles.card}>
           <View className={styles.title}>

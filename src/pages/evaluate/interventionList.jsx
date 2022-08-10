@@ -1,94 +1,87 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import Taro, {
-  navigateTo,
-  useRouter,
-  navigateToMiniProgram,
-} from "@tarojs/taro"
-import {
-  View,
-  Text,
-  Image,
-} from "@tarojs/components"
-import { AtButton } from "taro-ui"
+import { Image, Text, View } from "@tarojs/components";
+import { navigateTo, navigateToMiniProgram, useRouter } from "@tarojs/taro";
 
-import request from "@/service/request"
+import request from "@/service/request";
 
-import "./interventionList.scss"
+import "./interventionList.scss";
 
 export default function App() {
-  const router = useRouter()
-  const [videoList, setVideoList] = useState([])
+  const router = useRouter();
+  const [videoList, setVideoList] = useState([]);
 
   const getScaleOrderList = () => {
     useEffect(() => {
       (async () => {
-        const res = await getInterventionList()
-      })()
-    }, [])
-  }
+        const res = await getInterventionList();
+      })();
+    }, []);
+  };
 
-  getScaleOrderList()
+  getScaleOrderList();
 
   const getInterventionList = async () => {
     const res = await request({
-      url: "/scaleRecord/abnormal/methods?recordId=122",
-    })
+      url: `/scaleRecord/abnormal/methods?recordId=${router.params.recordId ??
+        122}`
+    });
 
     if (res.data.length) {
-      setVideoList(res.data)
+      setVideoList(res.data);
     } else {
-      setVideoList([{
-        abnormalIterm: "自发姿势运动异常-紧张时头偏斜",
-        appid: "wx98dc9b974915de77",
-        coverUrl: "https://wechatapppro-1252524126.file.myqcloud.com/app7qahxuzk4630/image/b_u_5ee216595ecc9_gW13FzgZ/15t1oodr0ood.jpg",
-        name: "紧张时头偏斜",
-        page: "page/home/content/content_video/content_video?id=v_62d77690e4b0a51fef018f96",
-        recordid: 122,
-        resourceld: "v_62d77690e4b0a51fef018f96",
-        type: 3,
-      }])
+      setVideoList([
+        {
+          abnormalIterm: "自发姿势运动异常-紧张时头偏斜",
+          appid: "wx98dc9b974915de77",
+          coverUrl:
+            "https://wechatapppro-1252524126.file.myqcloud.com/app7qahxuzk4630/image/b_u_5ee216595ecc9_gW13FzgZ/15t1oodr0ood.jpg",
+          name: "紧张时头偏斜",
+          page:
+            "page/home/content/content_video/content_video?id=v_62d77690e4b0a51fef018f96",
+          recordid: 122,
+          resourceld: "v_62d77690e4b0a51fef018f96",
+          type: 3
+        }
+      ]);
     }
-  }
+  };
 
-  const watchVideo = (page) => {
+  const watchVideo = page => {
     navigateToMiniProgram({
-      appId: 'wx98dc9b974915de77',
-      path: page,
-    })
-  }
+      appId: "wx98dc9b974915de77",
+      path: page
+    });
+  };
 
-  const readIntro = (name) => {
+  const readIntro = name => {
     navigateTo({
-      url: `/pages/evaluate/interventionDetail?abnormalIterm=${encodeURIComponent(name)}`,
-    })
-  }
+      url: `/pages/evaluate/interventionDetail?abnormalIterm=${encodeURIComponent(
+        name
+      )}`
+    });
+  };
 
   return (
     <View className="intervention-list">
       {videoList.map((v, index) => (
-        <View
-          key={v.recordId}
-          className="video-info"
-        >
+        <View key={v.recordId} className="video-info">
           <View className="video-title">
             <Text className="title">{v.name}</Text>
           </View>
           <View className="video-cover">
-            <Image src={v.coverUrl} className="cover"/>
+            <Image src={v.coverUrl} className="cover" />
           </View>
           <View className="actions">
-            <Text
-              className="watch-video"
-              onClick={() => watchVideo(v.page)}
-            >观看视频</Text>
-            <Text
-              className="read-intro"
-              onClick={() => readIntro(v.name)}
-            >详细介绍</Text>
+            <Text className="watch-video" onClick={() => watchVideo(v.page)}>
+              观看视频
+            </Text>
+            <Text className="read-intro" onClick={() => readIntro(v.name)}>
+              详细介绍
+            </Text>
           </View>
         </View>
       ))}
     </View>
-  )
+  );
 }

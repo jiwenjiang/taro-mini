@@ -1,3 +1,4 @@
+import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
 import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
@@ -50,6 +51,7 @@ function Card() {
   return (
     <View>
       <NavBar title="GMs评估详情" />
+      <Contact />
       <View className={styles.cardBox}>
         <View className={styles.card}>
           <View className={styles.title}>
