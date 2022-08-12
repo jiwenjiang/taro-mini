@@ -41,13 +41,6 @@ export default function App() {
     }
   }
 
-  const buyBook = (content) => {
-    navigateToMiniProgram({
-      appId: 'wx98dc9b974915de77',
-      path: content,
-    })
-  }
-
   const readIntro = (abnormalIterm) => {
     navigateTo({
       url: `/pages/evaluate/interventionDetail?abnormalIterm=${abnormalIterm}`,
@@ -66,8 +59,8 @@ export default function App() {
         <AtButton
           className="btn"
           type="primary"
-          onClick={() => buyBook(interventionDetail.content)}
-        >购买纸质书，查看更多详细介绍</AtButton>
+          openType='contact'
+        >联系客服购买纸质书，查看更多详细介绍</AtButton>
       </View>
     </View>
   )
