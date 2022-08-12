@@ -5,10 +5,10 @@ import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
-import { Popup } from "@taroify/core";
+import { Button, Dialog, Popup } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
 import Taro, { navigateTo, useRouter } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AtButton } from "taro-ui";
 import styles from "./brainDetail.module.scss";
 
@@ -66,6 +66,8 @@ function Card() {
   const [report, setReportData] = useState<any>({});
   const router = useRouter();
   const [popObj, setPopObj] = useState({ visible: false, content: "" });
+  const [open, setOpen] = useState(false);
+  const orderId = useRef({ c: {}, orderId: "" });
 
   useEffect(() => {
     (async () => {
@@ -105,13 +107,11 @@ function Card() {
       checkPay(c);
     }
     if (c.type === "SELF") {
-      navigateTo({
-        url: `${c.content}?recordId=${router.params.id}`
-      });
+      checkPay(c, true);
     }
   };
 
-  const checkPay = async c => {
+  const checkPay = async (c, isSelf = false) => {
     if (c.resourceId && c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
@@ -120,33 +120,22 @@ function Card() {
         }
       });
       if (checkRes.data.hasPaidOrder) {
-        Taro.navigateToMiniProgram({
-          appId: checkRes.data.appId,
-          path: checkRes.data.page,
-          success(res) {
-            // 打开成功
-          }
-        });
+        if (isSelf) {
+          navigateTo({
+            url: `${c.content}?recordId=${router.params.id}`
+          });
+        } else {
+          Taro.navigateToMiniProgram({
+            appId: checkRes.data.appId,
+            path: checkRes.data.page,
+            success(res) {
+              // 打开成功
+            }
+          });
+        }
       } else {
         if (checkRes.data.orderId) {
-          const payRes = await request({
-            url: "/order/pay",
-            data: {
-              id: checkRes.data?.orderId,
-              ip: "127.0.0.1"
-            }
-          });
-
-          wx.requestPayment({
-            timeStamp: payRes.data.timeStamp,
-            nonceStr: payRes.data.nonceStr,
-            package: payRes.data.packageValue,
-            signType: payRes.data.signType,
-            paySign: payRes.data.paySign,
-            success(res) {
-              checkPay(c);
-            }
-          });
+          orderId.current = { c, orderId: checkRes.data.orderId };
         } else {
           const orderRes = await request({
             url: "/order/video/create",
@@ -176,6 +165,27 @@ function Card() {
         }
       }
     }
+  };
+
+  const confirm = async () => {
+    const payRes = await request({
+      url: "/order/pay",
+      data: {
+        id: orderId.current.orderId,
+        ip: "127.0.0.1"
+      }
+    });
+
+    wx.requestPayment({
+      timeStamp: payRes.data.timeStamp,
+      nonceStr: payRes.data.nonceStr,
+      package: payRes.data.packageValue,
+      signType: payRes.data.signType,
+      paySign: payRes.data.paySign,
+      success(res) {
+        checkPay(orderId.current.c);
+      }
+    });
   };
 
   return (
@@ -358,6 +368,16 @@ function Card() {
       >
         <View className={styles.popContent}>{popObj.content}</View>
       </Popup>
+      <Dialog open={open} onClose={setOpen}>
+        <Dialog.Header>购买居家课程</Dialog.Header>
+        <Dialog.Content>
+          购买居家课程后，享有蕾波所有线上视频课程均可免费观看权益
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onClick={() => setOpen(false)}>取消</Button>
+          <Button onClick={() => confirm()}>确认</Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }
