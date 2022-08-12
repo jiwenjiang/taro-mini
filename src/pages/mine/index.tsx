@@ -37,10 +37,6 @@ export default function App() {
     navigateTo({ url: `/pages/mine/setting` });
   };
 
-  const interventionList = () => {
-    navigateTo({ url: `/pages/evaluate/interventionList` });
-  };
-
   return (
     <View className="index">
       <View>
@@ -77,9 +73,6 @@ export default function App() {
           <View className="list" onClick={setting}>
             <AtListItem title="系统设置" arrow="right" hasBorder={false} />
           </View>
-          {/* <View className="list" onClick={interventionList}>
-            <AtListItem title="异常项目干预方法" arrow="right" hasBorder={false} />
-          </View> */}
         </View>
       </View>
       <TabBar current="mine" />
