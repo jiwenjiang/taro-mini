@@ -29,21 +29,6 @@ export default function App() {
 
     if (res.data.length) {
       setVideoList(res.data);
-    } else {
-      setVideoList([
-        {
-          abnormalIterm: "自发姿势运动异常-紧张时头偏斜",
-          appid: "wx98dc9b974915de77",
-          coverUrl:
-            "https://wechatapppro-1252524126.file.myqcloud.com/app7qahxuzk4630/image/b_u_5ee216595ecc9_gW13FzgZ/15t1oodr0ood.jpg",
-          name: "紧张时头偏斜",
-          page:
-            "page/home/content/content_video/content_video?id=v_62d77690e4b0a51fef018f96",
-          recordid: 122,
-          resourceld: "v_62d77690e4b0a51fef018f96",
-          type: 3
-        }
-      ]);
     }
   };
 
@@ -54,17 +39,17 @@ export default function App() {
     });
   };
 
-  const readIntro = name => {
+  const readIntro = abnormalIterm => {
     navigateTo({
       url: `/pages/evaluate/interventionDetail?abnormalIterm=${encodeURIComponent(
-        name
+        abnormalIterm
       )}`
     });
   };
 
   return (
     <View className="intervention-list">
-      {videoList.map((v, index) => (
+      {videoList.length && videoList.map((v, index) => (
         <View key={v.recordId} className="video-info">
           <View className="video-title">
             <Text className="title">{v.name}</Text>
@@ -76,7 +61,7 @@ export default function App() {
             <Text className="watch-video" onClick={() => watchVideo(v.page)}>
               观看视频
             </Text>
-            <Text className="read-intro" onClick={() => readIntro(v.name)}>
+            <Text className="read-intro" onClick={() => readIntro(v.abnormalIterm)}>
               详细介绍
             </Text>
           </View>
