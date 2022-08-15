@@ -24,6 +24,17 @@
       font-size: 28px;
       display: flex;
       flex-direction: column;
+
+      .p {
+        font-size: 1.1em;
+        line-height: 1.5em;
+        margin-top: .5em;
+      }
+
+      .img {
+        max-width: 100%;
+        height: auto;
+      }
     }
   }
 

@@ -34,7 +34,9 @@ export default function App() {
     })
 
     if (res.data) {
-      setInterventionDetail(decodeURIComponent(res.data.detail))
+      let result = res.data.detail.replace(/\<img/g, '<img class="img"')
+      result = result.replace(/\<p/g, '<p class="p"')
+      setInterventionDetail(decodeURIComponent(result))
     }
   }
 
