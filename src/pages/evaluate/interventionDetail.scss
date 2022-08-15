@@ -2,7 +2,7 @@
   background-color: #f6f6f6;
   --primary-color: #ffd340;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   --space: 30px;
   box-sizing: border-box;
   padding: var(--space);
