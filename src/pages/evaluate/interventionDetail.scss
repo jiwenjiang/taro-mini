@@ -2,7 +2,7 @@
   background-color: #f6f6f6;
   --primary-color: #ffd340;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   --space: 30px;
   box-sizing: border-box;
   padding: var(--space);
@@ -25,14 +25,15 @@
       display: flex;
       flex-direction: column;
 
-      .h5-p {
-        margin-bottom: 1em;
+      .p {
         font-size: 1.1em;
+        line-height: 1.5em;
+        margin-top: .5em;
       }
 
-      .h5-img {
-        width: 100% !important;
-        height: 640px !important;
+      .img {
+        max-width: 100%;
+        height: auto;
       }
     }
   }
