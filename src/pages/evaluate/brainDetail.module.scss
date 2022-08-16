@@ -226,6 +226,15 @@
     padding: 30px;
 }
 
+.introBox {
+    padding: 20px;
+
+    .introTitle {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+}
+
 .gmsEvaBox {
     display: flex;
     justify-content: center;

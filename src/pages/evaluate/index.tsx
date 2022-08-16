@@ -272,6 +272,13 @@ export default function App() {
     setData([...data]);
   };
 
+  const preview = e => {
+    console.log("🚀 ~ file: index.tsx ~ line 276 ~ App ~ e", e);
+    wx.previewImage({
+      urls: [e] // 当前显示图片的 http 链接
+    });
+  };
+
   return (
     <View>
       <NavBar title={title} />
@@ -306,6 +313,7 @@ export default function App() {
                         <Image
                           style="height: 143px;background: #fff;"
                           src={m}
+                          onClick={() => preview(m)}
                         />
                       )}
                     </SwiperItem>

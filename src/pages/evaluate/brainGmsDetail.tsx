@@ -6,6 +6,7 @@ import fenxiImg from "@/static/imgs/fenxi.png";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
 import { Button, Dialog, Popup } from "@taroify/core";
+import { InfoOutlined } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
@@ -37,6 +38,39 @@ const riskMap = {
   }
 };
 
+const intros = [
+  {
+    title: "1、单调性（PR）：",
+    content:
+      "表现为宝宝连续性运动顺序的单调，不同身体部位的运动失去了正常的GMS复杂性，总是简单的重复几个动作。存在一定的神经运动发育障碍风险。"
+  },
+  {
+    title: "2、痉挛－同步性（CS）：",
+    content:
+      "扭动运动阶段出现运动僵硬，失去正常的流畅性，所有肢体和躯干肌肉几乎同时收缩和放松，比如双腿同时抬高并且同时放下。存在神经运动发育障碍风险。"
+  },
+  {
+    title: "3、混乱型”（CH）：",
+    content:
+      "扭动运动阶段出现肢体运动幅度大，顺序混乱，失去流畅性，动作突然不连贯。“混乱型”相当少见，常在数周后发展为“痉挛－同步性”GMs。存在神经运动发育障碍风险。"
+  },
+  {
+    title: "4、不安运动缺乏”（F-）：",
+    content:
+      "不安运动是一种小幅度，中速度的细微运动，在9-20周龄的宝宝身上会如星辰般闪烁的各个的身体部位上。如果没有这样的细微运动出现，便是不安运动缺乏了。存在神经运动发育障碍风险。"
+  },
+  {
+    title: "5、扭动运动正常（N）",
+    content:
+      "自发运动符合年龄水平。出现在足月6-9周龄内，其特征为小至中等幅度，速度缓慢至中等，运动轨迹在形式上呈现为椭圆形。发展为明显的神经运动障碍可能性很小。"
+  },
+  {
+    title: "6、自发性全身运动正常(F+)：",
+    content:
+      "不安运动正常出现，符合年龄水平。不安运动是一种小幅度，中速度的细微运动，在9-20周龄的宝宝身上会如星辰般闪烁的各个的身体部位上。发展为明显的神经运动障碍可能性很小。"
+  }
+];
+
 const checkColor = v => {
   if (v) {
     return colorMap[v];
@@ -67,6 +101,7 @@ function Card() {
   const router = useRouter();
   const [popObj, setPopObj] = useState({ visible: false, content: "" });
   const [open, setOpen] = useState(false);
+  const [intro, setIntro] = useState(false);
   const orderId = useRef({ c: {}, orderId: "" });
 
   useEffect(() => {
@@ -241,15 +276,23 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={pingceImg} className={styles.imgIcon} />
-                &nbsp; GMs测评结果
+                &nbsp; GMs测评结果{" "}
+                <InfoOutlined
+                  size={17}
+                  style={{ marginLeft: 5 }}
+                  onClick={() => setIntro(true)}
+                />
               </View>
               <View className={styles.gmsEvaBox}>
-                {report.scaleResult?.gmsResult?.result?.map((v, i) => (
-                  <View key={i} className={styles.evaItem}>
-                    <View className={styles.evaTitle}>{v.name}</View>
-                    <View className={styles.evaVal}>{v.content}</View>
-                  </View>
-                ))}
+                {report.scaleResult?.gmsResult?.result?.map(
+                  (v, i) =>
+                    v.content && (
+                      <View key={i} className={styles.evaItem}>
+                        <View className={styles.evaTitle}>{v.name}</View>
+                        <View className={styles.evaVal}>{v.content}</View>
+                      </View>
+                    )
+                )}
               </View>
             </View>
           </View>
@@ -367,6 +410,19 @@ function Card() {
         open={popObj.visible}
       >
         <View className={styles.popContent}>{popObj.content}</View>
+      </Popup>
+      <Popup
+        placement="bottom"
+        style={{ height: "80%" }}
+        onClose={() => setIntro(false)}
+        open={intro}
+      >
+        {intros.map(v => (
+          <View className={styles.introBox} key={v.title}>
+            <View className={styles.introTitle}>{v.title}</View>
+            <View>{v.content}</View>
+          </View>
+        ))}
       </Popup>
       <Dialog open={open} onClose={setOpen}>
         <Dialog.Header>购买居家课程</Dialog.Header>
