@@ -1,4 +1,4 @@
 export default {
   navigationStyle: "custom",
-  usingComponents: {}
+  lazyCodeLoading: "requiredComponents"
 };
