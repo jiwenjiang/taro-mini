@@ -22,11 +22,11 @@ export default function App() {
   };
 
   const scale = () => {
-    navigateTo({ url: `/pages/order/scale` });
+    navigateTo({ url: `/orderPackage/pages/order/scale` });
   };
 
   const toVideoList = () => {
-    navigateTo({ url: `/pages/order/videoList` });
+    navigateTo({ url: `/orderPackage/pages/order/videoList` });
   };
 
   const record = () => {

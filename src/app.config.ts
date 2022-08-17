@@ -5,10 +5,10 @@ export default {
     "pages/mine/setting",
     "pages/mine/password",
     "pages/login/index",
-    "pages/evaluate/list",
     "pages/child/choose",
     "pages/child/manage",
     "pages/child/edit",
+    "pages/evaluate/list",
     "pages/evaluate/index",
     "pages/evaluate/brainDetail",
     "pages/evaluate/interventionList",
@@ -17,11 +17,18 @@ export default {
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/detail",
     "pages/evaluate/recordList",
-    "pages/order/scale",
-    "pages/order/detail",
-    "pages/order/gmsPay",
-    "pages/order/videoList",
-    "pages/other/webView",
+    "pages/other/webView"
+  ],
+  subpackages: [
+    {
+      root: "orderPackage",
+      pages: [
+        "pages/order/scale",
+        "pages/order/detail",
+        "pages/order/gmsPay",
+        "pages/order/videoList"
+      ]
+    }
   ],
   window: {
     backgroundTextStyle: "light",

@@ -37,7 +37,7 @@ export default function App() {
         data: { scaleTableCode: router.params.code }
       });
       if (!res.data.hasPaidOrder) {
-        navigateTo({ url: `/pages/order/gmsPay` });
+        navigateTo({ url: `/orderPackage/pages/order/gmsPay` });
       } else {
         navigateTo({
           url: `/pages/child/choose?code=${router.params.code}&orderId=${res.data.orderId}`
@@ -66,7 +66,7 @@ export default function App() {
         data: { code: router.params.code }
       });
       setPrice(res.data.price);
-      console.log("🚀 ~ file: gmsPay.tsx ~ line 51 ~ res", res);
+      console.log("🚀 ~ file: gmsPay.tsx ~ line 51 ~ res22", res);
     })();
   }, []);
 

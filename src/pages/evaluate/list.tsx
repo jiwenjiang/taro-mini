@@ -19,7 +19,7 @@ export default function App() {
       data: { scaleTableCode }
     });
     if (!res.data.hasPaidOrder) {
-      navigateTo({ url: `/pages/order/gmsPay?code=${scaleTableCode}` });
+      navigateTo({ url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}` });
     } else {
       navigateTo({
         url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`

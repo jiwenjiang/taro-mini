@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
 
+import { Text, View } from "@tarojs/components"
 import Taro, {
-  navigateTo,
-  useRouter,
-  useDidShow,
+  navigateTo, useDidShow, useRouter
 } from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
 import { AtButton, AtMessage } from "taro-ui"
 
+import { OrderStatus, ScaleTableCode } from "@/service/const"
 import request from "@/service/request"
-import { ScaleTableCode, OrderStatus } from "@/service/const"
 
 import "./scale.scss"
 
@@ -77,7 +75,7 @@ export default function App() {
   // 跳转至订单详情页面
   const goOrderDetailPage = (id) => {
     navigateTo({
-      url: `/pages/order/detail?id=${id}`
+      url: `/orderPackage/pages/order/detail?id=${id}`
     })
   }
 

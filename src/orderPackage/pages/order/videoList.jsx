@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
 
+import { Text, View } from "@tarojs/components"
 import Taro, {
-  navigateTo,
-  useRouter,
-  useDidShow,
+  navigateTo, useDidShow, useRouter
 } from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
 import { AtButton, AtMessage } from "taro-ui"
 
+import { OrderStatus } from "@/service/const"
 import request from "@/service/request"
-import { ScaleTableCode, OrderStatus } from "@/service/const"
 
 import "./videoList.scss"
 
@@ -83,7 +81,7 @@ export default function App() {
   // 跳转至视频订单详情页面
   const goVideoDetailPage = (id) => {
     navigateTo({
-      url: `/pages/order/detail?id=${id}`
+      url: `/orderPackage/pages/order/detail?id=${id}`
     })
   }
 
