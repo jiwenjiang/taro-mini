@@ -1,4 +1,3 @@
 export default {
-  navigationStyle: "custom",
-  lazyCodeLoading: "requiredComponents"
+  navigationStyle: "custom"
 };

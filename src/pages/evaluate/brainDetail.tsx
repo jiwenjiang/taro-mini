@@ -114,7 +114,7 @@ function Card() {
 
   const checkPay = async c => {
     console.log("🚀 ~ file: brainDetail.tsx ~ line 110 ~ Card ~ c", c);
-    if (c.resourceId && c.productId) {
+    if (c.resourceId || c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
         data: {
@@ -207,6 +207,14 @@ function Card() {
         "🚀 ~ file: brainDetail.tsx ~ line 112 ~ Card ~ checkRes",
         checkRes
       );
+    } else {
+      Taro.navigateToMiniProgram({
+        appId: c.appId,
+        path: c.content,
+        success(res) {
+          // 打开成功
+        }
+      });
     }
   };
 

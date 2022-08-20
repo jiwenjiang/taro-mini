@@ -147,7 +147,7 @@ function Card() {
   };
 
   const checkPay = async (c, isSelf = false) => {
-    if (c.resourceId && c.productId) {
+    if (c.resourceId || c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
         data: {
@@ -199,6 +199,14 @@ function Card() {
           });
         }
       }
+    } else {
+      Taro.navigateToMiniProgram({
+        appId: c.appId,
+        path: c.content,
+        success(res) {
+          // 打开成功
+        }
+      });
     }
   };
 

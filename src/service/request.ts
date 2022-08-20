@@ -16,7 +16,7 @@ const request = (
       success(request: any) {
         //监听成功后的操作
         if (request.statusCode === 200) {
-          if (request.data?.success) {
+          if (request.data?.success || request.data?.code === 2) {
             resolve(request.data);
           } else {
             Taro.showToast({
