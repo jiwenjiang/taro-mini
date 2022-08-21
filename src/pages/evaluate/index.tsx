@@ -272,10 +272,11 @@ export default function App() {
     setData([...data]);
   };
 
-  const preview = e => {
-    console.log("🚀 ~ file: index.tsx ~ line 276 ~ App ~ e", e);
+  const preview = (list, e) => {
+    const urls = list.filter(v => !v.includes("mp4"));
     wx.previewImage({
-      urls: [e] // 当前显示图片的 http 链接
+      urls, // 当前显示图片的 http 链接
+      current: e
     });
   };
 
@@ -313,7 +314,12 @@ export default function App() {
                         <Image
                           style="height: 143px;background: #fff;"
                           src={m}
-                          onClick={() => preview(m)}
+                          onClick={() =>
+                            preview(
+                              data[active].questions[questionIndex].carousels,
+                              m
+                            )
+                          }
                         />
                       )}
                     </SwiperItem>

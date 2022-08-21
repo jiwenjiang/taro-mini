@@ -1,16 +1,22 @@
 import TabBar from "@/comps/TabBar";
 import { ScaleTableCode } from "@/service/const";
+import { ChildContext } from "@/service/context";
 import request from "@/service/request";
 import { View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
-import React from "react";
+import React, { useContext } from "react";
 import { AtListItem } from "taro-ui";
 import "./list.scss";
 
 export default function App() {
+  const childContext = useContext(ChildContext);
 
   const todo = (code = ScaleTableCode.BRAIN) => {
-    navigateTo({ url: `/pages/child/choose?code=${code}` });
+    if (childContext.child.len) {
+      navigateTo({ url: `/pages/child/choose?code=${code}` });
+    } else {
+      navigateTo({ url: "/pages/child/manage" });
+    }
   };
 
   const checkPay = async scaleTableCode => {
@@ -19,11 +25,17 @@ export default function App() {
       data: { scaleTableCode }
     });
     if (!res.data.hasPaidOrder) {
-      navigateTo({ url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}` });
-    } else {
       navigateTo({
-        url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+        url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
       });
+    } else {
+      if (childContext.child.len) {
+        navigateTo({
+          url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+        });
+      } else {
+        navigateTo({ url: "/pages/child/manage" });
+      }
     }
   };
 

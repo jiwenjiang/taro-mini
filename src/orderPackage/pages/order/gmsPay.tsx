@@ -1,4 +1,5 @@
 import Box from "@/comps/Box";
+import { ChildContext } from "@/service/context";
 import request from "@/service/request";
 import Book from "@/static/icons/bookmark-3-fill.svg";
 import Cny from "@/static/icons/exchange-cny-fill.svg";
@@ -6,7 +7,7 @@ import Psy from "@/static/icons/psychotherapy-fill.svg";
 import { Button, Checkbox, Popup } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
 import { atMessage, navigateTo, useRouter } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AtMessage } from "taro-ui";
 import "./gmsPay.scss";
 
@@ -14,6 +15,8 @@ export default function App() {
   const [value, setValue] = useState(false);
   const [open, setOpen] = useState(false);
   const [price, setPrice] = useState(0);
+  const childContext = useContext(ChildContext);
+
   const router = useRouter();
 
   const buy = async () => {
@@ -39,9 +42,13 @@ export default function App() {
       if (!res.data.hasPaidOrder) {
         navigateTo({ url: `/orderPackage/pages/order/gmsPay` });
       } else {
-        navigateTo({
-          url: `/pages/child/choose?code=${router.params.code}&orderId=${res.data.orderId}`
-        });
+        if (childContext.child.len) {
+          navigateTo({
+            url: `/pages/child/choose?code=${router.params.code}&orderId=${res.data.orderId}`
+          });
+        } else {
+          navigateTo({ url: "/pages/child/manage" });
+        }
       }
     };
 

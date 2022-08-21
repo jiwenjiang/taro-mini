@@ -1,79 +1,82 @@
-import { useEffect, useState } from "react"
+import { ChildContext } from "@/service/context";
+import request from "@/service/request";
+import editImg from "@/static/imgs/edit.png";
+import femaleImg from "@/static/imgs/female.png";
+import maleImg from "@/static/imgs/male.png";
+import removeImg from "@/static/imgs/remove.png";
+import { Image, Text, View } from "@tarojs/components";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import { useContext, useEffect, useState } from "react";
+import { AtButton, AtMessage } from "taro-ui";
 
-import Taro, { navigateTo, useRouter } from "@tarojs/taro"
-import { View, Text, Image } from "@tarojs/components"
-import { AtButton, AtMessage } from "taro-ui"
-
-import request from "@/service/request"
-
-import maleImg from "@/static/imgs/male.png"
-import femaleImg from "@/static/imgs/female.png"
-import removeImg from "@/static/imgs/remove.png"
-import editImg from "@/static/imgs/edit.png"
-
-import "./manage.scss"
+import "./manage.scss";
 
 export default function App() {
-  const router = useRouter()
-  const [page, setPage] = useState({ pageNo: 1, pageSize: 10 })
-  const [children, setChildren] = useState([])
-  const [dataIndex, setDataIndex] = useState(0)
-  const [showRemoveModal, setShowRemoveModal] = useState(false)
+  const router = useRouter();
+  const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
+  const [children, setChildren] = useState([]);
+  const [dataIndex, setDataIndex] = useState(0);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取儿童信息
   const getChildrenInfo = () => {
     useEffect(() => {
       (async () => {
-        const res = await request({ url: "/children/list", data: page })
-        setChildren(res.data.children)
-      })()
-    }, [])
-  }
+        const res = await request({ url: "/children/list", data: page });
+        setChildren(res.data.children);
+        childContext.updateChild({ len: res.data.children.length });
+      })();
+    }, []);
+  };
 
-  getChildrenInfo()
+  getChildrenInfo();
 
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
     navigateTo({
-      url: `/pages/child/edit`,
-    })
-  }
+      url: `/pages/child/edit`
+    });
+  };
   // 跳转至添加儿童页面，并带上儿童 ID，以编辑儿童信息
-  const edit = (index) => {
+  const edit = index => {
     navigateTo({
-      url: `/pages/child/edit?childId=${children[index].id}`,
-    })
-  }
+      url: `/pages/child/edit?childId=${children[index].id}`
+    });
+  };
 
   // 显示删除儿童信息对话框
-  const showRemove = (index) => {
-    setDataIndex(index)
-    setShowRemoveModal(true)
-  }
+  const showRemove = index => {
+    setDataIndex(index);
+    setShowRemoveModal(true);
+  };
 
   // 删除当前儿童信息
-  const doRemove = async (index) => {
+  const doRemove = async index => {
     const res = await request({
-      url: `/children/delete?id=${children[index].id}`,
-    })
+      url: `/children/delete?id=${children[index].id}`
+    });
 
-    setShowRemoveModal(false)
+    setShowRemoveModal(false);
 
     if (res.code === 0) {
-      children.splice(children.findIndex(ele => ele.id === dataIndex), 0)
-      setChildren(children)
+      children.splice(
+        children.findIndex(ele => ele.id === dataIndex),
+        0
+      );
+      setChildren(children);
 
       Taro.atMessage({
-        'message': '儿童信息已删除',
-        'type': 'success',
-      })
+        message: "儿童信息已删除",
+        type: "success"
+      });
     } else {
       Taro.atMessage({
-        'message': '儿童信息删除失败',
-        'type': 'error',
-      })
+        message: "儿童信息删除失败",
+        type: "error"
+      });
     }
-  }
+  };
 
   return (
     <View className="index">
@@ -83,15 +86,26 @@ export default function App() {
           {children.map((v, index) => (
             <View key={index} className="child-info">
               <View className="left">
-                <Image src={v.gender === '男' ? maleImg : femaleImg} className="gender"/>
+                <Image
+                  src={v.gender === "男" ? maleImg : femaleImg}
+                  className="gender"
+                />
                 <View className="text-info">
                   <Text className="name">{v.name}</Text>
                   <Text className="birthday">{v.birthday}</Text>
                 </View>
               </View>
               <View className="actions">
-                <Image onClick={() => showRemove(index)} src={removeImg} className="action remove"/>
-                <Image onClick={() => edit(index)} src={editImg} className="action edit"/>
+                <Image
+                  onClick={() => showRemove(index)}
+                  src={removeImg}
+                  className="action remove"
+                />
+                <Image
+                  onClick={() => edit(index)}
+                  src={editImg}
+                  className="action edit"
+                />
               </View>
             </View>
           ))}
@@ -104,14 +118,26 @@ export default function App() {
         <View className="remove-modal">
           <View className="mask"></View>
           <View className="modal">
-            <View className="text">确认删除儿童{children[dataIndex].name}？</View>
+            <View className="text">
+              确认删除儿童{children[dataIndex].name}？
+            </View>
             <View className="actions">
-              <View onClick={() => setShowRemoveModal(false)} className="action cancel">取消</View>
-              <View onClick={() => doRemove(dataIndex)} className="action confirm">删除</View>
+              <View
+                onClick={() => setShowRemoveModal(false)}
+                className="action cancel"
+              >
+                取消
+              </View>
+              <View
+                onClick={() => doRemove(dataIndex)}
+                className="action confirm"
+              >
+                删除
+              </View>
             </View>
           </View>
         </View>
       )}
     </View>
-  )
+  );
 }

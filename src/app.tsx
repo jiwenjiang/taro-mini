@@ -1,25 +1,18 @@
+import { ChildContext } from "@/service/context";
 import "@/service/http_interceptors";
 import request from "@/service/request";
 import "@taroify/core/index.scss";
 import "@taroify/icons/index.scss";
 import { View } from "@tarojs/components";
 import Taro, { navigateTo, setStorageSync } from "@tarojs/taro";
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.scss";
 import "./custom-variables.scss";
 
-class App extends Component {
-  componentDidMount() {
-    this.getAuth();
-  }
+function App(props) {
+  const [child, setChild] = useState({ len: 0 });
 
-  componentDidShow() {}
-
-  componentDidHide() {}
-
-  componentDidCatchError() {}
-
-  async getAuth() {
+  const getAuth = async () => {
     const login = await Taro.login();
     const userInfo = await Taro.getUserInfo();
     const res = await request({
@@ -38,11 +31,26 @@ class App extends Component {
     if (res.code === 2) {
       navigateTo({ url: "/pages/login/index" });
     }
-  }
+  };
 
-  render() {
-    return <View className="html">{this.props.children}</View>;
-  }
+  const getChild = async () => {
+    const res = await request({
+      url: "/children/list",
+      data: { pageNo: 1, pageSize: 1000 }
+    });
+    setChild({ len: res.data.children?.length });
+  };
+
+  useEffect(() => {
+    getAuth();
+    getChild();
+  }, []);
+
+  return (
+    <ChildContext.Provider value={{ child, updateChild: setChild }}>
+      <View className="html">{props.children}</View>
+    </ChildContext.Provider>
+  );
 }
 
 export default App;

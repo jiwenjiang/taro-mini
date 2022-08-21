@@ -13,13 +13,12 @@ import "./choose.scss";
 
 export default function App() {
   const router = useRouter();
-  const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
+  const [page, setPage] = useState({ pageNo: 1, pageSize: 1000 });
   const [active, setActive] = useState(0);
   const [data, setData] = useState([]);
 
   const start = () => {
     let age = dayjs().diff(dayjs(data[active]?.birthday), "month");
-    console.log("🚀 ~ file: choose.jsx ~ line 20 ~ start ~ age", age);
     if (age > 5 && Number(router.params.code) === ScaleTableCode.GMS) {
       atMessage({ type: "warning", message: "GMs评测仅限0-5个月孩子" });
       return;
@@ -71,9 +70,11 @@ export default function App() {
             </View>
           ))}
         </View>
-        <AtButton className="btn" type="primary" onClick={start}>
-          开始评测
-        </AtButton>
+        {data.length > 0 && (
+          <AtButton className="btn" type="primary" onClick={start}>
+            开始评测
+          </AtButton>
+        )}
         <AtButton className="btn mt10" onClick={manage}>
           儿童管理
         </AtButton>
