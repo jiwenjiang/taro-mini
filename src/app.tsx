@@ -4,8 +4,8 @@ import request from "@/service/request";
 import "@taroify/core/index.scss";
 import "@taroify/icons/index.scss";
 import { View } from "@tarojs/components";
-import Taro, { navigateTo, setStorageSync } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import Taro, { navigateTo, setStorageSync, useDidShow } from "@tarojs/taro";
+import React, { useState } from "react";
 import "./app.scss";
 import "./custom-variables.scss";
 
@@ -26,6 +26,7 @@ function App(props) {
     if (res.code === 0) {
       setStorageSync("token", res.data.token);
       setStorageSync("user", res.data.user);
+      getChild();
     }
 
     if (res.code === 2) {
@@ -41,10 +42,9 @@ function App(props) {
     setChild({ len: res.data.children?.length });
   };
 
-  useEffect(() => {
+  useDidShow(() => {
     getAuth();
-    getChild();
-  }, []);
+  });
 
   return (
     <ChildContext.Provider value={{ child, updateChild: setChild }}>
