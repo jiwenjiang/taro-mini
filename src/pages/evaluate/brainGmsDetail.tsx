@@ -235,7 +235,10 @@ function Card() {
               <View className={styles.title}>
                 <Image src={fenxiImg} className={styles.imgIcon} />
                 &nbsp; 蕾波自测医生评估
-                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
+                <Text className={styles.evaDate}>
+                  {report.evaluateDate ??
+                    "医生评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"}
+                </Text>
               </View>
               <View className={styles.evaBox}>
                 {report?.scaleResult?.cerebralPalsyResult && (
