@@ -46,7 +46,6 @@
     "@tarojs/taro": "3.4.10",
     "dayjs": "^1.11.3",
     "lodash": "4.17.15",
-    "postcss-px-scale": "^1.1.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "reactutils": "^5.10.0"

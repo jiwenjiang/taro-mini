@@ -10156,11 +10156,6 @@ postcss-plugin-constparse@3.4.10:
   dependencies:
     postcss "^6.0.22"
 
-postcss-px-scale@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/postcss-px-scale/-/postcss-px-scale-1.1.1.tgz"
-  integrity sha512-mJMoYCseBfRziHWZ3qOuKiu52U3lhHAI/N1YX+ymSfbxzPVA5jpSVdmcgJ+ZFkVLhHQXup2GxIceDqEsaMfxXA==
-
 postcss-pxtransform@3.4.10:
   version "3.4.10"
   resolved "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-3.4.10.tgz"

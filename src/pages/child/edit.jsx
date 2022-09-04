@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { Button, Field, Input } from "@taroify/core";
+import { Button, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
 import { navigateTo, useRouter } from "@tarojs/taro";
 
 import CheckedIcon from "@/static/icons/checked.svg";
 import DropdownIcon from "@/static/icons/dropdown.svg";
 
+import FieldInput from "@/comps/Field";
 import ListItem from "@/comps/ListItem";
 import request from "@/service/request";
 import dayjs from "dayjs";
@@ -116,7 +117,6 @@ export default function App() {
   init();
 
   const onNameChange = value => {
-    console.log("🚀 ~ file: edit.jsx ~ line 120 ~ App ~ value", value);
     setName(value);
   };
 
@@ -272,13 +272,12 @@ export default function App() {
     <View className="index">
       <Notify id="notify" />
       <View className="row name">
-        <Field label="儿童姓名">
-          <Input
-            placeholder="请输入姓名"
-            value={name}
-            onChange={e => onNameChange(e.target.value)}
-          />
-        </Field>
+        <FieldInput
+          label="儿童姓名"
+          placeholder="请输入姓名"
+          value={name}
+          onInput={e => onNameChange(e.target.value)}
+        />
       </View>
       <View className="row gender">
         <Picker mode="selector" range={genders} onChange={onGenderChange}>
@@ -309,14 +308,12 @@ export default function App() {
         </Picker>
       </View>
       <View className="row birthday-weight">
-        <Field label="出生体重">
-          <Input
-            className="weight-input"
-            placeholder="请输入体重"
-            value={birthdayWeight}
-            onChange={e => onBirthdayWeightChange(e.target.value)}
-          />
-        </Field>
+        <FieldInput
+          label="出生体重"
+          placeholder="请输入体重"
+          value={birthdayWeight}
+          onInput={e => onBirthdayWeightChange(e.target.value)}
+        />
       </View>
       <View className="row child-risks">
         <View className="risks">

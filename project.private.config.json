@@ -95,6 +95,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/password",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
