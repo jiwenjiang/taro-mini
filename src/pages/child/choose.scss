@@ -2,6 +2,7 @@
   background: #f9fbfc;
   height: 100vh;
   --primary-color: #ffd340;
+  --notify-warning-background-color: var(--primary-color);
 }
 
 .list-wrap {
@@ -52,4 +53,9 @@
 
 .mt10 {
   margin-top: 38px;
+}
+
+.taro-btn {
+  width: 100%;
+  display: block;
 }

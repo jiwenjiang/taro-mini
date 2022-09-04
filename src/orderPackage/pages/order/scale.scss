@@ -4,6 +4,7 @@
   --space: 30px;
   padding: var(--space);
   font-size: 28px;
+  --primary-color: #ffd340;
   
   .list {
     width: 100%;
@@ -72,6 +73,7 @@
             align-items: center;
             margin: unset;
             font-size: 28px;
+            white-space: nowrap;
 
 
             &:last-child {

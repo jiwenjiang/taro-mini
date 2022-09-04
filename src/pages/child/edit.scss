@@ -7,6 +7,10 @@
   --size-2s: 16px;
   position: relative;
 
+  :global(.list-item) {
+    padding: 24px !important;
+  }
+
   .row {
     padding-top: var(--size);
 
@@ -64,6 +68,12 @@
     left: unset;
     bottom: unset;
     transform: translateY(-50%) scale(1);
+    position: absolute;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
   }
 
   .confirm {

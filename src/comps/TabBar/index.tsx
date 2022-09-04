@@ -1,7 +1,8 @@
+import { Tabbar } from "@taroify/core";
+import { HomeOutlined, UserCircleOutlined } from "@taroify/icons";
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React from "react";
-import { AtTabBar } from "taro-ui";
 import "./index.scss";
 
 const pageList = [
@@ -24,14 +25,17 @@ export default function TabBar({ current }) {
 
   return (
     <View className="tab-wrap">
-      <AtTabBar
-        tabList={[
-          { title: "首页", iconType: "home" },
-          { title: "我的", iconType: "user" }
-        ]}
-        onClick={handleClick}
-        current={pageList.findIndex(v => v.page === current)}
-      />
+      <Tabbar value={pageList.findIndex(v => v.page === current)} fixed={true}>
+        <Tabbar.TabItem icon={<HomeOutlined />} onClick={() => handleClick(0)}>
+          首页
+        </Tabbar.TabItem>
+        <Tabbar.TabItem
+          icon={<UserCircleOutlined />}
+          onClick={() => handleClick(1)}
+        >
+          我的
+        </Tabbar.TabItem>
+      </Tabbar>
     </View>
   );
 }

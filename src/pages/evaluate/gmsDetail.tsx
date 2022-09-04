@@ -4,10 +4,10 @@ import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
+import { Button } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
 import { openCustomerServiceChat, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
-import { AtButton } from "taro-ui";
 import styles from "./brainDetail.module.scss";
 
 export default function App() {
@@ -115,13 +115,14 @@ function Card() {
                 <Image src={fenxiImg} className={styles.imgIcon} />
                 &nbsp; 孩子的评估结果有风险，缺乏治疗方案？
               </View>
-              <AtButton
+              <Button
                 className={styles.btnBox}
-                type="primary"
+                variant="outlined"
+                color="primary"
                 onClick={() => goto()}
               >
                 免费定制专属治疗方案
-              </AtButton>
+              </Button>
             </View>
           </View>
         </View>

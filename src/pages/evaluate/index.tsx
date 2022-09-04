@@ -2,7 +2,7 @@ import NavBar from "@/comps/NavBar";
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
-import { Loading, Radio, Textarea } from "@taroify/core";
+import { Button, Loading, Notify, Radio, Textarea } from "@taroify/core";
 import { Clear, PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import {
   Form,
@@ -13,7 +13,6 @@ import {
   View
 } from "@tarojs/components";
 import {
-  atMessage,
   createInnerAudioContext,
   createVideoContext,
   getRecorderManager,
@@ -24,7 +23,6 @@ import {
 } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
-import { AtButton, AtMessage } from "taro-ui";
 import styles from "./index.module.scss";
 
 const transTitle = e => {
@@ -83,8 +81,8 @@ export default function App() {
       data[active].questions[questionIndex]?.mediaList?.length === 0 &&
       data[active].questions[questionIndex]?.answerSn !== 1
     ) {
-      atMessage({
-        type: "warning",
+      Notify.open({
+        color: "warning",
         message: "请至少上传一个视频或图片"
       });
       return;
@@ -198,7 +196,7 @@ export default function App() {
       data[active].questions[questionIndex]?.mediaList?.length === 0 &&
       data[active].questions[questionIndex]?.answerSn !== 1
     ) {
-      atMessage({ type: "warning", message: "请至少上传一个视频或图片" });
+      Notify.open({ color: "warning", message: "请至少上传一个视频或图片" });
       return;
     }
     const answers: any = [];
@@ -456,43 +454,39 @@ export default function App() {
               {active === data.length - 1 &&
               questionIndex === data[active]?.questions?.length - 1 ? (
                 <View>
-                  <AtButton
+                  <Button
                     className={styles.btn}
                     onClick={submit}
-                    type="primary"
+                    color="primary"
                   >
                     {btnText === "上传中" ? (
                       <Loading type="spinner" className={styles.customColor} />
                     ) : (
                       btnText
                     )}
-                  </AtButton>
+                  </Button>
                   {data[active]?.questions?.length > 1 && (
-                    <AtButton className={styles.btn} onClick={pre}>
+                    <Button className={styles.btn} onClick={pre}>
                       上一题
-                    </AtButton>
+                    </Button>
                   )}
                 </View>
               ) : (
                 <View>
-                  <AtButton
-                    className={styles.btn}
-                    type="primary"
-                    onClick={next}
-                  >
+                  <Button className={styles.btn} color="primary" onClick={next}>
                     下一题
-                  </AtButton>
+                  </Button>
                   {(active !== 0 || questionIndex !== 0) && (
-                    <AtButton className={styles.btn} onClick={pre}>
+                    <Button className={styles.btn} onClick={pre}>
                       上一题
-                    </AtButton>
+                    </Button>
                   )}
                 </View>
               )}
             </View>
           </View>
         )}
-        <AtMessage />
+        <Notify id="notify" />
       </View>
     </View>
   );

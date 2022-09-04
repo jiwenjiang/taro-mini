@@ -4,11 +4,10 @@ import request from "@/service/request";
 import Book from "@/static/icons/bookmark-3-fill.svg";
 import Cny from "@/static/icons/exchange-cny-fill.svg";
 import Psy from "@/static/icons/psychotherapy-fill.svg";
-import { Button, Checkbox, Popup } from "@taroify/core";
+import { Button, Checkbox, Notify, Popup } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import { atMessage, navigateTo, useRouter } from "@tarojs/taro";
+import { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
-import { AtMessage } from "taro-ui";
 import "./gmsPay.scss";
 
 export default function App() {
@@ -21,7 +20,7 @@ export default function App() {
 
   const buy = async () => {
     if (!value) {
-      atMessage({ type: "warning", message: "请先同意服务条款" });
+      Notify.open({ color: "warning", message: "请先同意服务条款" });
       return;
     }
     const res = await request({
@@ -59,7 +58,7 @@ export default function App() {
       signType: payRes.data.signType,
       paySign: payRes.data.paySign,
       success(res) {
-        atMessage({ type: "success", message: "支付成功" });
+        Notify.open({ color: "success", message: "支付成功" });
         checkPay();
         console.log("🚀 ~ file: gmsPay.tsx ~ line 40 ~ success ~ res", res);
       }
@@ -188,7 +187,7 @@ export default function App() {
       >
         立即购买
       </Button>
-      <AtMessage />
+      <Notify id="notify" />
     </View>
   );
 }

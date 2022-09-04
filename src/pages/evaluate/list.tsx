@@ -1,12 +1,20 @@
+import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
 import { ScaleTableCode } from "@/service/const";
 import { ChildContext } from "@/service/context";
 import request from "@/service/request";
+import { Arrow } from "@taroify/icons";
 import { View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React, { useContext } from "react";
-import { AtListItem } from "taro-ui";
 import "./list.scss";
+
+const cusStyle = {
+  display: "flex",
+  alignItems: "center",
+  padding: "0 12px",
+  width: "100%"
+};
 
 export default function App() {
   const childContext = useContext(ChildContext);
@@ -42,26 +50,24 @@ export default function App() {
   return (
     <View className="index">
       <View className="list" onClick={() => todo()}>
-        <AtListItem
-          title="蕾波儿童脑瘫危险程度量表"
-          arrow="right"
-          hasBorder={false}
+        <ListItem
+          left="蕾波儿童脑瘫危险程度量表"
+          right={<Arrow />}
+          customStyles={cusStyle}
         />
       </View>
-      <View className="list">
-        <AtListItem
-          title="GMs评估量表"
-          arrow="right"
-          hasBorder={false}
-          onClick={() => checkPay(ScaleTableCode.GMS)}
+      <View className="list" onClick={() => checkPay(ScaleTableCode.GMS)}>
+        <ListItem
+          left="GMs评估量表"
+          right={<Arrow />}
+          customStyles={cusStyle}
         />
       </View>
-      <View className="list">
-        <AtListItem
-          title="GMs+蕾波家庭自测"
-          arrow="right"
-          hasBorder={false}
-          onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}
+      <View className="list" onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}>
+        <ListItem
+          left="GMs+蕾波家庭自测"
+          right={<Arrow />}
+          customStyles={cusStyle}
         />
       </View>
       {/* <AtModal isOpened={isOpened}>

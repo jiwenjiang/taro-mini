@@ -49,8 +49,7 @@
     "postcss-px-scale": "^1.1.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "reactutils": "^5.10.0",
-    "taro-ui": "^3.1.0-beta.2"
+    "reactutils": "^5.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

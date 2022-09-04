@@ -1,58 +1,57 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { View, Text } from "@tarojs/components"
-import { AtButton, AtMessage } from "taro-ui"
-import Taro, { navigateTo, useRouter } from "@tarojs/taro"
+import { Text, View } from "@tarojs/components";
+import { navigateTo, useRouter } from "@tarojs/taro";
 
-import request from "@/service/request"
-import { ScaleTableCode, OrderStatus } from "@/service/const"
-
-import "./videoDetail.scss"
+import { OrderStatus, ScaleTableCode } from "@/service/const";
+import request from "@/service/request";
+import { Button, Notify } from "@taroify/core";
+import "./videoDetail.scss";
 
 export default function App() {
-  const router = useRouter()
-  const [order, setOrder] = useState({})
+  const router = useRouter();
+  const [order, setOrder] = useState({});
 
   // 页面加载时调用该方法获取视频订单详情
   const getScaleOrder = () => {
     useEffect(() => {
       (async () => {
-        const res = await getAndSetOrderInfo(router.params.id)
-      })()
-    }, [])
-  }
+        const res = await getAndSetOrderInfo(router.params.id);
+      })();
+    }, []);
+  };
 
-  getScaleOrder()
+  getScaleOrder();
 
-  const getAndSetOrderInfo = async (id) => {
-    const res = await request({ url: `/order/get?id=${id}` })
-    setOrder(res.data)
-  }
+  const getAndSetOrderInfo = async id => {
+    const res = await request({ url: `/order/get?id=${id}` });
+    setOrder(res.data);
+  };
 
   // 获取视频订单状态并为对应文字标签设置对应类名
-  const getOrderStatus = (v) => {
+  const getOrderStatus = v => {
     switch (v.status) {
       case OrderStatus.UNPAID:
-        return 'status unpaid'
+        return "status unpaid";
       case OrderStatus.PAID:
-        return 'status paid'
+        return "status paid";
       case OrderStatus.USED:
-        return 'status used'
+        return "status used";
       case OrderStatus.CANCELLED:
-        return 'status cancelled'
+        return "status cancelled";
       default:
-        return 'status unpaid'
+        return "status unpaid";
     }
-  }
+  };
 
-  const pay = async (id) => {
+  const pay = async id => {
     const payRes = await request({
       url: "/order/pay",
       data: {
         id,
-        ip: "127.0.0.1",
-      },
-    })
+        ip: "127.0.0.1"
+      }
+    });
 
     wx.requestPayment({
       timeStamp: payRes.data.timeStamp,
@@ -61,36 +60,30 @@ export default function App() {
       signType: payRes.data.signType,
       paySign: payRes.data.paySign,
       success(res) {
-        checkPay()
+        checkPay();
       }
-    })
+    });
 
     const checkPay = async () => {
       const res = await request({
         url: "/order/check",
         data: { scaleTableCode: ScaleTableCode.GMS }
-      })
+      });
       if (res.data.hasPaidOrder) {
-        Taro.atMessage({
-          type: "success",
-          message: "支付成功",
-        })
-        await getAndSetOrderInfo(res.data.orderId)
+        Notify.open({ color: "success", message: "支付成功" });
+        await getAndSetOrderInfo(res.data.orderId);
       } else {
-        Taro.atMessage({
-          type: "error",
-          message: "支付失败",
-        })
+        Notify.open({ color: "danger", message: "支付失败" });
       }
-    }
-  }
+    };
+  };
 
   // 跳转至GMs量表儿童选择页面
-  const goChildChoosePage = (id) => {
+  const goChildChoosePage = id => {
     navigateTo({
       url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
-    })
-  }
+    });
+  };
 
   return (
     <View className="scale-orderinfo-wrapper">
@@ -115,7 +108,8 @@ export default function App() {
           <Text className="label">订单号</Text>
           <Text className="value">{order.orderNo}</Text>
         </View>
-        {(order.status === OrderStatus.PAID || order.status === OrderStatus.USED) && (
+        {(order.status === OrderStatus.PAID ||
+          order.status === OrderStatus.USED) && (
           <View className="info">
             <Text className="label">支付时间</Text>
             <Text className="value">{order.paidTime}</Text>
@@ -130,19 +124,23 @@ export default function App() {
       </View>
       {order.status === OrderStatus.UNPAID && (
         <View className="action">
-          <AtButton className="btn" type="primary" onClick={() => pay(order.id)}>
+          <Button className="btn" color="primary" onClick={() => pay(order.id)}>
             立即支付
-          </AtButton>
+          </Button>
         </View>
       )}
       {order.status === OrderStatus.PAID && (
         <View className="action">
-          <AtButton className="btn" type="primary" onClick={() => goChildChoosePage(order.id)}>
+          <Button
+            className="btn"
+            color="primary"
+            onClick={() => goChildChoosePage(order.id)}
+          >
             立即使用
-          </AtButton>
+          </Button>
         </View>
       )}
-      <AtMessage />
+      <Notify id="notify" />
     </View>
-  )
+  );
 }

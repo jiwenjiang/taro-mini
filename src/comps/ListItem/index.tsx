@@ -1,5 +1,5 @@
 import { View } from "@tarojs/components";
-import React, { ReactNode } from "react";
+import React, { CSSProperties, ReactNode } from "react";
 import "./index.scss";
 
 export default function ListItem({
@@ -7,17 +7,19 @@ export default function ListItem({
   title,
   subTitle,
   right,
-  click
+  click,
+  customStyles = {}
 }: Partial<
   Record<"title" | "subTitle" | "left" | "right", ReactNode> & {
     click: Function;
+    customStyles?: CSSProperties;
   }
 >) {
   const handle = () => {
     click?.();
   };
   return (
-    <View className="list-item" onClick={handle}>
+    <View className="list-item" style={customStyles} onClick={handle}>
       {left && <View className="left-box">{left}</View>}
       <View>
         <View className="info-title">{title}</View>

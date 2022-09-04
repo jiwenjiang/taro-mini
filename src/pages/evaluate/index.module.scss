@@ -3,8 +3,10 @@
     background-color: #f9fbfc;
     --primary-color: #ffd340;
     --rv-primary-color: var(--primary-color);
+    --notify-warning-background-color: var(--primary-color);
     position: relative;
-    :global(.at-message) {
+
+    :global(.taroify-popup--top) {
         top: 82PX;
     }
 }
@@ -61,6 +63,7 @@
 .btn {
     margin-top: 8PX;
     color: #181818;
+    width: 100%;
 
     :global(.taroify-loading) {
         color: #1989fa;

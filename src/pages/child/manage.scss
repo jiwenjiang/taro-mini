@@ -3,7 +3,14 @@
   height: 100vh;
   position: relative;
   --space: 55px;
-  
+  --primary-color: #ffd340;
+  --notify-warning-background-color: var(--primary-color);
+
+  .actions {
+    display: flex;
+    justify-content: center;
+  }
+
   .list-wrap {
     padding-top: var(--space);
 
@@ -48,25 +55,25 @@
           }
         }
       }
-    
+
       .action {
         box-sizing: border-box;
         padding: 12px;
         width: 60px;
         height: 60px;
-    
+
         &.edit {
           margin-left: 40px;
         }
       }
     }
-  
+
     .btn {
-      width: 95%;
+      width: 90%;
       margin: var(--space) auto 0;
     }
   }
-  
+
   .remove-modal {
     position: fixed;
     top: 0;
@@ -76,7 +83,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  
+
     .mask {
       position: absolute;
       top: 0;
@@ -85,7 +92,7 @@
       bottom: 0;
       background-color: rgba(0, 0, 0, .7);
     }
-  
+
     .modal {
       width: 80%;
       background-color: #fff;

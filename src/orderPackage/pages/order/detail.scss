@@ -4,6 +4,7 @@
   --space: 30px;
   padding: var(--space);
   font-size: 28px;
+  --button-primary-background-color: #ffd340;
 
   .pay-info {
     width: 100%;
@@ -28,10 +29,13 @@
         &.unpaid {
           color: #F44336;
         }
+
         &.paid {
           color: #06CC76;
         }
-        &.used, &.cancelled {
+
+        &.used,
+        &.cancelled {
           color: #888;
         }
       }

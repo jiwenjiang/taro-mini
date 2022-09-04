@@ -4,11 +4,11 @@ import request from "@/service/request";
 import Select from "@/static/icons/selected.svg";
 import femaleImg from "@/static/imgs/female.png";
 import maleImg from "@/static/imgs/male.png";
+import { Button, Notify } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import { atMessage, navigateTo, useRouter } from "@tarojs/taro";
+import { navigateTo, useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { AtButton, AtMessage } from "taro-ui";
 import "./choose.scss";
 
 export default function App() {
@@ -20,7 +20,7 @@ export default function App() {
   const start = () => {
     let age = dayjs().diff(dayjs(data[active]?.birthday), "month");
     if (age > 5 && Number(router.params.code) === ScaleTableCode.GMS) {
-      atMessage({ type: "warning", message: "GMs评测仅限0-5个月孩子" });
+      Notify.open({ color: "warning", message: "GMs评测仅限0-5个月孩子" });
       return;
     }
     navigateTo({
@@ -71,15 +71,26 @@ export default function App() {
           ))}
         </View>
         {data.length > 0 && (
-          <AtButton className="btn" type="primary" onClick={start}>
+          <Button
+            variant="contained"
+            color="primary"
+            shape="square"
+            onClick={start}
+            className="taro-btn"
+          >
             开始评测
-          </AtButton>
+          </Button>
         )}
-        <AtButton className="btn mt10" onClick={manage}>
+        <Button
+          variant="contained"
+          shape="square"
+          onClick={manage}
+          className="taro-btn mt10"
+        >
           儿童管理
-        </AtButton>
+        </Button>
       </View>
-      <AtMessage />
+      <Notify id="notify" />
     </View>
   );
 }

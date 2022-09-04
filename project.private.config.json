@@ -14,13 +14,6 @@
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/list",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/evaluate/brain",
           "query": "",
           "launchMode": "default",
@@ -42,42 +35,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/mine/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/order/gmsPay",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/recordList",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/detail",
-          "query": "id=114",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/manage",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/edit",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -86,20 +44,6 @@
           "name": "",
           "pathName": "pages/evaluate/gmsDetail",
           "query": "id=121",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/index",
-          "query": "childId=15&age=1646064000&code=9&orderId=undefined",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/index",
-          "query": "childId=1&age=1652572800&code=10&orderId=26",
           "launchMode": "default",
           "scene": null
         },
@@ -119,22 +63,36 @@
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/brainDetail",
-          "query": "id=174",
+          "pathName": "orderPackage/pages/order/detail",
+          "query": "id=81",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/edit",
+          "query": "childId=29",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/manage",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "",
           "pathName": "pages/evaluate/index",
-          "query": "childId=18&age=946656000&code=9&orderId=undefined",
+          "query": "childId=29&age=1659283200&code=9&orderId=undefined",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/index",
-          "query": "childId=18&age=946656000&code=9&orderId=undefined",
+          "pathName": "pages/evaluate/list",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }

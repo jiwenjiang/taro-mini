@@ -4,10 +4,10 @@ import editImg from "@/static/imgs/edit.png";
 import femaleImg from "@/static/imgs/female.png";
 import maleImg from "@/static/imgs/male.png";
 import removeImg from "@/static/imgs/remove.png";
+import { Button, Notify } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import { navigateTo, useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
-import { AtButton, AtMessage } from "taro-ui";
 
 import "./manage.scss";
 
@@ -65,22 +65,15 @@ export default function App() {
         0
       );
       setChildren(children);
-
-      Taro.atMessage({
-        message: "儿童信息已删除",
-        type: "success"
-      });
+      Notify.open({ color: "success", message: "儿童信息已删除" });
     } else {
-      Taro.atMessage({
-        message: "儿童信息删除失败",
-        type: "error"
-      });
+      Notify.open({ color: "danger", message: "儿童信息删除失败" });
     }
   };
 
   return (
     <View className="index">
-      <AtMessage />
+      <Notify id="notify" />
       <View className="list-wrap">
         <View className="list">
           {children.map((v, index) => (
@@ -110,9 +103,11 @@ export default function App() {
             </View>
           ))}
         </View>
-        <AtButton className="btn" type="primary" onClick={add}>
-          添加儿童
-        </AtButton>
+        <View className="actions">
+          <Button className="btn" color="primary" onClick={add}>
+            添加儿童
+          </Button>
+        </View>
       </View>
       {showRemoveModal && (
         <View className="remove-modal">

@@ -1,13 +1,21 @@
 import Box from "@/comps/Box";
+import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
 import Dingdan from "@/static/imgs/dingdan.png";
 import Shipin from "@/static/imgs/shipin.png";
 import Yuyue from "@/static/imgs/yuyue.png";
+import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { getStorageSync, navigateTo } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
-import { AtListItem } from "taro-ui";
 import "./index.scss";
+
+const cusStyle = {
+  display: "flex",
+  alignItems: "center",
+  padding: "0 12px",
+  width: "100%"
+};
 
 export default function App() {
   const [user, setUser] = useState({
@@ -18,7 +26,7 @@ export default function App() {
   }, []);
 
   const manage = () => {
-    navigateTo({ url: '/pages/child/manage' });
+    navigateTo({ url: "/pages/child/manage" });
   };
 
   const scale = () => {
@@ -65,13 +73,25 @@ export default function App() {
         </Box>
         <View>
           <View className="list" onClick={record}>
-            <AtListItem title="自测量表记录" arrow="right" hasBorder={false} />
+            <ListItem
+              left="自测量表记录"
+              right={<Arrow />}
+              customStyles={cusStyle}
+            />
           </View>
           <View className="list" onClick={manage}>
-            <AtListItem title="儿童管理" arrow="right" hasBorder={false} />
+            <ListItem
+              left="儿童管理"
+              right={<Arrow />}
+              customStyles={cusStyle}
+            />
           </View>
           <View className="list" onClick={setting}>
-            <AtListItem title="系统设置" arrow="right" hasBorder={false} />
+            <ListItem
+              left="系统设置"
+              right={<Arrow />}
+              customStyles={cusStyle}
+            />
           </View>
         </View>
       </View>

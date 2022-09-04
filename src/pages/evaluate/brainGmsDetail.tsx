@@ -11,7 +11,6 @@ import { InfoOutlined } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
-import { AtButton } from "taro-ui";
 import styles from "./brainDetail.module.scss";
 
 const colorMap = {
@@ -299,13 +298,14 @@ function Card() {
                 </View>
                 <View className={styles.cardContent}>{v.content}</View>
                 {v.button?.map(c => (
-                  <AtButton
+                  <Button
                     className={styles.btnBox}
-                    type={c.type === "LINK" ? "primary" : "secondary"}
+                    variant="outlined"
+                    color="primary"
                     onClick={() => handle(c)}
                   >
                     {c.copyWriting}
-                  </AtButton>
+                  </Button>
                 ))}
               </View>
             </View>

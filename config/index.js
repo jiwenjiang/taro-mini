@@ -23,8 +23,7 @@ const config = {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-        }
+        config: {}
       },
       url: {
         enable: true,
@@ -56,8 +55,7 @@ const config = {
           generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
-    },
-    esnextModules: ["taro-ui"]
+    }
   },
   alias: {
     "@": path.resolve(__dirname, "..", "src")

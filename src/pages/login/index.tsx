@@ -1,9 +1,9 @@
 import request from "@/service/request";
 import logo from "@/static/imgs/logo.png";
+import { Button } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React from "react";
-import { AtButton } from "taro-ui";
 import styles from "./index.module.scss";
 
 export default function App() {
@@ -35,14 +35,14 @@ export default function App() {
         </View>
         <View className={styles.title}>脑科学数字化精准康复变革者</View>
         <View>
-          <AtButton
+          <Button
             className={styles.btn}
-            type="primary"
+            color="primary"
             onGetPhoneNumber={onGetPhoneNumber}
             openType="getPhoneNumber"
           >
             微信登录
-          </AtButton>
+          </Button>
         </View>
 
         <View className={styles.rights}>
