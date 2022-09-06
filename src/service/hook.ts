@@ -6,7 +6,7 @@ export function useReportBtnHandle() {
   const [price, setPrice] = useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  let payRes = useRef<any>().current;
+  let payRes = useRef<any>();
 
   const checkPay = async (c, isSelf = false) => {
     if (c.resourceId || c.productId) {
@@ -32,15 +32,15 @@ export function useReportBtnHandle() {
         }
       } else {
         if (checkRes.data.orderId) {
-          payRes = await request({
+          payRes.current = await request({
             url: "/order/pay",
             data: {
               id: checkRes.data?.orderId,
               ip: "127.0.0.1"
             }
           });
-          payRes.order = c;
-          setPrice(payRes.data.price);
+          payRes.current.order = c;
+          setPrice(payRes.current.data.price);
           setOpen(true);
         } else {
           const orderRes = await request({
@@ -50,15 +50,15 @@ export function useReportBtnHandle() {
               productId: c.productId
             }
           });
-          payRes = await request({
+          payRes.current = await request({
             url: "/order/pay",
             data: {
               id: orderRes.data?.orderId,
               ip: "127.0.0.1"
             }
           });
-          payRes.order = c;
-          setPrice(payRes.data.price);
+          payRes.current.order = c;
+          setPrice(payRes.current.data.price);
           setOpen(true);
         }
       }
@@ -76,13 +76,13 @@ export function useReportBtnHandle() {
   const toPay = () => {
     setOpen(false);
     wx.requestPayment({
-      timeStamp: payRes.data.timeStamp,
-      nonceStr: payRes.data.nonceStr,
-      package: payRes.data.packageValue,
-      signType: payRes.data.signType,
-      paySign: payRes.data.paySign,
+      timeStamp: payRes.current.data.timeStamp,
+      nonceStr: payRes.current.data.nonceStr,
+      package: payRes.current.data.packageValue,
+      signType: payRes.current.data.signType,
+      paySign: payRes.current.data.paySign,
       success(res) {
-        checkPay(payRes.order);
+        checkPay(payRes.current.order);
       }
     });
   };
