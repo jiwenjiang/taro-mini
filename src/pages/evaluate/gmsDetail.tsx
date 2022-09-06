@@ -74,8 +74,8 @@ function Card() {
       </View>
       {report?.progressStatus === "未评估" ? (
         <View className={styles.noEva}>
-          <View>已提交医生评估，请耐心等待，</View>
-          <View>医生评估后将通知您</View>
+          <View>已提交医学评估，请耐心等待，</View>
+          <View>医学评估后将通知您</View>
           <View className={styles.phone}>客服电话：400-898-6862</View>
         </View>
       ) : (
@@ -100,7 +100,7 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; 医生评估
+                &nbsp; 医学评估
                 <Text className={styles.evaDate}>{report.evaluateDate}</Text>
               </View>
               <View className={styles.evaBox}>

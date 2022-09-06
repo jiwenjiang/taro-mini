@@ -156,8 +156,8 @@ function Card() {
       </View>
       {report?.progressStatus === "未评估" ? (
         <View className={styles.noEva}>
-          <View>已提交医生评估，请耐心等待，</View>
-          <View>医生评估后将通知您</View>
+          <View>已提交医学评估，请耐心等待，</View>
+          <View>医学评估后将通知您</View>
           <View className={styles.phone}>客服电话：400-898-6862</View>
         </View>
       ) : (
@@ -233,14 +233,11 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; 蕾波自测医生评估
-                <Text className={styles.evaDate}>
-                  {report.evaluateDate ??
-                    "医生评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"}
-                </Text>
+                &nbsp; 蕾波自测医学评估
+                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
               </View>
               <View className={styles.evaBox}>
-                {report?.scaleResult?.cerebralPalsyResult && (
+                {report?.scaleResult?.cerebralPalsyResult ? (
                   <View
                     className={styles.tag}
                     style={{
@@ -256,6 +253,8 @@ function Card() {
                       )?.text
                     }
                   </View>
+                ) : (
+                  "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"
                 )}
 
                 <View className={styles.tagBox}>
@@ -280,7 +279,7 @@ function Card() {
             <View className={styles.card}>
               <View className={styles.title}>
                 <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; GMs医生评估
+                &nbsp; GMs医学评估
                 <Text className={styles.evaDate}>{report.evaluateDate}</Text>
               </View>
               <View className={styles.evaBox}>
@@ -336,9 +335,9 @@ function Card() {
         ))}
       </Popup>
       <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>购买居家视频课程</Dialog.Header>
+        <Dialog.Header>购买视频课程</Dialog.Header>
         <Dialog.Content>
-          购买居家视频课程后，享有蕾波所有线上视频课程均可免费观看权益
+          购买视频课程后，享有蕾波所有线上视频课程均可免费观看权益
         </Dialog.Content>
         <Dialog.Actions>
           <Button onClick={() => setOpen(false)}>取消</Button>

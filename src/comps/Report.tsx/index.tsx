@@ -24,7 +24,7 @@ export default function Report({ data }: any) {
           <Text className={styles.v}>{data.userScore}</Text>
         </View>
         <View className={styles.kv2}>
-          <Text className={styles.k}>医生评估：</Text>
+          <Text className={styles.k}>医学评估：</Text>
           <Text className={styles.v}>{data.doctorScore}</Text>
         </View>
         <View className={styles.table}>
@@ -32,7 +32,7 @@ export default function Report({ data }: any) {
             <View className={styles.col1}>题目</View>
             <View className={styles.col2}>自筛选择</View>
             <View className={styles.col2}>自筛得分</View>
-            <View className={styles.col2}>医生评估</View>
+            <View className={styles.col2}>医学评估</View>
           </View>
           <View className={styles.body}>
             {data.answers?.map((v, i) => (
