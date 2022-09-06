@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, Notify } from "@taroify/core";
+import { Button, Field, Input, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
 import { navigateTo, useRouter } from "@tarojs/taro";
 
@@ -145,7 +145,7 @@ export default function App() {
   };
 
   const onBirthdayWeightChange = value => {
-    setBirthdayWeight(value);
+    setBirthdayWeight(parseInt(value));
   };
 
   const toggleChildRisksDropdown = () => {
@@ -210,7 +210,7 @@ export default function App() {
       birthday: dayjs(birthday, "YYYY-MM-DD").unix(),
       gestationalWeek,
       gestationalWeekDay,
-      birthdayWeight: parseFloat(birthdayWeight)
+      birthdayWeight: parseInt(birthdayWeight)
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -244,7 +244,7 @@ export default function App() {
       birthday: dayjs(birthday, "YYYY-MM-DD").unix(),
       gestationalWeek,
       gestationalWeekDay,
-      birthdayWeight: parseFloat(birthdayWeight)
+      birthdayWeight: parseInt(birthdayWeight)
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -308,12 +308,17 @@ export default function App() {
         </Picker>
       </View>
       <View className="row birthday-weight">
-        <FieldInput
+        <Field
           label="出生体重"
-          placeholder="请输入体重"
-          value={birthdayWeight}
-          onInput={e => onBirthdayWeightChange(e.target.value)}
-        />
+        >
+          <Input
+            placeholder="请输入体重"
+            className="weight-input"
+            type="number"
+            value={birthdayWeight}
+            onInput={e => onBirthdayWeightChange(e.target.value)}
+          />
+        </Field>
       </View>
       <View className="row child-risks">
         <View className="risks">
