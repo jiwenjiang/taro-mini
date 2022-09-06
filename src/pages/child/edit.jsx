@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Button, Field, Input, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
+import { useRouter, navigateTo, navigateBack, getCurrentPages } from "@tarojs/taro";
 
 import CheckedIcon from "@/static/icons/checked.svg";
 import DropdownIcon from "@/static/icons/dropdown.svg";
@@ -230,9 +230,7 @@ export default function App() {
 
     Notify.open({ color: "success", message: "儿童信息保存成功" });
 
-    navigateTo({
-      url: `/pages/child/manage`
-    });
+    autoNavigate();
   };
 
   // 更新当前儿童信息
@@ -263,8 +261,21 @@ export default function App() {
     }
     Notify.open({ color: "success", message: "儿童信息更新成功" });
 
-    navigateTo({
-      url: `/pages/child/manage`
+    autoNavigate();
+  };
+
+  const autoNavigate = () => {
+    const pages = getCurrentPages()
+    let backPageIndex = 0
+
+    if (pages.some(page => page.route.includes('pages/evaluate/list'))) {
+      backPageIndex = pages.findIndex(page => page.route.includes('pages/child/choose'))
+    } else {
+      backPageIndex = pages.findIndex(page => page.route.includes('pages/child/manage'))
+    }
+
+    navigateBack({
+      delta: pages.length - backPageIndex - 1,
     });
   };
 
