@@ -6,7 +6,7 @@ import maleImg from "@/static/imgs/male.png";
 import removeImg from "@/static/imgs/remove.png";
 import { Button, Notify } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
+import { useDidShow, navigateTo, useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
 
 import "./manage.scss";
@@ -21,17 +21,20 @@ export default function App() {
   const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取儿童信息
-  const getChildrenInfo = () => {
-    useEffect(() => {
-      (async () => {
-        const res = await request({ url: "/children/list", data: page });
-        setChildren(res.data.children);
-        childContext.updateChild({ len: res.data.children.length });
-      })();
-    }, [updateFlag]);
-  };
+  useEffect(() => {
+    getChildrenList();
+  }, [updateFlag]);
 
-  getChildrenInfo();
+  // 每次页面显示时获取儿童信息
+  useDidShow(() => {
+    getChildrenList();
+  });
+
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list", data: page });
+    setChildren(res.data.children);
+    childContext.updateChild({ len: res.data.children.length });
+  };
 
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
