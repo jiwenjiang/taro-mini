@@ -13,6 +13,7 @@ import "./manage.scss";
 
 export default function App() {
   const router = useRouter();
+  const [updateFlag, setUpdateFlag] = useState(Date.now());
   const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
   const [children, setChildren] = useState([]);
   const [dataIndex, setDataIndex] = useState(0);
@@ -27,7 +28,7 @@ export default function App() {
         setChildren(res.data.children);
         childContext.updateChild({ len: res.data.children.length });
       })();
-    }, []);
+    }, [updateFlag]);
   };
 
   getChildrenInfo();
@@ -66,6 +67,7 @@ export default function App() {
       );
       setChildren(children);
       Notify.open({ color: "success", message: "儿童信息已删除" });
+      setUpdateFlag(Date.now());
     } else {
       Notify.open({ color: "danger", message: "儿童信息删除失败" });
     }
