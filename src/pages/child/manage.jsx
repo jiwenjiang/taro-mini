@@ -6,13 +6,14 @@ import maleImg from "@/static/imgs/male.png";
 import removeImg from "@/static/imgs/remove.png";
 import { Button, Notify } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
+import { useDidShow, navigateTo, useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
 
 import "./manage.scss";
 
 export default function App() {
   const router = useRouter();
+  const [updateFlag, setUpdateFlag] = useState(Date.now());
   const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
   const [children, setChildren] = useState([]);
   const [dataIndex, setDataIndex] = useState(0);
@@ -20,17 +21,20 @@ export default function App() {
   const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取儿童信息
-  const getChildrenInfo = () => {
-    useEffect(() => {
-      (async () => {
-        const res = await request({ url: "/children/list", data: page });
-        setChildren(res.data.children);
-        childContext.updateChild({ len: res.data.children.length });
-      })();
-    }, []);
-  };
+  useEffect(() => {
+    getChildrenList();
+  }, [updateFlag]);
 
-  getChildrenInfo();
+  // 每次页面显示时获取儿童信息
+  useDidShow(() => {
+    getChildrenList();
+  });
+
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list", data: page });
+    setChildren(res.data.children);
+    childContext.updateChild({ len: res.data.children.length });
+  };
 
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
@@ -66,6 +70,7 @@ export default function App() {
       );
       setChildren(children);
       Notify.open({ color: "success", message: "儿童信息已删除" });
+      setUpdateFlag(Date.now());
     } else {
       Notify.open({ color: "danger", message: "儿童信息删除失败" });
     }
