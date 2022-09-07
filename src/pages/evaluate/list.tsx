@@ -56,13 +56,13 @@ export default function App() {
           customStyles={cusStyle}
         />
       </View>
-      <View className="list" onClick={() => checkPay(ScaleTableCode.GMS)}>
+      {/* <View className="list" onClick={() => checkPay(ScaleTableCode.GMS)}>
         <ListItem
           left="GMs评估量表"
           right={<Arrow />}
           customStyles={cusStyle}
         />
-      </View>
+      </View> */}
       <View className="list" onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}>
         <ListItem
           left="GMs+蕾波家庭自测"
