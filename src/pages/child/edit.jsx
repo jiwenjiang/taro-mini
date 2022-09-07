@@ -198,7 +198,7 @@ export default function App() {
 
   // 保存新的儿童信息
   const doSave = async () => {
-    if (!name.trim() || !birthdayWeight.trim()) {
+    if (!name.trim() || !birthdayWeight) {
       Notify.open({ color: "danger", message: "请填写所有信息后再保存" });
 
       return;
@@ -276,7 +276,7 @@ export default function App() {
 
     navigateBack({
       delta: pages.length - backPageIndex - 1,
-    });
+    })
   };
 
   return (
