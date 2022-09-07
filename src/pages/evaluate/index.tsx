@@ -2,8 +2,16 @@ import NavBar from "@/comps/NavBar";
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
+import AudioSvg from "@/static/icons/audio.svg";
+import StopSvg from "@/static/icons/stop.svg";
 import { Button, Loading, Notify, Radio, Textarea } from "@taroify/core";
-import { Clear, PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
+import {
+  Clear,
+  PauseCircleOutlined,
+  PhotoOutlined,
+  PlayCircleOutlined,
+  VideoOutlined
+} from "@taroify/icons";
 import {
   Form,
   Image,
@@ -426,13 +434,13 @@ export default function App() {
                       className={styles.iconBox}
                       onClick={() => chooseMedia(MediaType.PICTURE)}
                     >
-                      <View className="at-icon at-icon-camera"></View>
+                      <PhotoOutlined />
                     </View>
                     <View
                       className={styles.iconBox}
                       onClick={() => chooseMedia(MediaType.VIDEO)}
                     >
-                      <View className="at-icon at-icon-video"></View>
+                      <VideoOutlined />
                     </View>
                     <View
                       className={styles.iconBox}
@@ -441,9 +449,12 @@ export default function App() {
                       }}
                     >
                       {isRecord ? (
-                        <View className="at-icon at-icon-stop"></View>
+                        <Image className={styles.iconImg} src={StopSvg}></Image>
                       ) : (
-                        <View className="at-icon at-icon-volume-plus"></View>
+                        <Image
+                          className={styles.iconImg}
+                          src={AudioSvg}
+                        ></Image>
                       )}
                     </View>
                   </View>
