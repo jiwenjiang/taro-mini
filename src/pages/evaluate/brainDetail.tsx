@@ -25,15 +25,15 @@ const riskMap = {
   },
   "2": {
     text: "有高危无异常",
-    color: "#FF7D41"
+    color: "#1989fa"
   },
   "3": {
     text: "无高危有异常",
-    color: "#FF7D41"
+    color: "#f44336"
   },
   "4": {
     text: "有高危有异常",
-    color: "#EBEDF0"
+    color: "#f44336"
   }
 };
 
@@ -172,26 +172,24 @@ function Card() {
             <Text className={styles.evaDate}>{report.evaluateDate}</Text>
           </View>
           <View className={styles.evaBox}>
-            {report?.scaleResult ? (
-              <View
-                className={styles.tag}
-                style={{
-                  backgroundColor:
-                    checkItem(report?.scaleResult?.result)?.color ?? "#000"
-                }}
-              >
-                {checkItem(report?.scaleResult?.result)?.text}
-              </View>
-            ) : (
-              "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"
-            )}
+            <View
+              className={styles.tag}
+              style={{
+                backgroundColor:
+                  checkItem(report?.scaleResult?.result)?.color ?? "#000"
+              }}
+            >
+              {checkItem(report?.scaleResult?.result)?.text}
+            </View>
+
             <View className={styles.tagBox}>
               {report.scaleResult?.highRisk?.map(v => (
                 <View className={styles.grayTag}>{v}</View>
               ))}
             </View>
             <View className={styles.evaRemark}>
-              {report.scaleResult?.remark}
+              {report.conclusion ??
+                "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"}
             </View>
             <View className={styles.tagBox}>
               {report.scaleResult?.abnormalIterm?.map(v => (

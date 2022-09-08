@@ -154,162 +154,170 @@ function Card() {
           </View>
         </View>
       </View>
-      {report?.progressStatus === "未评估" ? (
-        <View className={styles.noEva}>
-          <View>已提交医学评估，请耐心等待，</View>
-          <View>医学评估后将通知您</View>
-          <View className={styles.phone}>客服电话：400-898-6862</View>
-        </View>
-      ) : (
+      {report?.progressStatus && (
         <View>
-          <View className={styles.cardBox}>
-            <View className={styles.card}>
-              <View className={styles.title}>
-                <Image src={pingceImg} className={styles.imgIcon} />
-                &nbsp; 蕾波自测测评结果
-              </View>
-              <View className={styles.scoreBox}>
-                <View className={styles.text}>您本次评测结果风险系数</View>
-                <View
-                  className={styles.score}
-                  style={{ color: checkColor(data.content) }}
-                >
-                  {data.score}%
-                </View>
-              </View>
+          {report?.progressStatus === "未评估" ? (
+            <View className={styles.noEva}>
+              <View>已提交医学评估，请耐心等待，</View>
+              <View>医学评估后将通知您</View>
+              <View className={styles.phone}>客服电话：400-898-6862</View>
             </View>
-          </View>
-          <View className={styles.cardBox}>
-            <View className={styles.card}>
-              <View className={styles.title}>
-                <Image src={pingceImg} className={styles.imgIcon} />
-                &nbsp; GMs测评结果{" "}
-                <InfoOutlined
-                  size={17}
-                  style={{ marginLeft: 5 }}
-                  onClick={() => setIntro(true)}
-                />
-              </View>
-              <View className={styles.gmsEvaBox}>
-                {report.scaleResult?.gmsResult?.result?.map(
-                  (v, i) =>
-                    v.content && (
-                      <View key={i} className={styles.evaItem}>
-                        <View className={styles.evaTitle}>{v.name}</View>
-                        <View className={styles.evaVal}>{v.content}</View>
-                      </View>
-                    )
-                )}
-              </View>
-            </View>
-          </View>
-          <View className={styles.cardBox}>
-            <View className={styles.card}>
-              <View className={styles.title}>
-                <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; 结果分析
-              </View>
-              <View className={styles.remark}>
-                <View>
-                  蕾波幼儿脑瘫危险程度百分数表自测结果风险系数越高，则患儿童脑损伤的可能性越大。测评结果不代表诊断结果，建议
-                  您联系客服预约蕃波专业评估，进一步精准评定！
-                </View>
-                <View className={styles.kefu}>
-                  <Text className={styles.key}>客服咨询预约电话</Text>
-                  <Text className={styles.val}>400-898-6962</Text>
-                </View>
-                <View className={styles.kefu}>
-                  <Text className={styles.key}>附近中心预约评估</Text>
-                  <Text className={styles.val}>400-898-6962</Text>
-                </View>
-                <View className={styles.kefu}>
-                  <Text className={styles.key}>总部联系电话</Text>
-                  <Text className={styles.val}>400-898-6962</Text>
+          ) : (
+            <View>
+              <View className={styles.cardBox}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={pingceImg} className={styles.imgIcon} />
+                    &nbsp; 蕾波自测测评结果
+                  </View>
+                  <View className={styles.scoreBox}>
+                    <View className={styles.text}>您本次评测结果风险系数</View>
+                    <View
+                      className={styles.score}
+                      style={{ color: checkColor(data.content) }}
+                    >
+                      {data.score}%
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>
-          </View>
-          <View className={styles.cardBox}>
-            <View className={styles.card}>
-              <View className={styles.title}>
-                <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; 蕾波自测医学评估
-                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
+              <View className={styles.cardBox}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={pingceImg} className={styles.imgIcon} />
+                    &nbsp; GMs测评结果{" "}
+                    <InfoOutlined
+                      size={17}
+                      style={{ marginLeft: 5 }}
+                      color="#1989fa"
+                      onClick={() => setIntro(true)}
+                    />
+                  </View>
+                  <View className={styles.gmsEvaBox}>
+                    {report.scaleResult?.gmsResult?.result?.map(
+                      (v, i) =>
+                        v.content && (
+                          <View key={i} className={styles.evaItem}>
+                            <View className={styles.evaTitle}>{v.name}</View>
+                            <View className={styles.evaVal}>{v.content}</View>
+                          </View>
+                        )
+                    )}
+                  </View>
+                </View>
               </View>
-              <View className={styles.evaBox}>
-                {report?.scaleResult?.cerebralPalsyResult ? (
-                  <View
-                    className={styles.tag}
-                    style={{
-                      backgroundColor:
+              <View className={styles.cardBox}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={fenxiImg} className={styles.imgIcon} />
+                    &nbsp; 结果分析
+                  </View>
+                  <View className={styles.remark}>
+                    <View>
+                      蕾波幼儿脑瘫危险程度百分数表自测结果风险系数越高，则患儿童脑损伤的可能性越大。测评结果不代表诊断结果，建议
+                      您联系客服预约蕃波专业评估，进一步精准评定！
+                    </View>
+                    <View className={styles.kefu}>
+                      <Text className={styles.key}>客服咨询预约电话</Text>
+                      <Text className={styles.val}>400-898-6962</Text>
+                    </View>
+                    <View className={styles.kefu}>
+                      <Text className={styles.key}>附近中心预约评估</Text>
+                      <Text className={styles.val}>400-898-6962</Text>
+                    </View>
+                    <View className={styles.kefu}>
+                      <Text className={styles.key}>总部联系电话</Text>
+                      <Text className={styles.val}>400-898-6962</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View className={styles.cardBox}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={fenxiImg} className={styles.imgIcon} />
+                    &nbsp; 蕾波自测医学评估
+                    <Text className={styles.evaDate}>
+                      {report.evaluateDate}
+                    </Text>
+                  </View>
+                  <View className={styles.evaBox}>
+                    <View
+                      className={styles.tag}
+                      style={{
+                        backgroundColor:
+                          checkItem(
+                            report?.scaleResult?.cerebralPalsyResult?.result
+                          )?.color ?? "#000"
+                      }}
+                    >
+                      {
                         checkItem(
                           report?.scaleResult?.cerebralPalsyResult?.result
-                        )?.color ?? "#000"
-                    }}
-                  >
-                    {
-                      checkItem(
-                        report?.scaleResult?.cerebralPalsyResult?.result
-                      )?.text
-                    }
-                  </View>
-                ) : (
-                  "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"
-                )}
+                        )?.text
+                      }
+                    </View>
 
-                <View className={styles.tagBox}>
-                  {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(v => (
-                    <View className={styles.grayTag}>{v}</View>
-                  ))}
-                </View>
-                <View className={styles.evaRemark}>
-                  {report.scaleResult?.cerebralPalsyResult?.remark}
-                </View>
-                <View className={styles.tagBox}>
-                  {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
-                    v => (
-                      <View className={styles.grayTag}>{v}</View>
-                    )
-                  )}
+                    <View className={styles.tagBox}>
+                      {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(
+                        v => (
+                          <View className={styles.grayTag}>{v}</View>
+                        )
+                      )}
+                    </View>
+                    <View className={styles.evaRemark}>
+                      {report.conclusion ??
+                        "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"}
+                    </View>
+                    <View className={styles.tagBox}>
+                      {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
+                        v => (
+                          <View className={styles.grayTag}>{v}</View>
+                        )
+                      )}
+                    </View>
+                  </View>
                 </View>
               </View>
+              <View className={styles.cardBox}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={fenxiImg} className={styles.imgIcon} />
+                    &nbsp; GMs医学评估
+                    <Text className={styles.evaDate}>
+                      {report.evaluateDate}
+                    </Text>
+                  </View>
+                  <View className={styles.evaBox}>
+                    <View>{report.scaleResult?.gmsResult?.remark}</View>
+                    <View className={styles.intro}>评估结果不代表诊断结果</View>
+                  </View>
+                </View>
+              </View>
+              {report.scaleResult?.cerebralPalsyResult?.suggest?.map((v, i) => (
+                <View className={styles.cardBox} key={i}>
+                  <View className={styles.card}>
+                    <View className={styles.title}>
+                      <Image src={pingceImg} className={styles.imgIcon} />
+                      &nbsp; 建议{i + 1}
+                    </View>
+                    <View className={styles.cardContent}>{v.content}</View>
+                    {v.button?.map(c => (
+                      <Button
+                        className={styles.btnBox}
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handle(c)}
+                      >
+                        {c.copyWriting}
+                      </Button>
+                    ))}
+                  </View>
+                </View>
+              ))}
+              <Report data={report} />
             </View>
-          </View>
-          <View className={styles.cardBox}>
-            <View className={styles.card}>
-              <View className={styles.title}>
-                <Image src={fenxiImg} className={styles.imgIcon} />
-                &nbsp; GMs医学评估
-                <Text className={styles.evaDate}>{report.evaluateDate}</Text>
-              </View>
-              <View className={styles.evaBox}>
-                <View>{report.conclusion}</View>
-                <View className={styles.intro}>评估结果不代表诊断结果</View>
-              </View>
-            </View>
-          </View>
-          {report.scaleResult?.cerebralPalsyResult?.suggest?.map((v, i) => (
-            <View className={styles.cardBox} key={i}>
-              <View className={styles.card}>
-                <View className={styles.title}>
-                  <Image src={pingceImg} className={styles.imgIcon} />
-                  &nbsp; 建议{i + 1}
-                </View>
-                <View className={styles.cardContent}>{v.content}</View>
-                {v.button?.map(c => (
-                  <Button
-                    className={styles.btnBox}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handle(c)}
-                  >
-                    {c.copyWriting}
-                  </Button>
-                ))}
-              </View>
-            </View>
-          ))}
-          <Report data={report} />
+          )}
         </View>
       )}
 
