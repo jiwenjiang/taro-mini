@@ -57,7 +57,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainGmsDetail",
-          "query": "id=225",
+          "query": "id=233",
           "launchMode": "default",
           "scene": null
         },

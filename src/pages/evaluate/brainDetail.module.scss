@@ -214,6 +214,11 @@
     }
 }
 
+.evaBox2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .cardContent {
     font-size: 32px;
     line-height: 48px;
@@ -225,6 +230,10 @@
     font-size: 32px;
     line-height: 48px;
     padding: 30px;
+}
+
+.introImg {
+    width: 100%;
 }
 
 .introBox {
@@ -265,6 +274,7 @@
         margin-bottom: 30px;
     }
 
+
     .intro {
         font-size: 28px;
         font-weight: normal;
@@ -288,4 +298,8 @@
         font-size: 28px;
         margin-top: 40px;
     }
+}
+
+.mt20 {
+    margin-top: 25px;
 }
