@@ -50,7 +50,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/brainDetail",
-          "query": "id=204",
+          "query": "id=232",
           "launchMode": "default",
           "scene": null
         },

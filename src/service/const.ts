@@ -15,10 +15,11 @@ export enum ScaleTableCode {
   BRAIN_GMS
 }
 
-
 export enum OrderStatus {
   UNPAID = 1,
   PAID,
   USED,
   CANCELLED
 }
+
+export const tabPages = ["/pages/index/index", "pages/mine/index"];

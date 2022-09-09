@@ -1,12 +1,15 @@
+import { tabPages } from "@/service/const";
 import request from "@/service/request";
 import logo from "@/static/imgs/logo.png";
 import { Button } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import React from "react";
 import styles from "./index.module.scss";
 
 export default function App() {
+  const router = useRouter();
+
   const onGetPhoneNumber = async e => {
     const login = await Taro.login();
     const userInfo = await Taro.getUserInfo();
@@ -21,7 +24,15 @@ export default function App() {
       }
     });
     if (res.code === 0) {
-      Taro.switchTab({ url: "/pages/index/index" });
+      if (router.params.returnUrl) {
+        if (tabPages.includes(router.params.returnUrl)) {
+          Taro.switchTab({ url: router.params.returnUrl });
+        } else {
+          navigateTo({ url: router.params.returnUrl });
+        }
+      } else {
+        Taro.switchTab({ url: "/pages/index/index" });
+      }
     }
 
     // console.log("🚀 ~ file: index.tsx ~ line 21 ~ App ~ res", res);
