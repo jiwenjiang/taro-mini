@@ -4,42 +4,15 @@ import request from "@/service/request";
 import "@taroify/core/index.scss";
 import "@taroify/icons/index.scss";
 import { View } from "@tarojs/components";
-import Taro, {
-  getCurrentPages,
-  navigateTo,
-  setStorageSync,
-  useDidShow
-} from "@tarojs/taro";
+import { useDidShow } from "@tarojs/taro";
 import React, { useState } from "react";
 import "./app.scss";
 import "./custom-variables.scss";
+import { useAuth } from "./service/hook";
 
 function App(props) {
+  const { getAuth } = useAuth();
   const [child, setChild] = useState({ len: 0 });
-
-  const getAuth = async () => {
-    const login = await Taro.login();
-    const userInfo = await Taro.getUserInfo();
-    const res = await request({
-      url: "/miniapp/wxLogin",
-      data: {
-        code: login.code,
-        encryptedData: userInfo.encryptedData,
-        iv: userInfo.iv
-      }
-    });
-    if (res.code === 0) {
-      setStorageSync("token", res.data.token);
-      setStorageSync("user", res.data.user);
-      getChild();
-    }
-
-    if (res.code === 2) {
-      const pages = getCurrentPages();
-      const path = pages[pages.length - 1].route;
-      navigateTo({ url: `/pages/login/index?returnUrl=/${path}` });
-    }
-  };
 
   const getChild = async () => {
     const res = await request({
@@ -50,7 +23,7 @@ function App(props) {
   };
 
   useDidShow(() => {
-    getAuth();
+    getAuth(getChild);
   });
 
   return (

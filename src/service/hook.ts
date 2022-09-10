@@ -1,4 +1,9 @@
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import Taro, {
+  getCurrentPages,
+  navigateTo,
+  setStorageSync,
+  useRouter
+} from "@tarojs/taro";
 import { useRef, useState } from "react";
 import request from "./request";
 
@@ -9,7 +14,6 @@ export function useReportBtnHandle() {
   let payRes = useRef<any>();
 
   const checkPay = async (c, isSelf = false) => {
-    console.log("🚀 ~ file: hook.ts ~ line 12 ~ checkPay ~ isSelf", isSelf);
     if (c.resourceId || c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
@@ -88,4 +92,31 @@ export function useReportBtnHandle() {
     });
   };
   return { checkPay, toPay, open, setOpen, price };
+}
+
+export function useAuth() {
+  const getAuth = async (cb?: Function) => {
+    const login = await Taro.login();
+    const userInfo = await Taro.getUserInfo();
+    const res = await request({
+      url: "/miniapp/wxLogin",
+      data: {
+        code: login.code,
+        encryptedData: userInfo.encryptedData,
+        iv: userInfo.iv
+      }
+    });
+    if (res.code === 0) {
+      setStorageSync("token", res.data.token);
+      setStorageSync("user", res.data.user);
+      cb?.();
+    }
+
+    if (res.code === 2) {
+      const pages = getCurrentPages();
+      const path = pages[pages.length - 1].route;
+      navigateTo({ url: `/pages/login/index?returnUrl=/${path}` });
+    }
+  };
+  return { getAuth };
 }

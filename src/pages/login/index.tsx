@@ -1,14 +1,16 @@
 import { tabPages } from "@/service/const";
+import { useAuth } from "@/service/hook";
 import request from "@/service/request";
 import logo from "@/static/imgs/logo.png";
 import { Button } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import Taro, { reLaunch, useRouter } from "@tarojs/taro";
 import React from "react";
 import styles from "./index.module.scss";
 
 export default function App() {
   const router = useRouter();
+  const { getAuth } = useAuth();
 
   const onGetPhoneNumber = async e => {
     const login = await Taro.login();
@@ -24,11 +26,12 @@ export default function App() {
       }
     });
     if (res.code === 0) {
+      getAuth();
       if (router.params.returnUrl) {
         if (tabPages.includes(router.params.returnUrl)) {
           Taro.switchTab({ url: router.params.returnUrl });
         } else {
-          navigateTo({ url: router.params.returnUrl });
+          reLaunch({ url: router.params.returnUrl });
         }
       } else {
         Taro.switchTab({ url: "/pages/index/index" });
