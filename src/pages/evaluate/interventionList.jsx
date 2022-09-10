@@ -49,7 +49,7 @@ export default function App() {
 
   return (
     <View className="intervention-list">
-      {videoList.length && videoList.map((v, index) => (
+      {videoList?.map((v, index) => (
         <View key={v.recordId} className="video-info">
           <View className="video-title">
             <Text className="title">{v.name}</Text>

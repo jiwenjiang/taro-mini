@@ -6,9 +6,9 @@ import femaleImg from "@/static/imgs/female.png";
 import maleImg from "@/static/imgs/male.png";
 import { Button, Notify } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
+import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./choose.scss";
 
 export default function App() {
@@ -36,12 +36,12 @@ export default function App() {
     setActive(i);
   };
 
-  useEffect(() => {
+  useDidShow(() => {
     (async () => {
       const res = await request({ url: "/children/list", data: page });
       setData(res.data.children);
     })();
-  }, []);
+  });
 
   return (
     <View className="index">

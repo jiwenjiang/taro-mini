@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Button, Field, Input, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
-import { useRouter, navigateTo, navigateBack, getCurrentPages } from "@tarojs/taro";
+import { getCurrentPages, navigateTo, useRouter } from "@tarojs/taro";
 
 import CheckedIcon from "@/static/icons/checked.svg";
 import DropdownIcon from "@/static/icons/dropdown.svg";
@@ -265,18 +265,27 @@ export default function App() {
   };
 
   const autoNavigate = () => {
-    const pages = getCurrentPages()
-    let backPageIndex = 0
+    const pages = getCurrentPages();
 
-    if (pages.some(page => page.route.includes('pages/evaluate/list'))) {
-      backPageIndex = pages.findIndex(page => page.route.includes('pages/child/choose'))
+    // let backPageIndex = 0;
+
+    // if (pages.some(page => page.route.includes("pages/evaluate/list"))) {
+    //   backPageIndex = pages.findIndex(page =>
+    //     page.route.includes("pages/child/choose")
+    //   );
+    // } else {
+    //   backPageIndex = pages.findIndex(page =>
+    //     page.route.includes("pages/child/manage")
+    //   );
+    // }
+    // navigateBack({
+    //   delta: pages.length - backPageIndex - 1
+    // });
+    if (pages[pages.length - 3]?.route === "pages/evaluate/list") {
+      navigateTo({ url: `/pages/child/choose?code=${router.params.code}` });
     } else {
-      backPageIndex = pages.findIndex(page => page.route.includes('pages/child/manage'))
+      navigateTo({ url: "/pages/child/manage" });
     }
-
-    navigateBack({
-      delta: pages.length - backPageIndex - 1,
-    })
   };
 
   return (
@@ -319,9 +328,7 @@ export default function App() {
         </Picker>
       </View>
       <View className="row birthday-weight">
-        <Field
-          label="出生体重"
-        >
+        <Field label="出生体重">
           <Input
             placeholder="请输入体重"
             className="weight-input"

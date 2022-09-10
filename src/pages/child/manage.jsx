@@ -6,7 +6,7 @@ import maleImg from "@/static/imgs/male.png";
 import removeImg from "@/static/imgs/remove.png";
 import { Button, Notify } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
-import { useDidShow, navigateTo, useRouter } from "@tarojs/taro";
+import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
 
 import "./manage.scss";
@@ -39,7 +39,7 @@ export default function App() {
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
     navigateTo({
-      url: `/pages/child/edit`
+      url: `/pages/child/edit?code=${router.params.code}`
     });
   };
   // 跳转至添加儿童页面，并带上儿童 ID，以编辑儿童信息

@@ -9,6 +9,7 @@ export function useReportBtnHandle() {
   let payRes = useRef<any>();
 
   const checkPay = async (c, isSelf = false) => {
+    console.log("🚀 ~ file: hook.ts ~ line 12 ~ checkPay ~ isSelf", isSelf);
     if (c.resourceId || c.productId) {
       const checkRes = await request({
         url: "/order/video/check",
@@ -82,7 +83,7 @@ export function useReportBtnHandle() {
       signType: payRes.current.data.signType,
       paySign: payRes.current.data.paySign,
       success(res) {
-        checkPay(payRes.current.order);
+        checkPay(payRes.current.order, payRes.current.order?.type === "SELF");
       }
     });
   };

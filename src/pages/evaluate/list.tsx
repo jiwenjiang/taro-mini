@@ -23,7 +23,7 @@ export default function App() {
     if (childContext.child.len) {
       navigateTo({ url: `/pages/child/choose?code=${code}` });
     } else {
-      navigateTo({ url: "/pages/child/manage" });
+      navigateTo({ url: `/pages/child/manage?code=${code}` });
     }
   };
 
