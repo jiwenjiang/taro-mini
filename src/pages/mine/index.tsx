@@ -1,13 +1,14 @@
 import Box from "@/comps/Box";
 import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
+import request from "@/service/request";
 import Dingdan from "@/static/imgs/dingdan.png";
 import Shipin from "@/static/imgs/shipin.png";
 import Yuyue from "@/static/imgs/yuyue.png";
 import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
-import { getStorageSync, navigateTo } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import { navigateTo, useDidShow } from "@tarojs/taro";
+import React, { useState } from "react";
 import "./index.scss";
 
 const cusStyle = {
@@ -18,12 +19,19 @@ const cusStyle = {
 };
 
 export default function App() {
-  const [user, setUser] = useState({
-    name: ""
+  const [user, setUser] = useState("");
+  const [url, setUrl] = useState("");
+  useDidShow(() => {
+    (async () => {
+      const res = await request({
+        url: "/user/get",
+        method: "GET"
+      });
+      setUser(res.data?.name);
+      setUrl(res.data?.avatarUrl);
+    })();
+    // setUser(getStorageSync("user"));
   });
-  useEffect(() => {
-    setUser(getStorageSync("user"));
-  }, []);
 
   const manage = () => {
     navigateTo({ url: "/pages/child/manage" });
@@ -45,15 +53,22 @@ export default function App() {
     navigateTo({ url: `/pages/mine/setting` });
   };
 
+  const gotoInfo = () => {
+    navigateTo({ url: `/pages/mine/info` });
+  };
+
   return (
     <View className="index">
       <View>
-        <View className="avator">
+        <View className="avator" onClick={gotoInfo}>
           <Image
             className="ava"
-            src="http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+            src={
+              url ||
+              "http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
+            }
           />
-          <Text>{user.name || "未登录"}</Text>
+          <Text>{user || "未登录"}</Text>
         </View>
         <Box title="订单管理">
           <View className="grid">

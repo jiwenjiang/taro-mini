@@ -199,8 +199,7 @@ function Card() {
                   </View>
                   <View className={styles.remark}>
                     <View>
-                      蕾波幼儿脑瘫危险程度百分数表自测结果风险系数越高，则患儿童脑损伤的可能性越大。测评结果不代表诊断结果，建议
-                      您联系客服预约蕃波专业评估，进一步精准评定！
+                      蕾波幼儿脑瘫危险程度百分数表自测结果风险系数越高，则患儿童脑损伤的可能性越大。测评结果不代表诊断结果，建议您联系客服预约蕾波专业评估，进一步精准评定！
                     </View>
                     <View className={styles.kefu}>
                       <Text className={styles.key}>客服咨询预约电话</Text>
@@ -226,48 +225,57 @@ function Card() {
                       {report.evaluateDate}
                     </Text>
                   </View>
-                  <View className={styles.evaBox}>
-                    {report?.scaleResult?.cerebralPalsyResult?.result && (
-                      <View
-                        className={styles.tag}
-                        style={{
-                          backgroundColor:
-                            checkItem(
-                              report?.scaleResult?.cerebralPalsyResult?.result
-                            )?.color ?? "#000"
-                        }}
-                      >
-                        {
-                          checkItem(
-                            report?.scaleResult?.cerebralPalsyResult?.result
-                          )?.text
-                        }
+                  <View>
+                    {report?.progressStatus === "未评估" ? (
+                      "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"
+                    ) : (
+                      <View className={styles.evaBox}>
+                        {report?.scaleResult?.cerebralPalsyResult?.result && (
+                          <View
+                            className={styles.tag}
+                            style={{
+                              backgroundColor:
+                                checkItem(
+                                  report?.scaleResult?.cerebralPalsyResult
+                                    ?.result
+                                )?.color ?? "#000"
+                            }}
+                          >
+                            {
+                              checkItem(
+                                report?.scaleResult?.cerebralPalsyResult?.result
+                              )?.text
+                            }
+                          </View>
+                        )}
+
+                        <View className={styles.tagBox}>
+                          {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(
+                            v => (
+                              <View className={styles.grayTag}>{v}</View>
+                            )
+                          )}
+                        </View>
+                        <View className={styles.evaRemark}>
+                          {report.scaleResult?.cerebralPalsyResult?.remark}
+                        </View>
+                        <View className={styles.evaConclusion}>
+                          {report.conclusion}
+                        </View>
+                        <View className={styles.tagBox}>
+                          {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
+                            v => (
+                              <View className={styles.grayTag}>{v}</View>
+                            )
+                          )}
+                        </View>
+                        <View className={styles.mt20}>
+                          <View className={styles.intro}>
+                            评估结果不代表诊断结果
+                          </View>
+                        </View>
                       </View>
                     )}
-
-                    <View className={styles.tagBox}>
-                      {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(
-                        v => (
-                          <View className={styles.grayTag}>{v}</View>
-                        )
-                      )}
-                    </View>
-                    <View className={styles.evaRemark}>
-                      {report.conclusion ??
-                        "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"}
-                    </View>
-                    <View className={styles.tagBox}>
-                      {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
-                        v => (
-                          <View className={styles.grayTag}>{v}</View>
-                        )
-                      )}
-                    </View>
-                    <View className={styles.mt20}>
-                      <View className={styles.intro}>
-                        评估结果不代表诊断结果
-                      </View>
-                    </View>
                   </View>
                 </View>
               </View>

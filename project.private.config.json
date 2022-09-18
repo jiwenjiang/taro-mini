@@ -102,6 +102,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/info",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
