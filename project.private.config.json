@@ -91,7 +91,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/list",
+          "pathName": "pages/evaluate/step",
           "query": "",
           "launchMode": "default",
           "scene": null

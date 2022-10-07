@@ -11,6 +11,10 @@
     }
 }
 
+.stepBox {
+    padding: 30px 100px;
+}
+
 .subject {
     margin: 10PX 15PX;
     text-align: center;
@@ -58,6 +62,26 @@
         padding: 15PX;
         border-top: 1PX solid #efefef;
     }
+
+    .zhinan {
+        min-height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        flex-direction: column;
+        padding: 0 30px;
+
+        .zhinanText {
+            color: #181818;
+        }
+
+        .chakanzhinan {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+    }
 }
 
 .btn {
@@ -74,6 +98,8 @@
 
 .btnbox {
     padding: 0 15PX;
+    display: flex;
+    gap: 30px;
 }
 
 .iconBox {

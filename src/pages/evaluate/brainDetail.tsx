@@ -1,6 +1,6 @@
 import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
-import Report from "@/comps/Report.tsx";
+import Report from "@/comps/Report";
 import { useReportBtnHandle } from "@/service/hook";
 import request from "@/service/request";
 import fenxiImg from "@/static/imgs/fenxi.png";
