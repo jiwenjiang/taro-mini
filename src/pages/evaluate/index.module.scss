@@ -144,3 +144,78 @@
     width: 25PX;
     height: 25PX;
 }
+
+.cardBox {
+    background-color: transparent;
+    padding: 8PX;
+}
+
+.card {
+    background-color: #fff;
+    background: #ffffff;
+    box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
+    border: 1PX solid #f0f0f0;
+    padding: 5PX 15PX;
+    font-size: 13PX;
+    border-radius: 8PX;
+
+    .title {
+        font-size: 15PX;
+        font-weight: bold;
+        color: #181818;
+        height: 46PX;
+        display: flex;
+        align-items: center;
+        border-bottom: 1PX solid #efefef;
+        margin-bottom: 15PX;
+
+        img {
+            width: 20PX;
+            height: 20PX;
+        }
+    }
+
+    .intro {
+        margin-bottom: 8px;
+        font-size: 32px;
+        font-weight: normal;
+        line-height: 48px;
+    }
+}
+
+.answers {
+    padding: 30px;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 40px;
+    letter-spacing: 0px;
+    color: #181818;
+}
+
+.tagBox {
+    display: flex;
+    gap: 100px;
+    flex-wrap: wrap;
+    padding: 48px 100px;
+
+    .tag {
+        width: 158px;
+        height: 60px;
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 42px;
+        text-align: center;
+        letter-spacing: 0px;
+        color: #666666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        background: #F7F7F7;
+    }
+
+    .activeTag {
+        background: var(--primary-color);
+        color: #fff;
+    }
+}

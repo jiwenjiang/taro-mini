@@ -70,6 +70,23 @@ export default function App() {
           customStyles={cusStyle}
         />
       </View>
+      <View
+        className="list"
+        onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
+      >
+        <ListItem
+          left="蕾波-儿童脑瘫家庭自测"
+          right={<Arrow />}
+          customStyles={cusStyle}
+        />
+      </View>
+      <View className="list" onClick={() => checkPay(ScaleTableCode.LEIBO_GMS)}>
+        <ListItem
+          left="蕾波-全身运动质量评估GMs"
+          right={<Arrow />}
+          customStyles={cusStyle}
+        />
+      </View>
       {/* <AtModal isOpened={isOpened}>
         <AtModalContent>
           <View className="icon">

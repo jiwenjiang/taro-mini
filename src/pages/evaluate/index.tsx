@@ -211,7 +211,7 @@ export default function App() {
     data.forEach(c => {
       c.questions.forEach(v => {
         answers.push({
-          answerSn: v.answerSn ?? 1,
+          answerSn: [v.answerSn] ?? [1],
           questionSn: v.sn,
           remark: v.remark,
           attachments: v.attachments
@@ -497,6 +497,7 @@ export default function App() {
             </View>
           </View>
         )}
+       
         <Notify id="notify" />
       </View>
     </View>

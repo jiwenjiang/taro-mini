@@ -27,9 +27,21 @@ export default function App() {
       Notify.open({ color: "warning", message: "GMs评测仅限0-5个月孩子" });
       return;
     }
-    navigateTo({
-      url: `/pages/evaluate/index?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
-    });
+    if (
+      [
+        ScaleTableCode.BRAIN,
+        ScaleTableCode.GMS,
+        ScaleTableCode.BRAIN_GMS
+      ].includes(Number(router.params.code))
+    ) {
+      navigateTo({
+        url: `/pages/evaluate/index?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
+      });
+    } else {
+      navigateTo({
+        url: `/pages/evaluate/step?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
+      });
+    }
   };
 
   const manage = () => {

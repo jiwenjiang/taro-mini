@@ -5,7 +5,7 @@ import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import AudioSvg from "@/static/icons/audio.svg";
 import StopSvg from "@/static/icons/stop.svg";
-import { Button, Loading, Notify, Textarea } from "@taroify/core";
+import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
 import {
     Clear,
     PauseCircleOutlined,
@@ -13,7 +13,14 @@ import {
     PlayCircleOutlined,
     VideoOutlined
 } from "@taroify/icons";
-import { Form, Image, Video, View } from "@tarojs/components";
+import {
+    Form,
+    Image,
+    Swiper,
+    SwiperItem,
+    Video,
+    View
+} from "@tarojs/components";
 import {
     createInnerAudioContext,
     createVideoContext,
@@ -44,10 +51,13 @@ const stepList = [
 export default function App() {
   const router = useRouter();
   const [data, setData] = useState<any>([]);
-  const [active, setActive] = useState(1);
+  const [guides, setGuides] = useState({ pictures: [], videos: [], words: [] });
+  const [active, setActive] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isRecord, setIsRecord] = useState(false);
+  const [chooseAns, setChooseAns] = useState<any>([]);
   const [isPlay, setIsPlay] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [btnText, setBtnText] = useState("提交答案");
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
@@ -56,7 +66,7 @@ export default function App() {
   const getList = async () => {
     const res = await request({
       url: "/scaleTable/get",
-      data: { code: router.params.code ?? 9, birthday: router.params.age ?? 0 }
+      data: { code: router.params.code ?? 12, birthday: router.params.age ?? 0 }
     });
     const datas = res.data.subjects?.map(v => ({
       ...v,
@@ -69,6 +79,19 @@ export default function App() {
       }))
     }));
     setData(datas);
+    console.log("🚀 ~ file: step.tsx ~ line 82 ~ getList ~ datas", datas);
+  };
+
+  const getGuide = async () => {
+    const res = await request({
+      url: "/scaleTable/guide",
+      data: {
+        code: router.params.code ?? 9,
+        questionSn: data[active].questions[questionIndex].sn
+      }
+    });
+    setGuides(res.data);
+    setVisible(true);
   };
 
   useEffect(() => {
@@ -208,10 +231,10 @@ export default function App() {
       return;
     }
     const answers: any = [];
-    data.forEach(c => {
-      c.questions.forEach(v => {
+    data.forEach((c, i) => {
+      c.questions.forEach((v, i2) => {
         answers.push({
-          answerSn: v.answerSn ?? 1,
+          answerSn: i2 === 2 ? chooseAns : [v.answerSn],
           questionSn: v.sn,
           remark: v.remark,
           attachments: v.attachments
@@ -286,6 +309,15 @@ export default function App() {
     });
   };
 
+  const addChoose = v => {
+    console.log("🚀 ~ file: step.tsx ~ line 313 ~ addChoose ~ v", v);
+    if (chooseAns.includes(v)) {
+      setChooseAns(chooseAns.filter(c => c !== v));
+    } else {
+      setChooseAns([...chooseAns, v]);
+    }
+  };
+
   return (
     <View className={styles.box}>
       <NavBar title={title} />
@@ -293,29 +325,46 @@ export default function App() {
         <Steper
           list={stepList}
           extendStyle={{ paddingBottom: 40 }}
-          activeIndex={active}
+          activeIndex={questionIndex}
         ></Steper>
       </View>
       <View>
         {data[active] && (
           <View>
             <View className={styles.tabBox}>
-              {active === 0 && (
+              {(questionIndex === 0 || questionIndex === 1) && (
                 <View className={styles.zhinan}>
                   <View className={styles.zhinanText}>
                     请根据拍摄指南，拍摄孩子自发姿势运动视频
                   </View>
-                  <View className={styles.chakanzhinan}>查看拍摄指南</View>
+                  <View className={styles.chakanzhinan} onClick={getGuide}>
+                    查看拍摄指南
+                  </View>
                 </View>
               )}
 
-              {active === 1 && (
-                <View className={styles.zhinan}>
+              {questionIndex === 2 && (
+                <View className={styles.answers}>
                   <View className={styles.zhinanText}>
                     请您根据孩子的日常运动表现，您的孩子不会下面哪些
                     动作（非必填，可多选，可上传视频）
                   </View>
-                  <View className={styles.chakanzhinan}>查看拍摄指南</View>
+                  <View className={styles.tagBox}>
+                    {data[active].questions[questionIndex].answers?.map(
+                      (v, i) => (
+                        <View
+                          key={i}
+                          onClick={() => addChoose(v.sn)}
+                          className={cls(
+                            styles.tag,
+                            chooseAns.includes(v.sn) && styles.activeTag
+                          )}
+                        >
+                          {v.content}
+                        </View>
+                      )
+                    )}
+                  </View>
                 </View>
               )}
 
@@ -460,6 +509,78 @@ export default function App() {
             </View>
           </View>
         )}
+        <Popup
+          placement="bottom"
+          style={{ height: "80%" }}
+          onClose={() => setVisible(false)}
+          open={visible}
+        >
+          {guides.videos?.length > 1 && (
+            <View className={styles.cardBox}>
+              <View className={styles.card}>
+                <View className={styles.title}>拍摄指导视频 </View>
+                <Swiper
+                  autoplay={false}
+                  indicatorDots={true}
+                  indicatorColor="rgba(0, 0, 0, .3)"
+                  indicatorActiveColor="#ffd340"
+                >
+                  {guides.pictures.map(m => (
+                    <SwiperItem key={m} className={styles.swiperBox}>
+                      <Video
+                        src={m}
+                        muted
+                        loop
+                        autoplay
+                        controls={false}
+                        x5-playsinline="true"
+                        webkit-playsinline="true"
+                        style={{ width: "100%", height: 143 }}
+                      />
+                    </SwiperItem>
+                  ))}
+                </Swiper>
+              </View>
+            </View>
+          )}
+
+          {guides.pictures?.length > 1 && (
+            <View className={styles.cardBox}>
+              <View className={styles.card}>
+                <View className={styles.title}>拍摄指导图片 </View>
+                <Swiper
+                  autoplay={false}
+                  indicatorDots={true}
+                  indicatorColor="rgba(0, 0, 0, .3)"
+                  indicatorActiveColor="#ffd340"
+                >
+                  {guides.pictures.map(m => (
+                    <SwiperItem key={m} className={styles.swiperBox}>
+                      <Image
+                        style="height: 143px;background: #fff;"
+                        src={m}
+                        onClick={() => preview(guides.pictures, m)}
+                      />
+                    </SwiperItem>
+                  ))}
+                </Swiper>
+              </View>
+            </View>
+          )}
+
+          {guides.words?.length > 1 && (
+            <View className={styles.cardBox}>
+              <View className={styles.card}>
+                <View className={styles.title}>拍摄说明 </View>
+                {guides.words.map((v, i) => (
+                  <View key={i} className={styles.intro}>
+                    {v}
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+        </Popup>
         <Notify id="notify" />
       </View>
     </View>

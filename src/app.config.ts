@@ -12,6 +12,7 @@ export default {
     "pages/evaluate/list",
     "pages/evaluate/index",
     "pages/evaluate/step",
+    "pages/evaluate/stepDetail",
     "pages/evaluate/brainDetail",
     "pages/evaluate/interventionList",
     "pages/evaluate/interventionDetail",
