@@ -440,3 +440,48 @@
 .pb20 {
     padding-bottom: 30px;
 }
+
+.head {
+    padding: 8px 16px;
+    flex-grow: 1;
+    height: 56px;
+    display: flex;
+    align-items: center;
+
+    .head1 {
+        width: 318px;
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 40px;
+        letter-spacing: 0px;
+        color: #181818;
+    }
+
+    .head2 {
+        width: 318px;
+        font-size: 28px;
+        font-weight: normal;
+        line-height: 40px;
+    }
+}
+
+.headTxt {
+    background: #F0F0F0;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.succ {
+    color: #06CC76;
+}
+
+.error {
+    color: #F44336;
+}
+
+.downLoad {
+    position: absolute;
+    right: 40px;
+}

@@ -79,7 +79,6 @@ export default function App() {
       }))
     }));
     setData(datas);
-    console.log("🚀 ~ file: step.tsx ~ line 82 ~ getList ~ datas", datas);
   };
 
   const getGuide = async () => {
@@ -90,6 +89,7 @@ export default function App() {
         questionSn: data[active].questions[questionIndex].sn
       }
     });
+
     setGuides(res.data);
     setVisible(true);
   };
@@ -310,7 +310,6 @@ export default function App() {
   };
 
   const addChoose = v => {
-    console.log("🚀 ~ file: step.tsx ~ line 313 ~ addChoose ~ v", v);
     if (chooseAns.includes(v)) {
       setChooseAns(chooseAns.filter(c => c !== v));
     } else {
@@ -479,6 +478,11 @@ export default function App() {
               {active === data.length - 1 &&
               questionIndex === data[active]?.questions?.length - 1 ? (
                 <View className={styles.btnbox}>
+                  {data[active]?.questions?.length > 1 && (
+                    <Button className={styles.btn} onClick={pre}>
+                      上一步
+                    </Button>
+                  )}
                   <Button
                     className={styles.btn}
                     onClick={submit}
@@ -490,19 +494,16 @@ export default function App() {
                       btnText
                     )}
                   </Button>
-                  {data[active]?.questions?.length > 1 && (
+                </View>
+              ) : (
+                <View className={styles.btnbox}>
+                  {questionIndex !== 0 && (
                     <Button className={styles.btn} onClick={pre}>
                       上一步
                     </Button>
                   )}
-                </View>
-              ) : (
-                <View className={styles.btnbox}>
                   <Button className={styles.btn} color="primary" onClick={next}>
                     下一步
-                  </Button>
-                  <Button className={styles.btn} onClick={pre}>
-                    上一步
                   </Button>
                 </View>
               )}
@@ -515,7 +516,7 @@ export default function App() {
           onClose={() => setVisible(false)}
           open={visible}
         >
-          {guides.videos?.length > 1 && (
+          {guides.videos?.length > 0 && (
             <View className={styles.cardBox}>
               <View className={styles.card}>
                 <View className={styles.title}>拍摄指导视频 </View>
@@ -544,7 +545,7 @@ export default function App() {
             </View>
           )}
 
-          {guides.pictures?.length > 1 && (
+          {guides.pictures?.length > 0 && (
             <View className={styles.cardBox}>
               <View className={styles.card}>
                 <View className={styles.title}>拍摄指导图片 </View>
@@ -568,7 +569,7 @@ export default function App() {
             </View>
           )}
 
-          {guides.words?.length > 1 && (
+          {guides.words?.length > 0 && (
             <View className={styles.cardBox}>
               <View className={styles.card}>
                 <View className={styles.title}>拍摄说明 </View>

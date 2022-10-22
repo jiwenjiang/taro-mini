@@ -1,6 +1,5 @@
 import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
-import Report from "@/comps/Report";
 import { useReportBtnHandle } from "@/service/hook";
 import request from "@/service/request";
 import DoctorIcon from "@/static/icons/doctor.svg";
@@ -11,6 +10,7 @@ import leiboImg from "@/static/imgs/leibo.jpg";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
 import { Button, Dialog, Popup } from "@taroify/core";
+import { Down } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
@@ -83,22 +83,6 @@ const intros2 = [
   }
 ];
 
-const checkColor = v => {
-  if (v) {
-    return colorMap[v];
-  } else {
-    return "#000000";
-  }
-};
-
-const checkItem = v => {
-  if (v) {
-    return riskMap[v];
-  } else {
-    return {};
-  }
-};
-
 export default function App() {
   return (
     <View className={styles.box}>
@@ -142,6 +126,21 @@ function Card() {
     }
   };
 
+  const downloadImg = async () => {
+    const res = await request({
+      url: "/scaleRecord/report/picture",
+      data: { id: router.params.id }
+    });
+    preview(res?.data, 0);
+  };
+
+  const preview = (urls, e) => {
+    wx.previewImage({
+      urls, // 当前显示图片的 http 链接
+      current: e
+    });
+  };
+
   return (
     <View>
       <NavBar title={report?.scaleTableName} />
@@ -170,7 +169,7 @@ function Card() {
               <Info data={data} />
             </View>
           ) : (
-            <View>
+            <View className={styles.pb20}>
               <Info data={data} />
               <View className={styles.cardBox}>
                 <View className={styles.card}>
@@ -224,37 +223,34 @@ function Card() {
                   <View className={styles.title}>
                     <Image src={fenxiImg} className={styles.imgIcon} />
                     &nbsp; 结果解读
+                    <Down className={styles.downLoad} onClick={downloadImg} />
                   </View>
                   <View>
-                    {report?.progressStatus === "未评估" ? (
-                      "医学评估后可查看评估结果，可以通过微信的服务消息或者在【我的】-【自测量表记录】中查看报告结果"
-                    ) : (
-                      <View
-                        className={cls(
-                          styles.evaBox,
-                          styles.noMargin,
-                          styles.pb20
-                        )}
-                      >
-                        <View className={styles.evaRemark}>
-                          您的宝宝生长发育存在高危因素
-                        </View>
-                        <View className={styles.tagBox}>
-                          {report.scaleResult?.highRisk?.map(v => (
-                            <View className={styles.grayTag}>{v}</View>
-                          ))}
-                        </View>
-                        <View className={styles.evaRemark}>
-                          您的宝宝生长发育存在姿势和运动异常
-                        </View>
-
-                        <View className={styles.tagBox}>
-                          {report.scaleResult?.abnormalIterm?.map(v => (
-                            <View className={styles.grayTag}>{v}</View>
-                          ))}
-                        </View>
+                    <View
+                      className={cls(
+                        styles.evaBox,
+                        styles.noMargin,
+                        styles.pb20
+                      )}
+                    >
+                      <View className={styles.evaRemark}>
+                        您的宝宝生长发育存在高危因素
                       </View>
-                    )}
+                      <View className={styles.tagBox}>
+                        {report.scaleResult?.highRisk?.map(v => (
+                          <View className={styles.grayTag}>{v}</View>
+                        ))}
+                      </View>
+                      <View className={styles.evaRemark}>
+                        您的宝宝生长发育存在姿势和运动异常
+                      </View>
+
+                      <View className={styles.tagBox}>
+                        {report.scaleResult?.abnormalIterm?.map(v => (
+                          <View className={styles.grayTag}>{v}</View>
+                        ))}
+                      </View>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -280,7 +276,46 @@ function Card() {
                   </View>
                 </View>
               ))}
-              <Report data={report} />
+              <View className={cls(styles.cardBox, styles.mb20)}>
+                <View className={styles.card}>
+                  <View className={styles.title}>
+                    <Image src={fenxiImg} className={styles.imgIcon} />
+                    &nbsp; 量表评估信息
+                  </View>
+                  <View className={styles.kv}>
+                    <Text className={styles.k}>量表名称</Text>
+                    <Text className={styles.v}>{report?.scaleTableName}</Text>
+                  </View>
+                  <View className={styles.kv}>
+                    <Text className={styles.k}>筛查时间</Text>
+                    <Text className={styles.v}>{report?.evaluateDate}</Text>
+                  </View>
+                  <View className={styles.kv}>
+                    <Text className={styles.k}>评估人</Text>
+                    <Text className={styles.v}>{report?.name}</Text>
+                  </View>
+                  <View className={cls(styles.head, styles.headTxt)}>
+                    <View className={styles.head1}>姿势和运动异常</View>
+                    <View>医学评估</View>
+                  </View>
+                  {report?.scaleResult?.positionAndSportAbnormal?.map(
+                    (v, i) => (
+                      <View key={i} className={styles.head}>
+                        <View className={styles.head2}>{v.name}</View>
+                        <View
+                          className={cls(
+                            styles.succ,
+                            v.status === 1 && styles.error
+                          )}
+                        >
+                          {v.status === 1 ? "异常" : "正常"}
+                        </View>
+                      </View>
+                    )
+                  )}
+                  <View></View>
+                </View>
+              </View>
             </View>
           )}
         </View>
