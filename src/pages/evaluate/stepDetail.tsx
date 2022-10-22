@@ -1,5 +1,6 @@
 import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
+import { ScaleTableCode } from "@/service/const";
 import { useReportBtnHandle } from "@/service/hook";
 import request from "@/service/request";
 import DoctorIcon from "@/static/icons/doctor.svg";
@@ -10,37 +11,12 @@ import leiboImg from "@/static/imgs/leibo.jpg";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
 import { Button, Dialog, Popup } from "@taroify/core";
-import { Down } from "@taroify/icons";
+import { Down, InfoOutlined } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./brainDetail.module.scss";
-
-const colorMap = {
-  低风险: "#2EC25B",
-  中等风险: "#FF7D41",
-  高风险: "#EBEDF0"
-};
-
-const riskMap = {
-  "1": {
-    text: "无高危无异常",
-    color: "#2EC25B"
-  },
-  "2": {
-    text: "有高危无异常",
-    color: "#1989fa"
-  },
-  "3": {
-    text: "无高危有异常",
-    color: "#f44336"
-  },
-  "4": {
-    text: "有高危有异常",
-    color: "#f44336"
-  }
-};
 
 const intros = [
   {
@@ -110,7 +86,15 @@ function Card() {
         url: "/scaleRecord/report",
         data: { id: router.params.id }
       });
-      setReportData(res2.data);
+      if (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode) {
+        const obj = {
+          ...res2.data,
+          scaleResult: { cerebralPalsyResult: res2.data.scaleResult }
+        };
+        setReportData(obj);
+      } else {
+        setReportData(res2.data);
+      }
     })();
   }, []);
 
@@ -171,6 +155,34 @@ function Card() {
           ) : (
             <View className={styles.pb20}>
               <Info data={data} />
+              {report?.scaleTableCode === ScaleTableCode.LEIBO_GMS && (
+                <View className={styles.cardBox}>
+                  <View className={styles.card}>
+                    <View className={styles.title}>
+                      <Image src={leiboImg} className={styles.imgIcon} />
+                      &nbsp; 全身运动质量评估GMs
+                      <InfoOutlined
+                        size={17}
+                        style={{ marginLeft: 5 }}
+                        color="#1989fa"
+                        onClick={() => setIntro(true)}
+                      />
+                    </View>
+                    <View className={styles.gmsEvaBox}>
+                      {report.scaleResult?.gmsResult?.result?.map(
+                        (v, i) =>
+                          v.content && (
+                            <View key={i} className={styles.evaItem}>
+                              <View className={styles.evaTitle}>{v.name}</View>
+                              <View className={styles.evaVal}>{v.content}</View>
+                            </View>
+                          )
+                      )}
+                    </View>
+                  </View>
+                </View>
+              )}
+
               <View className={styles.cardBox}>
                 <View className={styles.card}>
                   <View className={styles.title}>
@@ -183,14 +195,20 @@ function Card() {
                         儿童脑瘫危险程度
                       </View>
                       <View className={styles.brainVal}>
-                        {report?.scaleResult?.cerebralPalsyScore}
+                        {
+                          report?.scaleResult?.cerebralPalsyResult
+                            ?.cerebralPalsyScore
+                        }
                       </View>
                     </View>
                     <View className={styles.brainBox2}>
                       <View className={styles.brain2}>
                         <View className={styles.brainTitle}>高危因素</View>
                         <View className={styles.brainRisk}>
-                          {report?.scaleResult?.haveHighRisk ? "有" : "无"}
+                          {report?.scaleResult?.cerebralPalsyResult
+                            ?.haveHighRisk
+                            ? "有"
+                            : "无"}
                         </View>
                       </View>
                       <View className={styles.brain2}>
@@ -198,7 +216,10 @@ function Card() {
                           姿势和运动异常
                         </View>
                         <View className={styles.brainRisk}>
-                          {report?.scaleResult?.haveAbnormalIterm ? "有" : "无"}
+                          {report?.scaleResult?.cerebralPalsyResult
+                            ?.haveAbnormalIterm
+                            ? "有"
+                            : "无"}
                         </View>
                       </View>
                     </View>
@@ -237,25 +258,29 @@ function Card() {
                         您的宝宝生长发育存在高危因素
                       </View>
                       <View className={styles.tagBox}>
-                        {report.scaleResult?.highRisk?.map(v => (
-                          <View className={styles.grayTag}>{v}</View>
-                        ))}
+                        {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(
+                          v => (
+                            <View className={styles.grayTag}>{v}</View>
+                          )
+                        )}
                       </View>
                       <View className={styles.evaRemark}>
                         您的宝宝生长发育存在姿势和运动异常
                       </View>
 
                       <View className={styles.tagBox}>
-                        {report.scaleResult?.abnormalIterm?.map(v => (
-                          <View className={styles.grayTag}>{v}</View>
-                        ))}
+                        {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
+                          v => (
+                            <View className={styles.grayTag}>{v}</View>
+                          )
+                        )}
                       </View>
                     </View>
                   </View>
                 </View>
               </View>
 
-              {report.scaleResult?.suggest?.map((v, i) => (
+              {report.scaleResult?.cerebralPalsyResult?.suggest?.map((v, i) => (
                 <View className={styles.cardBox} key={i}>
                   <View className={styles.card}>
                     <View className={styles.title}>
@@ -298,7 +323,7 @@ function Card() {
                     <View className={styles.head1}>姿势和运动异常</View>
                     <View>医学评估</View>
                   </View>
-                  {report?.scaleResult?.positionAndSportAbnormal?.map(
+                  {report?.scaleResult?.cerebralPalsyResult?.positionAndSportAbnormal?.map(
                     (v, i) => (
                       <View key={i} className={styles.head}>
                         <View className={styles.head2}>{v.name}</View>

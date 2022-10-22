@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, Field, Input, Notify } from "@taroify/core";
+import { Button, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
 import { getCurrentPages, navigateTo, useRouter } from "@tarojs/taro";
 
@@ -328,15 +328,12 @@ export default function App() {
         </Picker>
       </View>
       <View className="row birthday-weight">
-        <Field label="出生体重">
-          <Input
-            placeholder="请输入体重"
-            className="weight-input"
-            type="number"
-            value={birthdayWeight}
-            onInput={e => onBirthdayWeightChange(e.target.value)}
-          />
-        </Field>
+        <FieldInput
+          label="出生体重"
+          placeholder="请输入体重"
+          value={birthdayWeight}
+          onInput={e => onBirthdayWeightChange(e.target.value)}
+        />
       </View>
       <View className="row child-risks">
         <View className="risks">
