@@ -7,28 +7,28 @@ import AudioSvg from "@/static/icons/audio.svg";
 import StopSvg from "@/static/icons/stop.svg";
 import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
 import {
-    Clear,
-    PauseCircleOutlined,
-    PhotoOutlined,
-    PlayCircleOutlined,
-    VideoOutlined
+  Clear,
+  PauseCircleOutlined,
+  PhotoOutlined,
+  PlayCircleOutlined,
+  VideoOutlined
 } from "@taroify/icons";
 import {
-    Form,
-    Image,
-    Swiper,
-    SwiperItem,
-    Video,
-    View
+  Form,
+  Image,
+  Swiper,
+  SwiperItem,
+  Video,
+  View
 } from "@tarojs/components";
 import {
-    createInnerAudioContext,
-    createVideoContext,
-    getRecorderManager,
-    InnerAudioContext,
-    navigateTo,
-    RecorderManager,
-    useRouter
+  createInnerAudioContext,
+  createVideoContext,
+  getRecorderManager,
+  InnerAudioContext,
+  navigateTo,
+  RecorderManager,
+  useRouter
 } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
@@ -108,16 +108,15 @@ export default function App() {
   };
 
   const next = () => {
-    // if (
-    //   data[active].questions[questionIndex]?.mediaList?.length === 0 &&
-    //   data[active].questions[questionIndex]?.answerSn !== 1
-    // ) {
-    //   Notify.open({
-    //     color: "warning",
-    //     message: "请至少上传一个视频或图片"
-    //   });
-    //   return;
-    // }
+    const list = data[active].questions[questionIndex]?.mediaList;
+    const noVideo = list.every(c => c.type !== MediaType.VIDEO);
+    if (noVideo) {
+      Notify.open({
+        color: "warning",
+        message: "请至少上传一个视频"
+      });
+      return;
+    }
     if (questionIndex < data[active].questions.length - 1) {
       setQuestionIndex(questionIndex + 1);
     } else {
@@ -275,6 +274,13 @@ export default function App() {
         navigateTo({
           url: `/pages/evaluate/brainDetail?id=${res.data.id}&returnUrl=/pages/index/index`
         });
+      } else if (
+        Number(router.params.code) === ScaleTableCode.LEIBO_BRAIN ||
+        Number(router.params.code) === ScaleTableCode.LEIBO_GMS
+      ) {
+        navigateTo({
+          url: `/pages/evaluate/stepDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+        });
       } else {
         navigateTo({
           url: `/pages/evaluate/brainGmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
@@ -345,8 +351,7 @@ export default function App() {
               {questionIndex === 2 && (
                 <View className={styles.answers}>
                   <View className={styles.zhinanText}>
-                    请您根据孩子的日常运动表现，您的孩子不会下面哪些
-                    动作（非必填，可多选，可上传视频）
+                    请您根据孩子的日常运动表现，您的孩子不会下面哪些动作（非必填，可多选，可上传视频）
                   </View>
                   <View className={styles.tagBox}>
                     {data[active].questions[questionIndex].answers?.map(
@@ -526,7 +531,7 @@ export default function App() {
                   indicatorColor="rgba(0, 0, 0, .3)"
                   indicatorActiveColor="#ffd340"
                 >
-                  {guides.pictures.map(m => (
+                  {guides.videos.map(m => (
                     <SwiperItem key={m} className={styles.swiperBox}>
                       <Video
                         src={m}
@@ -558,8 +563,9 @@ export default function App() {
                   {guides.pictures.map(m => (
                     <SwiperItem key={m} className={styles.swiperBox}>
                       <Image
-                        style="height: 143px;background: #fff;"
+                        style="height: 143px;background: #fff;object-fit: cover"
                         src={m}
+                        mode="aspectFit"
                         onClick={() => preview(guides.pictures, m)}
                       />
                     </SwiperItem>

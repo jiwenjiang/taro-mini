@@ -127,7 +127,7 @@ function Card() {
 
   return (
     <View>
-      <NavBar title={report?.scaleTableName} />
+      <NavBar title={"评估详情" || report?.scaleTableName} />
       <Contact />
 
       {report?.progressStatus && (
@@ -168,13 +168,19 @@ function Card() {
                         onClick={() => setIntro(true)}
                       />
                     </View>
-                    <View className={styles.gmsEvaBox}>
+                    <View className={styles.pb20}>
                       {report.scaleResult?.gmsResult?.result?.map(
                         (v, i) =>
                           v.content && (
-                            <View key={i} className={styles.evaItem}>
-                              <View className={styles.evaTitle}>{v.name}</View>
-                              <View className={styles.evaVal}>{v.content}</View>
+                            <View className={styles.brainBox}>
+                              <View className={styles.brain1} key={i}>
+                                <View className={styles.brainTitle}>
+                                  {v.name}
+                                </View>
+                                <View className={styles.brainVal}>
+                                  {v.content}
+                                </View>
+                              </View>
                             </View>
                           )
                       )}

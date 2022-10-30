@@ -57,7 +57,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/stepDetail",
-          "query": "id=240",
+          "query": "id=239",
           "launchMode": "default",
           "scene": null
         },

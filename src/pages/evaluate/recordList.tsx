@@ -44,6 +44,7 @@ export default function App() {
   };
 
   const goReport = item => {
+    console.log("🚀 ~ file: recordList.tsx ~ line 47 ~ goReport ~ item", item)
     if (item.scaleTableCode === ScaleTableCode.BRAIN) {
       navigateTo({
         url: `/pages/evaluate/brainDetail?id=${item.id}`
@@ -57,6 +58,14 @@ export default function App() {
     if (item.scaleTableCode === ScaleTableCode.BRAIN_GMS) {
       navigateTo({
         url: `/pages/evaluate/brainGmsDetail?id=${item.id}`
+      });
+    }
+    if (
+      item.scaleTableCode === ScaleTableCode.LEIBO_BRAIN ||
+      item.scaleTableCode === ScaleTableCode.LEIBO_GMS
+    ) {
+      navigateTo({
+        url: `/pages/evaluate/stepDetail?id=${item.id}`
       });
     }
   };
