@@ -116,7 +116,7 @@ export default function App() {
         <View className="desc">
           <View className="price">{price}元/次</View>
           <View className="sub-desc">
-            *量表筛直为一次性消费产品，一旦购买概不退换
+            *量表筛查为一次性消费产品，一旦购买概不退换
           </View>
         </View>
       </Box>

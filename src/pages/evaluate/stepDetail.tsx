@@ -4,6 +4,7 @@ import { ScaleTableCode } from "@/service/const";
 import { useReportBtnHandle } from "@/service/hook";
 import request from "@/service/request";
 import DoctorIcon from "@/static/icons/doctor.svg";
+import Down from "@/static/icons/download-2-fill.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import fenxiImg from "@/static/imgs/fenxi.png";
 import introImg from "@/static/imgs/intro.png";
@@ -11,7 +12,7 @@ import leiboImg from "@/static/imgs/leibo.jpg";
 import pingceImg from "@/static/imgs/pingce.png";
 import yonghuImg from "@/static/imgs/yonghu.jpg";
 import { Button, Dialog, Popup } from "@taroify/core";
-import { Down, InfoOutlined } from "@taroify/icons";
+import { InfoOutlined } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
@@ -201,10 +202,9 @@ function Card() {
                         儿童脑瘫危险程度
                       </View>
                       <View className={styles.brainVal}>
-                        {
-                          report?.scaleResult?.cerebralPalsyResult
-                            ?.cerebralPalsyScore
-                        }
+                        {report?.scaleResult?.cerebralPalsyResult
+                          ?.cerebralPalsyScore ?? 0}
+                        %
                       </View>
                     </View>
                     <View className={styles.brainBox2}>
@@ -233,9 +233,8 @@ function Card() {
                       <Image src={DoctorIcon} className={styles.doctor}></Image>
                       <View className={styles.doctorDesc}>
                         <View className={styles.firstLine}>
-                          请带宝宝到线下机构做专业评估
+                          {report?.scaleResult?.cerebralPalsyResult?.remark}
                         </View>
-                        <View>以免影响孩子的发育</View>
                         <View className={styles.doctorTip}>
                           评估结果不代表诊断结果
                         </View>
@@ -250,7 +249,13 @@ function Card() {
                   <View className={styles.title}>
                     <Image src={fenxiImg} className={styles.imgIcon} />
                     &nbsp; 结果解读
-                    <Down className={styles.downLoad} onClick={downloadImg} />
+                    <View className={styles.downLoadBox}>
+                      <Image
+                        src={Down}
+                        onClick={downloadImg}
+                        className={styles.downLoad}
+                      />
+                    </View>
                   </View>
                   <View>
                     <View
@@ -304,6 +309,13 @@ function Card() {
                         {c.copyWriting}
                       </Button>
                     ))}
+                    {i ===
+                      report.scaleResult?.cerebralPalsyResult?.suggest?.length -
+                        1 && (
+                      <View className={styles.hint}>
+                        {report.scaleResult?.cerebralPalsyResult?.hint}
+                      </View>
+                    )}
                   </View>
                 </View>
               ))}
@@ -323,7 +335,7 @@ function Card() {
                   </View>
                   <View className={styles.kv}>
                     <Text className={styles.k}>评估人</Text>
-                    <Text className={styles.v}>{report?.name}</Text>
+                    <Text className={styles.v}>{report?.doctorName}</Text>
                   </View>
                   <View className={cls(styles.head, styles.headTxt)}>
                     <View className={styles.head1}>姿势和运动异常</View>
@@ -336,10 +348,10 @@ function Card() {
                         <View
                           className={cls(
                             styles.succ,
-                            v.status === 1 && styles.error
+                            v.status > 0 && styles.error
                           )}
                         >
-                          {v.status === 1 ? "异常" : "正常"}
+                          {v.status > 0 ? "异常" : "正常"}
                         </View>
                       </View>
                     )

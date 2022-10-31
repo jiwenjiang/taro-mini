@@ -21,8 +21,11 @@ export default function App() {
     let age = dayjs().diff(dayjs(data[active]?.birthday), "month");
     if (
       age > 5 &&
-      (Number(router.params.code) === ScaleTableCode.GMS ||
-        Number(router.params.code) === ScaleTableCode.BRAIN_GMS)
+      [
+        ScaleTableCode.GMS,
+        ScaleTableCode.BRAIN_GMS,
+        ScaleTableCode.LEIBO_GMS
+      ].includes(Number(router.params.code))
     ) {
       Notify.open({ color: "warning", message: "GMs评测仅限0-5个月孩子" });
       return;

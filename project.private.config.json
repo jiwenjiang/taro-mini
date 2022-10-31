@@ -57,7 +57,7 @@
         {
           "name": "",
           "pathName": "pages/evaluate/stepDetail",
-          "query": "id=239",
+          "query": "id=255",
           "launchMode": "default",
           "scene": null
         },
@@ -114,6 +114,13 @@
           "name": "",
           "pathName": "pages/evaluate/step",
           "query": "childId=88&age=946656000&code=12&orderId=null",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/list",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }

@@ -1,3 +1,5 @@
+/*! autoprefixer: off */
+
 .box {
     height: 100vh;
     background-color: #f9fbfc;
@@ -235,6 +237,10 @@
     margin-bottom: 20px;
 }
 
+.hint {
+    color: #888888;
+}
+
 .popContent {
     font-size: 32px;
     line-height: 48px;
@@ -421,6 +427,19 @@
 
     .firstLine {
         margin-bottom: 5px;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -moz-box;
+        -moz-line-clamp: 2;
+        -moz-box-orient: vertical;
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+        overflow: hidden;
+        width: 450px;
+        min-height: 95px;
     }
 
     .doctorTip {
@@ -481,7 +500,20 @@
     color: #F44336;
 }
 
-.downLoad {
-    position: absolute;
-    right: 40px;
+.downLoadBox {
+    background-color: var(--primary-color);
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    position: fixed;
+    top: 50vh;
+    right: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .downLoad {
+        width: 46px;
+        height: 46px;
+    }
 }

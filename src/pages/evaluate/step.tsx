@@ -251,10 +251,7 @@ export default function App() {
       //   attachments: v.attachments,
       // })),
     };
-    if (
-      Number(router.params.code) === ScaleTableCode.GMS ||
-      Number(router.params.code) === ScaleTableCode.BRAIN_GMS
-    ) {
+    if (Number(router.params.code) === ScaleTableCode.LEIBO_GMS) {
       params.orderId = router.params.orderId;
     }
     if (btnText === "上传中") return;
@@ -535,10 +532,8 @@ export default function App() {
                     <SwiperItem key={m} className={styles.swiperBox}>
                       <Video
                         src={m}
-                        muted
                         loop
                         autoplay
-                        controls={false}
                         x5-playsinline="true"
                         webkit-playsinline="true"
                         style={{ width: "100%", height: 143 }}

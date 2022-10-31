@@ -32,6 +32,7 @@ export default function App() {
       url: "/order/check",
       data: { scaleTableCode }
     });
+    console.log("🚀 ~ file: list.tsx ~ line 35 ~ checkPay ~ res", res)
     if (!res.data.hasPaidOrder) {
       navigateTo({
         url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
@@ -51,7 +52,7 @@ export default function App() {
     <View className="index">
       <View className="list" onClick={() => todo()}>
         <ListItem
-          left="蕾波儿童脑瘫危险程度量表"
+          left="婴幼儿脑瘫危险程度量表（蕾波）"
           right={<Arrow />}
           customStyles={cusStyle}
         />
@@ -65,7 +66,7 @@ export default function App() {
       </View> */}
       <View className="list" onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}>
         <ListItem
-          left="GMs+蕾波家庭自测"
+          left="全身运动质量评估（GMs）与婴幼儿脑瘫危险程度量表（蕾波）"
           right={<Arrow />}
           customStyles={cusStyle}
         />
@@ -75,14 +76,14 @@ export default function App() {
         onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
       >
         <ListItem
-          left="蕾波-儿童脑瘫家庭自测"
+          left="婴幼儿神经运动16项检查（蕾波）"
           right={<Arrow />}
           customStyles={cusStyle}
         />
       </View>
       <View className="list" onClick={() => checkPay(ScaleTableCode.LEIBO_GMS)}>
         <ListItem
-          left="蕾波-全身运动质量评估GMs"
+          left="全身运动质量评估（GMs）与婴幼儿神经运动16项检查（蕾波）"
           right={<Arrow />}
           customStyles={cusStyle}
         />
