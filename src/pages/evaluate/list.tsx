@@ -13,7 +13,9 @@ const cusStyle = {
   display: "flex",
   alignItems: "center",
   padding: "0 12px",
-  width: "100%"
+  width: "280px",
+  height: "60px",
+  position: "static" as any
 };
 
 export default function App() {
@@ -32,7 +34,7 @@ export default function App() {
       url: "/order/check",
       data: { scaleTableCode }
     });
-    console.log("🚀 ~ file: list.tsx ~ line 35 ~ checkPay ~ res", res)
+    console.log("🚀 ~ file: list.tsx ~ line 35 ~ checkPay ~ res", res);
     if (!res.data.hasPaidOrder) {
       navigateTo({
         url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
@@ -50,56 +52,71 @@ export default function App() {
 
   return (
     <View className="index">
-      <View className="list" onClick={() => todo()}>
-        <ListItem
-          left="婴幼儿脑瘫危险程度量表（蕾波）"
-          right={<Arrow />}
-          customStyles={cusStyle}
-        />
+      <View className="list-wrap">
+        <View className="list" onClick={() => todo()}>
+          <ListItem
+            left="婴幼儿脑瘫危险程度量表(蕾波)"
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
+            customStyles={cusStyle}
+          />
+        </View>
+        <View
+          className="list"
+          onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}
+        >
+          <ListItem
+            left={
+              <View>
+                <View>全身运动质量评估(GMs) +</View>
+                <View>婴幼儿脑瘫危险程度量表(蕾波)</View>
+              </View>
+            }
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
+            customStyles={cusStyle}
+          />
+        </View>
+        <View
+          className="list"
+          onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
+        >
+          <ListItem
+            left="婴幼儿神经运动16项检查(蕾波)"
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
+            customStyles={cusStyle}
+          />
+        </View>
+        <View
+          className="list"
+          onClick={() => checkPay(ScaleTableCode.LEIBO_GMS)}
+        >
+          <ListItem
+            left={
+              <View>
+                <View>全身运动质量评估(GMs) +</View>
+                <View>婴幼儿神经运动16项检查(蕾波)</View>
+              </View>
+            }
+            right={
+              <View className="arrow-icon">
+                <Arrow color="#fff" />
+              </View>
+            }
+            customStyles={cusStyle}
+          />
+        </View>
       </View>
-      {/* <View className="list" onClick={() => checkPay(ScaleTableCode.GMS)}>
-        <ListItem
-          left="GMs评估量表"
-          right={<Arrow />}
-          customStyles={cusStyle}
-        />
-      </View> */}
-      <View className="list" onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}>
-        <ListItem
-          left="全身运动质量评估（GMs）与婴幼儿脑瘫危险程度量表（蕾波）"
-          right={<Arrow />}
-          customStyles={cusStyle}
-        />
-      </View>
-      <View
-        className="list"
-        onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
-      >
-        <ListItem
-          left="婴幼儿神经运动16项检查（蕾波）"
-          right={<Arrow />}
-          customStyles={cusStyle}
-        />
-      </View>
-      <View className="list" onClick={() => checkPay(ScaleTableCode.LEIBO_GMS)}>
-        <ListItem
-          left="全身运动质量评估（GMs）与婴幼儿神经运动16项检查（蕾波）"
-          right={<Arrow />}
-          customStyles={cusStyle}
-        />
-      </View>
-      {/* <AtModal isOpened={isOpened}>
-        <AtModalContent>
-          <View className="icon">
-            <AtIcon value="alert-circle" color="#ffd340" size="30"></AtIcon>
-          </View>
-          检测到该儿童一周内没有蕾波儿童脑瘫危险程度量表的评测，需要先完成该量表评测
-        </AtModalContent>
-        <AtModalAction>
-          <Button onClick={() => setIsOpened(false)}>取消</Button>{" "}
-          <Button onClick={() => todo()}>现在去做</Button>
-        </AtModalAction>
-      </AtModal> */}
       <TabBar current="index" />
     </View>
   );

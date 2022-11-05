@@ -2,7 +2,7 @@ import React from "react";
 
 import { Arrow } from "@taroify/icons";
 import { Image, View } from "@tarojs/components";
-import { navigateTo, navigateToMiniProgram } from "@tarojs/taro";
+import { navigateTo } from "@tarojs/taro";
 
 import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
@@ -15,12 +15,6 @@ import "./index.scss";
 export default function App() {
   const goto = url => {
     navigateTo({ url });
-  };
-
-  const gotoOther = () => {
-    navigateToMiniProgram({
-      appId: 'wx98dc9b974915de77',
-    });
   };
 
   return (
