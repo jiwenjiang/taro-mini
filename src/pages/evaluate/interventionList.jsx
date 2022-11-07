@@ -24,7 +24,7 @@ export default function App() {
   const getInterventionList = async () => {
     const res = await request({
       url: `/scaleRecord/abnormal/methods?recordId=${router.params.recordId ??
-        122}`
+        122}&productId=${router.params.productId}`
     });
 
     if (res.data.length) {
@@ -61,7 +61,10 @@ export default function App() {
             <Text className="watch-video" onClick={() => watchVideo(v.page)}>
               观看视频
             </Text>
-            <Text className="read-intro" onClick={() => readIntro(v.abnormalIterm)}>
+            <Text
+              className="read-intro"
+              onClick={() => readIntro(v.abnormalIterm)}
+            >
               详细介绍
             </Text>
           </View>

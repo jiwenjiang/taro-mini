@@ -24,7 +24,7 @@ export function useReportBtnHandle() {
       if (checkRes.data.hasPaidOrder) {
         if (isSelf) {
           navigateTo({
-            url: `${c.content}?recordId=${router.params.id}`
+            url: `${c.content}?recordId=${router.params.id}&productId=${c.productId}`
           });
         } else {
           Taro.navigateToMiniProgram({
