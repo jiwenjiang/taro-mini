@@ -45,7 +45,7 @@ export default function App() {
           url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
         });
       } else {
-        navigateTo({ url: "/pages/child/manage" });
+        navigateTo({ url: `/pages/child/manage?code=${scaleTableCode}` });
       }
     }
   };
@@ -53,7 +53,7 @@ export default function App() {
   return (
     <View className="index">
       <View className="list-wrap">
-        <View className="list" onClick={() => todo()}>
+        {/* <View className="list" onClick={() => todo()}>
           <ListItem
             left="婴幼儿脑瘫危险程度量表(蕾波)"
             right={
@@ -82,7 +82,7 @@ export default function App() {
             }
             customStyles={cusStyle}
           />
-        </View>
+        </View> */}
         <View
           className="list"
           onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
