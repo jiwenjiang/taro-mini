@@ -13,6 +13,26 @@
     letter-spacing: 0px;
     color: #000000;
     padding: 22px 30px;
+
+  }
+
+  .intro-box {
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .expand-box {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .is-expand {
+    transform: rotate(180deg);
+  }
+
+  .constent-visible {
+    height: auto !important;
   }
 
   .sub-desc {
@@ -24,8 +44,33 @@
     margin-top: 16px;
   }
 
+  .price-box {
+    display: flex;
+    gap: 20px;
+  }
+
+  .price-item {
+    border: 1px solid #999999;
+    border-radius: 4px;
+    padding: 16px 36px;
+    font-size: 28px;
+  }
+
+  .price-item-listPrice {
+    color: #F44336;
+    text-decoration: line-through;
+  }
+
+  .price-item-salePrice {
+    color: rgb(53, 137, 216);
+  }
+
   .price {
     color: #F44336;
+  }
+
+  .price-item-active {
+    border-color: var(--primary-color);
   }
 
   .read {

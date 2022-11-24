@@ -229,12 +229,7 @@ export default function App() {
       //   attachments: v.attachments,
       // })),
     };
-    if (
-      Number(router.params.code) === ScaleTableCode.GMS ||
-      Number(router.params.code) === ScaleTableCode.BRAIN_GMS
-    ) {
-      params.orderId = router.params.orderId;
-    }
+    params.orderId = router.params.orderId;
     if (btnText === "上传中") return;
     setBtnText("上传中");
     const res = await request({
@@ -497,7 +492,7 @@ export default function App() {
             </View>
           </View>
         )}
-       
+
         <Notify id="notify" />
       </View>
     </View>

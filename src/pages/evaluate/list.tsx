@@ -6,7 +6,7 @@ import request from "@/service/request";
 import { Arrow } from "@taroify/icons";
 import { View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./list.scss";
 
 const cusStyle = {
@@ -20,6 +20,7 @@ const cusStyle = {
 
 export default function App() {
   const childContext = useContext(ChildContext);
+  const [list, setList] = useState<any>([]);
 
   const todo = (code = ScaleTableCode.BRAIN) => {
     if (childContext.child.len) {
@@ -49,6 +50,17 @@ export default function App() {
       }
     }
   };
+
+  const getList = async () => {
+    const res = await request({
+      url: "/scaleTable/list"
+    });
+    setList(res.data);
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   return (
     <View className="index">
@@ -83,12 +95,12 @@ export default function App() {
             customStyles={cusStyle}
           />
         </View> */}
-        <View
+        {/* <View
           className="list"
           onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
         >
           <ListItem
-            left="婴幼儿神经运动16项检查(蕾波)"
+            left="婴幼儿神经运动16项"
             right={
               <View className="arrow-icon">
                 <Arrow color="#fff" />
@@ -104,8 +116,7 @@ export default function App() {
           <ListItem
             left={
               <View>
-                <View>全身运动质量评估(GMs) +</View>
-                <View>婴幼儿神经运动16项检查(蕾波)</View>
+                <View>GMs与婴幼儿神经运动16项</View>
               </View>
             }
             right={
@@ -115,7 +126,20 @@ export default function App() {
             }
             customStyles={cusStyle}
           />
-        </View>
+        </View> */}
+        {list?.map((v, i) => (
+          <View key={i} className="list" onClick={() => checkPay(v.code)}>
+            <ListItem
+              left={v.name}
+              right={
+                <View className="arrow-icon">
+                  <Arrow color="#fff" />
+                </View>
+              }
+              customStyles={cusStyle}
+            />
+          </View>
+        ))}
       </View>
       <TabBar current="index" />
     </View>

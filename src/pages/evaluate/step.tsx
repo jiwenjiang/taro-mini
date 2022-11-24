@@ -251,9 +251,7 @@ export default function App() {
       //   attachments: v.attachments,
       // })),
     };
-    if (Number(router.params.code) === ScaleTableCode.LEIBO_GMS) {
-      params.orderId = router.params.orderId;
-    }
+    params.orderId = router.params.orderId;
     if (btnText === "上传中") return;
     setBtnText("上传中");
     const res = await request({
