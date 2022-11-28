@@ -1,4 +1,3 @@
 export default {
-  navigationBarTitleText: "GMs付费",
-  
+  navigationBarTitleText: "评估介绍"
 };

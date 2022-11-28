@@ -127,14 +127,14 @@
         {
           "name": "",
           "pathName": "pages/evaluate/list",
-          "query": "",
+          "query": "orgid=1",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "",
           "pathName": "orderPackage/pages/order/gmsPay",
-          "query": "code=12",
+          "query": "code=13",
           "launchMode": "default",
           "scene": null
         }

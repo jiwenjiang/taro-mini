@@ -95,7 +95,7 @@ export function useReportBtnHandle() {
 }
 
 export function useAuth() {
-  const getAuth = async (cb?: Function) => {
+  const getAuth = async (cb?: Function, options: any = {}) => {
     const login = await Taro.login();
     const userInfo = await Taro.getUserInfo();
     const res = await request({
@@ -103,7 +103,8 @@ export function useAuth() {
       data: {
         code: login.code,
         encryptedData: userInfo.encryptedData,
-        iv: userInfo.iv
+        iv: userInfo.iv,
+        ...options
       }
     });
     if (res.code === 0) {
@@ -115,7 +116,9 @@ export function useAuth() {
     if (res.code === 2) {
       const pages = getCurrentPages();
       const path = pages[pages.length - 1].route;
-      navigateTo({ url: `/pages/login/index?returnUrl=/${path}` });
+      navigateTo({
+        url: `/pages/login/index?returnUrl=/${path}&channel=${options.channel}&orgid=${options.orgid}`
+      });
     }
   };
   return { getAuth };

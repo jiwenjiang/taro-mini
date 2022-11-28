@@ -22,7 +22,9 @@ export default function App() {
         code: login.code,
         encryptedData: userInfo.encryptedData,
         iv: userInfo.iv,
-        phoneCode: e.detail.code
+        phoneCode: e.detail.code,
+        channel: router.params.channel,
+        orgid: router.params.orgid
       }
     });
     if (res.code === 0) {

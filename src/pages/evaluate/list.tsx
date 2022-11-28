@@ -1,11 +1,11 @@
 import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
-import { ScaleTableCode } from "@/service/const";
 import { ChildContext } from "@/service/context";
+import { useAuth } from "@/service/hook";
 import request from "@/service/request";
 import { Arrow } from "@taroify/icons";
 import { View } from "@tarojs/components";
-import { navigateTo } from "@tarojs/taro";
+import { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import "./list.scss";
 
@@ -21,21 +21,14 @@ const cusStyle = {
 export default function App() {
   const childContext = useContext(ChildContext);
   const [list, setList] = useState<any>([]);
-
-  const todo = (code = ScaleTableCode.BRAIN) => {
-    if (childContext.child.len) {
-      navigateTo({ url: `/pages/child/choose?code=${code}` });
-    } else {
-      navigateTo({ url: `/pages/child/manage?code=${code}` });
-    }
-  };
+  const router = useRouter();
+  const { getAuth } = useAuth();
 
   const checkPay = async scaleTableCode => {
     const res = await request({
       url: "/order/check",
       data: { scaleTableCode }
     });
-    console.log("🚀 ~ file: list.tsx ~ line 35 ~ checkPay ~ res", res);
     if (!res.data.hasPaidOrder) {
       navigateTo({
         url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
@@ -59,7 +52,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    getList();
+    if (router.params.channel || router.params.orgid) {
+      getAuth(getList, {
+        channel: router.params.channel,
+        orgid: router.params.orgid
+      });
+    } else {
+      getList();
+    }
   }, []);
 
   return (

@@ -12,6 +12,7 @@ import { useAuth } from "./service/hook";
 
 function App(props) {
   const { getAuth } = useAuth();
+
   const [child, setChild] = useState({ len: 0 });
 
   const getChild = async () => {
