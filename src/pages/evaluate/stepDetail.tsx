@@ -440,7 +440,7 @@ function Info({ data }) {
           <Text className={styles.v}>{data.birthday}</Text>
         </View>
         <View className={styles.kv}>
-          <Text className={styles.k}>出生孕期</Text>
+          <Text className={styles.k}>出生孕周</Text>
           <Text className={styles.v}>{data.gestationalWeek}</Text>
         </View>
         <View className={styles.kv}>

@@ -35,13 +35,6 @@
         },
         {
           "name": "",
-          "pathName": "pages/order/gmsPay",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/evaluate/gmsDetail",
           "query": "id=121",
           "launchMode": "default",

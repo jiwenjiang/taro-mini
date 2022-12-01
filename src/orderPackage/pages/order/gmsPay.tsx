@@ -120,9 +120,9 @@ export default function App() {
         <View
           className={cls("desc", "intro-box", isExpand && "constent-visible")}
         >
-          <Text className="intro-text">
+          <View className="intro-text">
             {intro?.introduction}
-          </Text>
+          </View>
         </View>
         <View className="expand-box">
           <ArrowDown

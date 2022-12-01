@@ -23,6 +23,12 @@
 
   .intro-text {
     text-align: justify;
+    text-align-last: left;
+  }
+
+  .intro-text::after {
+    width: 100%;
+    display: inline-block;
   }
 
   .expand-box {
