@@ -1,0 +1,104 @@
+.index {
+  background: #f9fbfc;
+  height: 100vh;
+  --primary-color: #F2B04F;
+}
+
+.bottomPart {
+  padding: 0 40px;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 32px;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #112950;
+  text-align: left;
+  margin-bottom: 24px;
+  margin-top: 32px;
+}
+
+.cardBox {
+  display: flex;
+  justify-content: space-between;
+
+  .card {
+    width: 327px;
+    height: 212px;
+    text-align: center;
+    padding: 16px 0;
+    background-color: #fff;
+    box-sizing: border-box;
+
+    .cardImg {
+      width: 62px;
+      height: 58px;
+    }
+
+    .cardTitle {
+      color: #112950;
+      font-size: 24px;
+      line-height: 48px;
+    }
+
+    .cardDesc {
+      color: #B6B7B8;
+      font-size: 20px;
+      line-height: 28px;
+    }
+  }
+
+  .miniCard {
+    width: 155px;
+    height: 108px;
+    border-radius: 16px;
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .miniCardImg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .miniCardTitle {
+      font-size: 20px;
+      line-height: 28px;
+      color: #112950;
+    }
+  }
+}
+
+.ganyuBox {
+  height: 132px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: var(--primary-color);
+  box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
+
+  .ganyuImg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .ganyuTxt {
+    color: #fff;
+    font-size: 24px;
+
+    .ganyuTitle {
+      line-height: 48px;
+    }
+
+    .subTxt {
+      font-size: 20px;
+    }
+  }
+}

@@ -130,6 +130,13 @@
           "query": "code=13",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "orderPackage/pages/book/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

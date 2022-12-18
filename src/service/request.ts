@@ -1,11 +1,13 @@
 import Taro from "@tarojs/taro";
 
-const host = "https://wx.fushuhealth.com/recovery-wx";
-// const host = "https://wx-test.fushuhealth.com/recovery-wx";
+// const host = "https://wx.fushuhealth.com/recovery-wx";
+const host = "https://wx-test.fushuhealth.com/recovery-wx";
 
-const request = (
-  options: any
-): Promise<{ code?: number; data?: any; message: string } & Record<
+const request = (options: {
+  url: string;
+  method?: "POST" | "GET" | "DELETE" | "PUT";
+  [key: string]: any;
+}): Promise<{ code?: number; data?: any; message: string } & Record<
   string,
   any
 >> => {
