@@ -181,6 +181,22 @@ export default function App() {
     }
   };
 
+  const openMap = () => {
+    wx.getLocation({
+      type: "gcj02", //返回可以用于 wx.openLocation 的经纬度
+      success(res) {
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        wx.openLocation({
+          latitude,
+          longitude,
+          name: org.name,
+          scale: 18
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     getOrg();
     getChild();
@@ -418,7 +434,7 @@ export default function App() {
                   院内支付请于2022-04-18 10:00前携带收费单据到指定地点。
                 </View>
                 <View>如有问题，请提前电话联系41000000000</View>
-                <View className={styles.loc}>
+                <View className={styles.loc} onClick={openMap}>
                   <View className={styles.left}>
                     <View className={styles.nameBox}>
                       <View className={styles.name}>{org.name}</View>
