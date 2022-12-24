@@ -13,7 +13,7 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: normal;
   line-height: 32px;
   text-align: center;
@@ -50,14 +50,14 @@
   align-items: center;
 
   .nameBox {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: normal;
     line-height: 32px;
     letter-spacing: 0px;
     color: #112950;
 
     .date {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: normal;
       line-height: 28px;
       letter-spacing: 0px;
@@ -94,7 +94,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+  font-size: 28px;
   color: var(--text-color);
   padding: 0 24px;
   background-color: #ffffff;
@@ -115,13 +115,14 @@
     text-align: center;
 
     .pTitle {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: normal;
       line-height: 32px;
       letter-spacing: 0px;
       color: #112950;
       position: relative;
       display: inline-block;
+      font-weight: bold;
     }
 
     .pTitle::before {
@@ -161,7 +162,7 @@
     }
 
     .cTitle {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: normal;
       line-height: 32px;
       color: var(--text-color);
@@ -188,7 +189,7 @@
       justify-content: center;
       align-items: center;
       flex: 1;
-      font-size: 20px;
+      font-size: 24px;
       color: var(--text-color);
     }
   }
@@ -205,7 +206,7 @@
       align-items: center;
       flex-direction: column;
       flex: 1;
-      font-size: 20px;
+      font-size: 24px;
       color: #B6B7B8;
       border-top: 1px solid #EBEBEB;
     }
@@ -241,10 +242,10 @@
     border-radius: 8px;
     background-color: #ffffff;
     display: flex;
-    padding: 0 96px;
+    padding: 0 48px;
     align-items: center;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: 24px;
     color: var(--text-color);
   }
 
@@ -268,7 +269,7 @@
     height: 76px;
     line-height: 76px;
     border-bottom: 1px solid #EBEBEB;
-    font-size: 20px;
+    font-size: 24px;
     color: var(--text-color);
     display: flex;
     justify-content: space-between;
@@ -294,7 +295,7 @@
   background-color: #EFEFEF;
   margin-top: 16px;
   display: flex;
-  font-size: 24px;
+  font-size: 28px;
   color: var(--text-color);
   align-items: center;
 
@@ -355,13 +356,13 @@
 
   .tipBody {
     padding: 24px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: normal;
     line-height: 28px;
     color: var(--text-color);
 
     .hasComplate {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: normal;
       line-height: 32px;
       color: #06CC76;

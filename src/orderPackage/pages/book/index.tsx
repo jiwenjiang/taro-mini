@@ -326,11 +326,11 @@ export default function App() {
                 <View
                   className={cls(
                     styles.time,
-                    activeTime.id === v.id && styles.activeTime
+                    activeTime?.id === v.id && styles.activeTime
                   )}
                   onClick={() => changeTime(v)}
                 >
-                  <View className={styles.time1}>{v.startTime}</View>
+                  <View className={styles.time1}>{v.startTime}-{v.endTime}</View>
                   <View>余{v.availableReserveNumber}</View>
                 </View>
               ))}
