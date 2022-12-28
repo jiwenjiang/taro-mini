@@ -5,8 +5,10 @@
   const version = require("./version");
 
   const res = execa.execaCommandSync(`git status`);
-  console.log(2222, res);
-  return
+  if (!res.stdout.includes("nothing to commit")) {
+    console.log("\x1b[43m%s\x1b[0m", "请将代码提交至本地仓库");
+    return;
+  }
 
   function getGitBranch() {
     const res = execa.execaCommandSync("git rev-parse --abbrev-ref HEAD");
