@@ -137,6 +137,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/child/edit",
+          "query": "code=undefined",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

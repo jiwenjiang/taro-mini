@@ -74,6 +74,8 @@ export default function App() {
     gestationalWeeks[1][defaultGestationalIndex[1]]
   );
   const [birthdayWeight, setBirthdayWeight] = useState(null);
+  const [cardNumber, setCardNumber] = useState(null);
+  const [parentContact, setParentContact] = useState(null);
   const [childRisks, setChildRisks] = useState([]);
   const [showChildRisksDropdown, setShowChildRisksDropdown] = useState(false);
   const [motherRisks, setMotherRisks] = useState([]);
@@ -108,6 +110,8 @@ export default function App() {
           gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)
         ]);
         setBirthdayWeight(childInfo.birthdayWeight);
+        setCardNumber(childInfo.medicalCardNumber)
+        setParentContact(childInfo.contactPhone)
         childInfo.childRisks && setChildRisks(childInfo.childRisks);
         childInfo.motherRisks && setMotherRisks(childInfo.motherRisks);
       })();
@@ -146,6 +150,14 @@ export default function App() {
 
   const onBirthdayWeightChange = value => {
     setBirthdayWeight(parseInt(value));
+  };
+
+  const onCardNumber = value => {
+    setCardNumber(value);
+  };
+
+  const onParentContact = value => {
+    setParentContact(value);
   };
 
   const toggleChildRisksDropdown = () => {
@@ -198,7 +210,7 @@ export default function App() {
 
   // 保存新的儿童信息
   const doSave = async () => {
-    if (!name.trim() || !birthdayWeight) {
+    if (!name.trim() || !birthdayWeight || !cardNumber || !parentContact) {
       Notify.open({ color: "danger", message: "请填写所有信息后再保存" });
 
       return;
@@ -210,7 +222,9 @@ export default function App() {
       birthday: dayjs(birthday, "YYYY-MM-DD").unix(),
       gestationalWeek,
       gestationalWeekDay,
-      birthdayWeight: parseInt(birthdayWeight)
+      birthdayWeight: parseInt(birthdayWeight),
+      medicalCardNumber: cardNumber,
+      contactPhone: parentContact
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -242,7 +256,9 @@ export default function App() {
       birthday: dayjs(birthday, "YYYY-MM-DD").unix(),
       gestationalWeek,
       gestationalWeekDay,
-      birthdayWeight: parseInt(birthdayWeight)
+      birthdayWeight: parseInt(birthdayWeight),
+      medicalCardNumber: cardNumber,
+      contactPhone: parentContact
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -333,6 +349,22 @@ export default function App() {
           placeholder="请输入体重"
           value={birthdayWeight}
           onInput={e => onBirthdayWeightChange(e.target.value)}
+        />
+      </View>
+      <View className="row birthday-weight">
+        <FieldInput
+          label="就诊卡号"
+          placeholder="请输入就诊卡号"
+          value={cardNumber}
+          onInput={e => onCardNumber(e.target.value)}
+        />
+      </View>
+      <View className="row birthday-weight">
+        <FieldInput
+          label="家长联系方式"
+          placeholder="请输入家长联系方式"
+          value={parentContact}
+          onInput={e => onParentContact(e.target.value)}
         />
       </View>
       <View className="row child-risks">
