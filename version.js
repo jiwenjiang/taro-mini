@@ -29,7 +29,7 @@ function updateVersion() {
   // 写入文件
   fs.writeFileSync("./package.json", JSON.stringify(strem, null, 2));
 
-  console.log("版本更新成功.");
+  console.log("版本更新成功");
 }
 
 function getVersion() {
