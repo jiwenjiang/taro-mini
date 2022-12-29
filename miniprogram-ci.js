@@ -5,17 +5,17 @@
   const projectJson = require("./project.config.json");
   const version = require("./version");
 
+  // input description about git and mini-programer
   let comment = getGitLastMsg("%an/%cd/%s");
-
-  //   const answer = await inquirer.default.prompt([
-  //     {
-  //       type: "string",
-  //       name: "comment",
-  //       message: `请输入新版本项目描述，默认为（${comment}）`,
-  //       default: comment
-  //     }
-  //   ]);
-  //   console.log("🚀 ~ file: miniprogram-ci.js:12 ~ answer", answer);
+  const answer = await inquirer.default.prompt([
+    {
+      type: "string",
+      name: "comment",
+      message: `请输入新版本项目描述，默认为（${comment}）`,
+      default: comment
+    }
+  ]);
+  comment = answer.comment;
 
   // check in main branch
   const curbranch = getGitBranch();
@@ -25,15 +25,15 @@
   }
 
   // check the code enters the repository
-  const res = execa.execaCommandSync(`git status`);
-  if (!res.stdout.includes("nothing to commit")) {
+  const res = execa.execaCommandSync("git diff");
+  console.log("🚀 ~ file: miniprogram-ci.js:29 ~ res", res)
+  if (res.stdout) {
     const lastComment = getGitLastMsg("%s");
-    const a = execa.execaCommandSync(`git add .`);
-    const res2 = execa.execaSync("git", ["commit", "-m", lastComment]);
-    console.log("🚀 ~ file: miniprogram-ci.js:23 ~ res", res2, lastComment);
-    console.log("\x1b[43m%s\x1b[0m", "代码提交至本地仓库");
-    return;
+    execa.execaCommandSync(`git add .`);
+    execa.execaSync("git", ["commit", "-m", lastComment]);
+    console.log("\x1b[42m%s\x1b[0m", "代码提交至本地仓库");
   }
+  return
 
   function getGitBranch() {
     const res = execa.execaCommandSync("git rev-parse --abbrev-ref HEAD");
@@ -44,8 +44,6 @@
     const res = execa.execaCommandSync(`git log --pretty=format:${format} -1`);
     return res.stdout;
   }
-
-  console.log("process.argv", process.argv.slice(2)[0]);
 
   const project = new ci.Project({
     appid: projectJson.appid,
