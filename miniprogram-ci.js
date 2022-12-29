@@ -4,7 +4,6 @@
   const ci = require("miniprogram-ci");
   const projectJson = require("./project.config.json");
   const version = require("./version");
-
   // check in main branch
   const curbranch = getGitBranch();
   if (curbranch !== "main" && curbranch !== "master") {
@@ -14,7 +13,6 @@
 
   execa.execaCommandSync("git remote update");
   const statusRes = execa.execaCommandSync("git status -uno");
-  console.log("🚀 ~ file: miniprogram-ci.js:11 ~ res3", statusRes);
   if (statusRes.stdout.includes("behind")) {
     console.log("\x1b[41m%s\x1b[0m", "当前版本落后于远程分支，请拉取");
     const confirm = await inquirer.default.prompt([
@@ -29,7 +27,6 @@
       execa.execaCommandSync("git pull");
     }
     return;
-    console.log("🚀 ~ file: miniprogram-ci.js:28 ~ confirm", confirm);
   }
 
   // input description about git and mini-programer
@@ -49,7 +46,6 @@
 
   // check the code enters the repository
   const res = execa.execaCommandSync("git diff");
-  console.log("🚀 ~ file: miniprogram-ci.js:29 ~ res", res);
   if (res.stdout) {
     const lastComment = getGitLastMsg("%s");
     execa.execaCommandSync(`git add .`);
@@ -86,7 +82,7 @@
       minify: true
     },
     onProgressUpdate: () => {
-      console.log("building...");
+      console.log("\x1b[36m%s\x1b[0m", "building...");
     }
   });
   if (uploadResult) {
