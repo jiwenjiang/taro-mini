@@ -5,12 +5,35 @@
   const projectJson = require("./project.config.json");
   const version = require("./version");
 
+  // check in main branch
+  const curbranch = getGitBranch();
+  if (curbranch !== "main" && curbranch !== "master") {
+    console.log("\x1b[41m%s\x1b[0m", "请在主分支发布");
+    return;
+  }
+
+  execa.execaCommandSync("git remote update");
+  const statusRes = execa.execaCommandSync("git status -uno");
+  console.log("🚀 ~ file: miniprogram-ci.js:11 ~ res3", statusRes);
+  if (statusRes.stdout.includes("behind")) {
+    console.log("\x1b[41m%s\x1b[0m", "当前版本落后于远程分支，请拉取");
+    const confirm = await inquirer.default.prompt([
+      {
+        type: "confirm",
+        name: "pull",
+        message: `是否拉取远程分支？`,
+        default: true
+      }
+    ]);
+    if (confirm.pull) {
+      execa.execaCommandSync("git pull");
+    }
+    return;
+    console.log("🚀 ~ file: miniprogram-ci.js:28 ~ confirm", confirm);
+  }
+
   // input description about git and mini-programer
   let comment = getGitLastMsg("%an/%cd/%s");
-  const res3 = execa.execaCommandSync("git status -uno");
-  console.log("🚀 ~ file: miniprogram-ci.js:11 ~ res3", res3)
-  return
-
   const answer = await inquirer.default.prompt([
     {
       type: "string",
@@ -23,13 +46,6 @@
 
   // update version
   version.updateVersion();
-
-  // check in main branch
-  const curbranch = getGitBranch();
-  if (curbranch !== "main" && curbranch !== "master") {
-    console.log("\x1b[41m%s\x1b[0m", "请在主分支发布");
-    return;
-  }
 
   // check the code enters the repository
   const res = execa.execaCommandSync("git diff");
