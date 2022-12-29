@@ -33,7 +33,6 @@
     execa.execaSync("git", ["commit", "-m", lastComment]);
     console.log("\x1b[42m%s\x1b[0m", "代码提交至本地仓库");
   }
-  return
 
   function getGitBranch() {
     const res = execa.execaCommandSync("git rev-parse --abbrev-ref HEAD");
