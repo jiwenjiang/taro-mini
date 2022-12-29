@@ -69,7 +69,7 @@
   if (uploadResult) {
     version.updateVersion();
     const res = execa.execaCommandSync("git push");
-    console.log(2222, res);
+    console.log(22223, res);
   }
   console.log(1111, uploadResult);
 })();
