@@ -87,6 +87,7 @@
   });
   if (uploadResult) {
     const res = execa.execaCommandSync("git push");
+    console.log("\x1b[42m%s\x1b[0m", "小程序版本更新成功");
     console.log("\x1b[42m%s\x1b[0m", "代码推送至远程仓库");
   }
 })();
