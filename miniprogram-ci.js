@@ -7,6 +7,10 @@
 
   // input description about git and mini-programer
   let comment = getGitLastMsg("%an/%cd/%s");
+  const res3 = execa.execaCommandSync("git status -uno");
+  console.log("🚀 ~ file: miniprogram-ci.js:11 ~ res3", res3)
+  return
+
   const answer = await inquirer.default.prompt([
     {
       type: "string",
@@ -17,6 +21,9 @@
   ]);
   comment = answer.comment;
 
+  // update version
+  version.updateVersion();
+
   // check in main branch
   const curbranch = getGitBranch();
   if (curbranch !== "main" && curbranch !== "master") {
@@ -26,7 +33,7 @@
 
   // check the code enters the repository
   const res = execa.execaCommandSync("git diff");
-  console.log("🚀 ~ file: miniprogram-ci.js:29 ~ res", res)
+  console.log("🚀 ~ file: miniprogram-ci.js:29 ~ res", res);
   if (res.stdout) {
     const lastComment = getGitLastMsg("%s");
     execa.execaCommandSync(`git add .`);
@@ -67,9 +74,7 @@
     }
   });
   if (uploadResult) {
-    version.updateVersion();
     const res = execa.execaCommandSync("git push");
-    console.log(2222, res);
+    console.log("\x1b[42m%s\x1b[0m", "代码推送至远程仓库");
   }
-  console.log(1111, uploadResult);
 })();
