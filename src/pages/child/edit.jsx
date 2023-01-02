@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 
 import { Button, Notify } from "@taroify/core";
 import { Image, Picker, Text, View } from "@tarojs/components";
-import { getCurrentPages, navigateTo, useRouter } from "@tarojs/taro";
+import {
+  getCurrentPages,
+  getStorageSync,
+  navigateTo,
+  useRouter
+} from "@tarojs/taro";
 
 import CheckedIcon from "@/static/icons/checked.svg";
 import DropdownIcon from "@/static/icons/dropdown.svg";
@@ -75,7 +80,7 @@ export default function App() {
   );
   const [birthdayWeight, setBirthdayWeight] = useState(null);
   const [cardNumber, setCardNumber] = useState(null);
-  const [parentContact, setParentContact] = useState(null);
+  const [parentContact, setParentContact] = useState("");
   const [childRisks, setChildRisks] = useState([]);
   const [showChildRisksDropdown, setShowChildRisksDropdown] = useState(false);
   const [motherRisks, setMotherRisks] = useState([]);
@@ -110,13 +115,18 @@ export default function App() {
           gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)
         ]);
         setBirthdayWeight(childInfo.birthdayWeight);
-        setCardNumber(childInfo.medicalCardNumber)
-        setParentContact(childInfo.contactPhone)
+        setCardNumber(childInfo.medicalCardNumber);
+        setParentContact(childInfo.contactPhone);
         childInfo.childRisks && setChildRisks(childInfo.childRisks);
         childInfo.motherRisks && setMotherRisks(childInfo.motherRisks);
       })();
     }, []);
   };
+
+  useEffect(() => {
+    const user = getStorageSync("user");
+    setParentContact(user?.phone);
+  }, []);
 
   init();
 
@@ -343,15 +353,16 @@ export default function App() {
           />
         </Picker>
       </View>
-      <View className="row birthday-weight">
+      <View className="row">
         <FieldInput
           label="出生体重"
           placeholder="请输入体重"
           value={birthdayWeight}
           onInput={e => onBirthdayWeightChange(e.target.value)}
         />
+        <Text className="weight-input">克(g)</Text>
       </View>
-      <View className="row birthday-weight">
+      <View className="row">
         <FieldInput
           label="就诊卡号"
           placeholder="请输入就诊卡号"
@@ -359,7 +370,7 @@ export default function App() {
           onInput={e => onCardNumber(e.target.value)}
         />
       </View>
-      <View className="row birthday-weight">
+      <View className="row">
         <FieldInput
           label="家长联系方式"
           placeholder="请输入家长联系方式"

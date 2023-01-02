@@ -144,6 +144,13 @@
           "query": "code=undefined",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "orderPackage/pages/AIevaluate/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

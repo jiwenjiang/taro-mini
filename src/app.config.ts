@@ -30,7 +30,8 @@ export default {
         "pages/order/detail",
         "pages/order/gmsPay",
         "pages/order/videoList",
-        "pages/book/index"
+        "pages/book/index",
+        "pages/AIevaluate/index"
       ]
     }
   ],

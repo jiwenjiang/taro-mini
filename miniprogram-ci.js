@@ -11,6 +11,7 @@
     return;
   }
 
+  // diff code with remote and pull code
   execa.execaCommandSync("git remote update");
   const statusRes = execa.execaCommandSync("git status -uno");
   if (statusRes.stdout.includes("behind")) {

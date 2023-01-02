@@ -10,9 +10,9 @@ import nvhai from "@/static/imgs/nvhai.png";
 import weixuanzhong from "@/static/imgs/weixuanzhong.png";
 import xuanzhong from "@/static/imgs/xuanzhong.png";
 import { Notify } from "@taroify/core";
-import { Clear, Plus } from "@taroify/icons";
+import { Arrow, Clear, Plus } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
@@ -22,6 +22,7 @@ const heads = ["日", "一", "二", "三", "四", "五", "六"];
 const heads2 = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 
 export default function App() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [page] = useState({ pageNo: 1, pageSize: 1000 });
   const [days, setDays] = useState<any[]>([]);
@@ -65,7 +66,7 @@ export default function App() {
     const formatToday = dayjs().format("YYYY-MM-DD");
     const res2 = await request({
       url: "/workSchedule/getDay",
-      data: { day: formatToday }
+      data: { day: formatToday, type: router.params.type }
     });
     setTime(res2.data);
     setActiveTime(res2.data[0]);
@@ -97,11 +98,12 @@ export default function App() {
   };
 
   const changeProject = c => {
-    if (activeCode.find(v => c.code === v.code)) {
-      setActiveCode(activeCode.filter(v => v.code !== c.code));
-    } else {
-      setActiveCode([...activeCode, c]);
-    }
+    setActiveCode([c]);
+    // if (activeCode.find(v => c.code === v.code)) {
+    //   setActiveCode(activeCode.filter(v => v.code !== c.code));
+    // } else {
+    //   setActiveCode([...activeCode, c]);
+    // }
   };
 
   const changeDay = async v => {
@@ -167,8 +169,9 @@ export default function App() {
       childrenId: activeChild.id,
       invoiceId: pic.id,
       payment: 1,
-      type: 1,
-      scaleCodes: activeCode.map(v => v.code),
+      type: Number(router.params.type),
+      scaleCodes:
+        Number(router.params.type) === 1 ? activeCode.map(v => v.code) : null,
       workScheduleId: activeTime.id
     };
     const res = await request({
@@ -204,12 +207,23 @@ export default function App() {
     initDate();
   }, []);
 
+  const add = () => {
+    Taro.navigateTo({
+      url: `/pages/child/edit`
+    });
+  };
+
   return (
     <View className={styles.index}>
       <View className={styles.bottomPart}>
         {step === 1 && (
           <View>
-            <View className={styles.title}>选择被评估人</View>
+            <View className={styles.title}>
+              选择被评估人
+              <View className={styles.subTitle} onClick={add}>
+                新增评估人 <Arrow color="#f2b04f" />
+              </View>
+            </View>
             {childs.map((v, i) => (
               <View
                 style={{ marginTop: i !== 0 ? 8 : 0 }}
@@ -236,37 +250,46 @@ export default function App() {
                 ></Image>
               </View>
             ))}
-
-            <View className={styles.title}>选择评估项目</View>
-            <View className={styles.projectBox}>
-              {project.map((v, i) => (
-                <View key={i} style={{ marginTop: i !== 0 ? 16 : 0 }}>
-                  <View className={styles.pTitleBox}>
-                    <View className={styles.pTitle}>{v.classification}</View>
-                  </View>
-                  {v.list.map((c, i2) => (
-                    <View
-                      className={styles.contentBox}
-                      key={i2}
-                      onClick={() => changeProject(c)}
-                    >
-                      <View
-                        className={cls(
-                          styles.cTitle,
-                          activeCode.find(v => v.code === c.code) &&
-                            styles.active
-                        )}
-                      >
-                        {c.name}
+            {router.params.type == "1" && (
+              <View>
+                <View className={styles.title}>选择评估项目</View>
+                <View className={styles.projectBox}>
+                  {project.map((v, i) => (
+                    <View key={i} style={{ marginTop: i !== 0 ? 16 : 0 }}>
+                      <View className={styles.pTitleBox}>
+                        <View className={styles.pTitle}>
+                          {v.classification}
+                        </View>
                       </View>
-                      {activeCode.find(v => v.code === c.code) && (
-                        <Image src={duigou} className={styles.duigou}></Image>
-                      )}
+                      {v.list.map((c, i2) => (
+                        <View
+                          className={styles.contentBox}
+                          key={i2}
+                          onClick={() => changeProject(c)}
+                        >
+                          <View
+                            className={cls(
+                              styles.cTitle,
+                              activeCode.find(v => v.code === c.code) &&
+                                styles.active
+                            )}
+                          >
+                            {c.name}
+                          </View>
+                          {activeCode.find(v => v.code === c.code) && (
+                            <Image
+                              src={duigou}
+                              className={styles.duigou}
+                            ></Image>
+                          )}
+                        </View>
+                      ))}
                     </View>
                   ))}
                 </View>
-              ))}
-            </View>
+              </View>
+            )}
+
             <View className={styles.nextBtn} onClick={() => setStep(2)}>
               下一步
             </View>
@@ -330,7 +353,9 @@ export default function App() {
                   )}
                   onClick={() => changeTime(v)}
                 >
-                  <View className={styles.time1}>{v.startTime}-{v.endTime}</View>
+                  <View className={styles.time1}>
+                    {v.startTime}-{v.endTime}
+                  </View>
                   <View>余{v.availableReserveNumber}</View>
                 </View>
               ))}

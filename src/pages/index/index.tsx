@@ -32,7 +32,7 @@ export default function App() {
           </View>
           <View
             className={styles.card}
-            onClick={() => goto("/orderPackage/pages/book/index")}
+            onClick={() => goto("/orderPackage/pages/book/index?type=1")}
           >
             <Image src={Xianxia} className={styles.cardImg}></Image>
             <View className={styles.cardTitle}>门诊评估</View>
@@ -41,7 +41,10 @@ export default function App() {
           </View>
         </View>
         <View className={styles.title}>干预服务</View>
-        <View className={styles.ganyuBox}>
+        <View
+          className={styles.ganyuBox}
+          onClick={() => goto("/orderPackage/pages/AIevaluate/index")}
+        >
           <View className={styles.ganyuTxt}>
             <View className={styles.ganyuTitle}>制定专属康复方案</View>
             <View className={styles.subTxt}>

@@ -12,6 +12,7 @@
   }
 
   .row {
+    position: relative;
     padding-top: var(--size);
 
     .at-input {
@@ -59,12 +60,11 @@
     }
   }
 
-  .weight-input::after {
-    content: "克(g)";
+  .weight-input {
     color: #aaa;
     font-size: 32px;
     right: 30px;
-    top: 50%;
+    top: 60%;
     left: unset;
     bottom: unset;
     transform: translateY(-50%) scale(1);
