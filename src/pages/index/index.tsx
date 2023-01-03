@@ -78,7 +78,10 @@ export default function App() {
             <Image src={Kecheng} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>专属课程</View>
           </View>
-          <View className={styles.miniCard}>
+          <View
+            className={styles.miniCard}
+            onClick={() => goto("/orderPackage/pages/book/records")}
+          >
             <Image src={Yuyue} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>预约记录</View>
           </View>

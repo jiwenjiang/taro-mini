@@ -31,6 +31,7 @@ export default {
         "pages/order/gmsPay",
         "pages/order/videoList",
         "pages/book/index",
+        "pages/book/records",
         "pages/AIevaluate/index"
       ]
     }

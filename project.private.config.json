@@ -151,6 +151,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "orderPackage/pages/book/records",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
