@@ -188,19 +188,19 @@ export default function App() {
   };
 
   const openMap = () => {
-    wx.getLocation({
-      type: "gcj02", //返回可以用于 wx.openLocation 的经纬度
-      success(res) {
-        const latitude = res.latitude;
-        const longitude = res.longitude;
-        wx.openLocation({
-          latitude,
-          longitude,
-          name: org.name,
-          scale: 18
-        });
-      }
+    // wx.getLocation({
+    //   type: "gcj02", //返回可以用于 wx.openLocation 的经纬度
+    //   success(res) {
+    const latitude = org.latitude;
+    const longitude = org.longitude;
+    wx.openLocation({
+      latitude,
+      longitude,
+      name: org.name,
+      scale: 18
     });
+    // }
+    // });
   };
 
   useEffect(() => {
