@@ -44,7 +44,7 @@ export default function App() {
   };
 
   const goReport = item => {
-    console.log("🚀 ~ file: recordList.tsx ~ line 47 ~ goReport ~ item", item)
+    console.log("🚀 ~ file: recordList.tsx ~ line 47 ~ goReport ~ item", item);
     if (item.scaleTableCode === ScaleTableCode.BRAIN) {
       navigateTo({
         url: `/pages/evaluate/brainDetail?id=${item.id}`
@@ -114,7 +114,9 @@ function Card({ data, report, detail }) {
         <View className={styles.scaleName}>{data?.scaleName}</View>
         <View className={styles.kv}>
           <View className={styles.k}>评估类型</View>
-          <View className={styles.v}>{data?.scaleClassification}</View>
+          <View className={styles.v}>
+            {data?.reserveType === 1 ? "门诊评估" : "智能评估"}
+          </View>
         </View>
         <View className={styles.kv}>
           <View className={styles.k}>自测时间</View>

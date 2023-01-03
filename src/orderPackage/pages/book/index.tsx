@@ -127,7 +127,7 @@ export default function App() {
   const getTime = () => {
     if (activeDay) {
       const i = dayjs(activeDay).day();
-      return `${activeDay} (${heads2[i]})，${activeTime?.startTime ?? ""}`;
+      return `${activeDay} (${heads2[i - 1]})，${activeTime?.startTime ?? ""}`;
     }
     return "";
   };
@@ -174,8 +174,7 @@ export default function App() {
       invoiceId: pic.id,
       payment: 1,
       type: Number(type),
-      scaleCodes:
-        Number(type) === 1 ? activeCode.map(v => v.code) : null,
+      scaleCodes: Number(type) === 1 ? activeCode.map(v => v.code) : null,
       workScheduleId: activeTime.id
     };
     const res = await request({
@@ -303,7 +302,10 @@ export default function App() {
         {step === 2 && (
           <View>
             <View className={styles.title}>机构信息</View>
-            <View className={cls(styles.personCard, styles.active)}>
+            <View
+              className={cls(styles.personCard, styles.active)}
+              onClick={openMap}
+            >
               <View className={styles.left}>
                 <Image src={nanhai} className={styles.gender}></Image>
                 <View className={styles.nameBox}>
