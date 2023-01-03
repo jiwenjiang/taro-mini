@@ -6,6 +6,7 @@ import Yisheng from "@/static/imgs/yisheng.png";
 import Yuyue from "@/static/imgs/yuyuejilu.png";
 import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
+import { Notify } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
 import React from "react";
@@ -14,6 +15,13 @@ import styles from "./index.module.scss";
 export default function App() {
   const goto = url => {
     navigateTo({ url });
+  };
+
+  const waitOpen = () => {
+    Notify.open({
+      color: "warning",
+      message: "敬请期待"
+    });
   };
 
   return (
@@ -55,15 +63,18 @@ export default function App() {
         </View>
         <View className={styles.title}>常用服务</View>
         <View className={styles.cardBox}>
-          <View className={styles.miniCard}>
+          <View
+            className={styles.miniCard}
+            onClick={() => goto("/pages/evaluate/recordList")}
+          >
             <Image src={Baogao} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>评估报告</View>
           </View>
-          <View className={styles.miniCard}>
+          <View className={styles.miniCard} onClick={waitOpen}>
             <Image src={Ganyu} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>干预方案</View>
           </View>
-          <View className={styles.miniCard}>
+          <View className={styles.miniCard} onClick={waitOpen}>
             <Image src={Kecheng} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>专属课程</View>
           </View>
@@ -73,6 +84,8 @@ export default function App() {
           </View>
         </View>
       </View>
+      <Notify id="notify" />
+
       {/* <View className="list-wrap">
         <View className="list" onClick={() => goto("/pages/evaluate/list")}>
           <ListItem

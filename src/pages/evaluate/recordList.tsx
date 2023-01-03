@@ -113,7 +113,7 @@ function Card({ data, report, detail }) {
       <View className={styles.card}>
         <View className={styles.scaleName}>{data?.scaleName}</View>
         <View className={styles.kv}>
-          <View className={styles.k}>量表类型</View>
+          <View className={styles.k}>评估类型</View>
           <View className={styles.v}>{data?.scaleClassification}</View>
         </View>
         <View className={styles.kv}>

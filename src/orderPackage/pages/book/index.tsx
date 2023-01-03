@@ -1,7 +1,7 @@
-import TabBar from "@/comps/TabBar";
 import { MediaType } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
+import { Base64 } from "@/service/utils";
 import duigou from "@/static/icons/duigou.svg";
 import tip from "@/static/icons/tip.svg";
 import weizhi from "@/static/icons/weizhi.svg";
@@ -42,6 +42,8 @@ export default function App() {
     Taro.switchTab({ url: "/pages/index/index" });
   };
 
+  const type = router.params.type!.replace(/[^0-9]/gi, "");
+
   const getOrg = async () => {
     const res = await request({ url: "/org/get" });
     setOrg(res.data);
@@ -66,11 +68,13 @@ export default function App() {
     const formatToday = dayjs().format("YYYY-MM-DD");
     const res2 = await request({
       url: "/workSchedule/getDay",
-      data: { day: formatToday, type: router.params.type }
+      data: {
+        day: formatToday,
+        type
+      }
     });
     setTime(res2.data);
     setActiveTime(res2.data[0]);
-    console.log("🚀 ~ file: index.tsx ~ line 57 ~ initDate ~ res2", res2);
     setActiveDay(today);
     let num = -1;
     const ranges = new Array(14).fill(0).map((_v, i) => {
@@ -110,7 +114,7 @@ export default function App() {
     setActiveDay(v.day);
     const res2 = await request({
       url: "/workSchedule/getDay",
-      data: { day: v.formatDay }
+      data: { day: v.formatDay, type }
     });
     setTime(res2.data);
     setActiveTime(res2.data[0]);
@@ -169,9 +173,9 @@ export default function App() {
       childrenId: activeChild.id,
       invoiceId: pic.id,
       payment: 1,
-      type: Number(router.params.type),
+      type: Number(type),
       scaleCodes:
-        Number(router.params.type) === 1 ? activeCode.map(v => v.code) : null,
+        Number(type) === 1 ? activeCode.map(v => v.code) : null,
       workScheduleId: activeTime.id
     };
     const res = await request({
@@ -208,8 +212,9 @@ export default function App() {
   }, []);
 
   const add = () => {
+    const returnUrl = Base64.encode("/orderPackage/pages/book/index?type=1");
     Taro.navigateTo({
-      url: `/pages/child/edit`
+      url: `/pages/child/edit?returnUrl=${returnUrl}`
     });
   };
 
@@ -250,7 +255,7 @@ export default function App() {
                 ></Image>
               </View>
             ))}
-            {router.params.type == "1" && (
+            {type == "1" && (
               <View>
                 <View className={styles.title}>选择评估项目</View>
                 <View className={styles.projectBox}>
@@ -409,13 +414,13 @@ export default function App() {
                 <Text>院内支付</Text>
                 <Image src={xuanzhong} className={styles.choose}></Image>
               </View>
-              <View
+              {/* <View
                 className={cls(styles.payCard, payMode === 2 && styles.active)}
                 // onClick={() => changePay(2)}
               >
                 <Text>在线支付</Text>
                 <Image src={weixuanzhong} className={styles.choose}></Image>
-              </View>
+              </View> */}
             </View>
             <View className={styles.danjuBox}>
               {pic.url ? (
@@ -477,8 +482,6 @@ export default function App() {
         )}
         <Notify id="notify" />
       </View>
-
-      <TabBar current="index" />
     </View>
   );
 }

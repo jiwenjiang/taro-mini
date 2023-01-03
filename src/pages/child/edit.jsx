@@ -17,6 +17,7 @@ import ListItem from "@/comps/ListItem";
 import request from "@/service/request";
 import dayjs from "dayjs";
 
+import { Base64 } from "@/service/utils";
 import "./edit.scss";
 
 const customStyle = { padding: 12, backgroundColor: "#fff" };
@@ -67,9 +68,13 @@ export default function App() {
   const [data, setData] = useState([]);
   const [name, setName] = useState("");
   const [gender, setGender] = useState(genders[0]);
-  const [birthday, setBirthday] = useState("2000-01-01");
+  const [birthday, setBirthday] = useState(
+    dayjs()
+      .startOf("year")
+      .format("YYYY-MM-DD")
+  );
   const [defaultGestationalIndex, setDefaultGestationalIndex] = useState([
-    27,
+    36,
     0
   ]);
   const [gestationalWeek, setGestationalWeek] = useState(
@@ -220,7 +225,7 @@ export default function App() {
 
   // 保存新的儿童信息
   const doSave = async () => {
-    if (!name.trim() || !birthdayWeight || !cardNumber || !parentContact) {
+    if (!name.trim() || !birthdayWeight || !parentContact) {
       Notify.open({ color: "danger", message: "请填写所有信息后再保存" });
 
       return;
@@ -291,6 +296,11 @@ export default function App() {
   };
 
   const autoNavigate = () => {
+    if (router.params.returnUrl) {
+      const url = Base64.decode(router.params.returnUrl);
+      console.log("🚀 ~ file: edit.jsx:301 ~ autoNavigate ~ url", url)
+      navigateTo({ url });
+    }
     const pages = getCurrentPages();
 
     // let backPageIndex = 0;
@@ -365,7 +375,7 @@ export default function App() {
       <View className="row">
         <FieldInput
           label="就诊卡号"
-          placeholder="请输入就诊卡号"
+          placeholder="请输入就诊卡号，非必填"
           value={cardNumber}
           onInput={e => onCardNumber(e.target.value)}
         />

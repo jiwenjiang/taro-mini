@@ -10,6 +10,9 @@
   padding: 0 40px;
   overflow: hidden;
   box-sizing: border-box;
+  height: calc(100vh);
+  overflow-y: auto;
+  padding-bottom: 20px;
 }
 
 .title {
