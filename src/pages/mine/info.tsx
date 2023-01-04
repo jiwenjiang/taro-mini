@@ -97,18 +97,11 @@ export default function App() {
     <View className={styles.index}>
       <Notify id="notify" />
       <View className={styles.avaBox}>
-        <Image
-          className={styles.ava}
-          onClick={choose}
-          src={
-            url ||
-            "http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
-          }
-        />
+        <Image className={styles.ava} onClick={choose} src={url || ""} />
       </View>
       <View className={styles.row}>
         <FieldInput
-          label="儿童姓名"
+          label="姓名"
           placeholder="请输入姓名"
           value={name}
           onInput={(e: any) => onNameChange(e.target.value)}

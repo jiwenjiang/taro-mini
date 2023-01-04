@@ -4,7 +4,6 @@ import TabBar from "@/comps/TabBar";
 import request from "@/service/request";
 import Dingdan from "@/static/imgs/dingdan.png";
 import Shipin from "@/static/imgs/shipin.png";
-import Yuyue from "@/static/imgs/yuyue.png";
 import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import { navigateTo, useDidShow } from "@tarojs/taro";
@@ -80,20 +79,20 @@ export default function App() {
               <Image className="trade" src={Shipin} />
               <Text className="sub-title">视频订单</Text>
             </View>
-            <View className="item">
+            {/* <View className="item">
               <Image className="trade" src={Yuyue} />
               <Text className="sub-title">预约订单</Text>
-            </View>
+            </View> */}
           </View>
         </Box>
         <View>
-          <View className="list" onClick={record}>
+          {/* <View className="list" onClick={record}>
             <ListItem
               left="自测量表记录"
               right={<Arrow />}
               customStyles={cusStyle}
             />
-          </View>
+          </View> */}
           <View className="list" onClick={manage}>
             <ListItem
               left="儿童管理"

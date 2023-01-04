@@ -80,6 +80,9 @@ export default function App() {
     const ranges = new Array(14).fill(0).map((_v, i) => {
       const day = startDay.add(i, "day").format("MM.DD");
       const formatDay = startDay.add(i, "day").format("YYYY-MM-DD");
+      if (day < today) {
+        return { day, count: null, inweek: false, formatDay, pre: true };
+      }
       if (day === today) {
         num = 0;
       }
@@ -87,7 +90,7 @@ export default function App() {
         num++;
         return { day, count: res.data[num - 1].count, inweek: true, formatDay };
       }
-      return { day, count: null, inweek: false, formatDay };
+      return { day, count: null, inweek: false, formatDay, after: true };
     });
     setDays(ranges);
     setActiveDay(dayjs().format("MM.DD"));
@@ -111,13 +114,15 @@ export default function App() {
   };
 
   const changeDay = async v => {
-    setActiveDay(v.day);
-    const res2 = await request({
-      url: "/workSchedule/getDay",
-      data: { day: v.formatDay, type }
-    });
-    setTime(res2.data);
-    setActiveTime(res2.data[0]);
+    if (v.inweek) {
+      setActiveDay(v.day);
+      const res2 = await request({
+        url: "/workSchedule/getDay",
+        data: { day: v.formatDay, type }
+      });
+      setTime(res2.data);
+      setActiveTime(res2.data[0]);
+    }
   };
 
   const changeTime = v => {
@@ -128,6 +133,14 @@ export default function App() {
     if (activeDay) {
       const i = dayjs(activeDay).day();
       return `${activeDay} (${heads2[i - 1]})，${activeTime?.startTime ?? ""}`;
+    }
+    return "";
+  };
+
+  const getWeekDay = () => {
+    if (activeDay) {
+      const i = dayjs(activeDay).day();
+      return `${heads2[i - 1]}`;
     }
     return "";
   };
@@ -346,11 +359,17 @@ export default function App() {
                         {v.count ? `余${v.count}` : "无剩余"}
                       </View>
                     )}
+                    {v.pre && <View className={cls(styles.count)}>已过时</View>}
+                    {v.after && (
+                      <View className={cls(styles.count)}>即将放号</View>
+                    )}
                   </View>
                 ))}
               </View>
             </View>
-            <View className={styles.title}>查看预约时间</View>
+            <View className={styles.title}>
+              {activeDay}（{getWeekDay()}）可预约时间
+            </View>
             <View className={styles.timeBox}>
               {time.map(v => (
                 <View
@@ -463,9 +482,10 @@ export default function App() {
                 <View className={styles.hasComplate}>已预约完成！</View>
                 <View>后台审核单据无误后会短信通知；</View>
                 <View>
-                  院内支付请于2022-04-18 10:00前携带收费单据到指定地点。
+                  院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "}
+                  {activeTime?.startTime}前携带收费单据到指定地点。
                 </View>
-                <View>如有问题，请提前电话联系41000000000</View>
+                <View>如有问题，请提前电话联系010-56190995</View>
                 <View className={styles.loc} onClick={openMap}>
                   <View className={styles.left}>
                     <View className={styles.nameBox}>

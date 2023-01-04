@@ -26,8 +26,8 @@
 .grid {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 48px;
+    gap: 60px;
 
     .item {
         display: flex;
