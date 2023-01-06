@@ -131,7 +131,8 @@ export default function App() {
 
   const getTime = () => {
     if (activeDay) {
-      const i = dayjs(activeDay).day();
+      let i = dayjs(activeDay).day();
+      i = i ? i : 7;
       return `${activeDay} (${heads2[i - 1]})，${activeTime?.startTime ?? ""}`;
     }
     return "";
@@ -139,7 +140,9 @@ export default function App() {
 
   const getWeekDay = () => {
     if (activeDay) {
-      const i = dayjs(activeDay).day();
+      let i = dayjs(activeDay).day();
+      i = i ? i : 7;
+      console.log("🚀 ~ file: index.tsx:144 ~ getWeekDay ~ i", i);
       return `${heads2[i - 1]}`;
     }
     return "";
@@ -196,6 +199,10 @@ export default function App() {
       data: params
     });
     if (res.code === 0) {
+      wx.requestSubscribeMessage({
+        tmplIds: ["i753aJ7iEhmSayKg5WGmSjWWZQcVwQZIB5JGA1FTSf4"],
+        success(res) {}
+      });
       setStep(4);
     }
   };
@@ -417,7 +424,9 @@ export default function App() {
               {activeCode.map((v, i) => (
                 <View className={cls(styles.li, styles.noBorder)} key={i}>
                   <View className={styles.k}>{i === 0 ? "评估项目" : ""}</View>
-                  <View className={styles.v}>{v.name}</View>
+                  <View className={styles.v}>
+                    {type === "1" ? v.name : "家庭康复指导"}
+                  </View>
                 </View>
               ))}
             </View>
