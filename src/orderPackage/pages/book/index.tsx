@@ -62,7 +62,10 @@ export default function App() {
   };
 
   const initDate = async () => {
-    const res = await request({ url: "/workSchedule/getDayCount" });
+    const res = await request({
+      url: "/workSchedule/getDayCount",
+      data: { type }
+    });
     const startDay = dayjs().day(0);
     const today = dayjs().format("MM.DD");
     const formatToday = dayjs().format("YYYY-MM-DD");
@@ -237,6 +240,17 @@ export default function App() {
     });
   };
 
+  const checkTime = () => {
+    if (!activeTime?.id) {
+      Notify.open({
+        color: "warning",
+        message: "请选择预约时间段"
+      });
+      return;
+    }
+    setStep(3);
+  };
+
   return (
     <View className={styles.index}>
       <View className={styles.bottomPart}>
@@ -397,7 +411,7 @@ export default function App() {
               <View className={styles.preBtn} onClick={() => setStep(1)}>
                 上一步
               </View>
-              <View className={styles.nextBtn} onClick={() => setStep(3)}>
+              <View className={styles.nextBtn} onClick={() => checkTime()}>
                 下一步
               </View>
             </View>
