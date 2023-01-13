@@ -8,7 +8,7 @@ import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Notify } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import { navigateTo } from "@tarojs/taro";
+import { navigateTo, navigateToMiniProgram } from "@tarojs/taro";
 import React from "react";
 import styles from "./index.module.scss";
 
@@ -21,6 +21,13 @@ export default function App() {
     Notify.open({
       color: "warning",
       message: "敬请期待"
+    });
+  };
+
+  const test = () => {
+    navigateToMiniProgram({
+      appId: "wx33fd6cdc62520063",
+      path: "pages/sub-preMeeting/join-meeting/join-meeting?scene=m%3D470318179"
     });
   };
 
@@ -70,7 +77,7 @@ export default function App() {
             <Image src={Baogao} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>评估报告</View>
           </View>
-          <View className={styles.miniCard} onClick={waitOpen}>
+          <View className={styles.miniCard} onClick={test}>
             <Image src={Ganyu} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>干预方案</View>
           </View>

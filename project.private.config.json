@@ -158,6 +158,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/stepDetail",
+          "query": "id=298&returnUrl=%2Fpages%2Findex%2Findex",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
