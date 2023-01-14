@@ -77,7 +77,7 @@ export default function App() {
             <Image src={Baogao} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>评估报告</View>
           </View>
-          <View className={styles.miniCard} onClick={test}>
+          <View className={styles.miniCard} onClick={waitOpen}>
             <Image src={Ganyu} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>干预方案</View>
           </View>

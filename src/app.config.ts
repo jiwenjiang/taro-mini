@@ -18,6 +18,7 @@ export default {
     "pages/evaluate/interventionDetail",
     "pages/evaluate/gmsDetail",
     "pages/evaluate/brainGmsDetail",
+    "pages/evaluate/previewReport",
     "pages/evaluate/detail",
     "pages/evaluate/recordList",
     "pages/other/webView"

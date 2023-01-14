@@ -165,6 +165,13 @@
           "query": "id=298&returnUrl=%2Fpages%2Findex%2Findex",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/previewReport",
+          "query": "id=293&name=aa",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

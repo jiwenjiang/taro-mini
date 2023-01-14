@@ -14,7 +14,8 @@ export enum ScaleTableCode {
   GMS,
   BRAIN_GMS,
   LEIBO_BRAIN,
-  LEIBO_GMS
+  LEIBO_GMS,
+  Griffiths
 }
 
 export enum OrderStatus {

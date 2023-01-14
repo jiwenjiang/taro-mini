@@ -68,6 +68,11 @@ export default function App() {
         url: `/pages/evaluate/stepDetail?id=${item.id}`
       });
     }
+    if (item.scaleTableCode === ScaleTableCode.Griffiths) {
+      navigateTo({
+        url: `/pages/evaluate/previewReport?id=${item.id}&name=${item.scaleName}`
+      });
+    }
   };
 
   return (
