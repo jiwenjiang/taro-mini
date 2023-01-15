@@ -1,20 +1,19 @@
 import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
 import { ScaleTableCode } from "@/service/const";
-import { useReportBtnHandle } from "@/service/hook";
 import request from "@/service/request";
-import DoctorIcon from "@/static/icons/doctor.svg";
-import Down from "@/static/icons/download-2-fill.svg";
+import { chunk } from "@/service/utils";
+import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
-import fenxiImg from "@/static/imgs/fenxi.png";
+import ArrowDown from "@/static/icons/zhankai.svg";
 import introImg from "@/static/imgs/intro.png";
 import leiboImg from "@/static/imgs/leibo.jpg";
-import pingceImg from "@/static/imgs/pingce.png";
-import yonghuImg from "@/static/imgs/yonghu.jpg";
-import { Button, Dialog, Popup } from "@taroify/core";
+import nanhai from "@/static/imgs/nanhai.png";
+import nvhai from "@/static/imgs/nvhai.png";
+import { Popup, Swiper, Tabs } from "@taroify/core";
 import { InfoOutlined } from "@taroify/icons";
-import { Image, Text, View } from "@tarojs/components";
-import { useRouter } from "@tarojs/taro";
+import { Image, RichText, Text, Video, View } from "@tarojs/components";
+import { createVideoContext, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./brainDetail.module.scss";
@@ -69,20 +68,22 @@ export default function App() {
 }
 
 function Card() {
-  const [data, setData] = useState<any>({});
   const [report, setReportData] = useState<any>({});
   const router = useRouter();
-  const [popObj, setPopObj] = useState({ visible: false, content: "" });
-  const { checkPay, toPay, open, setOpen, price } = useReportBtnHandle();
   const [intro, setIntro] = useState(false);
+  const [isExpand, setIsExpand] = useState(false);
+  const [abnormal, setAbnormal] = useState<
+    { name: string; detail: any; isExpand: boolean }[]
+  >([]);
+  const [videos, setVideos] = useState<any>([]);
 
   useEffect(() => {
     (async () => {
-      const res = await request({
-        url: "/scaleRecord/get",
-        data: { id: router.params.id || 1 }
-      });
-      setData(res.data);
+      // const res = await request({
+      //   url: "/scaleRecord/get",
+      //   data: { id: router.params.id || 1 }
+      // });
+      // setData(res.data);
       const res2 = await request({
         url: "/scaleRecord/report",
         data: { id: router.params.id }
@@ -96,19 +97,43 @@ function Card() {
       } else {
         setReportData(res2.data);
       }
+      setVideos(chunk(res2.data.scaleResult.videos));
+      console.log(
+        "🚀 ~ file: stepDetail.tsx:127 ~ chunk(res2.data.scaleResult.videos)",
+        chunk(res2.data.scaleResult.videos)
+      );
+
+      const first = await request({
+        url: "/scaleRecord/abnormal/methods/detail",
+        data: {
+          abnormalIterm: res2.data.scaleResult.positionAndSportAbnormal[0]?.name
+        }
+      });
+      console.log("🚀 ~ file: stepDetail.tsx:103 ~ first", first);
+      setAbnormal(
+        res2.data.scaleResult.positionAndSportAbnormal.map((v, i) => {
+          if (i === 0) {
+            return {
+              name: v.name,
+              detail: handleRichText(first.data.detail),
+              isExpand: false
+            };
+          } else {
+            return {
+              name: v.name,
+              detail: "",
+              isExpand: false
+            };
+          }
+        })
+      );
     })();
   }, []);
 
-  const handle = c => {
-    if (c.type === "STRING") {
-      setPopObj({ visible: true, content: c.content });
-    }
-    if (c.type === "MINIAPP") {
-      checkPay(c);
-    }
-    if (c.type === "SELF") {
-      checkPay(c, true);
-    }
+  const handleRichText = v => {
+    let result = v.replace(/\<img/g, '<img class="img"');
+    result = result.replace(/\<p/g, '<p class="p"');
+    return result;
   };
 
   const downloadImg = async () => {
@@ -124,6 +149,34 @@ function Card() {
       urls, // 当前显示图片的 http 链接
       current: e
     });
+  };
+
+  const expand = () => {
+    setIsExpand(!isExpand);
+  };
+
+  const expandRich = i => {
+    abnormal[i].isExpand = !abnormal[i].isExpand;
+    setAbnormal([...abnormal]);
+  };
+
+  const changeTab = async e => {
+    if (!abnormal[e].detail) {
+      const res = await request({
+        url: "/scaleRecord/abnormal/methods/detail",
+        data: {
+          abnormalIterm: abnormal[e].name
+        }
+      });
+      abnormal[e].detail = handleRichText(res.data.detail);
+      setAbnormal([...abnormal]);
+    }
+    console.log("🚀 ~ file: stepDetail.tsx:159 ~ changeTab ~ e", e);
+  };
+
+  const playVideo = (v, id) => {
+    const videoContext = createVideoContext(id);
+    videoContext.requestFullScreen({ direction: 0 });
   };
 
   return (
@@ -151,11 +204,11 @@ function Card() {
                 </View>
               </View>
 
-              <Info data={data} />
+              <Info data={report} />
             </View>
           ) : (
-            <View className={styles.pb20}>
-              <Info data={data} />
+            <View>
+              <Info data={report} />
               {report?.scaleTableCode === ScaleTableCode.LEIBO_GMS && (
                 <View className={styles.cardBox}>
                   <View className={styles.card}>
@@ -191,187 +244,154 @@ function Card() {
               )}
 
               <View className={styles.cardBox}>
-                <View className={styles.card}>
-                  <View className={styles.title}>
-                    <Image src={leiboImg} className={styles.imgIcon} />
-                    &nbsp; 蕾波婴幼儿脑瘫危险程度
-                  </View>
-                  <View className={styles.brainBox}>
-                    <View className={styles.brain1}>
-                      <View className={styles.brainTitle}>
-                        儿童脑瘫危险程度
-                      </View>
-                      <View className={styles.brainVal}>
-                        {report?.scaleResult?.cerebralPalsyResult
-                          ?.cerebralPalsyScore ?? 0}
-                        %
-                      </View>
-                    </View>
-                    <View className={styles.brainBox2}>
-                      <View className={styles.brain2}>
-                        <View className={styles.brainTitle}>高危因素</View>
-                        <View className={styles.brainRisk}>
-                          {report?.scaleResult?.cerebralPalsyResult
-                            ?.haveHighRisk
-                            ? "有"
-                            : "无"}
-                        </View>
-                      </View>
-                      <View className={styles.brain2}>
-                        <View className={styles.brainTitle}>
-                          姿势和运动异常
-                        </View>
-                        <View className={styles.brainRisk}>
-                          {report?.scaleResult?.cerebralPalsyResult
-                            ?.haveAbnormalIterm
-                            ? "有"
-                            : "无"}
-                        </View>
-                      </View>
-                    </View>
-                    <View className={styles.doctorBox}>
-                      <Image src={DoctorIcon} className={styles.doctor}></Image>
-                      <View className={styles.doctorDesc}>
-                        <View className={styles.firstLine}>
-                          {report?.scaleResult?.cerebralPalsyResult?.remark}
-                        </View>
-                        <View className={styles.doctorTip}>
-                          评估结果不代表诊断结果
-                        </View>
-                      </View>
-                    </View>
-                  </View>
+                <View className={styles.bgTitle}>
+                  评估结果 · <Text>&nbsp;康复元官方出品</Text>
                 </View>
-              </View>
-
-              <View className={styles.cardBox}>
-                <View className={styles.card}>
-                  <View className={styles.title}>
-                    <Image src={fenxiImg} className={styles.imgIcon} />
-                    &nbsp; 结果解读
+                <View className={cls(styles.card, styles.delBorder)}>
+                  <View className={styles.shenjingTitle}>
+                    神经运动发育风险：
+                    {report?.scaleResult?.cerebralPalsyResult?.haveAbnormalIterm
+                      ? "有"
+                      : "无"}
+                  </View>
+                  <View style={{ marginBottom: 24 }}>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>评估时间：</Text>
+                      <Text>{report.evaluateDate}</Text>
+                    </View>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>评估专家：</Text>
+                      <Text>{report.doctorName}</Text>
+                    </View>
+                    <View className={styles.desc}>
+                      *评估结果基于神经发育异常和高危因表给出，且评估结
+                      果不代表诊断结果
+                    </View>
+                  </View>
+                  <View>
+                    <View className={cls(styles.head, styles.headTxt)}>
+                      <View>姿势和运动异常</View>
+                      <View>医学评估</View>
+                    </View>
+                    <View
+                      className={cls(
+                        styles.positionBox,
+                        isExpand && styles.contentVisible
+                      )}
+                    >
+                      {report?.scaleResult?.cerebralPalsyResult?.positionAndSportAbnormal?.map(
+                        (v, i) => (
+                          <View
+                            key={i}
+                            className={cls(styles.head, styles.bBorder)}
+                          >
+                            <View className={styles.head2}>{v.name}</View>
+                            <View
+                              className={cls(
+                                styles.succ,
+                                v.status > 0 && styles.error
+                              )}
+                            >
+                              {v.status > 0 ? "异常" : "正常"}
+                            </View>
+                          </View>
+                        )
+                      )}
+                    </View>
+                    <View className={styles.expandBox}>
+                      <Image
+                        src={ArrowDown}
+                        className={styles.expandImg}
+                        onClick={() => expand()}
+                      />
+                    </View>
                     <View className={styles.downLoadBox}>
+                      下载报告&nbsp;
                       <Image
                         src={Down}
                         onClick={downloadImg}
                         className={styles.downLoad}
-                      />
-                    </View>
-                  </View>
-                  <View>
-                    <View
-                      className={cls(
-                        styles.evaBox,
-                        styles.noMargin,
-                        styles.pb20
-                      )}
-                    >
-                      <View className={styles.evaRemark}>
-                        您的宝宝生长发育存在高危因素
-                      </View>
-                      <View className={styles.tagBox}>
-                        {report.scaleResult?.cerebralPalsyResult?.highRisk?.map(
-                          v => (
-                            <View className={styles.grayTag}>{v}</View>
-                          )
-                        )}
-                      </View>
-                      <View className={styles.evaRemark}>
-                        您的宝宝生长发育存在姿势和运动异常
-                      </View>
-
-                      <View className={styles.tagBox}>
-                        {report.scaleResult?.cerebralPalsyResult?.abnormalIterm?.map(
-                          v => (
-                            <View className={styles.grayTag}>{v}</View>
-                          )
-                        )}
-                      </View>
+                      />{" "}
                     </View>
                   </View>
                 </View>
               </View>
+              <View className={styles.title}>结果解读</View>
 
-              {report.scaleResult?.cerebralPalsyResult?.suggest?.map((v, i) => (
-                <View className={styles.cardBox} key={i}>
-                  <View className={styles.card}>
-                    <View className={styles.title}>
-                      <Image src={pingceImg} className={styles.imgIcon} />
-                      &nbsp; 建议{i + 1}
-                    </View>
-                    <View className={styles.cardContent}>{v.content}</View>
-                    {v.button?.map(c => (
-                      <Button
-                        className={styles.btnBox}
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => handle(c)}
-                      >
-                        {c.copyWriting}
-                      </Button>
-                    ))}
-                    {i ===
-                      report.scaleResult?.cerebralPalsyResult?.suggest?.length -
-                        1 && (
-                      <View className={styles.hint}>
-                        {report.scaleResult?.cerebralPalsyResult?.hint}
-                      </View>
-                    )}
-                  </View>
-                </View>
-              ))}
-              <View className={cls(styles.cardBox, styles.mb20)}>
-                <View className={styles.card}>
-                  <View className={styles.title}>
-                    <Image src={fenxiImg} className={styles.imgIcon} />
-                    &nbsp; 量表评估信息
-                  </View>
-                  <View className={styles.kv}>
-                    <Text className={styles.k}>量表名称</Text>
-                    <Text className={styles.v}>{report?.scaleTableName}</Text>
-                  </View>
-                  <View className={styles.kv}>
-                    <Text className={styles.k}>筛查时间</Text>
-                    <Text className={styles.v}>{report?.evaluateDate}</Text>
-                  </View>
-                  <View className={styles.kv}>
-                    <Text className={styles.k}>评估人</Text>
-                    <Text className={styles.v}>{report?.doctorName}</Text>
-                  </View>
-                  <View className={cls(styles.head, styles.headTxt)}>
-                    <View className={styles.head1}>姿势和运动异常</View>
-                    <View>医学评估</View>
-                  </View>
-                  {report?.scaleResult?.cerebralPalsyResult?.positionAndSportAbnormal?.map(
-                    (v, i) => (
-                      <View key={i} className={styles.head}>
-                        <View className={styles.head2}>{v.name}</View>
+              <View className={cls(styles.cardBox, styles.nopt)}>
+                <View className={styles.tabBox}>
+                  <Tabs onChange={changeTab}>
+                    {abnormal.map((v, i) => (
+                      <Tabs.TabPane title={v.name}>
                         <View
                           className={cls(
-                            styles.succ,
-                            v.status > 0 && styles.error
+                            styles.cardBody,
+                            v.isExpand && styles.contentVisible
                           )}
                         >
-                          {v.status > 0 ? "异常" : "正常"}
+                          <RichText nodes={v.detail} />
                         </View>
-                      </View>
-                    )
-                  )}
-                  <View></View>
+                        <View className={styles.expandBox}>
+                          <Image
+                            src={ArrowDown}
+                            className={styles.expandImg}
+                            onClick={() => expandRich(i)}
+                          />
+                        </View>
+                      </Tabs.TabPane>
+                    ))}
+                  </Tabs>
                 </View>
+              </View>
+              <View className={styles.title}>推荐课程</View>
+              <View className={styles.swiperBox}>
+                <Swiper autoplay={4000}>
+                  {videos.map((v, i1) => (
+                    <Swiper.Item>
+                      <View className={styles.videoBox}>
+                        {v?.map((c, i2) => (
+                          <View className={styles.videoItem}>
+                            <Video
+                              src={c.url}
+                              id={`video${i1}${i2}`}
+                              loop={false}
+                              autoplay={false}
+                              controls={false}
+                              poster={c.coverUrl}
+                              className={styles.videoImg}
+                              objectFit="contain"
+                            ></Video>
+                            {/* <Image
+                              src={c.coverUrl}
+                            ></Image> */}
+                            <View className={styles.videoDescBox}>
+                              <View className={styles.videoName}>{c.name}</View>
+                              <View className={styles.videoRemark}>
+                                {c.remark}
+                              </View>
+                              <View
+                                className={styles.videoBtn}
+                                onClick={() =>
+                                  playVideo(v.localData, `video${i1}${i2}`)
+                                }
+                              >
+                                立即查看
+                              </View>
+                            </View>
+                          </View>
+                        ))}
+                      </View>
+                    </Swiper.Item>
+                  ))}
+
+                  <Swiper.Indicator />
+                </Swiper>
               </View>
             </View>
           )}
         </View>
       )}
 
-      <Popup
-        placement="bottom"
-        style={{ height: "80%" }}
-        onClose={() => setPopObj({ visible: false, content: "" })}
-        open={popObj.visible}
-      >
-        <View className={styles.popContent}>{popObj.content}</View>
-      </Popup>
       <Popup
         placement="bottom"
         style={{ height: "80%" }}
@@ -405,16 +425,6 @@ function Card() {
           </View>
         ))}
       </Popup>
-      <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>购买视频课程</Dialog.Header>
-        <Dialog.Content>
-          购买视频课程后，享有蕾波所有线上视频课程均可免费观看权益
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onClick={() => setOpen(false)}>取消</Button>
-          <Button onClick={() => toPay()}>{price ?? 0}元立即购买</Button>
-        </Dialog.Actions>
-      </Dialog>
     </View>
   );
 }
@@ -422,38 +432,39 @@ function Card() {
 function Info({ data }) {
   return (
     <View className={styles.cardBox}>
-      <View className={styles.card}>
-        <View className={styles.title}>
-          <Image src={yonghuImg} className={styles.imgIcon} />
-          &nbsp; 用户详情
+      <View className={styles.newCard}>
+        <View className={styles.newTitle}>
+          {data.gender === "男" ? (
+            <Image src={nanhai} className={styles.imgIcon} />
+          ) : (
+            <Image src={nvhai} className={styles.imgIcon} />
+          )}
+          &nbsp;{data.name}
         </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>姓名</Text>
-          <Text className={styles.v}>{data.name}</Text>
-        </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>性别</Text>
+        <View className={cls(styles.newInfo, styles.list)}>
           <Text className={styles.v}>{data.gender}</Text>
+          <Text className={styles.v}>{data.age}岁</Text>
+          <Text className={styles.v}>{data.birthdayWeight}g</Text>
         </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>出生日期</Text>
-          <Text className={styles.v}>{data.birthday}</Text>
+        <View className={cls(styles.listItem, styles.list)}>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>编号</Text>
+            <Text className={styles.v}>{data.id}</Text>
+          </View>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>出生日期</Text>
+            <Text className={styles.v}>{data.birthday}</Text>
+          </View>
         </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>出生孕周</Text>
-          <Text className={styles.v}>{data.gestationalWeek}</Text>
-        </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>出生体重</Text>
-          <Text className={styles.v}>{data.birthdayWeight}</Text>
-        </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>年龄</Text>
-          <Text className={styles.v}>{data.age}</Text>
-        </View>
-        <View className={styles.kv}>
-          <Text className={styles.k}>检查日期</Text>
-          <Text className={styles.v}>{data.created}</Text>
+        <View className={cls(styles.listItem, styles.list)}>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>出生孕周</Text>
+            <Text className={styles.v}>{data.gestationalWeek}</Text>
+          </View>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>就诊卡号</Text>
+            <Text className={styles.v}>{data.medicalCardNumber}</Text>
+          </View>
         </View>
       </View>
     </View>

@@ -124,3 +124,13 @@ export const Base64 = {
     return string;
   } // End Function _utf8_decode
 };
+
+export function chunk(l, step = 4) {
+  const arr = [...l];
+  const result: any = [];
+  do {
+    const newarr = arr.splice(0, step);
+    result.push(newarr);
+  } while (arr.length > 0);
+  return result;
+}
