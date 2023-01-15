@@ -356,7 +356,7 @@ function Card() {
                               id={`video${i1}${i2}`}
                               loop={false}
                               autoplay={false}
-                              controls={false}
+                              controls={true}
                               poster={c.coverUrl}
                               className={styles.videoImg}
                               objectFit="contain"
