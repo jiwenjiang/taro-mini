@@ -345,7 +345,7 @@ function Card() {
               </View>
               <View className={styles.title}>推荐课程</View>
               <View className={styles.swiperBox}>
-                <Swiper autoplay={4000}>
+                <Swiper>
                   {videos.map((v, i1) => (
                     <Swiper.Item>
                       <View className={styles.videoBox}>
