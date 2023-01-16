@@ -7,8 +7,8 @@
     --tabs-line-background-color: #635DF7;
     --swiper-indicator-size: 16px;
     --swiper-indicator-opacity: 0.5;
-    --swiper-indicator-background-color: #fff;
-    --swiper-indicator-active-background-color: #fff;
+    --swiper-indicator-background-color: #635DF7;
+    --swiper-indicator-active-background-color: #635DF7;
 }
 
 .cardBox {
@@ -669,6 +669,9 @@
 }
 
 .tabBox {
+    box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
+    border: 1PX solid #f0f0f0;
+    border-radius: 8PX;
     :global(.taroify-tabs__tab) {
         max-width: 300px !important;
         flex-basis: unset !important;
@@ -699,10 +702,12 @@
 }
 
 .swiperBox {
-    background: #635DF7;
     width: 100%;
     padding: 40px;
     box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
+    border: 1PX solid #f0f0f0;
 
     .videoBox {
         display: flex;
@@ -712,7 +717,7 @@
         margin-bottom: 60px;
 
         .videoItem {
-            width: calc(50vw - 48px);
+            width: calc(50vw - 88px);
             height: 568px;
             background-color: #fff;
             box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
@@ -758,3 +763,7 @@
         }
     }
 }
+
+.isExpand {
+    transform: rotate(180deg);
+  }

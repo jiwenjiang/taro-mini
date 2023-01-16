@@ -5,13 +5,12 @@ import request from "@/service/request";
 import { chunk } from "@/service/utils";
 import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
-import ArrowDown from "@/static/icons/zhankai.svg";
 import introImg from "@/static/imgs/intro.png";
 import leiboImg from "@/static/imgs/leibo.jpg";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import { Popup, Swiper, Tabs } from "@taroify/core";
-import { InfoOutlined } from "@taroify/icons";
+import { ArrowDown, InfoOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
@@ -98,29 +97,25 @@ function Card() {
         setReportData(res2.data);
       }
       setVideos(chunk(res2.data.scaleResult.videos));
-      console.log(
-        "🚀 ~ file: stepDetail.tsx:127 ~ chunk(res2.data.scaleResult.videos)",
-        chunk(res2.data.scaleResult.videos)
-      );
 
       const first = await request({
         url: "/scaleRecord/abnormal/methods/detail",
         data: {
-          abnormalIterm: res2.data.scaleResult.positionAndSportAbnormal[0]?.name
+          abnormalIterm: res2.data.scaleResult.abnormalIterm[0]
         }
       });
       console.log("🚀 ~ file: stepDetail.tsx:103 ~ first", first);
       setAbnormal(
-        res2.data.scaleResult.positionAndSportAbnormal.map((v, i) => {
+        res2.data.scaleResult.abnormalIterm.map((v, i) => {
           if (i === 0) {
             return {
-              name: v.name,
+              name: v,
               detail: handleRichText(first.data.detail),
               isExpand: false
             };
           } else {
             return {
-              name: v.name,
+              name: v,
               detail: "",
               isExpand: false
             };
@@ -244,9 +239,7 @@ function Card() {
               )}
 
               <View className={styles.cardBox}>
-                <View className={styles.bgTitle}>
-                  评估结果 · <Text>&nbsp;康复元官方出品</Text>
-                </View>
+                <View className={styles.bgTitle}>评估结果</View>
                 <View className={cls(styles.card, styles.delBorder)}>
                   <View className={styles.shenjingTitle}>
                     神经运动发育风险：
@@ -263,9 +256,12 @@ function Card() {
                       <Text className={styles.pingguk}>评估专家：</Text>
                       <Text>{report.doctorName}</Text>
                     </View>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>医学提示：</Text>
+                      <Text>{report.conclusion}</Text>
+                    </View>
                     <View className={styles.desc}>
-                      *评估结果基于神经发育异常和高危因表给出，且评估结
-                      果不代表诊断结果
+                      *评估结果基于神经发育异常和高危因素给出，且评估结果不代表诊断结果
                     </View>
                   </View>
                   <View>
@@ -299,10 +295,10 @@ function Card() {
                       )}
                     </View>
                     <View className={styles.expandBox}>
-                      <Image
-                        src={ArrowDown}
-                        className={styles.expandImg}
+                      <ArrowDown
                         onClick={() => expand()}
+                        color="#ffd340"
+                        className={cls(isExpand && styles.isExpand)}
                       />
                     </View>
                     <View className={styles.downLoadBox}>
@@ -316,9 +312,9 @@ function Card() {
                   </View>
                 </View>
               </View>
-              <View className={styles.title}>结果解读</View>
 
-              <View className={cls(styles.cardBox, styles.nopt)}>
+              <View className={cls(styles.cardBox)}>
+                <View className={styles.bgTitle}>结果解读</View>
                 <View className={styles.tabBox}>
                   <Tabs onChange={changeTab}>
                     {abnormal.map((v, i) => (
@@ -332,10 +328,10 @@ function Card() {
                           <RichText nodes={v.detail} />
                         </View>
                         <View className={styles.expandBox}>
-                          <Image
-                            src={ArrowDown}
-                            className={styles.expandImg}
+                          <ArrowDown
+                            color="#ffd340"
                             onClick={() => expandRich(i)}
+                            className={cls(v.isExpand && styles.isExpand)}
                           />
                         </View>
                       </Tabs.TabPane>
@@ -343,49 +339,53 @@ function Card() {
                   </Tabs>
                 </View>
               </View>
-              <View className={styles.title}>推荐课程</View>
-              <View className={styles.swiperBox}>
-                <Swiper>
-                  {videos.map((v, i1) => (
-                    <Swiper.Item>
-                      <View className={styles.videoBox}>
-                        {v?.map((c, i2) => (
-                          <View className={styles.videoItem}>
-                            <Video
-                              src={c.url}
-                              id={`video${i1}${i2}`}
-                              loop={false}
-                              autoplay={false}
-                              controls={true}
-                              poster={c.coverUrl}
-                              className={styles.videoImg}
-                              objectFit="contain"
-                            ></Video>
-                            {/* <Image
+              <View className={cls(styles.cardBox)}>
+                <View className={styles.bgTitle}>推荐课程</View>
+                <View className={styles.swiperBox}>
+                  <Swiper>
+                    {videos.map((v, i1) => (
+                      <Swiper.Item>
+                        <View className={styles.videoBox}>
+                          {v?.map((c, i2) => (
+                            <View className={styles.videoItem}>
+                              <Video
+                                src={c.url}
+                                id={`video${i1}${i2}`}
+                                loop={false}
+                                autoplay={false}
+                                controls={true}
+                                poster={c.coverUrl}
+                                className={styles.videoImg}
+                                objectFit="contain"
+                              ></Video>
+                              {/* <Image
                               src={c.coverUrl}
                             ></Image> */}
-                            <View className={styles.videoDescBox}>
-                              <View className={styles.videoName}>{c.name}</View>
-                              <View className={styles.videoRemark}>
-                                {c.remark}
-                              </View>
-                              <View
-                                className={styles.videoBtn}
-                                onClick={() =>
-                                  playVideo(v.localData, `video${i1}${i2}`)
-                                }
-                              >
-                                立即查看
+                              <View className={styles.videoDescBox}>
+                                <View className={styles.videoName}>
+                                  {c.name}
+                                </View>
+                                <View className={styles.videoRemark}>
+                                  {c.remark}
+                                </View>
+                                <View
+                                  className={styles.videoBtn}
+                                  onClick={() =>
+                                    playVideo(v.localData, `video${i1}${i2}`)
+                                  }
+                                >
+                                  立即查看
+                                </View>
                               </View>
                             </View>
-                          </View>
-                        ))}
-                      </View>
-                    </Swiper.Item>
-                  ))}
+                          ))}
+                        </View>
+                      </Swiper.Item>
+                    ))}
 
-                  <Swiper.Indicator />
-                </Swiper>
+                    <Swiper.Indicator />
+                  </Swiper>
+                </View>
               </View>
             </View>
           )}
@@ -439,17 +439,23 @@ function Info({ data }) {
           ) : (
             <Image src={nvhai} className={styles.imgIcon} />
           )}
-          &nbsp;{data.name}
+          &nbsp;{data.name}&emsp;{data.age}岁
         </View>
-        <View className={cls(styles.newInfo, styles.list)}>
-          <Text className={styles.v}>{data.gender}</Text>
-          <Text className={styles.v}>{data.age}岁</Text>
-          <Text className={styles.v}>{data.birthdayWeight}g</Text>
-        </View>
+
         <View className={cls(styles.listItem, styles.list)}>
           <View className={styles.newkv}>
             <Text className={styles.k}>编号</Text>
             <Text className={styles.v}>{data.id}</Text>
+          </View>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>性别</Text>
+            <Text className={styles.v}>{data.gender}</Text>
+          </View>
+        </View>
+        <View className={cls(styles.listItem, styles.list)}>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>出生体重</Text>
+            <Text className={styles.v}>{data.birthdayWeight}g</Text>
           </View>
           <View className={styles.newkv}>
             <Text className={styles.k}>出生日期</Text>
@@ -464,6 +470,12 @@ function Info({ data }) {
           <View className={styles.newkv}>
             <Text className={styles.k}>就诊卡号</Text>
             <Text className={styles.v}>{data.medicalCardNumber}</Text>
+          </View>
+        </View>
+        <View className={cls(styles.listItem, styles.list)}>
+          <View className={styles.newkv}>
+            <Text className={styles.k}>检查日期</Text>
+            <Text className={styles.v}>{data.evaluateDate}</Text>
           </View>
         </View>
       </View>
