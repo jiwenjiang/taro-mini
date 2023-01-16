@@ -475,7 +475,7 @@ function Info({ data }) {
         <View className={cls(styles.listItem, styles.list)}>
           <View className={styles.newkv}>
             <Text className={styles.k}>检查日期</Text>
-            <Text className={styles.v}>{data.evaluateDate}</Text>
+            <Text className={styles.v}>{data.created}</Text>
           </View>
         </View>
       </View>
