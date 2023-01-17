@@ -54,6 +54,15 @@ export default function App() {
             <View className={styles.cardDesc}>专业机构预约</View>
             <View className={styles.cardDesc}>专家面对面评估</View>
           </View>
+          <View
+            className={styles.card}
+            onClick={() => goto("/orderPackage/pages/book/index?type=4")}
+          >
+            <Image src={Pinggu} className={styles.cardImg}></Image>
+            <View className={styles.cardTitle}>视频评估</View>
+            <View className={styles.cardDesc}>居家拍摄视频AI智能评测</View>
+            <View className={styles.cardDesc}>专家二次审核</View>
+          </View>
         </View>
         <View className={styles.title}>干预服务</View>
         <View

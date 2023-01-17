@@ -134,7 +134,7 @@
         {
           "name": "",
           "pathName": "orderPackage/pages/book/index",
-          "query": "",
+          "query": "type=4",
           "launchMode": "default",
           "scene": null
         },

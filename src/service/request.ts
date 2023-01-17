@@ -6,6 +6,7 @@ const host = "https://wx-test.fushuhealth.com/recovery-wx";
 const request = (options: {
   url: string;
   method?: "POST" | "GET" | "DELETE" | "PUT";
+  data?: any;
   [key: string]: any;
 }): Promise<{ code?: number; data?: any; message: string } & Record<
   string,

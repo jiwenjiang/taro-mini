@@ -24,6 +24,7 @@
 .cardBox {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   .card {
     width: 327px;
@@ -32,6 +33,7 @@
     padding: 16px 0;
     background-color: #fff;
     box-sizing: border-box;
+    margin-bottom: 16px;
 
     .cardImg {
       width: 62px;

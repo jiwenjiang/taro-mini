@@ -1,4 +1,4 @@
-import { MediaType } from "@/service/const";
+import { EvaluateType, MediaType } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
@@ -38,6 +38,8 @@ export default function App() {
     NonNullable<{ name: string; id: string }>
   >({ name: "", id: "" });
   const [payMode, setPayMode] = useState(1);
+  const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
+
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
   };
@@ -210,10 +212,30 @@ export default function App() {
     }
   };
 
+  const toPay = async () => {
+    const data = {
+      childrenId: activeChild.id,
+      workScheduleId: activeTime.id
+    };
+    const payRes = await request({
+      url: "/videoGuide/video/submit",
+      method: "POST",
+      data
+    });
+    wx.requestPayment({
+      timeStamp: payRes.data.timeStamp,
+      nonceStr: payRes.data.nonceStr,
+      package: payRes.data.packageValue,
+      signType: payRes.data.signType,
+      paySign: payRes.data.paySign,
+      success(res) {
+        Notify.open({ color: "success", message: "支付成功" });
+        setStep(4);
+      }
+    });
+  };
+
   const openMap = () => {
-    // wx.getLocation({
-    //   type: "gcj02", //返回可以用于 wx.openLocation 的经纬度
-    //   success(res) {
     const latitude = org.latitude;
     const longitude = org.longitude;
     wx.openLocation({
@@ -222,8 +244,6 @@ export default function App() {
       name: org.name,
       scale: 18
     });
-    // }
-    // });
   };
 
   useEffect(() => {
@@ -231,6 +251,12 @@ export default function App() {
     getChild();
     getTable();
     initDate();
+    if (type === String(EvaluateType.SHIPIN)) {
+      request({ url: "/videoGuide/price" }).then(res => {
+        console.log("🚀 ~ file: index.tsx:233 ~ request ~ res", res);
+        setPriceInfo(res.data);
+      });
+    }
   }, []);
 
   const add = () => {
@@ -335,20 +361,27 @@ export default function App() {
         )}
         {step === 2 && (
           <View>
-            <View className={styles.title}>机构信息</View>
-            <View
-              className={cls(styles.personCard, styles.active)}
-              onClick={openMap}
-            >
-              <View className={styles.left}>
-                <Image src={nanhai} className={styles.gender}></Image>
-                <View className={styles.nameBox}>
-                  <View className={styles.name}>{org.name}</View>
-                  <View className={styles.date}>{org.address}</View>
+            {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
+              Number(type)
+            ) && (
+              <View>
+                <View className={styles.title}>机构信息</View>
+                <View
+                  className={cls(styles.personCard, styles.active)}
+                  onClick={openMap}
+                >
+                  <View className={styles.left}>
+                    <Image src={nanhai} className={styles.gender}></Image>
+                    <View className={styles.nameBox}>
+                      <View className={styles.name}>{org.name}</View>
+                      <View className={styles.date}>{org.address}</View>
+                    </View>
+                  </View>
+                  <Image src={weizhi} className={styles.choose}></Image>
                 </View>
               </View>
-              <Image src={weizhi} className={styles.choose}></Image>
-            </View>
+            )}
+
             <View className={styles.title}>查看预约时间</View>
             <View className={styles.riliBox}>
               <View className={styles.riliHeads}>
@@ -434,12 +467,17 @@ export default function App() {
                 <View className={styles.v}>{activeChild?.name}</View>
               </View>
             </View>
+
             <View className={cls(styles.orderBox, styles.mt16)}>
               {activeCode.map((v, i) => (
                 <View className={cls(styles.li, styles.noBorder)} key={i}>
                   <View className={styles.k}>{i === 0 ? "评估项目" : ""}</View>
                   <View className={styles.v}>
-                    {type === "1" ? v.name : "家庭康复指导"}
+                    {type === String(EvaluateType.MENZHEN)
+                      ? v.name
+                      : type === String(EvaluateType.SHIPIN)
+                      ? "视频一对一"
+                      : "家庭康复指导"}
                   </View>
                 </View>
               ))}
@@ -450,47 +488,84 @@ export default function App() {
                 <View className={styles.p}>￥156</View>
               </View>
             </View> */}
-            <View className={styles.payBox}>
-              <View
-                className={cls(styles.payCard, payMode === 1 && styles.active)}
-                onClick={() => changePay(1)}
-              >
-                <Text>院内支付</Text>
-                <Image src={xuanzhong} className={styles.choose}></Image>
-              </View>
-              {/* <View
+            {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
+              Number(type)
+            ) && (
+              <View>
+                <View className={styles.payBox}>
+                  <View
+                    className={cls(
+                      styles.payCard,
+                      payMode === 1 && styles.active
+                    )}
+                    onClick={() => changePay(1)}
+                  >
+                    <Text>院内支付</Text>
+                    <Image src={xuanzhong} className={styles.choose}></Image>
+                  </View>
+                  {/* <View
                 className={cls(styles.payCard, payMode === 2 && styles.active)}
                 // onClick={() => changePay(2)}
               >
                 <Text>在线支付</Text>
                 <Image src={weixuanzhong} className={styles.choose}></Image>
               </View> */}
-            </View>
-            <View className={styles.danjuBox}>
-              {pic.url ? (
-                <View style={{ position: "relative" }}>
-                  <Clear
-                    className={styles.clear}
-                    onClick={e => del()}
-                    color="#f2b04f"
-                  />
-                  <Image src={pic.url} className={styles.pic} />
                 </View>
-              ) : (
-                <Plus className={styles.addIcon} onClick={chooseMedia} />
-              )}
-              <View>
-                <View>请上传院内缴费单据</View>
-                <View>人工审核无误后即可预约成功</View>
+                <View className={styles.danjuBox}>
+                  {pic.url ? (
+                    <View style={{ position: "relative" }}>
+                      <Clear
+                        className={styles.clear}
+                        onClick={e => del()}
+                        color="#f2b04f"
+                      />
+                      <Image src={pic.url} className={styles.pic} />
+                    </View>
+                  ) : (
+                    <Plus className={styles.addIcon} onClick={chooseMedia} />
+                  )}
+                  <View>
+                    <View>请上传院内缴费单据</View>
+                    <View>人工审核无误后即可预约成功</View>
+                  </View>
+                </View>
               </View>
-            </View>
+            )}
+            {[EvaluateType.SHIPIN, EvaluateType.ZHUANSHU].includes(
+              Number(type)
+            ) && (
+              <View>
+                <View className={styles.title}>服务介绍</View>
+                <View className={styles.desc}>
+                  团队成员来自于北京儿童医院，对需要康复的孩子做1对1视频康复指导，并提供其他增值服务
+                </View>
+              </View>
+            )}
+
+            {[EvaluateType.SHIPIN, EvaluateType.ZHUANSHU].includes(
+              Number(type)
+            ) && (
+              <View>
+                <View className={styles.title}>服务价格</View>
+                <View className={cls(styles.priceIitem)}>
+                  {priceInfo.price}元/{priceInfo.time}分钟
+                </View>
+              </View>
+            )}
+
             <View className={styles.btnBox}>
               <View className={styles.preBtn} onClick={() => setStep(2)}>
                 上一步
               </View>
-              <View className={styles.nextBtn} onClick={() => complate()}>
-                完成预约
-              </View>
+              {type === String(EvaluateType.SHIPIN) ? (
+                <View className={styles.nextBtn} onClick={() => toPay()}>
+                  立即预约
+                </View>
+              ) : (
+                <View className={styles.nextBtn} onClick={() => complate()}>
+                  完成预约
+                </View>
+              )}
             </View>
           </View>
         )}
@@ -501,24 +576,38 @@ export default function App() {
                 <Image src={tip} className={styles.tip}></Image>
                 温馨提示
               </View>
-              <View className={styles.tipBody}>
-                <View className={styles.hasComplate}>已预约完成！</View>
-                <View>后台审核单据无误后会短信通知；</View>
-                <View>
-                  院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "}
-                  {activeTime?.startTime}前携带收费单据到指定地点。
-                </View>
-                <View>如有问题，请提前电话联系010-56190995</View>
-                <View className={styles.loc} onClick={openMap}>
-                  <View className={styles.left}>
-                    <View className={styles.nameBox}>
-                      <View className={styles.name}>{org.name}</View>
-                      <View className={styles.date}>{org.address}</View>
-                    </View>
+              {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
+                Number(type)
+              ) && (
+                <View className={styles.tipBody}>
+                  <View className={styles.hasComplate}>已预约完成！</View>
+                  <View>后台审核单据无误后会短信通知；</View>
+                  <View>
+                    院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "}
+                    {activeTime?.startTime}前携带收费单据到指定地点。
                   </View>
-                  <Image src={weizhi} className={styles.choose}></Image>
+                  <View>如有问题，请提前电话联系010-56190995</View>
+                  <View className={styles.loc} onClick={openMap}>
+                    <View className={styles.left}>
+                      <View className={styles.nameBox}>
+                        <View className={styles.name}>{org.name}</View>
+                        <View className={styles.date}>{org.address}</View>
+                      </View>
+                    </View>
+                    <Image src={weizhi} className={styles.choose}></Image>
+                  </View>
                 </View>
-              </View>
+              )}
+              {[EvaluateType.SHIPIN].includes(Number(type)) && (
+                <View className={styles.tipBody}>
+                  <View className={styles.hasComplate}>已预约完成！</View>
+                  <View>后台审核单据无误后会短信通知；</View>
+                  <View>
+                    请在预约时间前10分钟，在【首页】-【预约记录】进入房间
+                  </View>
+                  <View>如有问题，请提前电话联系010-56190995</View>
+                </View>
+              )}
             </View>
             <View className={styles.preBtn} onClick={() => goto()}>
               我知道了

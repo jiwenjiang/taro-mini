@@ -25,4 +25,10 @@ export enum OrderStatus {
   CANCELLED
 }
 
+export enum EvaluateType {
+  MENZHEN = 1,
+  ZHUANSHU = 2,
+  SHIPIN = 4
+}
+
 export const tabPages = ["/pages/index/index", "pages/mine/index"];

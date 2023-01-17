@@ -34,6 +34,13 @@
   }
 }
 
+.desc {
+  color: #B6B7B8;
+  font-size: 28px;
+  line-height: 40px;
+  margin-bottom: 24px;
+}
+
 .active {
   border: 1px solid var(--primary-color);
 }
@@ -410,4 +417,12 @@
   text-align: center;
   margin-top: 32px;
   border-radius: 32px;
+}
+
+.priceIitem {
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 16px 36px;
+  font-size: 28px;
+  color: var(--primary-color);
 }
