@@ -105,6 +105,9 @@ export default function App() {
           placeholder="请输入姓名"
           value={name}
           onInput={(e: any) => onNameChange(e.target.value)}
+          rootStyles={{ padding: '12px' }}
+          labelStyles={{ color: '#333' }}
+          inputStyles={{ textAlign: 'right' }}
         />
       </View>
       <View className={styles.row}>
