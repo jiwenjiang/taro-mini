@@ -60,8 +60,8 @@ export default function App() {
           >
             <Image src={Pinggu} className={styles.cardImg}></Image>
             <View className={styles.cardTitle}>视频评估</View>
-            <View className={styles.cardDesc}>居家拍摄视频AI智能评测</View>
-            <View className={styles.cardDesc}>专家二次审核</View>
+            <View className={styles.cardDesc}>线上1对1视频</View>
+            <View className={styles.cardDesc}>专家实时评估</View>
           </View>
         </View>
         <View className={styles.title}>干预服务</View>

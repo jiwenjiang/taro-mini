@@ -5,14 +5,16 @@ import request from "@/service/request";
 import { chunk } from "@/service/utils";
 import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
+import hospital from "@/static/imgs/hospital.png";
 import introImg from "@/static/imgs/intro.png";
 import leiboImg from "@/static/imgs/leibo.jpg";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
-import { Popup, Swiper, Tabs } from "@taroify/core";
+import wenyisheng from "@/static/imgs/wenyisheng.png";
+import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
 import { ArrowDown, InfoOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
-import { createVideoContext, useRouter } from "@tarojs/taro";
+import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./brainDetail.module.scss";
@@ -75,6 +77,7 @@ function Card() {
     { name: string; detail: any; isExpand: boolean }[]
   >([]);
   const [videos, setVideos] = useState<any>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +107,6 @@ function Card() {
           abnormalIterm: res2.data.scaleResult.abnormalIterm[0]
         }
       });
-      console.log("🚀 ~ file: stepDetail.tsx:103 ~ first", first);
       setAbnormal(
         res2.data.scaleResult.abnormalIterm.map((v, i) => {
           if (i === 0) {
@@ -172,6 +174,12 @@ function Card() {
   const playVideo = (v, id) => {
     const videoContext = createVideoContext(id);
     videoContext.requestFullScreen({ direction: 0 });
+  };
+
+  const goto = () => {
+    navigateTo({
+      url: `/orderPackage/pages/book/index?type=4`
+    });
   };
 
   return (
@@ -301,13 +309,9 @@ function Card() {
                         className={cls(isExpand && styles.isExpand)}
                       />
                     </View>
-                    <View className={styles.downLoadBox}>
+                    <View className={styles.downLoadBox} onClick={downloadImg}>
                       下载报告&nbsp;
-                      <Image
-                        src={Down}
-                        onClick={downloadImg}
-                        className={styles.downLoad}
-                      />{" "}
+                      <Image src={Down} className={styles.downLoad} />{" "}
                     </View>
                   </View>
                 </View>
@@ -425,6 +429,27 @@ function Card() {
           </View>
         ))}
       </Popup>
+      <Backdrop open={open} closeable onClose={() => setOpen(false)}>
+        <View className={styles.bdContent}>
+          <Image
+            src={hospital}
+            onClick={() => setOpen(true)}
+            className={styles.hospital}
+          />
+          <View className={styles.hospitalDesc}>
+            北京儿童医院专业团队在线服务
+          </View>
+          <View className={styles.hospitalDesc}>有疑问随时咨询</View>
+          <View className={styles.hospitalBtn} onClick={() => goto()}>
+            预约1对1视频指导
+          </View>
+        </View>
+      </Backdrop>
+      <Image
+        src={wenyisheng}
+        onClick={() => setOpen(true)}
+        className={styles.wenyisheng}
+      />
     </View>
   );
 }

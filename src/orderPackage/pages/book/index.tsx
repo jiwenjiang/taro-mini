@@ -531,7 +531,7 @@ export default function App() {
                 </View>
               </View>
             )}
-            {[EvaluateType.SHIPIN, EvaluateType.ZHUANSHU].includes(
+            {[EvaluateType.SHIPIN].includes(
               Number(type)
             ) && (
               <View>
@@ -542,7 +542,7 @@ export default function App() {
               </View>
             )}
 
-            {[EvaluateType.SHIPIN, EvaluateType.ZHUANSHU].includes(
+            {[EvaluateType.SHIPIN].includes(
               Number(type)
             ) && (
               <View>

@@ -1,6 +1,6 @@
 import NavBar from "@/comps/NavBar";
 import request from "@/service/request";
-import Down from "@/static/icons/download-2-fill.svg";
+import Down from "@/static/icons/download.svg";
 import { Image, View } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
@@ -50,13 +50,9 @@ function Card() {
           className={styles.reportImg}
         ></Image>
       </View>
-      <View className={styles.downLoadBox}>
-        <Image
-          src={Down}
-          onClick={preview}
-          mode="aspectFill"
-          className={styles.downLoad}
-        />
+      <View className={styles.downLoadBox} onClick={preview}>
+        下载报告&nbsp;
+        <Image src={Down} className={styles.downLoad} />{" "}
       </View>
     </View>
   );
