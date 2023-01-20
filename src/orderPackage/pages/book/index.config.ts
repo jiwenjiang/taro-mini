@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: "门诊预约",
+  navigationStyle: "custom"
 };

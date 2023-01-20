@@ -1,6 +1,7 @@
 import TabBar from "@/comps/TabBar";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
+import VideoImg from "@/static/imgs/video.png";
 import Xianxia from "@/static/imgs/xianxiapinggu.png";
 import Yisheng from "@/static/imgs/yisheng.png";
 import Yuyue from "@/static/imgs/yuyuejilu.png";
@@ -10,6 +11,7 @@ import { Notify } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
 import { navigateTo, navigateToMiniProgram } from "@tarojs/taro";
 import React from "react";
+import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
 export default function App() {
@@ -55,10 +57,10 @@ export default function App() {
             <View className={styles.cardDesc}>专家面对面评估</View>
           </View>
           <View
-            className={styles.card}
+            className={cls(styles.card, styles.allCard)}
             onClick={() => goto("/orderPackage/pages/book/index?type=4")}
           >
-            <Image src={Pinggu} className={styles.cardImg}></Image>
+            <Image src={VideoImg} className={styles.cardImg}></Image>
             <View className={styles.cardTitle}>视频评估</View>
             <View className={styles.cardDesc}>线上1对1视频</View>
             <View className={styles.cardDesc}>专家实时评估</View>

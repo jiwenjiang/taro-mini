@@ -1,3 +1,4 @@
+import NavBar from "@/comps/NavBar";
 import { EvaluateType, MediaType } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
@@ -39,6 +40,7 @@ export default function App() {
   >({ name: "", id: "" });
   const [payMode, setPayMode] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
+  const [title, setTitle] = useState("");
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -257,6 +259,13 @@ export default function App() {
         setPriceInfo(res.data);
       });
     }
+    setTitle(
+      {
+        "1": "门诊评估",
+        "2": "康复指导",
+        "4": "视频评估"
+      }[type] || "门诊评估"
+    );
   }, []);
 
   const add = () => {
@@ -279,6 +288,7 @@ export default function App() {
 
   return (
     <View className={styles.index}>
+      <NavBar title={title} />
       <View className={styles.bottomPart}>
         {step === 1 && (
           <View>
@@ -531,9 +541,7 @@ export default function App() {
                 </View>
               </View>
             )}
-            {[EvaluateType.SHIPIN].includes(
-              Number(type)
-            ) && (
+            {[EvaluateType.SHIPIN].includes(Number(type)) && (
               <View>
                 <View className={styles.title}>服务介绍</View>
                 <View className={styles.desc}>
@@ -542,9 +550,7 @@ export default function App() {
               </View>
             )}
 
-            {[EvaluateType.SHIPIN].includes(
-              Number(type)
-            ) && (
+            {[EvaluateType.SHIPIN].includes(Number(type)) && (
               <View>
                 <View className={styles.title}>服务价格</View>
                 <View className={cls(styles.priceIitem)}>

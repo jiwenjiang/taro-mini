@@ -9,6 +9,7 @@
     --swiper-indicator-opacity: 0.5;
     --swiper-indicator-background-color: #635DF7;
     --swiper-indicator-active-background-color: #635DF7;
+    --tabs-line-height: 10px;
 }
 
 .cardBox {
@@ -622,6 +623,13 @@
     font-size: 32px;
     color: #fff;
     border-radius: 16px 16px 0px 0px;
+}
+
+.nodata {
+    padding: 40px;
+    text-align: center;
+    color: #7d8085;
+    font-size: 28px;
 }
 
 .shenjingTitle {

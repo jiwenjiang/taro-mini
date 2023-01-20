@@ -78,6 +78,7 @@ function Card() {
   >([]);
   const [videos, setVideos] = useState<any>([]);
   const [open, setOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -124,6 +125,11 @@ function Card() {
           }
         })
       );
+      setActiveTab(res2.data.scaleResult.abnormalIterm[0]);
+      console.log(
+        "🚀 ~ file: stepDetail.tsx:130 ~ res2.data.scaleResult.abnormalIterm[0]",
+        res2.data.scaleResult.abnormalIterm[0]
+      );
     })();
   }, []);
 
@@ -168,6 +174,7 @@ function Card() {
       abnormal[e].detail = handleRichText(res.data.detail);
       setAbnormal([...abnormal]);
     }
+    setActiveTab(abnormal[e].name);
     console.log("🚀 ~ file: stepDetail.tsx:159 ~ changeTab ~ e", e);
   };
 
@@ -180,6 +187,15 @@ function Card() {
     navigateTo({
       url: `/orderPackage/pages/book/index?type=4`
     });
+  };
+
+  const toTab = v => {
+    if (v.status > 0) {
+      const index = abnormal.findIndex(c => c.name === v.name);
+      console.log("🚀 ~ file: stepDetail.tsx:195 ~ toTab ~ index", index);
+      changeTab(index);
+    }
+    console.log("🚀 ~ file: stepDetail.tsx:186 ~ toTab ~ v", v);
   };
 
   return (
@@ -295,6 +311,7 @@ function Card() {
                                 styles.succ,
                                 v.status > 0 && styles.error
                               )}
+                              onClick={() => toTab(v)}
                             >
                               {v.status > 0 ? "异常" : "正常"}
                             </View>
@@ -320,27 +337,31 @@ function Card() {
               <View className={cls(styles.cardBox)}>
                 <View className={styles.bgTitle}>结果解读</View>
                 <View className={styles.tabBox}>
-                  <Tabs onChange={changeTab}>
-                    {abnormal.map((v, i) => (
-                      <Tabs.TabPane title={v.name}>
-                        <View
-                          className={cls(
-                            styles.cardBody,
-                            v.isExpand && styles.contentVisible
-                          )}
-                        >
-                          <RichText nodes={v.detail} />
-                        </View>
-                        <View className={styles.expandBox}>
-                          <ArrowDown
-                            color="#ffd340"
-                            onClick={() => expandRich(i)}
-                            className={cls(v.isExpand && styles.isExpand)}
-                          />
-                        </View>
-                      </Tabs.TabPane>
-                    ))}
-                  </Tabs>
+                  {abnormal?.length > 0 ? (
+                    <Tabs onChange={changeTab} value={activeTab}>
+                      {abnormal.map((v, i) => (
+                        <Tabs.TabPane title={v.name} value={v.name}>
+                          <View
+                            className={cls(
+                              styles.cardBody,
+                              v.isExpand && styles.contentVisible
+                            )}
+                          >
+                            <RichText nodes={v.detail} />
+                          </View>
+                          <View className={styles.expandBox}>
+                            <ArrowDown
+                              color="#ffd340"
+                              onClick={() => expandRich(i)}
+                              className={cls(v.isExpand && styles.isExpand)}
+                            />
+                          </View>
+                        </Tabs.TabPane>
+                      ))}
+                    </Tabs>
+                  ) : (
+                    <View className={styles.nodata}>暂未发现异常</View>
+                  )}
                 </View>
               </View>
               <View className={cls(styles.cardBox)}>
