@@ -54,7 +54,7 @@ export default function App() {
   useEffect(() => {
     if (router.params.channel || router.params.orgid) {
       getAuth(getList, {
-        channel: router.params.channel,
+        channel: router.params.channel || "",
         orgid: router.params.orgid
       });
     } else {

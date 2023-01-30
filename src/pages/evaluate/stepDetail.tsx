@@ -15,7 +15,7 @@ import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
 import { ArrowDown, InfoOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./brainDetail.module.scss";
 
@@ -79,6 +79,8 @@ function Card() {
   const [videos, setVideos] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("");
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const videoContext = useRef<any>();
 
   useEffect(() => {
     (async () => {
@@ -178,9 +180,24 @@ function Card() {
     console.log("🚀 ~ file: stepDetail.tsx:159 ~ changeTab ~ e", e);
   };
 
+  useEffect(() => {
+    videoContext.current = createVideoContext("video");
+  }, []);
+
   const playVideo = (v, id) => {
-    const videoContext = createVideoContext(id);
-    videoContext.requestFullScreen({ direction: 0 });
+    console.log("🚀 ~ file: stepDetail.tsx:183 ~ playVideo ~ v", v);
+    setCurrentVideoUrl(v);
+    // videoContext.current.requestFullScreen();
+    videoContext.current.requestFullScreen({ direction: 0 });
+    setTimeout(() => {
+      videoContext.current.play();
+    }, 100);
+  };
+
+  const leaveVideo = () => {
+    console.log("🚀 ~ file: stepDetail.tsx:198 ~ leaveVideo ~ leaveVideo")
+    videoContext.current.pause();
+    setCurrentVideoUrl("");
   };
 
   const goto = () => {
@@ -192,10 +209,8 @@ function Card() {
   const toTab = v => {
     if (v.status > 0) {
       const index = abnormal.findIndex(c => c.name === v.name);
-      console.log("🚀 ~ file: stepDetail.tsx:195 ~ toTab ~ index", index);
       changeTab(index);
     }
-    console.log("🚀 ~ file: stepDetail.tsx:186 ~ toTab ~ v", v);
   };
 
   return (
@@ -373,7 +388,7 @@ function Card() {
                         <View className={styles.videoBox}>
                           {v?.map((c, i2) => (
                             <View className={styles.videoItem}>
-                              <Video
+                              {/* <Video
                                 src={c.url}
                                 id={`video${i1}${i2}`}
                                 loop={false}
@@ -382,10 +397,12 @@ function Card() {
                                 poster={c.coverUrl}
                                 className={styles.videoImg}
                                 objectFit="contain"
-                              ></Video>
-                              {/* <Image
-                              src={c.coverUrl}
-                            ></Image> */}
+                              ></Video> */}
+                              <Image
+                                src={c.coverUrl}
+                                className={styles.videoImg}
+                                mode="aspectFit"
+                              ></Image>
                               <View className={styles.videoDescBox}>
                                 <View className={styles.videoName}>
                                   {c.name}
@@ -396,7 +413,7 @@ function Card() {
                                 <View
                                   className={styles.videoBtn}
                                   onClick={() =>
-                                    playVideo(v.localData, `video${i1}${i2}`)
+                                    playVideo(c.url, `video${i1}${i2}`)
                                   }
                                 >
                                   立即查看
@@ -412,6 +429,14 @@ function Card() {
                   </Swiper>
                 </View>
               </View>
+              <Video
+                src={currentVideoUrl}
+                id={`video`}
+                controls={true}
+                className={styles.videoRef}
+                onFullscreenChange={leaveVideo}
+                vslideGestureInFullscreen
+              ></Video>
             </View>
           )}
         </View>

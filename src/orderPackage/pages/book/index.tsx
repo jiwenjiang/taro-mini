@@ -589,7 +589,8 @@ export default function App() {
                   <View className={styles.hasComplate}>已预约完成！</View>
                   <View>后台审核单据无误后会短信通知；</View>
                   <View>
-                    院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "}
+                    {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
+                    院内支付请于{activeDay} {" "}
                     {activeTime?.startTime}前携带收费单据到指定地点。
                   </View>
                   <View>如有问题，请提前电话联系010-56190995</View>
