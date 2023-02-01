@@ -6,7 +6,6 @@ export default {
     "pages/evaluate/list",
     "pages/evaluate/index",
     "pages/evaluate/step",
-    "pages/evaluate/stepDetail",
     "pages/evaluate/brainDetail",
     "pages/evaluate/interventionList",
     "pages/evaluate/interventionDetail",
@@ -14,10 +13,16 @@ export default {
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/previewReport",
     "pages/evaluate/detail",
-    "pages/evaluate/recordList",
     "pages/other/webView"
   ],
   subpackages: [
+    {
+      root: "evaluatePackage",
+      pages: [
+        "pages/stepDetail",
+        "pages/recordList",
+      ]
+    },
     {
       root: "orderPackage",
       pages: [

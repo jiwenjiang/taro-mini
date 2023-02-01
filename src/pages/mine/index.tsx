@@ -45,7 +45,7 @@ export default function App() {
   };
 
   const record = () => {
-    navigateTo({ url: `/pages/evaluate/recordList` });
+    navigateTo({ url: `/evaluatePackage/pages/recordList` });
   };
 
   const setting = () => {
