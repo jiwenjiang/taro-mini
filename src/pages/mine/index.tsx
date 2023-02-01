@@ -33,7 +33,7 @@ export default function App() {
   });
 
   const manage = () => {
-    navigateTo({ url: "/pages/child/manage" });
+    navigateTo({ url: "/childPackage/pages/manage" });
   };
 
   const scale = () => {
@@ -49,11 +49,11 @@ export default function App() {
   };
 
   const setting = () => {
-    navigateTo({ url: `/pages/mine/setting` });
+    navigateTo({ url: `/minePackage/pages/setting` });
   };
 
   const gotoInfo = () => {
-    navigateTo({ url: `/pages/mine/info` });
+    navigateTo({ url: `/minePackage/pages/info` });
   };
 
   return (

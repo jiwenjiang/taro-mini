@@ -70,7 +70,7 @@ export default function App() {
   // 跳转至GMs量表儿童选择页面
   const goChildChoosePage = id => {
     navigateTo({
-      url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
+      url: `/childPackage/pages/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
     });
   };
 

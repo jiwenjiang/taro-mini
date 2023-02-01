@@ -44,7 +44,7 @@ export default function App() {
     await new Promise(r => setTimeout(r, 3000));
 
     navigateTo({
-      url: `/pages/mine/setting`
+      url: `/minePackage/pages/setting`
     });
   };
 

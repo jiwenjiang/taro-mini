@@ -2,13 +2,7 @@ export default {
   pages: [
     "pages/index/index",
     "pages/mine/index",
-    "pages/mine/setting",
-    "pages/mine/password",
-    "pages/mine/info",
     "pages/login/index",
-    "pages/child/choose",
-    "pages/child/manage",
-    "pages/child/edit",
     "pages/evaluate/list",
     "pages/evaluate/index",
     "pages/evaluate/step",
@@ -35,7 +29,23 @@ export default {
         "pages/book/records",
         "pages/AIevaluate/index"
       ]
-    }
+    },
+    {
+      root: "minePackage",
+      pages: [
+        "pages/setting",
+        "pages/password",
+        "pages/info",
+      ]
+    },
+    {
+      root: "childPackage",
+      pages: [
+        "pages/choose",
+        "pages/manage",
+        "pages/edit",
+      ]
+    },
   ],
   window: {
     backgroundTextStyle: "light",

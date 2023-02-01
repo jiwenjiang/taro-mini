@@ -81,7 +81,7 @@ export default function App() {
   // 跳转至GMs量表儿童选择页面
   const goChildChoosePage = id => {
     navigateTo({
-      url: `/pages/child/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
+      url: `/childPackage/pages/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
     });
   };
 
@@ -110,11 +110,11 @@ export default function App() {
         </View>
         {(order.status === OrderStatus.PAID ||
           order.status === OrderStatus.USED) && (
-          <View className="info">
-            <Text className="label">支付时间</Text>
-            <Text className="value">{order.paidTime}</Text>
-          </View>
-        )}
+            <View className="info">
+              <Text className="label">支付时间</Text>
+              <Text className="value">{order.paidTime}</Text>
+            </View>
+          )}
         {order.status === OrderStatus.USED && (
           <View className="info">
             <Text className="label">使用时间</Text>

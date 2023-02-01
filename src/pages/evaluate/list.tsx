@@ -36,10 +36,10 @@ export default function App() {
     } else {
       if (childContext.child.len) {
         navigateTo({
-          url: `/pages/child/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+          url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
         });
       } else {
-        navigateTo({ url: `/pages/child/manage?code=${scaleTableCode}` });
+        navigateTo({ url: `/childPackage/pages/manage?code=${scaleTableCode}` });
       }
     }
   };

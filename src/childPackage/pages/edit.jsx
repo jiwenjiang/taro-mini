@@ -307,20 +307,20 @@ export default function App() {
 
     // if (pages.some(page => page.route.includes("pages/evaluate/list"))) {
     //   backPageIndex = pages.findIndex(page =>
-    //     page.route.includes("pages/child/choose")
+    //     page.route.includes("childPackage/pages/choose")
     //   );
     // } else {
     //   backPageIndex = pages.findIndex(page =>
-    //     page.route.includes("pages/child/manage")
+    //     page.route.includes("childPackage/pages/manage")
     //   );
     // }
     // navigateBack({
     //   delta: pages.length - backPageIndex - 1
     // });
     if (pages[pages.length - 3]?.route === "pages/evaluate/list") {
-      navigateTo({ url: `/pages/child/choose?code=${router.params.code}` });
+      navigateTo({ url: `/childPackage/pages/choose?code=${router.params.code}` });
     } else {
-      navigateTo({ url: "/pages/child/manage" });
+      navigateTo({ url: "/childPackage/pages/manage" });
     }
   };
 

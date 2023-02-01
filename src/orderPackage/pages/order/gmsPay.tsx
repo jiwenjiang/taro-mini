@@ -42,10 +42,10 @@ export default function App() {
     } else {
       if (childContext.child.len) {
         navigateTo({
-          url: `/pages/child/choose?code=${router.params.code}&orderId=${res.data.orderId}`
+          url: `/childPackage/pages/choose?code=${router.params.code}&orderId=${res.data.orderId}`
         });
       } else {
-        navigateTo({ url: "/pages/child/manage" });
+        navigateTo({ url: "/childPackage/pages/manage" });
       }
     }
   };

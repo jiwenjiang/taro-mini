@@ -16,7 +16,7 @@ const cusStyle = {
 
 export default function App() {
   const record = () => {
-    navigateTo({ url: `/pages/mine/password` });
+    navigateTo({ url: `/minePackage/pages/password` });
   };
 
   return (
