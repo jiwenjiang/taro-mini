@@ -204,6 +204,7 @@ function Card({ data, report, detail }) {
         path: result.data.path,
       })
     }
+    console.log('result: ', result);
   };
 
   const toDetail = () => {
