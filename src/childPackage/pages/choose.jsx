@@ -48,7 +48,7 @@ export default function App() {
   };
 
   const manage = () => {
-    navigateTo({ url: "/pages/child/manage" });
+    navigateTo({ url: "/childPackage/pages/manage" });
   };
 
   const choose = (_v, i) => {

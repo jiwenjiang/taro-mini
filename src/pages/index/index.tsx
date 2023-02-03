@@ -83,7 +83,7 @@ export default function App() {
         <View className={styles.cardBox}>
           <View
             className={styles.miniCard}
-            onClick={() => goto("/pages/evaluate/recordList")}
+            onClick={() => goto("/evaluatePackage/pages/recordList")}
           >
             <Image src={Baogao} className={styles.miniCardImg}></Image>
             <View className={styles.miniCardTitle}>评估报告</View>

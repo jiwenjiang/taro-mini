@@ -208,7 +208,7 @@ export default function App() {
     if (res.code === 0) {
       wx.requestSubscribeMessage({
         tmplIds: ["i753aJ7iEhmSayKg5WGmSjWWZQcVwQZIB5JGA1FTSf4"],
-        success(res) {}
+        success(res) { }
       });
       setStep(4);
     }
@@ -271,7 +271,7 @@ export default function App() {
   const add = () => {
     const returnUrl = Base64.encode("/orderPackage/pages/book/index?type=1");
     Taro.navigateTo({
-      url: `/pages/child/edit?returnUrl=${returnUrl}`
+      url: `/childPackage/pages/edit?returnUrl=${returnUrl}`
     });
   };
 
@@ -345,7 +345,7 @@ export default function App() {
                             className={cls(
                               styles.cTitle,
                               activeCode.find(v => v.code === c.code) &&
-                                styles.active
+                              styles.active
                             )}
                           >
                             {c.name}
@@ -374,23 +374,23 @@ export default function App() {
             {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
               Number(type)
             ) && (
-              <View>
-                <View className={styles.title}>机构信息</View>
-                <View
-                  className={cls(styles.personCard, styles.active)}
-                  onClick={openMap}
-                >
-                  <View className={styles.left}>
-                    <Image src={nanhai} className={styles.gender}></Image>
-                    <View className={styles.nameBox}>
-                      <View className={styles.name}>{org.name}</View>
-                      <View className={styles.date}>{org.address}</View>
+                <View>
+                  <View className={styles.title}>机构信息</View>
+                  <View
+                    className={cls(styles.personCard, styles.active)}
+                    onClick={openMap}
+                  >
+                    <View className={styles.left}>
+                      <Image src={nanhai} className={styles.gender}></Image>
+                      <View className={styles.nameBox}>
+                        <View className={styles.name}>{org.name}</View>
+                        <View className={styles.date}>{org.address}</View>
+                      </View>
                     </View>
+                    <Image src={weizhi} className={styles.choose}></Image>
                   </View>
-                  <Image src={weizhi} className={styles.choose}></Image>
                 </View>
-              </View>
-            )}
+              )}
 
             <View className={styles.title}>查看预约时间</View>
             <View className={styles.riliBox}>
@@ -486,8 +486,8 @@ export default function App() {
                     {type === String(EvaluateType.MENZHEN)
                       ? v.name
                       : type === String(EvaluateType.SHIPIN)
-                      ? "视频一对一"
-                      : "家庭康复指导"}
+                        ? "视频一对一"
+                        : "家庭康复指导"}
                   </View>
                 </View>
               ))}
@@ -501,46 +501,46 @@ export default function App() {
             {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
               Number(type)
             ) && (
-              <View>
-                <View className={styles.payBox}>
-                  <View
-                    className={cls(
-                      styles.payCard,
-                      payMode === 1 && styles.active
-                    )}
-                    onClick={() => changePay(1)}
-                  >
-                    <Text>院内支付</Text>
-                    <Image src={xuanzhong} className={styles.choose}></Image>
-                  </View>
-                  {/* <View
+                <View>
+                  <View className={styles.payBox}>
+                    <View
+                      className={cls(
+                        styles.payCard,
+                        payMode === 1 && styles.active
+                      )}
+                      onClick={() => changePay(1)}
+                    >
+                      <Text>院内支付</Text>
+                      <Image src={xuanzhong} className={styles.choose}></Image>
+                    </View>
+                    {/* <View
                 className={cls(styles.payCard, payMode === 2 && styles.active)}
                 // onClick={() => changePay(2)}
               >
                 <Text>在线支付</Text>
                 <Image src={weixuanzhong} className={styles.choose}></Image>
               </View> */}
-                </View>
-                <View className={styles.danjuBox}>
-                  {pic.url ? (
-                    <View style={{ position: "relative" }}>
-                      <Clear
-                        className={styles.clear}
-                        onClick={e => del()}
-                        color="#f2b04f"
-                      />
-                      <Image src={pic.url} className={styles.pic} />
+                  </View>
+                  <View className={styles.danjuBox}>
+                    {pic.url ? (
+                      <View style={{ position: "relative" }}>
+                        <Clear
+                          className={styles.clear}
+                          onClick={e => del()}
+                          color="#f2b04f"
+                        />
+                        <Image src={pic.url} className={styles.pic} />
+                      </View>
+                    ) : (
+                      <Plus className={styles.addIcon} onClick={chooseMedia} />
+                    )}
+                    <View>
+                      <View>请上传院内缴费单据</View>
+                      <View>人工审核无误后即可预约成功</View>
                     </View>
-                  ) : (
-                    <Plus className={styles.addIcon} onClick={chooseMedia} />
-                  )}
-                  <View>
-                    <View>请上传院内缴费单据</View>
-                    <View>人工审核无误后即可预约成功</View>
                   </View>
                 </View>
-              </View>
-            )}
+              )}
             {[EvaluateType.SHIPIN].includes(Number(type)) && (
               <View>
                 <View className={styles.title}>服务介绍</View>
@@ -585,26 +585,26 @@ export default function App() {
               {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
                 Number(type)
               ) && (
-                <View className={styles.tipBody}>
-                  <View className={styles.hasComplate}>已预约完成！</View>
-                  <View>后台审核单据无误后会短信通知；</View>
-                  <View>
-                    {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
-                    院内支付请于{activeDay} {" "}
-                    {activeTime?.startTime}前携带收费单据到指定地点。
-                  </View>
-                  <View>如有问题，请提前电话联系010-56190995</View>
-                  <View className={styles.loc} onClick={openMap}>
-                    <View className={styles.left}>
-                      <View className={styles.nameBox}>
-                        <View className={styles.name}>{org.name}</View>
-                        <View className={styles.date}>{org.address}</View>
-                      </View>
+                  <View className={styles.tipBody}>
+                    <View className={styles.hasComplate}>已预约完成！</View>
+                    <View>后台审核单据无误后会短信通知；</View>
+                    <View>
+                      {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
+                      院内支付请于{activeDay} {" "}
+                      {activeTime?.startTime}前携带收费单据到指定地点。
                     </View>
-                    <Image src={weizhi} className={styles.choose}></Image>
+                    <View>如有问题，请提前电话联系010-56190995</View>
+                    <View className={styles.loc} onClick={openMap}>
+                      <View className={styles.left}>
+                        <View className={styles.nameBox}>
+                          <View className={styles.name}>{org.name}</View>
+                          <View className={styles.date}>{org.address}</View>
+                        </View>
+                      </View>
+                      <Image src={weizhi} className={styles.choose}></Image>
+                    </View>
                   </View>
-                </View>
-              )}
+                )}
               {[EvaluateType.SHIPIN].includes(Number(type)) && (
                 <View className={styles.tipBody}>
                   <View className={styles.hasComplate}>已预约完成！</View>

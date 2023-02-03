@@ -39,13 +39,13 @@ export default function App() {
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
     navigateTo({
-      url: `/pages/child/edit?code=${router.params.code}`
+      url: `/childPackage/pages/edit?code=${router.params.code}`
     });
   };
   // 跳转至添加儿童页面，并带上儿童 ID，以编辑儿童信息
   const edit = index => {
     navigateTo({
-      url: `/pages/child/edit?childId=${children[index].id}`
+      url: `/childPackage/pages/edit?childId=${children[index].id}`
     });
   };
 

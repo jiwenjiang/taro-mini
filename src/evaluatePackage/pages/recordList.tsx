@@ -65,7 +65,7 @@ export default function App() {
       item.scaleTableCode === ScaleTableCode.LEIBO_GMS
     ) {
       navigateTo({
-        url: `/pages/evaluate/stepDetail?id=${item.id}`
+        url: `/evaluatePackage/pages/stepDetail?id=${item.id}`
       });
     }
     if (item.scaleTableCode === ScaleTableCode.Griffiths) {

@@ -1,142 +1,188 @@
+@mixin main-text {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--main-text);
+}
+
 .index {
-    background-color: #f9fbfc;
+    --gray: #fafafa;
     --primary-color: #f2b04f;
-}
+    --purple: #635DF7;
+    --blue: #78A4FA;
+    --green: #06CC76;
+    --red: #F44336;
+    --main-text: #112950;
+    --sub-text: #615A53;
+    --size-sm: 24px;
 
-.box {
-    overflow: hidden;
-    margin-bottom: 20px;
-}
+    min-height: 100vh;
+    background-color: var(--gray);
+    padding-bottom: 32px;
 
-.cardBox {
-    background-color: transparent;
-    padding: 8PX;
-    padding-bottom: 0;
-
-    .kv {
+    .bizTypes {
+        box-sizing: border-box;
+        padding: 32px 40px;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10PX;
-    }
+        align-items: center;
+        font-size: var(--size-sm);
 
-    .k {
-        color: #7f7f7f;
-    }
+        .item {
+            width: 33.33%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--sub-text);
 
-    .v {
-        color: #181818;
-    }
-}
+            &.active {
+                color: var(--main-text);
+                font-weight: bold;
 
-.card {
-    background-color: #fff;
-    background: #ffffff;
-    box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
-    border-radius: 8PX;
-    border: 1PX solid var(--primary-color);
-    padding: 15PX;
-    font-size: 13PX;
+                .border {
+                    opacity: 1;
+                }
+            }
 
-    .scaleName {
-        font-size: 13PX;
-        font-weight: bold;
-        color: #181818;
-        margin-top: 4PX;
-        margin-bottom: 16PX;
-        width: 650px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+            .text {
+                padding-bottom: 12px;
+            }
 
-    img {
-        border-radius: 15PX;
-        border: 1PX solid #f0f0f0;
-        width: 100%;
-        height: 193PX;
-    }
-
-    .title {
-        font-size: 13PX;
-        font-weight: bold;
-        color: #181818;
-        line-height: 19PX;
-        margin: 10PX 0;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .report {
-        text-decoration: underline;
-        color: var(--primary-color);
-
-        .arrow {
-            color: #7f7f7f;
+            .border {
+                width: 48px;
+                height: 4px;
+                background-color: var(--purple);
+                border-radius: 2px;
+                opacity: 0;
+            }
         }
     }
 
-    .trainingTime {
-        font-size: 13PX;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #7f7f7f;
-    }
-}
-
-.popBox {
-    padding: 8PX;
-    padding-bottom: 0;
-    background-color: #f9fbfc;
-}
-
-.innerBox {
-    background: #ffffff;
-    box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
-    border-radius: 8PX;
-    border: 1PX solid #f0f0f0;
-    height: 292PX;
-    overflow-y: auto;
-    padding: 0 15PX;
-}
-
-.listBox {
-    height: 54PX;
-    border-bottom: 1PX solid #f0f0f0;
-    padding-top: 8PX;
-    position: relative;
-
-    .listTitle {
-        font-size: 13PX;
-        color: #181818;
-        margin-bottom: 4PX;
-    }
-
-    .listDesc {
-        font-size: 13PX;
-        color: #7f7f7f;
-    }
-
-    .arrow {
-        position: absolute;
-        right: 0;
-        top: 20PX;
-        color: #7f7f7f;
-    }
-}
-
-.btnbox {
-    display: flex;
-    align-items: center;
-    height: 48PX;
-    border-top: 1PX solid #f0f0f0;
-
-    .btn {
-        flex: 1;
+    .noData {
+        box-sizing: border-box;
+        padding: 40px 0;
         text-align: center;
-        color: var(--primary-color);
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include main-text;
+    }
+
+    .cardBox {
+        padding: 0 40px 24px;
+
+        .card {
+            background-color: #fff;
+            background: #ffffff;
+            box-shadow: 2PX 2PX 4PX 0PX rgba(24, 24, 24, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            .row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .child {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        width: 48px;
+                    }
+
+                    .name {
+                        margin-left: 16px;
+                        @include main-text;
+                    }
+                }
+
+                .status {
+                    width: 136px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: var(--size-sm);
+
+                    .icon {
+                        width: 24px;
+                    }
+
+                    .pending {
+                        color: var(--purple);
+                    }
+
+                    .reviewed,
+                    .waitingstart {
+                        color: var(--blue);
+                    }
+
+                    .confirmed {
+                        color: var(--green);
+                        font-weight: bold;
+                    }
+
+                    .rejected {
+                        color: var(--red);
+                    }
+                }
+            }
+
+            .biztype {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                .icon {
+                    width: 48px;
+                }
+
+                .text {
+                    margin-left: 16px;
+                    @include main-text;
+                }
+            }
+
+            .reserveDetail {
+                background-color: var(--gray);
+                box-sizing: border-box;
+                padding: 24px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: var(--size-sm);
+                    color: var(--sub-text);
+
+                    .bottom {
+                        margin-top: 16px;
+                    }
+                }
+
+                .action {
+                    .btn {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 128px;
+                        height: 52px;
+                        border-radius: 999em;
+                        background-color: var(--primary-color);
+                        color: #fff;
+                        font-size: var(--size-sm);
+                    }
+
+                    .location {
+                        padding: var(--size-sm);
+
+                        .icon {
+                            width: 32px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -274,7 +274,7 @@ export default function App() {
         Number(router.params.code) === ScaleTableCode.LEIBO_GMS
       ) {
         navigateTo({
-          url: `/pages/evaluate/stepDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+          url: `/evaluatePackage/pages/stepDetail?id=${res.data.id}&returnUrl=/pages/index/index`
         });
       } else {
         navigateTo({
@@ -283,7 +283,7 @@ export default function App() {
       }
       wx.requestSubscribeMessage({
         tmplIds: ["0uUpTebwJQRY49Lcq6IysK3apBtJvKZphwCaccuLCX8"],
-        success(res) {}
+        success(res) { }
       });
       // if (router.params.code === "9") {
       // }
@@ -476,7 +476,7 @@ export default function App() {
             </View>
             <View>
               {active === data.length - 1 &&
-              questionIndex === data[active]?.questions?.length - 1 ? (
+                questionIndex === data[active]?.questions?.length - 1 ? (
                 <View className={styles.btnbox}>
                   {data[active]?.questions?.length > 1 && (
                     <Button className={styles.btn} onClick={pre}>
