@@ -166,18 +166,18 @@ function Card() {
   };
 
   const changeTab = async e => {
-    if (!abnormal[e].detail) {
+    const index = abnormal.findIndex(c => c.name === e);
+    if (!abnormal[index].detail) {
       const res = await request({
         url: "/scaleRecord/abnormal/methods/detail",
         data: {
-          abnormalIterm: abnormal[e].name
+          abnormalIterm: abnormal[index].name
         }
       });
-      abnormal[e].detail = handleRichText(res.data.detail);
+      abnormal[index].detail = handleRichText(res.data.detail);
       setAbnormal([...abnormal]);
     }
-    setActiveTab(abnormal[e].name);
-    console.log("🚀 ~ file: stepDetail.tsx:159 ~ changeTab ~ e", e);
+    setActiveTab(abnormal[index].name);
   };
 
   useEffect(() => {
@@ -185,7 +185,6 @@ function Card() {
   }, []);
 
   const playVideo = (v, id) => {
-    console.log("🚀 ~ file: stepDetail.tsx:183 ~ playVideo ~ v", v);
     setCurrentVideoUrl(v);
     // videoContext.current.requestFullScreen();
     videoContext.current.requestFullScreen({ direction: 0 });
@@ -195,7 +194,6 @@ function Card() {
   };
 
   const leaveVideo = () => {
-    console.log("🚀 ~ file: stepDetail.tsx:198 ~ leaveVideo ~ leaveVideo")
     videoContext.current.pause();
     setCurrentVideoUrl("");
   };
@@ -208,8 +206,7 @@ function Card() {
 
   const toTab = v => {
     if (v.status > 0) {
-      const index = abnormal.findIndex(c => c.name === v.name);
-      changeTab(index);
+      changeTab(v.name);
     }
   };
 
@@ -515,7 +512,7 @@ function Info({ data }) {
 
         <View className={cls(styles.listItem, styles.list)}>
           <View className={styles.newkv}>
-            <Text className={styles.k}>编号</Text>
+            <Text className={styles.k}>报告编号</Text>
             <Text className={styles.v}>{data.id}</Text>
           </View>
           <View className={styles.newkv}>

@@ -57,7 +57,7 @@ export default function App() {
             <View className={styles.cardDesc}>专家面对面评估</View>
           </View>
           <View
-            className={cls(styles.card, styles.allCard)}
+            className={cls(styles.card)}
             onClick={() => goto("/orderPackage/pages/book/index?type=4")}
           >
             <Image src={VideoImg} className={styles.cardImg}></Image>
