@@ -257,9 +257,6 @@ function Card({ data, report, detail }) {
                 {ReserveStatuses[data.reserveStatus].text}
               </View>
             )}
-            <View className={styles.pending}>
-              {data.reserveStatus}
-            </View>
           </View>
         </View>
         <View className={styles.biztype}>
