@@ -56,7 +56,6 @@
     }
   ]);
   setAppId(app.name);
-  return
 
   // check the code enters the repository
   const res = execa.execaCommandSync("git diff");
