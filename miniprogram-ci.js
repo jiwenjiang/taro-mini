@@ -4,6 +4,8 @@
   const ci = require("miniprogram-ci");
   const projectJson = require("./project.config.json");
   const version = require("./version");
+  const setAppId = require("./appid-config");
+
   // check in main branch
   const curbranch = getGitBranch();
   if (curbranch !== "main" && curbranch !== "master") {
@@ -44,6 +46,17 @@
 
   // update version
   version.updateVersion();
+  // set appid
+  const app = await inquirer.default.prompt([
+    {
+      type: "list",
+      name: "name",
+      message: "请选择上传的小程序",
+      choices: ["fushu", "leibo"]
+    }
+  ]);
+  setAppId(app.name);
+  return
 
   // check the code enters the repository
   const res = execa.execaCommandSync("git diff");
@@ -68,7 +81,7 @@
     appid: projectJson.appid,
     type: "miniProgram",
     projectPath: projectJson.miniprogramRoot,
-    privateKeyPath: "private.mini.key",
+    privateKeyPath: `private.mini.${app.name}.key`,
     ignores: ["node_modules/**/*"],
     robot: 1
   });

@@ -15,7 +15,7 @@ export default function App() {
 }
 
 function Card() {
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<any>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -50,10 +50,12 @@ function Card() {
           className={styles.reportImg}
         ></Image>
       </View>
-      <View className={styles.downLoadBox} onClick={preview}>
-        下载报告&nbsp;
-        <Image src={Down} className={styles.downLoad} />{" "}
-      </View>
+      {data?.[0] && (
+        <View className={styles.downLoadBox} onClick={preview}>
+          下载报告&nbsp;
+          <Image src={Down} className={styles.downLoad} />{" "}
+        </View>
+      )}
     </View>
   );
 }

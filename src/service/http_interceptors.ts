@@ -1,10 +1,12 @@
 import { addInterceptor, Chain, getStorageSync } from "@tarojs/taro";
+const projectConfig = require("../../project.config.json");
 
 async function headerInterceptor(chain: Chain) {
   const req = chain.requestParams;
   req["header"] = {
     ...req["header"],
-    "recovery-token": getStorageSync("token")
+    "recovery-token": getStorageSync("token"),
+    "app-id": projectConfig.appid
   };
   let res;
   try {
@@ -21,7 +23,5 @@ function handleErr(err) {
     err
   );
 }
-
-
 
 addInterceptor(headerInterceptor);
