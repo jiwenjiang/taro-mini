@@ -4,6 +4,10 @@
   --primary-color: #f2b04f;
   --text-color: #112950;
   box-sizing: border-box;
+
+  :global(.taroify-popup--top) {
+    top: 82PX;
+  }
 }
 
 .bottomPart {

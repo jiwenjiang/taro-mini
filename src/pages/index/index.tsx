@@ -39,8 +39,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    const user = getStorageSync("user");
-    setModules(user?.modules);
+    const timer = setInterval(() => {
+      const user = getStorageSync("user");
+      if (user) {
+        setModules(user?.modules);
+        clearInterval(timer);
+      }
+    }, 1000);
   }, []);
 
   return (
