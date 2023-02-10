@@ -43,6 +43,10 @@ export default function App() {
     // console.log("🚀 ~ file: index.tsx ~ line 21 ~ App ~ res", res);
   };
 
+  const back = () => {
+    Taro.switchTab({ url: "/pages/index/index" });
+  };
+
   return (
     <View className={styles.box}>
       <View className={styles.shadow}>
@@ -50,7 +54,7 @@ export default function App() {
           <Image src={logo} className={styles.img} />
         </View>
         <View className={styles.title}>脑科学数字化精准康复变革者</View>
-        <View>
+        <View className={styles.btnBox}>
           <Button
             className={styles.btn}
             color="primary"
@@ -58,6 +62,9 @@ export default function App() {
             openType="getPhoneNumber"
           >
             微信登录
+          </Button>
+          <Button className={styles.btn} onClick={back}>
+            取消
           </Button>
         </View>
 

@@ -7,6 +7,7 @@
   box-sizing: border-box;
   --primary-color: #ffd340;
 }
+
 .shadow {
   flex: 1;
   box-shadow: 4PX 4PX 8PX 0PX rgba(0, 0, 0, 0.16);
@@ -16,6 +17,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+
   .imgBox {
     width: 115PX;
     height: 115PX;
@@ -28,24 +30,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     .img {
       width: 65PX;
       height: 87PX;
     }
   }
+
   .title {
     font-size: 15PX;
     font-weight: bold;
     color: #181818;
     margin-top: 20PX;
   }
+
   .input {
     width: 330PX;
   }
+
+  .btnBox {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .btn {
     margin-top: 31PX;
     width: 300PX;
   }
+
   .rights {
     font-size: 13PX;
     font-weight: 400;

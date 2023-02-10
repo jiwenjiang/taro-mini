@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro";
+import Taro, { getCurrentPages, navigateTo } from "@tarojs/taro";
 
 const host = "https://wx.fushuhealth.com/recovery-wx";
 // const host = "https://wx-test.fushuhealth.com/recovery-wx";
@@ -20,7 +20,7 @@ const request = (options: {
       success(request: any) {
         //监听成功后的操作
         if (request.statusCode === 200) {
-          if (request.data?.success || request.data?.code === 2) {
+          if (request.data?.success) {
             resolve(request.data);
           } else {
             Taro.showToast({
@@ -28,6 +28,15 @@ const request = (options: {
               icon: "error",
               duration: 500
             });
+            if (request.data?.code === 2) {
+              const pages = getCurrentPages();
+              const path = pages[pages.length - 1].route;
+              navigateTo({
+                url: `/pages/login/index?returnUrl=/${path}&channel=${options.channel}&orgid=${options.orgid}`
+              });
+            } else {
+              reject(request.data);
+            }
           }
         } else {
           //如果没有获取成功返回值,把request.data传入到reject中

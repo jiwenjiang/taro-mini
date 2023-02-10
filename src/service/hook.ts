@@ -1,9 +1,4 @@
-import Taro, {
-  getCurrentPages,
-  navigateTo,
-  setStorageSync,
-  useRouter
-} from "@tarojs/taro";
+import Taro, { navigateTo, setStorageSync, useRouter } from "@tarojs/taro";
 import { useRef, useState } from "react";
 import request from "./request";
 
@@ -98,28 +93,22 @@ export function useAuth() {
   const getAuth = async (cb?: Function, options: any = {}) => {
     const login = await Taro.login();
     const userInfo = await Taro.getUserInfo();
-    const res = await request({
-      url: "/miniapp/wxLogin",
-      data: {
-        code: login.code,
-        encryptedData: userInfo.encryptedData,
-        iv: userInfo.iv,
-        ...options
-      }
-    });
-    if (res.code === 0) {
-      setStorageSync("token", res.data.token);
-      setStorageSync("user", res.data.user);
-      cb?.();
-    }
-
-    if (res.code === 2) {
-      const pages = getCurrentPages();
-      const path = pages[pages.length - 1].route;
-      navigateTo({
-        url: `/pages/login/index?returnUrl=/${path}&channel=${options.channel}&orgid=${options.orgid}`
+    try {
+      const res = await request({
+        url: "/miniapp/wxLogin",
+        data: {
+          code: login.code,
+          encryptedData: userInfo.encryptedData,
+          iv: userInfo.iv,
+          ...options
+        }
       });
-    }
+      if (res.code === 0) {
+        setStorageSync("token", res.data.token);
+        setStorageSync("user", res.data.user);
+        cb?.();
+      }
+    } catch (res) {}
   };
   return { getAuth };
 }
