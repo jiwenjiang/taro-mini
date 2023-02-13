@@ -62,6 +62,7 @@ export default function App() {
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
   const [title] = useState(transTitle(Number(router.params.code)));
+  const tempId = useRef();
 
   const getList = async () => {
     const res = await request({
@@ -94,8 +95,16 @@ export default function App() {
     setVisible(true);
   };
 
+  const getTemp = async () => {
+    const res = await request({
+      url: "/wx/portal/template"
+    });
+    tempId.current = res.data.scaleResultNotify;
+  };
+
   useEffect(() => {
     getList();
+    getTemp();
   }, []);
 
   const pre = () => {
@@ -282,8 +291,8 @@ export default function App() {
         });
       }
       wx.requestSubscribeMessage({
-        tmplIds: ["0uUpTebwJQRY49Lcq6IysK3apBtJvKZphwCaccuLCX8"],
-        success(res) { }
+        tmplIds: [tempId.current],
+        success(res) {}
       });
       // if (router.params.code === "9") {
       // }
@@ -476,7 +485,7 @@ export default function App() {
             </View>
             <View>
               {active === data.length - 1 &&
-                questionIndex === data[active]?.questions?.length - 1 ? (
+              questionIndex === data[active]?.questions?.length - 1 ? (
                 <View className={styles.btnbox}>
                   {data[active]?.questions?.length > 1 && (
                     <Button className={styles.btn} onClick={pre}>

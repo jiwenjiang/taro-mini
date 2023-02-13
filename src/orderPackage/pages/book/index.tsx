@@ -15,7 +15,7 @@ import { Arrow, Clear, Plus } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
@@ -41,6 +41,7 @@ export default function App() {
   const [payMode, setPayMode] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
+  const tempId = useRef();
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -207,7 +208,7 @@ export default function App() {
     });
     if (res.code === 0) {
       wx.requestSubscribeMessage({
-        tmplIds: ["i753aJ7iEhmSayKg5WGmSjWWZQcVwQZIB5JGA1FTSf4"],
+        tmplIds: [tempId.current],
         success(res) {}
       });
       setStep(4);
@@ -248,11 +249,19 @@ export default function App() {
     });
   };
 
+  const getTemp = async () => {
+    const res = await request({
+      url: "/wx/portal/template"
+    });
+    tempId.current = res.data.scaleResultNotify;
+  };
+
   useEffect(() => {
     getOrg();
     getChild();
     getTable();
     initDate();
+    getTemp()
     if (type === String(EvaluateType.SHIPIN)) {
       request({ url: "/videoGuide/price" }).then(res => {
         setPriceInfo(res.data);
