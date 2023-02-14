@@ -1,7 +1,7 @@
 import Taro, { getCurrentPages, navigateTo } from "@tarojs/taro";
 
-// const host = "https://wx.fushuhealth.com/recovery-wx";
-const host = "https://wx-test.fushuhealth.com/recovery-wx";
+const host = "https://wx.fushuhealth.com/recovery-wx";
+// const host = "https://wx-test.fushuhealth.com/recovery-wx";
 
 const request = (options: {
   url: string;
