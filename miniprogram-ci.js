@@ -2,7 +2,6 @@
   const execa = await import("execa");
   const inquirer = await import("inquirer");
   const ci = require("miniprogram-ci");
-  const projectJson = require("./project.config.json");
   const version = require("./version");
   const setAppId = require("./appid-config");
 
@@ -75,6 +74,7 @@
     const res = execa.execaCommandSync(`git log --pretty=format:${format} -1`);
     return res.stdout;
   }
+  const projectJson = require("./project.config.json");
 
   const project = new ci.Project({
     appid: projectJson.appid,
@@ -84,6 +84,7 @@
     ignores: ["node_modules/**/*"],
     robot: 1
   });
+  
   const uploadResult = await ci.upload({
     project,
     version: version.getVersion(),
