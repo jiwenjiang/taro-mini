@@ -164,7 +164,7 @@ export default function App() {
       url: "/reserve/submit",
       method: "POST",
       data: {
-        scaleTableCode: router.params.code,
+        scaleCodes: [router.params.code],
         childrenId: 0,
         type: 3,
         workScheduleId: 0,
