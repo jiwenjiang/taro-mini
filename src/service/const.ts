@@ -31,4 +31,9 @@ export enum EvaluateType {
   SHIPIN = 4
 }
 
+export enum PaymentType {
+  OFFLINE = 1,
+  ONLINE
+}
+
 export const tabPages = ["/pages/index/index", "pages/mine/index"];
