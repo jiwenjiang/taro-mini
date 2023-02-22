@@ -253,7 +253,7 @@ export default function App() {
     const res = await request({
       url: "/wx/portal/template"
     });
-    tempId.current = res.data.scaleResultNotify;
+    tempId.current = res.data.newReserveNotify;
   };
 
   useEffect(() => {
