@@ -75,6 +75,10 @@
     return res.stdout;
   }
   const projectJson = require("./project.config.json");
+  console.log(
+    "🚀 ~ file: miniprogram-ci.js:78 ~ projectJson:",
+    projectJson.appid
+  );
 
   const project = new ci.Project({
     appid: projectJson.appid,
@@ -84,7 +88,7 @@
     ignores: ["node_modules/**/*"],
     robot: 1
   });
-  
+
   const uploadResult = await ci.upload({
     project,
     version: version.getVersion(),

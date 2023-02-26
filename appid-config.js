@@ -24,6 +24,7 @@ const setAppId = (env) => {
   config.appid = appId;
   const newContent = JSON.stringify(config, null, 2);
   writeFileSync(configFilePath, newContent, option);
+  return appId
 };
 
 module.exports = setAppId;
