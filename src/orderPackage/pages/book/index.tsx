@@ -41,7 +41,7 @@ export default function App() {
   const [payMode, setPayMode] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
-  const tempId = useRef();
+  const tempId = useRef<any>();
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -208,9 +208,13 @@ export default function App() {
     });
     if (res.code === 0) {
       wx.requestSubscribeMessage({
-        tmplIds: [tempId.current],
+        tmplIds: [
+          tempId.current.newReserveNotify,
+          tempId.current.scaleResultNotify
+        ],
         success(res) {}
       });
+
       setStep(4);
     }
   };
@@ -253,7 +257,7 @@ export default function App() {
     const res = await request({
       url: "/wx/portal/template"
     });
-    tempId.current = res.data.newReserveNotify;
+    tempId.current = res.data;
   };
 
   useEffect(() => {
@@ -261,7 +265,7 @@ export default function App() {
     getChild();
     getTable();
     initDate();
-    getTemp()
+    getTemp();
     if (type === String(EvaluateType.SHIPIN)) {
       request({ url: "/videoGuide/price" }).then(res => {
         setPriceInfo(res.data);
