@@ -21,6 +21,8 @@ export default {
       pages: [
         "pages/stepDetail",
         "pages/recordList",
+        "pages/ganyuList",
+        // "pages/ganyuDetail",
       ]
     },
     {

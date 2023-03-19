@@ -172,6 +172,13 @@
           "query": "id=293&name=aa",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/ganyuList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
