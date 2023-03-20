@@ -1,8 +1,8 @@
-import { PaymentType, ScaleTableCode } from "@/service/const";
+import { PaymentType } from "@/service/const";
 import request from "@/service/request";
 import OfflineImg from "@/static/imgs/offline.png";
 import OnlineImg from "@/static/imgs/online.png";
-import { List, Loading } from "@taroify/core";
+import { List, Loading, Popup } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
 import { navigateTo, usePageScroll } from "@tarojs/taro";
 import React, { useRef, useState } from "react";
@@ -57,38 +57,6 @@ export default function App() {
     setLoading(false);
   };
 
-  const goReport = item => {
-    console.log("🚀 ~ file: recordList.tsx ~ line 47 ~ goReport ~ item", item);
-    if (item.scaleTableCode === ScaleTableCode.BRAIN) {
-      navigateTo({
-        url: `/pages/evaluate/brainDetail?id=${item.id}`
-      });
-    }
-    if (item.scaleTableCode === ScaleTableCode.GMS) {
-      navigateTo({
-        url: `/pages/evaluate/gmsDetail?id=${item.id}`
-      });
-    }
-    if (item.scaleTableCode === ScaleTableCode.BRAIN_GMS) {
-      navigateTo({
-        url: `/pages/evaluate/brainGmsDetail?id=${item.id}`
-      });
-    }
-    if (
-      item.scaleTableCode === ScaleTableCode.LEIBO_BRAIN ||
-      item.scaleTableCode === ScaleTableCode.LEIBO_GMS
-    ) {
-      navigateTo({
-        url: `/evaluatePackage/pages/stepDetail?id=${item.id}`
-      });
-    }
-    if (item.scaleTableCode === ScaleTableCode.Griffiths) {
-      navigateTo({
-        url: `/pages/evaluate/previewReport?id=${item.id}&name=${item.scaleName}`
-      });
-    }
-  };
-
   return (
     <View className={styles.index}>
       <List
@@ -111,13 +79,47 @@ export default function App() {
 }
 
 function Card({ data }) {
-  //   const toReport = () => {
-  //     report?.(data);
-  //   };
+  const [result, setResult] = useState({ visible: false, content: "" });
+  const report = (id, url, name) => {
+    navigateTo({
+      url: `/pages/evaluate/previewReport?id=${id}&name=${name}&url=${url}`
+    });
+  };
 
-  //   const toDetail = () => {
-  //     detail?.(data);
-  //   };
+  const toDetail = () => {
+    navigateTo({
+      url: `/evaluatePackage/pages/ganyuDetail?id=${data.id}`
+    });
+  };
+
+  const btnText = item => {
+    if (item.trainingType === PaymentType.ONLINE && item.trainingStatus === 1) {
+      return "进入房间";
+    } else {
+      return "查看小结";
+    }
+  };
+
+  const open = async item => {
+    if (item.trainingType === PaymentType.ONLINE && item.trainingStatus === 1) {
+      const result = await request({
+        url: `/recovery/training/meetingRoom?id=${item.id}`
+      });
+      if (result.success && result.data.appId) {
+        wx.navigateToMiniProgram({
+          appId: result.data.appId,
+          path: result.data.path
+        });
+      }
+    } else {
+      const res = await request({
+        url: `/recovery/training/summary`,
+        data: { id: item.id }
+      });
+      console.log("🚀 ~ file: ganyuList.tsx:147 ~ open ~ res:", res);
+      setResult({ visible: true, content: res.data });
+    }
+  };
 
   return (
     <View className={styles.cardBox}>
@@ -150,22 +152,42 @@ function Card({ data }) {
             </View>
             <View className={styles.secondLine}>
               <View>预约时间：{v?.reserveTime}</View>
-              <View className={styles.secondLineBtn}></View>
+              <View className={styles.secondLineBtn} onClick={() => open(v)}>
+                {btnText(v)}
+              </View>
             </View>
           </View>
         ))}
       </View>
       <View className={styles.btnbox}>
-        <View className={styles.btn} onClick={() => {}}>
+        <View className={styles.btn} onClick={() => toDetail()}>
           方案详情
         </View>
-        <View className={styles.btn} onClick={() => {}}>
+        <View
+          className={styles.btn}
+          onClick={() =>
+            report(data.id, "/recovery/first-assessment/pdf", "首诊评估")
+          }
+        >
           首诊评估
         </View>
-        <View className={styles.btn} onClick={() => {}}>
+        <View
+          className={styles.btn}
+          onClick={() =>
+            report(data.id, "/recovery/stage-summary/pdf", "康复总结")
+          }
+        >
           康复总结
         </View>
       </View>
+      <Popup
+        open={result.visible}
+        placement="bottom"
+        style={{ height: "40%" }}
+        onClose={() => setResult({ visible: false, content: "" })}
+      >
+        <View className={styles.popContent}>{result.content}</View>
+      </Popup>
     </View>
   );
 }

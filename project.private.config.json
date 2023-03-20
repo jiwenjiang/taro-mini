@@ -7,36 +7,8 @@
       "list": [
         {
           "name": "",
-          "pathName": "pages/login/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/brain",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/choose",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/evaluate/brainDetail",
           "query": "id=120",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/gmsDetail",
-          "query": "id=121",
           "launchMode": "default",
           "scene": null
         },
@@ -51,13 +23,6 @@
           "name": "",
           "pathName": "pages/evaluate/stepDetail",
           "query": "id=255",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "orderPackage/pages/order/detail",
-          "query": "id=81",
           "launchMode": "default",
           "scene": null
         },
@@ -161,13 +126,6 @@
         },
         {
           "name": "",
-          "pathName": "pages/evaluate/stepDetail",
-          "query": "id=298&returnUrl=%2Fpages%2Findex%2Findex",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/evaluate/previewReport",
           "query": "id=293&name=aa",
           "launchMode": "default",
@@ -177,6 +135,13 @@
           "name": "",
           "pathName": "evaluatePackage/pages/ganyuList",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/ganyuDetail",
+          "query": "id=3",
           "launchMode": "default",
           "scene": null
         }

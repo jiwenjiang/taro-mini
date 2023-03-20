@@ -836,3 +836,44 @@
 
     }
 }
+
+.gapHead {
+    font-size: 32px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    color: #112950;
+    padding: 40px 0 0 40px;
+}
+
+.target {
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 72px;
+    letter-spacing: 0px;
+    color: #112950;
+    height: 72px;
+    border-bottom: 1px solid #EBEBEB;
+}
+
+.videoLine {
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 72px;
+    letter-spacing: 0px;
+    color: #112950;
+    height: 72px;
+    border-bottom: 1px solid #EBEBEB;
+    display: flex;
+    align-items: center;
+
+    .refer {
+        color: #615A53;
+        margin-left: 32px;
+    }
+
+    .playImg {
+        margin-left: auto;
+        width: 30px;
+        height: 30px;
+    }
+}

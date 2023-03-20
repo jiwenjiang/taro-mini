@@ -99,8 +99,8 @@
       minifyWXSS: true,
       minify: true
     },
-    onProgressUpdate: () => {
-      console.log("\x1b[36m%s\x1b[0m", "building...");
+    onProgressUpdate: (res) => {
+      console.log("\x1b[36m%s\x1b[0m", `building...${res.progress}`);
     }
   });
   if (uploadResult) {

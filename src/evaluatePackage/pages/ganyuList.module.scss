@@ -89,6 +89,19 @@
             line-height: 36px;
             letter-spacing: 0px;
             color: #615A53;
+            align-items: center;
+
+            .secondLineBtn {
+                width: 128px;
+                height: 52px;
+                background-color: var(--primary-color);
+                border-radius: 24px;
+                font-size: 24px;
+                color: #FFFFFF;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
 
         .cardImg {
@@ -196,4 +209,9 @@
         color: #FFFFFF;
 
     }
+}
+
+.popContent {
+    padding: 24px;
+    border-radius: 16px;
 }

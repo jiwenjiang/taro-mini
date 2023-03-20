@@ -24,9 +24,10 @@ function Card() {
 
   const downloadImg = async () => {
     const res = await request({
-      url: "/scaleRecord/report/picture",
+      url: router.params.url ?? "/scaleRecord/report/picture",
       data: { id: router.params.id }
     });
+    console.log("🚀 ~ file: previewReport.tsx:30 ~ downloadImg ~ res:", res)
     setData(res.data);
   };
 
@@ -45,7 +46,7 @@ function Card() {
       <View>
         <Image
           onClick={preview}
-          src={data}
+          src={data[0]}
           mode="widthFix"
           className={styles.reportImg}
         ></Image>
