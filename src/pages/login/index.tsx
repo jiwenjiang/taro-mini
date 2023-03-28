@@ -1,16 +1,17 @@
 import { tabPages } from "@/service/const";
 import { useAuth } from "@/service/hook";
 import request from "@/service/request";
-import logo from "@/static/imgs/logo.png";
+import defaultLogo from "@/static/imgs/logo.png";
 import { Button } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
 import Taro, { reLaunch, useRouter } from "@tarojs/taro";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
 export default function App() {
   const router = useRouter();
   const { getAuth } = useAuth();
+  const [logo, setLogo] = useState("");
 
   const onGetPhoneNumber = async e => {
     const login = await Taro.login();
@@ -47,11 +48,24 @@ export default function App() {
     Taro.switchTab({ url: "/pages/index/index" });
   };
 
+  useEffect(() => {
+    (async () => {
+      const res = await request({
+        url: "/wx/portal/logo",
+        data: {
+          channel: router.params.channel || "",
+          orgid: router.params.orgid || 0
+        }
+      });
+      setLogo(res.data.url);
+    })();
+  });
+
   return (
     <View className={styles.box}>
       <View className={styles.shadow}>
         <View className={styles.imgBox}>
-          <Image src={logo} className={styles.img} />
+          <Image src={logo || defaultLogo} className={styles.img} />
         </View>
         <View className={styles.title}>脑科学数字化精准康复变革者</View>
         <View className={styles.btnBox}>
