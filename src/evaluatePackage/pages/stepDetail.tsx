@@ -102,16 +102,29 @@ function Card() {
       } else {
         setReportData(res2.data);
       }
-      setVideos(chunk(res2.data.scaleResult.videos));
+      setVideos(
+        chunk(
+          (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
+            ? res2.data.scaleResult.videos
+            : res2.data.scaleResult.cerebralPalsyResult.videos) || []
+        )
+      );
 
       const first = await request({
         url: "/scaleRecord/abnormal/methods/detail",
         data: {
-          abnormalIterm: res2.data.scaleResult.abnormalIterm[0]
+          abnormalIterm:
+            ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
+              ? res2.data.scaleResult.abnormalIterm[0]
+              : res2.data.scaleResult.cerebralPalsyResult.abnormalIterm[0]
         }
       });
+      const list =
+        ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
+          ? res2.data.scaleResult.abnormalIterm
+          : res2.data.scaleResult.cerebralPalsyResult.abnormalIterm;
       setAbnormal(
-        res2.data.scaleResult.abnormalIterm.map((v, i) => {
+        list.map((v, i) => {
           if (i === 0) {
             return {
               name: v,
@@ -127,10 +140,10 @@ function Card() {
           }
         })
       );
-      setActiveTab(res2.data.scaleResult.abnormalIterm[0]);
+      setActiveTab(list[0]);
       console.log(
         "🚀 ~ file: stepDetail.tsx:130 ~ res2.data.scaleResult.abnormalIterm[0]",
-        res2.data.scaleResult.abnormalIterm[0]
+        list
       );
     })();
   }, []);
@@ -166,18 +179,19 @@ function Card() {
   };
 
   const changeTab = async e => {
-    if (!abnormal[e].detail) {
+    const index = abnormal.findIndex(c => c.name === e);
+
+    if (!abnormal[index].detail) {
       const res = await request({
         url: "/scaleRecord/abnormal/methods/detail",
         data: {
-          abnormalIterm: abnormal[e].name
+          abnormalIterm: abnormal[index].name
         }
       });
-      abnormal[e].detail = handleRichText(res.data.detail);
+      abnormal[index].detail = handleRichText(res.data.detail);
       setAbnormal([...abnormal]);
     }
-    setActiveTab(abnormal[e].name);
-    console.log("🚀 ~ file: stepDetail.tsx:159 ~ changeTab ~ e", e);
+    setActiveTab(abnormal[index].name);
   };
 
   useEffect(() => {
@@ -185,7 +199,6 @@ function Card() {
   }, []);
 
   const playVideo = (v, id) => {
-    console.log("🚀 ~ file: stepDetail.tsx:183 ~ playVideo ~ v", v);
     setCurrentVideoUrl(v);
     // videoContext.current.requestFullScreen();
     videoContext.current.requestFullScreen({ direction: 0 });
@@ -195,7 +208,7 @@ function Card() {
   };
 
   const leaveVideo = () => {
-    console.log("🚀 ~ file: stepDetail.tsx:198 ~ leaveVideo ~ leaveVideo")
+    console.log("🚀 ~ file: stepDetail.tsx:198 ~ leaveVideo ~ leaveVideo");
     videoContext.current.pause();
     setCurrentVideoUrl("");
   };

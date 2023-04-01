@@ -100,7 +100,7 @@
       minify: true
     },
     onProgressUpdate: (res) => {
-      console.log("\x1b[36m%s\x1b[0m", `building...${res.progress}`);
+      console.log("\x1b[36m%s\x1b[0m", `building...${res}`);
     }
   });
   if (uploadResult) {

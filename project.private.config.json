@@ -151,6 +151,27 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=276",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=276",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=298",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
