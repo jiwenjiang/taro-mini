@@ -7,11 +7,9 @@ import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import hospital from "@/static/imgs/hospital.png";
 import introImg from "@/static/imgs/intro.png";
-import leiboImg from "@/static/imgs/leibo.jpg";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
-import wenyisheng from "@/static/imgs/wenyisheng.png";
-import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
+import { Backdrop, Popup, Tabs } from "@taroify/core";
 import { ArrowDown, InfoOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
@@ -106,7 +104,7 @@ function Card() {
         chunk(
           (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
             ? res2.data.scaleResult.videos
-            : res2.data.scaleResult.cerebralPalsyResult.videos) || []
+            : res2.data.scaleResult.cerebralPalsyResult?.videos) || []
         )
       );
 
@@ -259,9 +257,8 @@ function Card() {
               {report?.scaleTableCode === ScaleTableCode.LEIBO_GMS && (
                 <View className={styles.cardBox}>
                   <View className={styles.card}>
-                    <View className={styles.title}>
-                      <Image src={leiboImg} className={styles.imgIcon} />
-                      &nbsp; 全身运动质量评估GMs
+                    <View className={styles.title} style={{ paddingLeft: 10 }}>
+                      全身运动质量评估GMs
                       <InfoOutlined
                         size={17}
                         style={{ marginLeft: 5 }}
@@ -392,7 +389,7 @@ function Card() {
                   )}
                 </View>
               </View>
-              <View className={cls(styles.cardBox)}>
+              {/* <View className={cls(styles.cardBox)}>
                 <View className={styles.bgTitle}>推荐课程</View>
                 <View className={styles.swiperBox}>
                   <Swiper>
@@ -401,16 +398,7 @@ function Card() {
                         <View className={styles.videoBox}>
                           {v?.map((c, i2) => (
                             <View className={styles.videoItem}>
-                              {/* <Video
-                                src={c.url}
-                                id={`video${i1}${i2}`}
-                                loop={false}
-                                autoplay={false}
-                                controls={true}
-                                poster={c.coverUrl}
-                                className={styles.videoImg}
-                                objectFit="contain"
-                              ></Video> */}
+                             
                               <Image
                                 src={c.coverUrl}
                                 className={styles.videoImg}
@@ -441,7 +429,7 @@ function Card() {
                     <Swiper.Indicator />
                   </Swiper>
                 </View>
-              </View>
+              </View> */}
               <Video
                 src={currentVideoUrl}
                 id={`video`}
@@ -504,11 +492,11 @@ function Card() {
           </View>
         </View>
       </Backdrop>
-      <Image
+      {/* <Image
         src={wenyisheng}
         onClick={() => setOpen(true)}
         className={styles.wenyisheng}
-      />
+      /> */}
     </View>
   );
 }

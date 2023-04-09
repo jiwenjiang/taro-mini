@@ -121,7 +121,7 @@ function Card({ data }) {
     }
   };
 
-  return (
+  return data?.trainingRecordList?.length > 0 ? (
     <View className={styles.cardBox}>
       <View className={styles.card}>
         <View className={styles.scaleName}>
@@ -189,5 +189,7 @@ function Card({ data }) {
         <View className={styles.popContent}>{result.content}</View>
       </Popup>
     </View>
+  ) : (
+    <View></View>
   );
 }

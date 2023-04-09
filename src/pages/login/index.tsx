@@ -67,7 +67,7 @@ export default function App() {
         <View className={styles.imgBox}>
           <Image src={logo || defaultLogo} className={styles.img} />
         </View>
-        <View className={styles.title}>脑科学数字化精准康复变革者</View>
+        {/* <View className={styles.title}>脑科学数字化精准康复变革者</View> */}
         <View className={styles.btnBox}>
           <Button
             className={styles.btn}
@@ -82,9 +82,9 @@ export default function App() {
           </Button>
         </View>
 
-        <View className={styles.rights}>
+        {/* <View className={styles.rights}>
           Copyright © {new Date().getFullYear()} 复数健康
-        </View>
+        </View> */}
       </View>
     </View>
   );
