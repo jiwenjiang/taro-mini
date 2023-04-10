@@ -1,3 +1,5 @@
+import { FushuAppId } from "./const";
+
 export const Base64 = {
   // private property
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -133,4 +135,10 @@ export function chunk(l, step = 4) {
     result.push(newarr);
   } while (arr.length > 0);
   return result;
+}
+
+export function isFushu(): boolean {
+  const accountInfo = wx.getAccountInfoSync();
+  const appId = accountInfo.miniProgram.appId;
+  return appId === FushuAppId;
 }

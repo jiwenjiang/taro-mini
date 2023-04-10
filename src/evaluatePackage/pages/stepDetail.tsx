@@ -2,14 +2,15 @@ import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
-import { chunk } from "@/service/utils";
+import { chunk, isFushu } from "@/service/utils";
 import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import hospital from "@/static/imgs/hospital.png";
 import introImg from "@/static/imgs/intro.png";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
-import { Backdrop, Popup, Tabs } from "@taroify/core";
+import wenyisheng from "@/static/imgs/wenyisheng.png";
+import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
 import { ArrowDown, InfoOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
@@ -79,7 +80,11 @@ function Card() {
   const [activeTab, setActiveTab] = useState("");
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const videoContext = useRef<any>();
+  const [isfushu, setIsFushu] = useState(false);
 
+  useEffect(() => {
+    setIsFushu(isFushu());
+  }, []);
   useEffect(() => {
     (async () => {
       // const res = await request({
@@ -389,47 +394,49 @@ function Card() {
                   )}
                 </View>
               </View>
-              {/* <View className={cls(styles.cardBox)}>
-                <View className={styles.bgTitle}>推荐课程</View>
-                <View className={styles.swiperBox}>
-                  <Swiper>
-                    {videos.map((v, i1) => (
-                      <Swiper.Item>
-                        <View className={styles.videoBox}>
-                          {v?.map((c, i2) => (
-                            <View className={styles.videoItem}>
-                             
-                              <Image
-                                src={c.coverUrl}
-                                className={styles.videoImg}
-                                mode="aspectFit"
-                              ></Image>
-                              <View className={styles.videoDescBox}>
-                                <View className={styles.videoName}>
-                                  {c.name}
-                                </View>
-                                <View className={styles.videoRemark}>
-                                  {c.remark}
-                                </View>
-                                <View
-                                  className={styles.videoBtn}
-                                  onClick={() =>
-                                    playVideo(c.url, `video${i1}${i2}`)
-                                  }
-                                >
-                                  立即查看
+              {isfushu && (
+                <View className={cls(styles.cardBox)}>
+                  <View className={styles.bgTitle}>推荐课程</View>
+                  <View className={styles.swiperBox}>
+                    <Swiper>
+                      {videos.map((v, i1) => (
+                        <Swiper.Item>
+                          <View className={styles.videoBox}>
+                            {v?.map((c, i2) => (
+                              <View className={styles.videoItem}>
+                                <Image
+                                  src={c.coverUrl}
+                                  className={styles.videoImg}
+                                  mode="aspectFit"
+                                ></Image>
+                                <View className={styles.videoDescBox}>
+                                  <View className={styles.videoName}>
+                                    {c.name}
+                                  </View>
+                                  <View className={styles.videoRemark}>
+                                    {c.remark}
+                                  </View>
+                                  <View
+                                    className={styles.videoBtn}
+                                    onClick={() =>
+                                      playVideo(c.url, `video${i1}${i2}`)
+                                    }
+                                  >
+                                    立即查看
+                                  </View>
                                 </View>
                               </View>
-                            </View>
-                          ))}
-                        </View>
-                      </Swiper.Item>
-                    ))}
+                            ))}
+                          </View>
+                        </Swiper.Item>
+                      ))}
 
-                    <Swiper.Indicator />
-                  </Swiper>
+                      <Swiper.Indicator />
+                    </Swiper>
+                  </View>
                 </View>
-              </View> */}
+              )}
+
               <Video
                 src={currentVideoUrl}
                 id={`video`}
@@ -492,11 +499,13 @@ function Card() {
           </View>
         </View>
       </Backdrop>
-      {/* <Image
-        src={wenyisheng}
-        onClick={() => setOpen(true)}
-        className={styles.wenyisheng}
-      /> */}
+      {isfushu && (
+        <Image
+          src={wenyisheng}
+          onClick={() => setOpen(true)}
+          className={styles.wenyisheng}
+        />
+      )}
     </View>
   );
 }

@@ -37,3 +37,6 @@ export enum PaymentType {
 }
 
 export const tabPages = ["/pages/index/index", "pages/mine/index"];
+
+export const FushuAppId = "wxc662de75e52ad4d5";
+export const LeiboAppId = "wxb7471fee564e0831";
