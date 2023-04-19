@@ -59,7 +59,7 @@ export default function App() {
       });
       setLogo(res.data.url);
     })();
-  });
+  }, []);
 
   return (
     <View className={styles.box}>

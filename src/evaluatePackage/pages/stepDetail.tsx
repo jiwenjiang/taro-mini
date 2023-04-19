@@ -249,7 +249,6 @@ function Card() {
                       已提交医学评估，请耐心等待，医学评估后，您可以收到微
                       信服务通知或者在【我的】-【自测量表记录】查看结果
                     </View>
-                    <View className={styles.phone}>客服电话：400-898-6862</View>
                   </View>
                 </View>
               </View>
