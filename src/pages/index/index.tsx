@@ -102,7 +102,7 @@ export default function App() {
     console.log(
       "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId:",
       router.params.orgId,
-      router.params,
+      encodeURIComponent(router.params.scene as string),
       OrgId.ANQIER
     );
     if (router.params.orgId == OrgId.ANQIER) {
