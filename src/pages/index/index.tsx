@@ -102,14 +102,14 @@ export default function App() {
     const str = router.params.scene as string;
     console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str)
     console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str2:", router.params.scene)
-    const orgId = str.split('orgId=')[1]
+    const orgId = str.split('orgId%3D')[1]
 
     console.log(
       "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId2:",
       orgId
     );
     // const orgId = params.get("orgId");
-    if (orgId == OrgId.ANQIER) {
+    if (router.params.orgId == OrgId.ANQIER) {
       console.log("entey");
       setChannel(Channel.anqier);
       request({
