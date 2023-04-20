@@ -76,6 +76,7 @@ export default function App() {
     highlights: "",
     serve: ""
   });
+  const { query } = router.params;
   const goto = url => {
     navigateTo({ url });
   };
@@ -98,6 +99,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    console.log("query", query);
     if (router.params.orgid == OrgId.ANQIER) {
       setChannel(Channel.anqier);
       request({
