@@ -11,7 +11,7 @@ import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
-import Taro, { getStorageSync, navigateTo, useRouter } from "@tarojs/taro";
+import { getStorageSync, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
@@ -99,19 +99,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const orgId = encodeURIComponent(router.params.scene as string);
+    const orgId = encodeURIComponent(
+      (router.params.scene as string).split("orgId=")[1]
+    );
 
     console.log(
-      "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId:",
-      router.params
+      "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId2:",
+      orgId
     );
-    const search = Taro.getCurrentInstance().router?.params;
-
-    // 从查询参数中获取orgId的值
-    const orgId2 = search?.orgId;
-
-    // 在控制台输出orgId的值
-    console.log(111, orgId2);
     // const orgId = params.get("orgId");
     if (orgId == OrgId.ANQIER) {
       console.log("entey");
