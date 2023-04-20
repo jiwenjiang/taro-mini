@@ -49,6 +49,8 @@ export default function App() {
   };
 
   useEffect(() => {
+    console.log("query3", router.params.orgid);
+    console.log("query4", router.params.orgid);
     (async () => {
       const res = await request({
         url: "/wx/portal/logo",
