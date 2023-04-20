@@ -99,9 +99,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log("query11", router.params.orgid);
-    console.log("query12", router.params);
-    if (router.params.orgid == OrgId.ANQIER) {
+    if (router.params.orgId == OrgId.ANQIER) {
       setChannel(Channel.anqier);
       request({
         url: "/wx/portal/angle",
