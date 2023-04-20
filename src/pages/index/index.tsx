@@ -99,7 +99,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId:",
+      router.params.orgId,
+      OrgId.ANQIER
+    );
     if (router.params.orgId == OrgId.ANQIER) {
+      console.log("entey");
       setChannel(Channel.anqier);
       request({
         url: "/wx/portal/angle",
