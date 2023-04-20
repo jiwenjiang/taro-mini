@@ -99,11 +99,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const str = encodeURIComponent(router.params.scene as string);
+    const str = router.params.scene as string;
     console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str)
     console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str2:", router.params.scene)
-    const match = str.match(/orgId=(\d+)/);
-    const orgId = match ? match[1] : null;
+    const orgId = str.split('orgId=')[1]
 
     console.log(
       "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId2:",
