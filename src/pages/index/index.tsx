@@ -99,7 +99,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log("query", query);
+    console.log("query1", query);
+    console.log("query2", decodeURIComponent(query?.scene));
     if (router.params.orgid == OrgId.ANQIER) {
       setChannel(Channel.anqier);
       request({
