@@ -99,13 +99,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const params = new URLSearchParams(
+      encodeURIComponent(router.params.scene as string)
+    );
     console.log(
       "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId:",
-      router.params.orgId,
-      encodeURIComponent(router.params.scene as string),
-      OrgId.ANQIER
+      params
     );
-    if (router.params.orgId == OrgId.ANQIER) {
+    const orgId = params.get("orgId");
+    if (orgId == OrgId.ANQIER) {
       console.log("entey");
       setChannel(Channel.anqier);
       request({
