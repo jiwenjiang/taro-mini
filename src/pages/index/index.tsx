@@ -68,7 +68,7 @@ const descs = [
 export default function App() {
   const router = useRouter();
   const [modules, setModules] = useState<any>();
-  const [channel, setChannel] = useState<Channel>(Channel.anqier);
+  const [channel, setChannel] = useState<Channel>(Channel.fushu);
   const [anqierStatic, setAnqierStatic] = useState({
     carousel: [],
     doctor: "",
