@@ -59,7 +59,7 @@ const config = {
   },
   alias: {
     "@": path.resolve(__dirname, "..", "src")
-  }
+  },
 };
 
 module.exports = function(merge) {

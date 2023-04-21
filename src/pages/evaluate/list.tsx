@@ -39,7 +39,9 @@ export default function App() {
           url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
         });
       } else {
-        navigateTo({ url: `/childPackage/pages/manage?code=${scaleTableCode}` });
+        navigateTo({
+          url: `/childPackage/pages/manage?code=${scaleTableCode}`
+        });
       }
     }
   };
@@ -52,10 +54,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (router.params.channel || router.params.orgid) {
+    console.log(111, wx._orgId);
+    if (router.params.channel || router.params.orgid || wx._orgId) {
       getAuth(getList, {
         channel: router.params.channel || "",
-        orgid: router.params.orgid
+        orgid: router.params.orgid || wx._orgId
       });
     } else {
       getList();

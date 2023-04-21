@@ -68,7 +68,7 @@ const descs = [
 export default function App() {
   const router = useRouter();
   const [modules, setModules] = useState<any>();
-  const [channel, setChannel] = useState<Channel>(Channel.fushu);
+  const [channel, setChannel] = useState<Channel>(Channel.anqier);
   const [anqierStatic, setAnqierStatic] = useState({
     carousel: [],
     doctor: "",
@@ -76,7 +76,6 @@ export default function App() {
     highlights: "",
     serve: ""
   });
-  const { query } = router.params;
   const goto = url => {
     navigateTo({ url });
   };
@@ -99,29 +98,21 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const str = router.params.scene as string;
-    console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str);
-    console.log(
-      "🚀 ~ file: index.tsx:103 ~ useEffect ~ str2:",
-      router.params.scene
-    );
-    const orgId = str.split("orgId%3D")[1];
+    if (router.params.scene) {
+      const str = router.params.scene as string;
+      const orgId = str.split("orgId%3D")[1];
+      wx._orgId = orgId;
 
-    console.log(
-      "🚀 ~ file: index.tsx:103 ~ useEffect ~ router.params.orgId2:",
-      orgId
-    );
-    // const orgId = params.get("orgId");
-    if (router.params.orgId == OrgId.ANQIER || orgId == OrgId.ANQIER) {
-      console.log("entey");
-      setChannel(Channel.anqier);
-      request({
-        url: "/wx/portal/angle",
-        method: "GET"
-      }).then(res => {
-        setAnqierStatic(res.data);
-        console.log("🚀 ~ file: index.tsx:101 ~ useEffect ~ res:", res);
-      });
+      if (router.params.orgId == OrgId.ANQIER || orgId == OrgId.ANQIER) {
+        console.log("entey");
+        setChannel(Channel.anqier);
+        request({
+          url: "/wx/portal/angle",
+          method: "GET"
+        }).then(res => {
+          setAnqierStatic(res.data);
+        });
+      }
     }
   }, []);
 
@@ -219,82 +210,85 @@ export default function App() {
               <TabBar current="index" />
             </View>
           ) : (
-            <View className={styles.anqier}>
-              <View className={styles.head}>
-                <Image src="" className={styles.logo} />
-                <Text>安琪儿儿童保健与早期发展中心</Text>
-              </View>
-              <View className={styles.body}>
-                <Swiper
-                  autoplay={false}
-                  indicatorDots={true}
-                  indicatorColor="rgba(0, 0, 0, .3)"
-                  indicatorActiveColor="#ffd340"
-                >
-                  {anqierStatic.carousel.map(m => (
-                    <SwiperItem key={m} className={styles.swiperBox}>
-                      <Image
-                        style="height: 143px;background: #fff;width:100%"
-                        src={m}
-                      />
-                    </SwiperItem>
-                  ))}
-                </Swiper>
-                <View className={styles.nav}>
-                  {anqierList.map(v => (
-                    <View
-                      className={styles.navItem}
-                      key={v.name}
-                      onClick={() => goto(v.link)}
-                    >
+            <View className={styles.index}>
+              <View className={styles.anqier}>
+                <View className={styles.head}>
+                  <Image src="" className={styles.logo} />
+                  <Text>安琪儿儿童保健与早期发展中心</Text>
+                </View>
+                <View className={styles.body}>
+                  <Swiper
+                    autoplay={false}
+                    indicatorDots={true}
+                    indicatorColor="rgba(0, 0, 0, .3)"
+                    indicatorActiveColor="#ffd340"
+                  >
+                    {anqierStatic.carousel.map(m => (
+                      <SwiperItem key={m} className={styles.swiperBox}>
+                        <Image
+                          style="height: 143px;background: #fff;width:100%"
+                          src={m}
+                        />
+                      </SwiperItem>
+                    ))}
+                  </Swiper>
+                  <View className={styles.nav}>
+                    {anqierList.map(v => (
                       <View
-                        className={styles.imgBox}
+                        className={styles.navItem}
+                        key={v.name}
+                        onClick={() => goto(v.link)}
+                      >
+                        <View
+                          className={styles.imgBox}
+                          style={{ backgroundColor: v.color }}
+                        >
+                          <Image
+                            src={anqierStatic.doctor}
+                            className={styles.img}
+                          ></Image>
+                        </View>
+                        <View>{v.name}</View>
+                      </View>
+                    ))}
+                  </View>
+                  <View className={styles.descBox}>
+                    {descs.map(v => (
+                      <View
+                        className={styles.descCard}
                         style={{ backgroundColor: v.color }}
                       >
-                        <Image
-                          src={anqierStatic.doctor}
-                          className={styles.img}
-                        ></Image>
+                        <View className={styles.title}>{v.title}</View>
+                        <View className={styles.content}>{v.content}</View>
                       </View>
-                      <View>{v.name}</View>
-                    </View>
-                  ))}
-                </View>
-                <View className={styles.descBox}>
-                  {descs.map(v => (
-                    <View
-                      className={styles.descCard}
-                      style={{ backgroundColor: v.color }}
-                    >
-                      <View className={styles.title}>{v.title}</View>
-                      <View className={styles.content}>{v.content}</View>
-                    </View>
-                  ))}
-                </View>
-                <View className={styles.imgBoxBox}>
-                  <View className={styles.imgBox}>
-                    <Image src={anqierStatic.serve} className={styles.img} />
-                    <View className={styles.text}>
-                      服务/儿童大脑发育全周期管理
-                    </View>
+                    ))}
                   </View>
-                  <View className={styles.imgBox}>
-                    <Image
-                      src={anqierStatic.highlights}
-                      className={styles.img}
-                    />
-                    <View className={styles.text}>
-                      亮点/“智能Al＋顶级儿保专家”双重保障
+                  <View className={styles.imgBoxBox}>
+                    <View className={styles.imgBox}>
+                      <Image src={anqierStatic.serve} className={styles.img} />
+                      <View className={styles.text}>
+                        服务/儿童大脑发育全周期管理
+                      </View>
                     </View>
-                  </View>
-                  <View className={styles.imgBox}>
-                    <Image src={anqierStatic.detail} className={styles.img} />
-                    <View className={styles.text}>
-                      详细介绍/链接"机构”与〞家庭"场景，覆盖儿童大脑神经行为发育饰查、诊断、评估和干预全流程，打造一站式儿童保健和早期发展体系，助力儿童保健、儿童早期发展、儿童早期干预与康复的业务发展。
+                    <View className={styles.imgBox}>
+                      <Image
+                        src={anqierStatic.highlights}
+                        className={styles.img}
+                      />
+                      <View className={styles.text}>
+                        亮点/“智能Al＋顶级儿保专家”双重保障
+                      </View>
+                    </View>
+                    <View className={styles.imgBox}>
+                      <Image src={anqierStatic.detail} className={styles.img} />
+                      <View className={styles.text}>
+                        详细介绍/链接"机构”与〞家庭"场景，覆盖儿童大脑神经行为发育饰查、诊断、评估和干预全流程，打造一站式儿童保健和早期发展体系，助力儿童保健、儿童早期发展、儿童早期干预与康复的业务发展。
+                      </View>
                     </View>
                   </View>
                 </View>
               </View>
+              <TabBar current="index" />
             </View>
           )}
         </View>
