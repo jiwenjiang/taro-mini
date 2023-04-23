@@ -68,13 +68,14 @@ const descs = [
 export default function App() {
   const router = useRouter();
   const [modules, setModules] = useState<any>();
-  const [channel, setChannel] = useState<Channel>(Channel.fushu);
+  const [channel, setChannel] = useState<Channel>(Channel.anqier);
   const [anqierStatic, setAnqierStatic] = useState({
     carousel: [],
     doctor: "",
     detail: "",
     highlights: "",
-    serve: ""
+    serve: "",
+    logo: ""
   });
   const goto = url => {
     navigateTo({ url });
@@ -98,6 +99,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    request({
+      url: "/wx/portal/angle",
+      method: "GET"
+    }).then(res => {
+      setAnqierStatic(res.data);
+    });
     if (router.params.scene) {
       const str = router.params.scene as string;
       const orgId = str.split("orgId%3D")[1];
@@ -213,8 +220,10 @@ export default function App() {
             <View className={styles.index}>
               <View className={styles.anqier}>
                 <View className={styles.head}>
-                  <Image src="" className={styles.logo} />
-                  <Text>安琪儿儿童保健与早期发展中心</Text>
+                  <Image
+                    className={styles.logo}
+                    src={anqierStatic.logo}
+                  ></Image>
                 </View>
                 <View className={styles.body}>
                   <Swiper
@@ -267,7 +276,7 @@ export default function App() {
                     <View className={styles.imgBox}>
                       <Image src={anqierStatic.serve} className={styles.img} />
                       <View className={styles.text}>
-                        服务/儿童大脑发育全周期管理
+                        <Text className={styles.h5}>服务</Text>/儿童大脑发育全周期管理
                       </View>
                     </View>
                     <View className={styles.imgBox}>
@@ -276,13 +285,14 @@ export default function App() {
                         className={styles.img}
                       />
                       <View className={styles.text}>
-                        亮点/“智能Al＋顶级儿保专家”双重保障
+                        <Text className={styles.h5}>亮点</Text>/“智能Al＋顶级儿保专家”双重保障
                       </View>
                     </View>
                     <View className={styles.imgBox}>
                       <Image src={anqierStatic.detail} className={styles.img} />
                       <View className={styles.text}>
-                        详细介绍/链接"机构”与〞家庭"场景，覆盖儿童大脑神经行为发育饰查、诊断、评估和干预全流程，打造一站式儿童保健和早期发展体系，助力儿童保健、儿童早期发展、儿童早期干预与康复的业务发展。
+                        <Text className={styles.h5}>详细介绍</Text>
+                        /链接"机构”与〞家庭"场景，覆盖儿童大脑神经行为发育饰查、诊断、评估和干预全流程，打造一站式儿童保健和早期发展体系，助力儿童保健、儿童早期发展、儿童早期干预与康复的业务发展。
                       </View>
                     </View>
                   </View>
