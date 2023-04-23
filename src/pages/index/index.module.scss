@@ -7,6 +7,8 @@
 .bottomPart {
   padding: 0 40px;
   overflow: hidden;
+  padding-bottom: 100px;
+  background: #f9fbfc;
 }
 
 .title {
@@ -34,23 +36,17 @@
     background-color: #fff;
     box-sizing: border-box;
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     .cardImg {
       width: 62px;
       height: 58px;
     }
 
-    .cardTitle {
-      color: #112950;
-      font-size: 28px;
-      line-height: 48px;
-    }
 
-    .cardDesc {
-      color: #B6B7B8;
-      font-size: 24px;
-      line-height: 28px;
-    }
   }
 
   .allCard {
@@ -58,13 +54,14 @@
   }
 
   .miniCard {
-    width: 155px;
-    height: 108px;
+    width: 327px;
+    height: 112px;
     border-radius: 16px;
     text-align: center;
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
+    margin-bottom: 20px;
 
     .miniCardImg {
       width: 32px;
@@ -76,6 +73,40 @@
       line-height: 28px;
       color: #112950;
     }
+  }
+}
+
+.cardTitle {
+  color: #112950;
+  font-size: 28px;
+  line-height: 48px;
+}
+
+.cardDesc {
+  color: #B6B7B8;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.manageBox {
+  height: 156px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  flex-grow: 1;
+  background: #FFFFFF;
+  box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
+
+  .manageBtn {
+    width: 128px;
+    height: 52px;
+    background-color: var(--primary-color);
+    border-radius: 24px;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    line-height: 52px;
   }
 }
 

@@ -167,16 +167,35 @@ export default function App() {
                   )}
                 </View>
                 <View className={styles.title}>干预服务</View>
-                <View
-                  className={styles.ganyuBox}
-                  onClick={() => goto("/orderPackage/pages/AIevaluate/index")}
-                >
-                  <View className={styles.ganyuTxt}>
-                    <View className={styles.ganyuTitle}>
-                      点击预约家庭康复管理指导
+                <View className={styles.cardBox}>
+                  <View
+                    className={cls(styles.card)}
+                    onClick={() => goto("/orderPackage/pages/AIevaluate/index")}
+                  >
+                    <Image src={Yisheng} className={styles.cardImg}></Image>
+                    <View className={styles.cardTitle}>家庭康复指导</View>
+                    <View className={styles.cardDesc}>点击进行预约</View>
+                    <View className={styles.cardDesc}></View>
+                  </View>
+                </View>
+                <View className={styles.title}>专家团队疾病管理</View>
+                <View className={styles.manageBox} style={{ marginBottom: 10 }}>
+                  <View>
+                    <View className={styles.cardTitle}>线粒体病</View>
+                    <View className={styles.cardDesc}>
+                      居家拍摄视频AI智能评测
                     </View>
                   </View>
-                  <Image src={Yisheng} className={styles.ganyuImg}></Image>
+                  <View className={styles.manageBtn}>前往查看</View>
+                </View>
+                <View className={styles.manageBox}>
+                  <View>
+                    <View className={styles.cardTitle}>0-1岁发育风险管理</View>
+                    <View className={styles.cardDesc}>
+                      居家拍摄视频AI智能评测
+                    </View>
+                  </View>
+                  <View className={styles.manageBtn}>前往查看</View>
                 </View>
                 <View className={styles.title}>常用服务</View>
                 <View className={styles.cardBox}>
@@ -270,7 +289,8 @@ export default function App() {
                     <View className={styles.imgBox}>
                       <Image src={anqierStatic.serve} className={styles.img} />
                       <View className={styles.text}>
-                        <Text className={styles.h5}>服务</Text>/儿童大脑发育全周期管理
+                        <Text className={styles.h5}>服务</Text>
+                        /儿童大脑发育全周期管理
                       </View>
                     </View>
                     <View className={styles.imgBox}>
@@ -279,7 +299,8 @@ export default function App() {
                         className={styles.img}
                       />
                       <View className={styles.text}>
-                        <Text className={styles.h5}>亮点</Text>/“智能Al＋顶级儿保专家”双重保障
+                        <Text className={styles.h5}>亮点</Text>
+                        /“智能Al＋顶级儿保专家”双重保障
                       </View>
                     </View>
                     <View className={styles.imgBox}>
