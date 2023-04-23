@@ -68,7 +68,7 @@ const descs = [
 export default function App() {
   const router = useRouter();
   const [modules, setModules] = useState<any>();
-  const [channel, setChannel] = useState<Channel>(Channel.anqier);
+  const [channel, setChannel] = useState<Channel>(Channel.fushu);
   const [anqierStatic, setAnqierStatic] = useState({
     carousel: [],
     doctor: "",
@@ -99,12 +99,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    request({
-      url: "/wx/portal/angle",
-      method: "GET"
-    }).then(res => {
-      setAnqierStatic(res.data);
-    });
     if (router.params.scene) {
       const str = router.params.scene as string;
       const orgId = str.split("orgId%3D")[1];
