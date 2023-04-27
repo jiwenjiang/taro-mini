@@ -36,7 +36,7 @@ export default function App() {
   const [intro, setIntro] = useState({ name: "", introduction: "" });
   const childContext = useContext(ChildContext);
   const [payMode, setPayMode] = useState<1 | 2>(1);
-  const [pic, setPic] = useState<any>({});
+  const [pic, setPic] = useState<any>([]);
   const [payList, setPayList] = useState<("OFF_LINE" | "ON_LINE")[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadSucc, setUploadSucc] = useState(false);
@@ -131,32 +131,44 @@ export default function App() {
     setPayMode(type);
   };
 
-  const del = () => {
-    setPic({});
+  const del = i => {
+    const list = pic.filter((_v, i2) => i !== i2);
+    setPic(list);
   };
 
   const chooseMedia = () => {
     setUploading(true);
     wx.chooseMedia({
-      count: 1,
+      count: 9,
       mediaType: ["image"],
       sourceType: ["album", "camera"],
       maxDuration: 60,
       camera: "back",
       success(res) {
-        const filePath = res.tempFiles[0].tempFilePath;
+        // const filePath = res.tempFiles[0].tempFilePath;
         console.log(1, res);
-        upload2Server(filePath, MediaType.PICTURE, v => {
-          setPic(v);
-          setUploading(false);
-          console.log("🚀 ~ file: brain.tsx ~ line 128 ~ success ~ v", v);
+        let num = 0;
+        const picList: any = [];
+        setUploading(true);
+        res.tempFiles.forEach(c => {
+          upload2Server(c.tempFilePath, MediaType.PICTURE, v => {
+            // setPic(v);
+            picList.push(v);
+            num++;
+            if (num === res.tempFiles.length) {
+              setUploading(false);
+              setPic(picList);
+            }
+            console.log("🚀 ~ file: brain.tsx ~ line 128 ~ success ~ v", v);
+          });
         });
+        return;
       }
     });
   };
 
   const evaluate = async () => {
-    if (!pic.id) {
+    if (pic.length < 0) {
       Notify.open({ color: "warning", message: "请上传缴费单据" });
       return;
     }
@@ -169,7 +181,7 @@ export default function App() {
         type: 3,
         workScheduleId: 0,
         payment: PaymentType.OFFLINE,
-        invoiceId: pic.id
+        invoiceId: pic.map(v => v.id)
       }
     });
     setUploadSucc(true);
@@ -239,6 +251,18 @@ export default function App() {
             </View>
           </Box>
           <View>
+            <View className={styles.picBox}>
+              {pic.map((v, i) => (
+                <View style={{ position: "relative" }} key={i}>
+                  <Clear
+                    className={styles.clear}
+                    onClick={e => del(i)}
+                    color="#f2b04f"
+                  />
+                  <Image src={v.url} className={styles.pic} />
+                </View>
+              ))}
+            </View>
             <View className={styles.payBox}>
               {payList.includes("OFF_LINE") && (
                 <View
@@ -271,20 +295,10 @@ export default function App() {
                 </View>
               )}
             </View>
+
             {payMode === 1 && (
               <View className={styles.danjuBox}>
-                {pic.url ? (
-                  <View style={{ position: "relative" }}>
-                    <Clear
-                      className={styles.clear}
-                      onClick={e => del()}
-                      color="#f2b04f"
-                    />
-                    <Image src={pic.url} className={styles.pic} />
-                  </View>
-                ) : (
-                  <Plus className={styles.addIcon} onClick={chooseMedia} />
-                )}
+                <Plus className={styles.addIcon} onClick={chooseMedia} />
                 <View>
                   <View>请上传院内缴费单据</View>
                   <View>人工审核无误后即可预约成功</View>

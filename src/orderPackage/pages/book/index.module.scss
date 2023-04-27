@@ -310,6 +310,24 @@
 
 }
 
+.picBox {
+  display: flex;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.pic {
+  width: 100px;
+  height: 100px;
+  margin: 0 16px;
+}
+
+.clear {
+  position: absolute;
+  left: 101rpx;
+  top: -8rpx;
+}
+
 .danjuBox {
   height: 144px;
   border-radius: 16px;
@@ -329,17 +347,7 @@
     align-items: center;
   }
 
-  .pic {
-    width: 100px;
-    height: 100px;
-    margin: 0 16px;
-  }
 
-  .clear {
-    position: absolute;
-    left: 101rpx;
-    top: -8rpx;
-  }
 }
 
 .mt16 {

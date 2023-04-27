@@ -172,6 +172,13 @@
           "query": "id=298",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "orderPackage/pages/order/gmsPay",
+          "query": "code=12",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
