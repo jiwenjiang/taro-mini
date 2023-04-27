@@ -68,9 +68,9 @@ export default function App() {
   };
 
   // 跳转至GMs量表儿童选择页面
-  const goChildChoosePage = id => {
+  const goChildChoosePage = v => {
     navigateTo({
-      url: `/childPackage/pages/choose?code=${ScaleTableCode.GMS}&orderId=${id}`
+      url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
     });
   };
 
@@ -108,7 +108,7 @@ export default function App() {
                   <Button
                     className="btn"
                     color="primary"
-                    onClick={() => goChildChoosePage(v.id)}
+                    onClick={() => goChildChoosePage(v)}
                   >
                     去使用
                   </Button>
