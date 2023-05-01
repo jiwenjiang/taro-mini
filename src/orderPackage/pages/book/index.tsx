@@ -1,5 +1,5 @@
 import NavBar from "@/comps/NavBar";
-import { EvaluateType, MediaType } from "@/service/const";
+import { EvaluateType, MediaType , DanjuTishi } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
@@ -17,6 +17,7 @@ import Taro, { useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
+
 import styles from "./index.module.scss";
 
 const heads = ["日", "一", "二", "三", "四", "五", "六"];
@@ -318,7 +319,7 @@ export default function App() {
             <View className={styles.title}>
               选择被评估人
               <View className={styles.subTitle} onClick={add}>
-                新增评估人 <Arrow color="#f2b04f" />
+                新增评估人 <Arrow color='#f2b04f' />
               </View>
             </View>
             {childs.map((v, i) => (
@@ -550,17 +551,14 @@ export default function App() {
                       <Clear
                         className={styles.clear}
                         onClick={e => del()}
-                        color="#f2b04f"
+                        color='#f2b04f'
                       />
                       <Image src={pic.url} className={styles.pic} />
                     </View>
                   ) : (
                     <Plus className={styles.addIcon} onClick={chooseMedia} />
                   )}
-                  <View>
-                    <View>请上传院内缴费单据</View>
-                    <View>人工审核无误后即可预约成功</View>
-                  </View>
+                  <View>{DanjuTishi}</View>
                 </View>
               </View>
             )}
@@ -644,7 +642,7 @@ export default function App() {
             </View>
           </View>
         )}
-        <Notify id="notify" />
+        <Notify id='notify' />
       </View>
     </View>
   );

@@ -44,3 +44,5 @@ export const LeiboAppId = "wxb7471fee564e0831";
 export enum OrgId {
   ANQIER = "28"
 }
+
+export const DanjuTishi = '请上传院内就医导引单和特检收费清单，人工审核单据无误后即可预约成功'
