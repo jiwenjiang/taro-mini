@@ -3,10 +3,11 @@
   height: 100vh;
   --primary-color: #f2b04f;
   --text-color: #112950;
+  position: relative;
   box-sizing: border-box;
 
   :global(.taroify-popup--top) {
-    top: 82PX;
+    top: 82px;
   }
 }
 
@@ -39,7 +40,7 @@
 }
 
 .desc {
-  color: #B6B7B8;
+  color: #b6b7b8;
   font-size: 28px;
   line-height: 40px;
   margin-bottom: 24px;
@@ -62,8 +63,6 @@
   background: #ffffff;
   box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
   box-sizing: border-box;
-
-
 }
 
 .left {
@@ -82,7 +81,7 @@
       font-weight: normal;
       line-height: 28px;
       letter-spacing: 0px;
-      color: #B6B7B8;
+      color: #b6b7b8;
       margin-top: 8px;
     }
   }
@@ -97,7 +96,6 @@
   width: 32px;
   height: 32px;
 }
-
 
 .payBox {
   display: flex;
@@ -129,7 +127,7 @@
 
 .projectBox {
   padding: 24px 16px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
 
   .pTitleBox {
@@ -147,23 +145,23 @@
     }
 
     .pTitle::before {
-      content: '';
+      content: "";
       position: absolute;
       width: 16px;
       height: 2px;
       opacity: 1;
-      background: #635DF7;
+      background: #635df7;
       left: -30px;
       top: 12px;
     }
 
     .pTitle::after {
-      content: '';
+      content: "";
       position: absolute;
       width: 16px;
       height: 2px;
       opacity: 1;
-      background: #635DF7;
+      background: #635df7;
       right: -30px;
       top: 12px;
     }
@@ -173,7 +171,7 @@
     padding: 0 24px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #EBEBEB;
+    border-bottom: 1px solid #ebebeb;
     padding-bottom: 24px;
     margin-top: 24px;
 
@@ -194,7 +192,6 @@
       border: none;
     }
   }
-
 }
 
 .riliBox {
@@ -228,8 +225,8 @@
       flex-direction: column;
       flex: 1;
       font-size: 24px;
-      color: #B6B7B8;
-      border-top: 1px solid #EBEBEB;
+      color: #b6b7b8;
+      border-top: 1px solid #ebebeb;
     }
 
     .activeDay {
@@ -243,7 +240,7 @@
 
     .count {
       font-size: 16px;
-      color: #B6B7B8;
+      color: #b6b7b8;
     }
 
     .hasCount {
@@ -271,7 +268,7 @@
   }
 
   .time1 {
-    color: #B6B7B8;
+    color: #b6b7b8;
   }
 
   .activeTime {
@@ -289,7 +286,7 @@
   .li {
     height: 76px;
     line-height: 76px;
-    border-bottom: 1px solid #EBEBEB;
+    border-bottom: 1px solid #ebebeb;
     font-size: 24px;
     color: var(--text-color);
     display: flex;
@@ -297,17 +294,16 @@
   }
 
   .k {
-    color: #B6B7B8;
+    color: #b6b7b8;
   }
 
   .p {
-    color: #F44336;
+    color: #f44336;
   }
 
   .noBorder {
-    border: none
+    border: none;
   }
-
 }
 
 .picBox {
@@ -331,7 +327,7 @@
 .danjuBox {
   height: 144px;
   border-radius: 16px;
-  background-color: #EFEFEF;
+  background-color: #efefef;
   margin-top: 16px;
   display: flex;
   font-size: 28px;
@@ -366,7 +362,7 @@
   background-color: #ffffff;
 
   .tiphead {
-    background-color: #4570FA;
+    background-color: #4570fa;
     height: 64px;
     display: flex;
     align-items: center;
@@ -391,20 +387,19 @@
       font-size: 28px;
       font-weight: normal;
       line-height: 32px;
-      color: #06CC76;
+      color: #06cc76;
       margin-bottom: 24px;
     }
   }
 
   .loc {
-    border-top: 1px solid #EBEBEB;
+    border-top: 1px solid #ebebeb;
     display: flex;
     justify-content: space-between;
     margin-top: 28px;
     padding-top: 16px;
     align-items: center;
   }
-
 }
 
 .preBtn {
@@ -422,7 +417,7 @@
   width: 100%;
   height: 64px;
   background-color: var(--primary-color);
-  color: #FFFFFF;
+  color: #ffffff;
   line-height: 64px;
   text-align: center;
   margin-top: 32px;
@@ -435,4 +430,12 @@
   padding: 16px 36px;
   font-size: 28px;
   color: var(--primary-color);
+}
+
+:global(.taroify-popup--center) {
+  background: none;
+}
+
+.img {
+  margin-top: 3em;
 }

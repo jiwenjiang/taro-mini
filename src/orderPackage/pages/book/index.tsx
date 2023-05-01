@@ -10,7 +10,7 @@ import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import weixuanzhong from "@/static/imgs/weixuanzhong.png";
 import xuanzhong from "@/static/imgs/xuanzhong.png";
-import { Notify } from "@taroify/core";
+import { Notify, Popup } from "@taroify/core";
 import { Arrow, Clear, Plus } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
@@ -43,6 +43,8 @@ export default function App() {
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
   const tempId = useRef<any>();
+  const [showImgPreview, setShowImgPreview] = useState(false);
+  const [previewedImage, setPreviewedImage] = useState('');
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -316,6 +318,11 @@ export default function App() {
     setStep(2);
   };
 
+  const previewImage = (url) => {
+    setPreviewedImage(url);
+    setShowImgPreview(true);
+  }
+
   return (
     <View className={styles.index}>
       <NavBar title={title} />
@@ -559,7 +566,12 @@ export default function App() {
                           onClick={e => del(i)}
                           color='#f2b04f'
                         />
-                        <Image src={v.url} className={styles.pic} />
+                        <Image
+                          src={v.url}
+                          className={styles.pic}
+                          mode='widthFix'
+                          onClick={() => previewImage(v.url)}
+                        />
                       </View>
                     ))}
                   </View>
@@ -651,6 +663,14 @@ export default function App() {
         )}
         <Notify id='notify' />
       </View>
+      <Popup
+        defaultOpen={false}
+        open={showImgPreview}
+        onClose={() => setShowImgPreview(false)}
+      >
+        <Popup.Close />
+        <Image className={styles.img} src={previewedImage} mode='widthFix' />
+      </Popup>
     </View>
   );
 }
