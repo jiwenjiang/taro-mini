@@ -102,6 +102,11 @@ export default function App() {
       const str = router.params.scene as string;
       const orgId = str.split("orgId%3D")[1];
       const channel = str.split("channel%3D")[1];
+      console.log("🚀 ~ file: index.tsx:105 ~ useEffect ~ channel:", channel);
+      console.log(
+        "🚀 ~ file: index.tsx:105 ~ useEffect ~wx._frontPage:",
+        wx._frontPage
+      );
       wx._orgId = orgId;
       wx._channel = channel;
 
