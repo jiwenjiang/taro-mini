@@ -106,6 +106,7 @@ export function useAuth() {
       if (res.code === 0) {
         setStorageSync("token", res.data.token);
         setStorageSync("user", res.data.user);
+        wx._frontPage = res.data.user.frontPage;
         cb?.();
       }
     } catch (res) {}

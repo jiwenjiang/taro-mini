@@ -1,5 +1,4 @@
 import TabBar from "@/comps/TabBar";
-import { OrgId } from "@/service/const";
 import request from "@/service/request";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
@@ -106,7 +105,7 @@ export default function App() {
       wx._orgId = orgId;
       wx._channel = channel;
 
-      if (router.params.orgId == OrgId.ANQIER || orgId == OrgId.ANQIER) {
+      if (wx._frontPage === "anqier") {
         console.log("entey");
         setChannel(Channel.anqier);
         request({
@@ -187,7 +186,11 @@ export default function App() {
                   </View>
                 </View>
                 <View className={styles.title}>专家团队疾病管理</View>
-                <View className={styles.manageBox} style={{ marginBottom: 10 }}>
+                <View
+                  className={styles.manageBox}
+                  style={{ marginBottom: 10 }}
+                  onClick={() => goto("/orderPackage/pages/xianliti")}
+                >
                   <View>
                     <View className={styles.cardTitle}>线粒体病</View>
                     <View className={styles.cardDesc}>

@@ -34,7 +34,8 @@ export default {
         "pages/order/videoList",
         "pages/book/index",
         "pages/book/records",
-        "pages/AIevaluate/index"
+        "pages/AIevaluate/index",
+        "pages/xianliti",
       ]
     },
     {
