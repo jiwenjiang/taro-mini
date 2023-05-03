@@ -100,9 +100,13 @@ export default function App() {
   useEffect(() => {
     if (router.params.scene) {
       const str = router.params.scene as string;
-      console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str)
+      console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str);
       const orgId = str.split("orgId%3D")[1];
       const channel = str.split("channel%3D")[1];
+      const decodedStr = decodeURIComponent(str); // 解码字符串
+      const matchArr = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
+      const result = matchArr?.[1]; // 获取匹配到的内容
+      console.log(1111, result); // 输出 xaaqer
       console.log(
         "🚀 ~ file: index.tsx:105 ~ useEffect ~ channel:",
         orgId,
