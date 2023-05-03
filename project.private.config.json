@@ -179,6 +179,13 @@
           "query": "code=12",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/index/index",
+          "query": "orgId=28",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

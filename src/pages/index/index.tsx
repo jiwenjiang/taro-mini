@@ -102,7 +102,9 @@ export default function App() {
     if (router.params.scene) {
       const str = router.params.scene as string;
       const orgId = str.split("orgId%3D")[1];
+      const channel = str.split("channel%3D")[1];
       wx._orgId = orgId;
+      wx._channel = channel;
 
       if (router.params.orgId == OrgId.ANQIER || orgId == OrgId.ANQIER) {
         console.log("entey");
@@ -114,6 +116,12 @@ export default function App() {
           setAnqierStatic(res.data);
         });
       }
+    }
+    if (router.params.orgId) {
+      wx._orgId = router.params.orgId;
+    }
+    if (router.params.channel) {
+      wx._channel = router.params.channel;
     }
   }, []);
 
