@@ -101,25 +101,19 @@ export default function App() {
     if (router.params.scene) {
       const str = router.params.scene as string;
       console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str);
-      const orgId = str.split("orgId%3D")[1];
-      const channel = str.split("channel%3D")[1];
+      // const orgId = str.split("orgId%3D")[1];
+      // const channel = str.split("channel%3D")[1];
       const decodedStr = decodeURIComponent(str); // 解码字符串
-      const matchArr = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
-      const result = matchArr?.[1]; // 获取匹配到的内容
-      console.log(1111, result); // 输出 xaaqer
-      console.log(
-        "🚀 ~ file: index.tsx:105 ~ useEffect ~ channel:",
-        orgId,
-        channel
-      );
-      console.log(
-        "🚀 ~ file: index.tsx:105 ~ useEffect ~wx._frontPage:",
-        wx._frontPage
-      );
+      const matchArr1 = decodedStr.match(/orgId=([^&]*)/); // 使用正则表达式匹配 channel 参数
+      const matchArr2 = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
+      const orgId = matchArr1?.[1]; // 获取匹配到的内容
+      const channel = matchArr2?.[1]; // 获取匹配到的内容
+      console.log(1111, orgId, channel); // 输出 xaaqer
+
       wx._orgId = orgId;
       wx._channel = channel;
 
-      if (wx._frontPage === "anqier") {
+      if (channel === "xaaqer") {
         console.log("entey");
         setChannel(Channel.anqier);
         request({
@@ -135,6 +129,16 @@ export default function App() {
     }
     if (router.params.channel) {
       wx._channel = router.params.channel;
+      if (wx._channel === "xaaqer") {
+        console.log("entey");
+        setChannel(Channel.anqier);
+        request({
+          url: "/wx/portal/angle",
+          method: "GET"
+        }).then(res => {
+          setAnqierStatic(res.data);
+        });
+      }
     }
   }, []);
 
