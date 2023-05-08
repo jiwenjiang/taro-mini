@@ -1,18 +1,26 @@
-import { ScaleTableCode } from "@/service/const";
+import { ScaleTableCode, categoryEnum } from "@/service/const";
 import request from "@/service/request";
 import { List, Loading } from "@taroify/core";
 import { View } from "@tarojs/components";
-import { navigateTo, usePageScroll } from "@tarojs/taro";
-import React, { useRef, useState } from "react";
+import { navigateTo, usePageScroll, useRouter } from "@tarojs/taro";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./recordList.module.scss";
 
 export default function App() {
+  const router = useRouter();
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const total = useRef(1);
-  const params = useRef({ pageNo: 0, pageSize: 10, patientId: null });
+  const params = useRef({
+    pageNo: 0,
+    pageSize: 10,
+    patientId: null,
+    category: router.params.origin
+      ? +router.params.origin
+      : categoryEnum.isNormal
+  });
   const isLoading = useRef(false);
   const [loadingText, setLoadingText] = useState("正在加载中");
 
@@ -74,6 +82,8 @@ export default function App() {
       });
     }
   };
+
+  useEffect(() => {}, []);
 
   return (
     <View className={styles.index}>

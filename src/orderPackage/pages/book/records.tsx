@@ -1,18 +1,18 @@
-import React, { useRef, useState } from "react";
-import { navigateTo, usePageScroll } from "@tarojs/taro";
 import { List, Loading } from "@taroify/core";
-import { View, Image } from "@tarojs/components";
+import { Image, View } from "@tarojs/components";
+import { navigateTo, usePageScroll } from "@tarojs/taro";
+import React, { useRef, useState } from "react";
 
-import { ScaleTableCode } from "@/service/const";
+import { ScaleTableCode, categoryEnum } from "@/service/const";
 import request from "@/service/request";
 
 import { cls } from "reactutils";
 
-import Child from "@/static/icons/child.svg";
-import Confirmed from "@/static/icons/duigou-green.svg";
 import BizClinic from "@/static/icons/biz-clinic.svg";
 import BizRecovery from "@/static/icons/biz-recovery.svg";
 import BizVideo from "@/static/icons/biz-video.svg";
+import Child from "@/static/icons/child.svg";
+import Confirmed from "@/static/icons/duigou-green.svg";
 import Location from "@/static/icons/location.svg";
 
 import styles from "./records.module.scss";
@@ -21,6 +21,7 @@ enum BizTypeEnums {
   Clinic = 1,
   Recovery,
   Video = 4,
+  Lingdaoyi
 }
 
 const BizTypes = [
@@ -28,17 +29,26 @@ const BizTypes = [
     id: BizTypeEnums.Clinic,
     name: "门诊评估",
     icon: BizClinic,
+    category: categoryEnum.isNormal
   },
   {
     id: BizTypeEnums.Recovery,
     name: "康复指导",
     icon: BizRecovery,
+    category: categoryEnum.isNormal
   },
   {
     id: BizTypeEnums.Video,
     name: "视频一对一咨询",
     icon: BizVideo,
+    category: categoryEnum.isNormal
   },
+  {
+    id: BizTypeEnums.Lingdaoyi,
+    name: "0-1岁发育风险管理",
+    icon: BizClinic,
+    category: categoryEnum.isLingDaoYi
+  }
 ];
 
 enum ReserveStatusEnums {
@@ -46,30 +56,30 @@ enum ReserveStatusEnums {
   REVIEWED = 3,
   CONFIRMED = 4,
   WAITING_START = 5,
-  REJECTED = 10,
+  REJECTED = 10
 }
 
 const ReserveStatuses = {
   [ReserveStatusEnums.PENDING]: {
-    text: '待审核',
-    className: 'pending',
+    text: "待审核",
+    className: "pending"
   },
   [ReserveStatusEnums.REVIEWED]: {
-    text: '审核通过',
-    className: 'reviewed',
+    text: "审核通过",
+    className: "reviewed"
   },
   [ReserveStatusEnums.CONFIRMED]: {
-    text: '已确认',
-    className: 'confirmed',
+    text: "已确认",
+    className: "confirmed"
   },
   [ReserveStatusEnums.WAITING_START]: {
-    text: '待开始',
-    className: 'waitingstart',
+    text: "待开始",
+    className: "waitingstart"
   },
   [ReserveStatusEnums.REJECTED]: {
-    text: '已驳回',
-    className: 'rejectd',
-  },
+    text: "已驳回",
+    className: "rejectd"
+  }
 };
 
 export default function App() {
@@ -78,7 +88,13 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const total = useRef(1);
-  const params = useRef({ pageNo: 0, pageSize: 10, type: 1, patientId: null });
+  const params = useRef({
+    pageNo: 0,
+    pageSize: 10,
+    type: 1,
+    patientId: null,
+    category: categoryEnum.isNormal
+  });
   const [currBizType, setCurrBizType] = useState(BizTypes[0]);
   const isLoading = useRef(false);
   const [loadingText, setLoadingText] = useState("正在加载中");
@@ -119,6 +135,7 @@ export default function App() {
 
     setCurrBizType(item);
     params.current.type = item.id;
+    params.current.category = item.category;
     getList(true);
   };
 
@@ -155,7 +172,10 @@ export default function App() {
         {BizTypes.map((item, i) => (
           <View
             key={i}
-            className={cls(styles.item, currBizType.id === item.id && styles.active)}
+            className={cls(
+              styles.item,
+              currBizType.id === item.id && styles.active
+            )}
             onClick={() => switchBizType(item)}
           >
             <View className={styles.text}>{item.name}</View>
@@ -184,7 +204,7 @@ export default function App() {
         ))}
         <List.Placeholder>
           {loading && <Loading>{loadingText}</Loading>}
-          {(!loading && pageReady && data?.length === 0) && (
+          {!loading && pageReady && data?.length === 0 && (
             <View className={styles.noData}>暂无此类预约记录</View>
           )}
         </List.Placeholder>
@@ -194,24 +214,24 @@ export default function App() {
 }
 
 function Card({ data, report, detail }) {
-  const toReport = async (data) => {
+  const toReport = async data => {
     const result = await request({
-      url: `/videoGuide/meetingRoom?id=${data.id}`,
+      url: `/videoGuide/meetingRoom?id=${data.id}`
     });
     if (result.success && result.data.appId) {
       wx.navigateToMiniProgram({
         appId: result.data.appId,
-        path: result.data.path,
-      })
+        path: result.data.path
+      });
     }
-    console.log('result: ', result);
+    console.log("result: ", result);
   };
 
   const toDetail = () => {
     detail?.(data);
   };
 
-  const openMap = (data) => {
+  const openMap = data => {
     const latitude = data.latitude;
     const longitude = data.longitude;
     wx.openLocation({
@@ -227,7 +247,7 @@ function Card({ data, report, detail }) {
       <View className={styles.card}>
         <View className={styles.row}>
           <View className={styles.child}>
-            <Image className={styles.icon} mode='widthFix' src={Child} />
+            <Image className={styles.icon} mode="widthFix" src={Child} />
             <View className={styles.name}>{data?.childrenName}</View>
           </View>
           <View className={styles.status}>
@@ -243,7 +263,11 @@ function Card({ data, report, detail }) {
             )}
             {data?.reserveStatus === ReserveStatusEnums.CONFIRMED && (
               <View className={styles.confirmed}>
-                <Image className={styles.icon} mode='widthFix' src={Confirmed} />
+                <Image
+                  className={styles.icon}
+                  mode="widthFix"
+                  src={Confirmed}
+                />
                 {ReserveStatuses[data.reserveStatus].text}
               </View>
             )}
@@ -262,24 +286,30 @@ function Card({ data, report, detail }) {
         <View className={styles.biztype}>
           <Image
             className={styles.icon}
-            mode='widthFix'
-            src={BizTypes.find((i) => i.id === data.type)?.icon}
+            mode="widthFix"
+            src={BizTypes.find(i => i.id === data.type)?.icon}
           />
-          <View className={styles.text}>{BizTypes.find((i) => i.id === data.type)?.name}</View>
+          <View className={styles.text}>
+            {BizTypes.find(i => i.id === data.type)?.name}
+          </View>
         </View>
         <View className={styles.reserveDetail}>
           <View className={styles.text}>
             <View>预约时间：{data?.reserveTime}</View>
             {data?.type !== BizTypeEnums.Video && (
-              <View className={styles.bottom}>预约地点：{data?.contactAddress}</View>
+              <View className={styles.bottom}>
+                预约地点：{data?.contactAddress}
+              </View>
             )}
           </View>
           <View className={styles.action}>
             {data?.type === BizTypeEnums.Video ? (
-              <View className={styles.btn} onClick={() => toReport(data)}>进入房间</View>
+              <View className={styles.btn} onClick={() => toReport(data)}>
+                进入房间
+              </View>
             ) : (
               <View className={styles.location} onClick={() => openMap(data)}>
-                <Image className={styles.icon} mode='widthFix' src={Location} />
+                <Image className={styles.icon} mode="widthFix" src={Location} />
               </View>
             )}
           </View>

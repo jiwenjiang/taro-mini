@@ -47,3 +47,9 @@ export enum OrgId {
 
 export const DanjuTishi =
   "请上传院内就医导引单和特检收费清单，人工审核单据无误后即可预约成功";
+
+export enum categoryEnum {
+  isNormal = 1,
+  isXianLiTi,
+  isLingDaoYi
+}

@@ -17,6 +17,27 @@
         left: 50%;
         transform: translateX(-50%);
     }
+
+    .gotoBox {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        bottom: 200px;
+        height: 80px;
+        width: 100vw;
+        padding: 0 30px;
+        box-sizing: border-box;
+
+        .goto2 {
+            width: 327px;
+            height: 80px;
+            background-color: var(--primary-color);
+            color: #fff;
+            line-height: 80px;
+            border-radius: 32px;
+            text-align: center;
+        }
+    }
 }
 
 .tabWrap {

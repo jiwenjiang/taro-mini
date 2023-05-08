@@ -1,3 +1,4 @@
+import { categoryEnum } from "@/service/const";
 import { Tabbar } from "@taroify/core";
 import { Completed, NotesOutlined, TodoListOutlined } from "@taroify/icons";
 import { View } from "@tarojs/components";
@@ -27,13 +28,21 @@ export default function App() {
           </Tabbar.TabItem>
           <Tabbar.TabItem
             icon={<Completed />}
-            onClick={() => goto("/evaluatePackage/pages/recordList")}
+            onClick={() =>
+              goto(
+                `/evaluatePackage/pages/recordList?origin=${categoryEnum.isXianLiTi}`
+              )
+            }
           >
             评估报告
           </Tabbar.TabItem>
           <Tabbar.TabItem
             icon={<NotesOutlined />}
-            onClick={() => goto("/evaluatePackage/pages/ganyuList")}
+            onClick={() =>
+              goto(
+                `/evaluatePackage/pages/ganyuList?origin=${categoryEnum.isXianLiTi}`
+              )
+            }
           >
             干预方案
           </Tabbar.TabItem>

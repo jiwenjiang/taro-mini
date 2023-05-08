@@ -1,5 +1,10 @@
 import NavBar from "@/comps/NavBar";
-import { DanjuTishi, EvaluateType, MediaType } from "@/service/const";
+import {
+  DanjuTishi,
+  EvaluateType,
+  MediaType,
+  categoryEnum
+} from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
@@ -23,12 +28,6 @@ import styles from "./index.module.scss";
 const heads = ["日", "一", "二", "三", "四", "五", "六"];
 const heads2 = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 
-enum categoryEnum {
-  isNormal = 1,
-  isXianLiTi,
-  isLingDaoYi
-}
-
 export default function App() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -46,12 +45,12 @@ export default function App() {
     NonNullable<{ name: string; id: string }>
   >({ name: "", id: "" });
   const [payMode, setPayMode] = useState(1);
+  const [trainingType, setTrainingType] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
   const tempId = useRef<any>();
   const [showImgPreview, setShowImgPreview] = useState(false);
   const [previewedImage, setPreviewedImage] = useState("");
-  const [category, setCategory] = useState(categoryEnum.isNormal);
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -216,8 +215,10 @@ export default function App() {
       type: Number(type),
       scaleCodes: Number(type) === 1 ? activeCode.map(v => v.code) : null,
       workScheduleId: activeTime.id,
-      category: category,
-      trainingType: payMode
+      category: router.params.origin
+        ? +router.params.origin
+        : categoryEnum.isNormal,
+      trainingType
     };
     const res = await request({
       url: "/reserve/submit",
@@ -544,6 +545,38 @@ export default function App() {
                 <View className={styles.p}>￥156</View>
               </View>
             </View> */}
+            {router.params.origin === String(categoryEnum.isLingDaoYi) && (
+              <View>
+                <View className={styles.payBox}>
+                  <View
+                    className={cls(
+                      styles.payCard,
+                      trainingType === 1 && styles.active
+                    )}
+                    onClick={() => setTrainingType(1)}
+                  >
+                    <Text>线下</Text>
+                    <Image
+                      src={trainingType === 1 ? xuanzhong : weixuanzhong}
+                      className={styles.choose}
+                    ></Image>
+                  </View>
+                  <View
+                    className={cls(
+                      styles.payCard,
+                      trainingType === 2 && styles.active
+                    )}
+                    onClick={() => setTrainingType(2)}
+                  >
+                    <Text>线上</Text>
+                    <Image
+                      src={trainingType === 2 ? xuanzhong : weixuanzhong}
+                      className={styles.choose}
+                    ></Image>
+                  </View>
+                </View>
+              </View>
+            )}
             {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
               Number(type)
             ) && (

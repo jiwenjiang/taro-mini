@@ -203,8 +203,8 @@ export default function App() {
                     <View className={styles.cardDesc}></View>
                   </View>
                 </View>
-                {/* <View className={styles.title}>专家团队疾病管理</View> */}
-                {/* <View
+                <View className={styles.title}>专家团队疾病管理</View>
+                <View
                   className={styles.manageBox}
                   style={{ marginBottom: 10 }}
                   onClick={() => goto("/orderPackage/pages/xianliti")}
@@ -228,7 +228,7 @@ export default function App() {
                     </View>
                   </View>
                   <View className={styles.manageBtn}>前往查看</View>
-                </View> */}
+                </View>
                 <View className={styles.title}>常用服务</View>
                 <View className={styles.cardBox}>
                   <View

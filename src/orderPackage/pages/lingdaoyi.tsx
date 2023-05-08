@@ -1,3 +1,4 @@
+import { categoryEnum } from "@/service/const";
 import { Tabbar } from "@taroify/core";
 import { Completed, NotesOutlined, TodoListOutlined } from "@taroify/icons";
 import { View } from "@tarojs/components";
@@ -11,16 +12,20 @@ export default function App() {
   };
   return (
     <View className={styles.index}>
-      <View>
+      <View className={styles.gotoBox}>
         <View
-          className={styles.goto}
-          onClick={() => goto("/orderPackage/pages/book/index?type=2")}
+          className={styles.goto2}
+          onClick={() => goto("/pages/evaluate/list")}
         >
           智能评估
         </View>
         <View
-          className={styles.goto}
-          onClick={() => goto("/orderPackage/pages/book/index?type=2")}
+          className={styles.goto2}
+          onClick={() =>
+            goto(
+              `/orderPackage/pages/book/index?type=2&origin=${categoryEnum.isLingDaoYi}`
+            )
+          }
         >
           预约家庭康复指导
         </View>
@@ -36,13 +41,21 @@ export default function App() {
           </Tabbar.TabItem>
           <Tabbar.TabItem
             icon={<Completed />}
-            onClick={() => goto("/evaluatePackage/pages/recordList")}
+            onClick={() =>
+              goto(
+                `/evaluatePackage/pages/recordList?origin=${categoryEnum.isLingDaoYi}`
+              )
+            }
           >
             评估报告
           </Tabbar.TabItem>
           <Tabbar.TabItem
             icon={<NotesOutlined />}
-            onClick={() => goto("/evaluatePackage/pages/ganyuList")}
+            onClick={() =>
+              goto(
+                `/evaluatePackage/pages/ganyuList?origin=${categoryEnum.isLingDaoYi}`
+              )
+            }
           >
             干预方案
           </Tabbar.TabItem>

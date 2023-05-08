@@ -1,10 +1,10 @@
-import { PaymentType } from "@/service/const";
+import { PaymentType, categoryEnum } from "@/service/const";
 import request from "@/service/request";
 import OfflineImg from "@/static/imgs/offline.png";
 import OnlineImg from "@/static/imgs/online.png";
 import { List, Loading, Popup } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import { navigateTo, usePageScroll } from "@tarojs/taro";
+import { navigateTo, usePageScroll, useRouter } from "@tarojs/taro";
 import React, { useRef, useState } from "react";
 import styles from "./ganyuList.module.scss";
 
@@ -21,12 +21,19 @@ const trainingStatusColor = {
 };
 
 export default function App() {
+  const router = useRouter();
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const total = useRef(1);
-  const params = useRef({ pageNo: 0, pageSize: 10 });
+  const params = useRef({
+    pageNo: 0,
+    pageSize: 10,
+    category: router.params.origin
+      ? +router.params.origin
+      : categoryEnum.isNormal
+  });
   const isLoading = useRef(false);
   const [loadingText, setLoadingText] = useState("正在加载中");
 
