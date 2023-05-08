@@ -77,7 +77,7 @@ export default function App() {
   };
 
   // 跳转至GMs量表儿童选择页面
-  const goChildChoosePage = id => {
+  const goChildChoosePage = v => {
     navigateTo({
       url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
     });
