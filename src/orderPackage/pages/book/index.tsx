@@ -25,7 +25,8 @@ const heads2 = ["周日", "周一", "周二", "周三", "周四", "周五", "周
 
 enum categoryEnum {
   isNormal = 1,
-  isXianLiTi
+  isXianLiTi,
+  isLingDaoYi
 }
 
 export default function App() {

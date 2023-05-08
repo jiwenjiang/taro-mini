@@ -36,6 +36,7 @@ export default {
         "pages/book/records",
         "pages/AIevaluate/index",
         "pages/xianliti",
+        "pages/lingdaoyi",
       ]
     },
     {

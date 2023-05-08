@@ -203,8 +203,8 @@ export default function App() {
                     <View className={styles.cardDesc}></View>
                   </View>
                 </View>
-                <View className={styles.title}>专家团队疾病管理</View>
-                <View
+                {/* <View className={styles.title}>专家团队疾病管理</View> */}
+                {/* <View
                   className={styles.manageBox}
                   style={{ marginBottom: 10 }}
                   onClick={() => goto("/orderPackage/pages/xianliti")}
@@ -217,7 +217,10 @@ export default function App() {
                   </View>
                   <View className={styles.manageBtn}>前往查看</View>
                 </View>
-                <View className={styles.manageBox}>
+                <View
+                  className={styles.manageBox}
+                  onClick={() => goto("/orderPackage/pages/lingdaoyi")}
+                >
                   <View>
                     <View className={styles.cardTitle}>0-1岁发育风险管理</View>
                     <View className={styles.cardDesc}>
@@ -225,7 +228,7 @@ export default function App() {
                     </View>
                   </View>
                   <View className={styles.manageBtn}>前往查看</View>
-                </View>
+                </View> */}
                 <View className={styles.title}>常用服务</View>
                 <View className={styles.cardBox}>
                   <View

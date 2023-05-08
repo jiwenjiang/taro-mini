@@ -11,12 +11,21 @@ export default function App() {
   };
   return (
     <View className={styles.index}>
-      <View
-        className={styles.goto}
-        onClick={() => goto("/orderPackage/pages/book/index?type=2")}
-      >
-        立即前往预约
+      <View>
+        <View
+          className={styles.goto}
+          onClick={() => goto("/orderPackage/pages/book/index?type=2")}
+        >
+          智能评估
+        </View>
+        <View
+          className={styles.goto}
+          onClick={() => goto("/orderPackage/pages/book/index?type=2")}
+        >
+          预约家庭康复指导
+        </View>
       </View>
+
       <View className={styles.tabWrap}>
         <Tabbar fixed={true} value={null}>
           <Tabbar.TabItem
