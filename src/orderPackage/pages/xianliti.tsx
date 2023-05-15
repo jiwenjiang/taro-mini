@@ -22,7 +22,11 @@ export default function App() {
         <Tabbar fixed={true} value={null}>
           <Tabbar.TabItem
             icon={<TodoListOutlined />}
-            onClick={() => goto("/orderPackage/pages/book/records")}
+            onClick={() =>
+              goto(
+                `/orderPackage/pages/book/records?origin=${categoryEnum.isXianLiTi}`
+              )
+            }
           >
             预约记录
           </Tabbar.TabItem>

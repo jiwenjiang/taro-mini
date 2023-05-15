@@ -1,7 +1,7 @@
 import { List, Loading } from "@taroify/core";
 import { Image, View } from "@tarojs/components";
-import { navigateTo, usePageScroll } from "@tarojs/taro";
-import React, { useRef, useState } from "react";
+import { navigateTo, usePageScroll, useRouter } from "@tarojs/taro";
+import React, { useEffect, useRef, useState } from "react";
 
 import { ScaleTableCode, categoryEnum } from "@/service/const";
 import request from "@/service/request";
@@ -21,10 +21,11 @@ enum BizTypeEnums {
   Clinic = 1,
   Recovery,
   Video = 4,
-  Lingdaoyi
+  Lingdaoyi,
+  Xianliti
 }
 
-const BizTypes = [
+let BizTypes = [
   {
     id: BizTypeEnums.Clinic,
     name: "门诊评估",
@@ -42,12 +43,6 @@ const BizTypes = [
     name: "视频一对一咨询",
     icon: BizVideo,
     category: categoryEnum.isNormal
-  },
-  {
-    id: BizTypeEnums.Lingdaoyi,
-    name: "0-1岁发育风险管理",
-    icon: BizClinic,
-    category: categoryEnum.isLingDaoYi
   }
 ];
 
@@ -83,6 +78,7 @@ const ReserveStatuses = {
 };
 
 export default function App() {
+  const router = useRouter();
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
@@ -99,6 +95,7 @@ export default function App() {
   const isLoading = useRef(false);
   const [loadingText, setLoadingText] = useState("正在加载中");
   const [pageReady, setPageReady] = useState(false);
+  const [origin, setOrigin] = useState<null | number>(null);
 
   usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop));
 
@@ -165,6 +162,34 @@ export default function App() {
       });
     }
   };
+
+  useEffect(() => {
+    if (router.params.origin) {
+      setOrigin(+router.params.origin);
+      params.current.category = +router.params.origin;
+      if (+router.params.origin === categoryEnum.isXianLiTi) {
+        BizTypes = [
+          {
+            id: BizTypeEnums.Xianliti,
+            name: "线粒体病",
+            icon: BizClinic,
+            category: categoryEnum.isXianLiTi
+          }
+        ];
+      }
+      if (+router.params.origin === categoryEnum.isLingDaoYi) {
+        BizTypes = [
+          {
+            id: BizTypeEnums.Lingdaoyi,
+            name: "0-1岁发育风险管理",
+            icon: BizClinic,
+            category: categoryEnum.isLingDaoYi
+          }
+        ];
+      }
+      setCurrBizType(BizTypes[0]);
+    }
+  }, []);
 
   return (
     <View className={styles.index}>
