@@ -5,7 +5,7 @@ import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import AudioSvg from "@/static/icons/audio.svg";
 import StopSvg from "@/static/icons/stop.svg";
-import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
+import { Button, Loading, Notify, Popup, Textarea, Toast } from "@taroify/core";
 import {
   Clear,
   PauseCircleOutlined,
@@ -22,12 +22,12 @@ import {
   View
 } from "@tarojs/components";
 import {
+  InnerAudioContext,
+  RecorderManager,
   createInnerAudioContext,
   createVideoContext,
   getRecorderManager,
-  InnerAudioContext,
   navigateTo,
-  RecorderManager,
   useRouter
 } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
@@ -59,6 +59,7 @@ export default function App() {
   const [isPlay, setIsPlay] = useState(false);
   const [visible, setVisible] = useState(false);
   const [btnText, setBtnText] = useState("提交答案");
+  const [isUploading, setIsUploading] = useState(false);
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
   const [title] = useState(transTitle(Number(router.params.code)));
@@ -140,27 +141,30 @@ export default function App() {
   };
 
   const mediaList = ({ type, filePath, thumbTempFilePath }) => {
-    if (data[active].questions[questionIndex].mediaList) {
-      data[active].questions[questionIndex].mediaList.push({
-        type,
-        localData: filePath,
-        coverUrl: thumbTempFilePath
-      });
-    } else {
-      data[active].questions[questionIndex].mediaList = [
-        {
+    setIsUploading(true);
+
+    upload2Server(filePath, type, v => {
+      if (data[active].questions[questionIndex].mediaList) {
+        data[active].questions[questionIndex].mediaList.push({
           type,
           localData: filePath,
           coverUrl: thumbTempFilePath
-        }
-      ];
-    }
-    upload2Server(filePath, type, v => {
+        });
+      } else {
+        data[active].questions[questionIndex].mediaList = [
+          {
+            type,
+            localData: filePath,
+            coverUrl: thumbTempFilePath
+          }
+        ];
+      }
       console.log("🚀 ~ file: brain.tsx ~ line 128 ~ success ~ v", v);
       data[active].questions[questionIndex].attachments.push({
         type,
         serverId: v.id
       });
+      setIsUploading(false);
     });
     setData([...data]);
   };
@@ -591,6 +595,11 @@ export default function App() {
           )}
         </Popup>
         <Notify id="notify" />
+        {isUploading && (
+          <Toast open type="loading">
+            上传中...
+          </Toast>
+        )}
       </View>
     </View>
   );
