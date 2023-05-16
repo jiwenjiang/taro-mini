@@ -5,7 +5,7 @@ import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import AudioSvg from "@/static/icons/audio.svg";
 import StopSvg from "@/static/icons/stop.svg";
-import { Button, Loading, Notify, Popup, Textarea, Toast } from "@taroify/core";
+import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
 import {
   Clear,
   PauseCircleOutlined,
@@ -21,7 +21,7 @@ import {
   Video,
   View
 } from "@tarojs/components";
-import {
+import Taro, {
   InnerAudioContext,
   RecorderManager,
   createInnerAudioContext,
@@ -59,7 +59,7 @@ export default function App() {
   const [isPlay, setIsPlay] = useState(false);
   const [visible, setVisible] = useState(false);
   const [btnText, setBtnText] = useState("提交答案");
-  const [isUploading, setIsUploading] = useState(false);
+  const [num, setNum] = useState(0);
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
   const [title] = useState(transTitle(Number(router.params.code)));
@@ -141,7 +141,9 @@ export default function App() {
   };
 
   const mediaList = ({ type, filePath, thumbTempFilePath }) => {
-    setIsUploading(true);
+    Taro.showLoading({
+      title: "上传中"
+    });
 
     upload2Server(filePath, type, v => {
       if (data[active].questions[questionIndex].mediaList) {
@@ -164,7 +166,9 @@ export default function App() {
         type,
         serverId: v.id
       });
-      setIsUploading(false);
+      // setIsUploading(false);
+      setNum(num + 1);
+      Taro.hideLoading();
     });
     setData([...data]);
   };
@@ -179,7 +183,7 @@ export default function App() {
       camera: "back",
       success(res) {
         const filePath = res.tempFiles[0].tempFilePath;
-        console.log(1, res);
+        console.log(1, res, filePath);
         mediaList({
           type,
           filePath,
@@ -595,11 +599,7 @@ export default function App() {
           )}
         </Popup>
         <Notify id="notify" />
-        {isUploading && (
-          <Toast open type="loading">
-            上传中...
-          </Toast>
-        )}
+        <View className={styles.update}>{num}</View>
       </View>
     </View>
   );

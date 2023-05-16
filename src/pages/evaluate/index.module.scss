@@ -219,3 +219,10 @@
         color: #fff;
     }
 }
+
+.update {
+    position: absolute;
+    left: -100px;
+    z-index: -1;
+    opacity: 0;
+}
