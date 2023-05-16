@@ -60,6 +60,7 @@ export default function App() {
   const [visible, setVisible] = useState(false);
   const [btnText, setBtnText] = useState("提交答案");
   const [num, setNum] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
   const [title] = useState(transTitle(Number(router.params.code)));
@@ -118,6 +119,7 @@ export default function App() {
   };
 
   const next = () => {
+    if (isUploading) return;
     const list = data[active].questions[questionIndex]?.mediaList;
     const noVideo = list.every(c => c.type !== MediaType.VIDEO);
     if (noVideo) {
@@ -141,6 +143,7 @@ export default function App() {
   };
 
   const mediaList = ({ type, filePath, thumbTempFilePath }) => {
+    setIsUploading(true);
     Taro.showLoading({
       title: "上传中"
     });
@@ -168,12 +171,14 @@ export default function App() {
       });
       // setIsUploading(false);
       setNum(num + 1);
+      setIsUploading(false);
       Taro.hideLoading();
     });
     setData([...data]);
   };
 
   const chooseMedia = (type: MediaType) => {
+    if (isUploading) return;
     const isVideo = type === MediaType.VIDEO;
     wx.chooseMedia({
       count: 1,
@@ -194,6 +199,7 @@ export default function App() {
   };
 
   const startRecord = () => {
+    if (isUploading) return;
     setIsRecord(true);
     if (!recorderManager.current) {
       recorderManager.current = getRecorderManager();
