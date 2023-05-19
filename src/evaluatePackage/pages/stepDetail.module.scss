@@ -363,7 +363,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         padding: 24px 32px;
         flex-grow: 1;
         border-radius: 16px;
@@ -371,9 +371,9 @@
         border: 1px solid #DDDDDD;
 
         .brainVal {
-            font-size: 48px;
+            font-size: 30px;
             font-weight: normal;
-            line-height: 48px;
+            line-height: 30px;
             letter-spacing: 0px;
             color: #000000;
             margin-top: 20px;

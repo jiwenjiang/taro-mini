@@ -273,11 +273,13 @@ function Card() {
                     <View className={styles.pb20}>
                       <View className={styles.brainBox}>
                         <View className={styles.brain1}>
-                          <View className={styles.brainTitle}>
-                            {report.scaleResult?.gmsResult?.remark}
+                          <View className={styles.brainVal}>
+                            评估结果：
+                            {report.scaleResult?.gmsResult?.stageResult}
                           </View>
                           <View className={styles.brainVal}>
-                            {report.scaleResult?.gmsResult?.stageResult}
+                            医学回复内容：
+                            {report.scaleResult?.gmsResult?.remark}
                           </View>
                         </View>
                       </View>
