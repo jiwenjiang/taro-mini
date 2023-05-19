@@ -271,21 +271,16 @@ function Card() {
                       />
                     </View>
                     <View className={styles.pb20}>
-                      {report.scaleResult?.gmsResult?.result?.map(
-                        (v, i) =>
-                          v.content && (
-                            <View className={styles.brainBox}>
-                              <View className={styles.brain1} key={i}>
-                                <View className={styles.brainTitle}>
-                                  {v.name}
-                                </View>
-                                <View className={styles.brainVal}>
-                                  {v.content}
-                                </View>
-                              </View>
-                            </View>
-                          )
-                      )}
+                      <View className={styles.brainBox}>
+                        <View className={styles.brain1}>
+                          <View className={styles.brainTitle}>
+                            {report.scaleResult?.gmsResult?.remark}
+                          </View>
+                          <View className={styles.brainVal}>
+                            {report.scaleResult?.gmsResult?.stageResult}
+                          </View>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
