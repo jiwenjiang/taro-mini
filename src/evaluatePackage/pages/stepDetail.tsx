@@ -236,7 +236,7 @@ function Card() {
 
       {report?.progressStatus && (
         <View>
-          {report?.progressStatus === "未评估" ? (
+          {report?.progressStatusCode === 3 ? (
             <View>
               <View className={styles.cardBox}>
                 <View className={styles.card}>
