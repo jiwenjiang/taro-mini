@@ -108,8 +108,8 @@ function Card() {
       setVideos(
         chunk(
           (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
-            ? res2.data.scaleResult.videos
-            : res2.data.scaleResult.cerebralPalsyResult?.videos) || []
+            ? res2.data.scaleResult?.videos
+            : res2.data.scaleResult?.cerebralPalsyResult?.videos) || []
         )
       );
 
@@ -118,14 +118,14 @@ function Card() {
         data: {
           abnormalIterm:
             ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
-              ? res2.data.scaleResult.abnormalIterm[0]
-              : res2.data.scaleResult.cerebralPalsyResult.abnormalIterm[0]
+              ? res2.data.scaleResult?.abnormalIterm?.[0]
+              : res2.data.scaleResult?.cerebralPalsyResult?.abnormalIterm?.[0]
         }
       });
       const list =
         ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode
-          ? res2.data.scaleResult.abnormalIterm
-          : res2.data.scaleResult.cerebralPalsyResult.abnormalIterm;
+          ? res2.data.scaleResult?.abnormalIterm || []
+          : res2.data.scaleResult?.cerebralPalsyResult?.abnormalIterm || [];
       setAbnormal(
         list.map((v, i) => {
           if (i === 0) {
@@ -345,9 +345,8 @@ function Card() {
                         )
                       )}
                     </View>
-                    <View className={styles.expandBox}>
+                    <View className={styles.expandBox} onClick={() => expand()}>
                       <ArrowDown
-                        onClick={() => expand()}
                         color="#ffd340"
                         className={cls(isExpand && styles.isExpand)}
                       />
