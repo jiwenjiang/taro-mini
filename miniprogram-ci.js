@@ -51,7 +51,7 @@
       type: "list",
       name: "name",
       message: "请选择上传的小程序",
-      choices: ["fushu", "leibo"]
+      choices: ["fushu", "child", "leibo"]
     }
   ]);
   setAppId(app.name);
@@ -99,7 +99,7 @@
       minifyWXSS: true,
       minify: true
     },
-    onProgressUpdate: (res) => {
+    onProgressUpdate: res => {
       console.log("\x1b[36m%s\x1b[0m", `building...${res}`);
     }
   });

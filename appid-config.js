@@ -7,8 +7,11 @@ const AppConfig = {
   fushu: {
     appId: "wxc662de75e52ad4d5"
   },
-  leibo: {
+  child: {
     appId: "wxb7471fee564e0831"
+  },
+  leibo: {
+    appId: "wx45988ee03543eb16"
   }
 };
 // 配置文件路径
