@@ -2,7 +2,7 @@ import Contact from "@/comps/Contact";
 import NavBar from "@/comps/NavBar";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
-import { chunk, isFushu } from "@/service/utils";
+import { chunk } from "@/service/utils";
 import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import hospital from "@/static/imgs/hospital.png";
@@ -83,7 +83,7 @@ function Card() {
   const [isfushu, setIsFushu] = useState(false);
 
   useEffect(() => {
-    setIsFushu(isFushu());
+    // setIsFushu(isFushu());
   }, []);
   useEffect(() => {
     (async () => {
@@ -96,6 +96,8 @@ function Card() {
         url: "/scaleRecord/report",
         data: { id: router.params.id }
       });
+      console.log("🚀 ~ file: stepDetail.tsx:99 ~ res2:", res2)
+      setIsFushu(res2.data.askDoctor)
       if (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode) {
         const obj = {
           ...res2.data,

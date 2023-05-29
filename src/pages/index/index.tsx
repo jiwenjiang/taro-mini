@@ -10,7 +10,12 @@ import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
-import { getStorageSync, navigateTo, useRouter } from "@tarojs/taro";
+import {
+  getStorageSync,
+  navigateTo,
+  useDidShow,
+  useRouter
+} from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
@@ -141,6 +146,19 @@ export default function App() {
       }
     }
   }, []);
+
+  useDidShow(() => {
+    if (wx._frontPage === "xaaqer") {
+      console.log("entey");
+      setChannel(Channel.anqier);
+      request({
+        url: "/wx/portal/angle",
+        method: "GET"
+      }).then(res => {
+        setAnqierStatic(res.data);
+      });
+    }
+  });
 
   return (
     <View>
