@@ -69,8 +69,9 @@ export const Base64 = {
     } // Whend
 
     output = Base64._utf8_decode(output);
+    console.log("🚀 ~ file: utils.ts:72 ~ output:", String(output).trim())
 
-    return output;
+    return String(output);
   }, // End Function decode
 
   // private method for UTF-8 encoding

@@ -15,7 +15,8 @@ export enum ScaleTableCode {
   BRAIN_GMS,
   LEIBO_BRAIN,
   LEIBO_GMS,
-  Griffiths
+  Griffiths,
+  Product88 = 33
 }
 
 export enum OrderStatus {

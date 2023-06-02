@@ -297,6 +297,7 @@ export default function App() {
 
   const autoNavigate = () => {
     if (router.params.returnUrl) {
+      console.log("🚀 ~ file: edit.jsx:300 ~ autoNavigate ~ router.params.returnUrl:", router.params.returnUrl)
       const url = Base64.decode(router.params.returnUrl);
       console.log("🚀 ~ file: edit.jsx:301 ~ autoNavigate ~ url", url)
       navigateTo({ url });

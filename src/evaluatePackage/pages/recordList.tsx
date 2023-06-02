@@ -76,7 +76,11 @@ export default function App() {
         url: `/evaluatePackage/pages/stepDetail?id=${item.id}`
       });
     }
-    if (item.scaleTableCode === ScaleTableCode.Griffiths) {
+    if (
+      [ScaleTableCode.Griffiths, ScaleTableCode.Product88].includes(
+        item.scaleTableCode
+      )
+    ) {
       navigateTo({
         url: `/pages/evaluate/previewReport?id=${item.id}&name=${item.scaleName}`
       });

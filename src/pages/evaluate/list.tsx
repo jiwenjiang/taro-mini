@@ -3,6 +3,7 @@ import TabBar from "@/comps/TabBar";
 import { ChildContext } from "@/service/context";
 import { useAuth } from "@/service/hook";
 import request from "@/service/request";
+import { Base64 } from "@/service/utils";
 import { Arrow } from "@taroify/icons";
 import { View } from "@tarojs/components";
 import { navigateTo, useRouter } from "@tarojs/taro";
@@ -39,8 +40,10 @@ export default function App() {
           url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
         });
       } else {
+        const returnUrl = Base64.encode("/pages/evaluate/list?key=1");
+
         navigateTo({
-          url: `/childPackage/pages/manage?code=${scaleTableCode}`
+          url: `/childPackage/pages/manage?code=${scaleTableCode}&returnUrl=${returnUrl}`
         });
       }
     }
@@ -54,7 +57,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(111, wx._orgId);
     if (router.params.channel || router.params.orgid || wx._orgId) {
       getAuth(getList, {
         channel: router.params.channel || "",

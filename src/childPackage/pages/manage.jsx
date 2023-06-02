@@ -8,6 +8,7 @@ import { Button, Notify } from "@taroify/core";
 import { Image, Text, View } from "@tarojs/components";
 import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
+import { Base64 } from "@/service/utils";
 
 import "./manage.scss";
 
@@ -38,9 +39,15 @@ export default function App() {
 
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
-    navigateTo({
-      url: `/childPackage/pages/edit?code=${router.params.code}`
-    });
+    if (router.params.returnUrl) {
+      navigateTo({
+        url: `/childPackage/pages/edit?code=${router.params.code}&returnUrl=${router.params.returnUrl}`
+      });
+    } else {
+      navigateTo({
+        url: `/childPackage/pages/edit?code=${router.params.code}`
+      });
+    }
   };
   // 跳转至添加儿童页面，并带上儿童 ID，以编辑儿童信息
   const edit = index => {
