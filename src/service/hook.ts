@@ -108,6 +108,9 @@ export function useAuth() {
         setStorageSync("user", res.data.user);
         wx._frontPage = res.data.user.frontPage;
         cb?.();
+        Taro.reLaunch({
+          url: `/pages/index/index?channel=${wx._frontPage}`
+        });
       }
     } catch (res) {}
   };

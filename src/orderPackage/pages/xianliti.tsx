@@ -14,7 +14,7 @@ export default function App() {
     <View className={styles.index}>
       <View
         className={styles.goto}
-        onClick={() => goto(`/orderPackage/pages/book/index?type=2&origin=${categoryEnum.isXianLiTi}`)}
+        onClick={() => goto(`/orderPackage/pages/book/index?type=1&origin=${categoryEnum.isXianLiTi}`)}
       >
         立即前往预约
       </View>

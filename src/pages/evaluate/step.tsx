@@ -3,13 +3,10 @@ import Steper from "@/comps/Steper";
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
-import AudioSvg from "@/static/icons/audio.svg";
-import StopSvg from "@/static/icons/stop.svg";
 import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
 import {
   Clear,
   PauseCircleOutlined,
-  PhotoOutlined,
   PlayCircleOutlined,
   VideoOutlined
 } from "@taroify/icons";
@@ -466,19 +463,19 @@ export default function App() {
                           </View>
                         )
                     )}
-                    <View
+                    {/* <View
                       className={styles.iconBox}
                       onClick={() => chooseMedia(MediaType.PICTURE)}
                     >
                       <PhotoOutlined />
-                    </View>
+                    </View> */}
                     <View
                       className={styles.iconBox}
                       onClick={() => chooseMedia(MediaType.VIDEO)}
                     >
                       <VideoOutlined />
                     </View>
-                    <View
+                    {/* <View
                       className={styles.iconBox}
                       onClick={() => {
                         isRecord ? stopRecord() : startRecord();
@@ -492,7 +489,7 @@ export default function App() {
                           src={AudioSvg}
                         ></Image>
                       )}
-                    </View>
+                    </View> */}
                   </View>
                 </Form>
               </View>

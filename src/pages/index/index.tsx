@@ -99,7 +99,7 @@ export default function App() {
         setModules(user?.modules);
         clearInterval(timer);
       }
-    }, 100);
+    }, 1000);
   }, []);
 
   useEffect(() => {
