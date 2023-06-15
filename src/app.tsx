@@ -24,7 +24,7 @@ function App(props) {
   };
 
   useDidShow(() => {
-    getAuth(getChild);
+    // getAuth(getChild);
   });
 
   return (

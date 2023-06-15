@@ -1,5 +1,4 @@
 import TabBar from "@/comps/TabBar";
-import { useAuth } from "@/service/hook";
 import request from "@/service/request";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
@@ -12,10 +11,10 @@ import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import {
-  getStorageSync,
-  navigateTo,
-  useDidShow,
-  useRouter
+    getStorageSync,
+    navigateTo,
+    useDidShow,
+    useRouter
 } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
@@ -72,7 +71,6 @@ const descs = [
 
 export default function App() {
   const router = useRouter();
-  const { getAuth } = useAuth();
   const [modules, setModules] = useState<any>();
   const [channel, setChannel] = useState<Channel>(Channel.fushu);
   const [anqierStatic, setAnqierStatic] = useState({
@@ -150,20 +148,16 @@ export default function App() {
   }, []);
 
   useDidShow(() => {
-    getAuth(() => {
-      if (!router.params.channel && !router.params.scene) {
-        if (wx._frontPage === "xaaqer") {
-          console.log("entey");
-          setChannel(Channel.anqier);
-          request({
-            url: "/wx/portal/angle",
-            method: "GET"
-          }).then(res => {
-            setAnqierStatic(res.data);
-          });
-        }
-      }
-    });
+    if (wx._frontPage === "xaaqer") {
+      console.log("entey");
+      setChannel(Channel.anqier);
+      request({
+        url: "/wx/portal/angle",
+        method: "GET"
+      }).then(res => {
+        setAnqierStatic(res.data);
+      });
+    }
   });
 
   return (

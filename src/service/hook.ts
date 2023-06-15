@@ -90,6 +90,7 @@ export function useReportBtnHandle() {
 }
 
 export function useAuth() {
+
   const getAuth = async (cb?: Function, options: any = {}) => {
     const login = await Taro.login();
     const userInfo = await Taro.getUserInfo();
@@ -108,9 +109,9 @@ export function useAuth() {
         setStorageSync("user", res.data.user);
         wx._frontPage = res.data.user.frontPage;
         cb?.();
-        Taro.reLaunch({
-          url: `/pages/index/index?channel=${wx._frontPage}`
-        });
+        // Taro.reLaunch({
+        //   url: `/pages/index/index?channel=${wx._frontPage}`
+        // });
       }
     } catch (res) {}
   };

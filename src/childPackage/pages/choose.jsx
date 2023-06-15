@@ -100,14 +100,14 @@ export default function App() {
             开始评测
           </Button>
         )}
-        <Button
+        {/* <Button
           variant="contained"
           shape="square"
           onClick={manage}
           className="taro-btn mt10"
         >
           儿童管理
-        </Button>
+        </Button> */}
       </View>
       <Notify id="notify" />
     </View>
