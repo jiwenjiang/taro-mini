@@ -70,68 +70,6 @@ export default function App() {
   return (
     <View className="index">
       <View className="list-wrap">
-        {/* <View className="list" onClick={() => todo()}>
-          <ListItem
-            left="婴幼儿脑瘫危险程度量表(蕾波)"
-            right={
-              <View className="arrow-icon">
-                <Arrow color="#fff" />
-              </View>
-            }
-            customStyles={cusStyle}
-          />
-        </View>
-        <View
-          className="list"
-          onClick={() => checkPay(ScaleTableCode.BRAIN_GMS)}
-        >
-          <ListItem
-            left={
-              <View>
-                <View>全身运动质量评估(GMs) +</View>
-                <View>婴幼儿脑瘫危险程度量表(蕾波)</View>
-              </View>
-            }
-            right={
-              <View className="arrow-icon">
-                <Arrow color="#fff" />
-              </View>
-            }
-            customStyles={cusStyle}
-          />
-        </View> */}
-        {/* <View
-          className="list"
-          onClick={() => checkPay(ScaleTableCode.LEIBO_BRAIN)}
-        >
-          <ListItem
-            left="婴幼儿神经运动16项"
-            right={
-              <View className="arrow-icon">
-                <Arrow color="#fff" />
-              </View>
-            }
-            customStyles={cusStyle}
-          />
-        </View>
-        <View
-          className="list"
-          onClick={() => checkPay(ScaleTableCode.LEIBO_GMS)}
-        >
-          <ListItem
-            left={
-              <View>
-                <View>GMs与婴幼儿神经运动16项</View>
-              </View>
-            }
-            right={
-              <View className="arrow-icon">
-                <Arrow color="#fff" />
-              </View>
-            }
-            customStyles={cusStyle}
-          />
-        </View> */}
         {list?.map((v, i) => (
           <View key={i} className="list" onClick={() => checkPay(v.code)}>
             <ListItem

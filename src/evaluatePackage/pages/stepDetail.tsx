@@ -96,8 +96,8 @@ function Card() {
         url: "/scaleRecord/report",
         data: { id: router.params.id }
       });
-      console.log("🚀 ~ file: stepDetail.tsx:99 ~ res2:", res2)
-      setIsFushu(res2.data.askDoctor)
+      console.log("🚀 ~ file: stepDetail.tsx:99 ~ res2:", res2);
+      setIsFushu(res2.data.askDoctor);
       if (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode) {
         const obj = {
           ...res2.data,
@@ -337,11 +337,16 @@ function Card() {
                             <View
                               className={cls(
                                 styles.succ,
-                                v.status > 0 && styles.error
+                                v.optionSn === 2 && styles.warning,
+                                v.optionSn === 3 && styles.error
                               )}
                               onClick={() => toTab(v)}
                             >
-                              {v.status > 0 ? "异常" : "正常"}
+                              {v.optionSn === 1
+                                ? "未出现"
+                                : v.optionSn === 2
+                                ? "疑似"
+                                : "出现"}
                             </View>
                           </View>
                         )

@@ -61,7 +61,7 @@ export default function App() {
   const recorderManager = useRef<RecorderManager>();
   const innerAudioContext = useRef<InnerAudioContext>();
   const [title] = useState(transTitle(Number(router.params.code)));
-  const tempId = useRef();
+  const tempId = useRef<any>([]);
 
   const getList = async () => {
     const res = await request({
@@ -98,7 +98,7 @@ export default function App() {
     const res = await request({
       url: "/wx/portal/template"
     });
-    tempId.current = res.data.scaleResultNotify;
+    tempId.current = [res.data.scaleResultNotify];
   };
 
   useEffect(() => {
@@ -302,7 +302,7 @@ export default function App() {
         });
       }
       wx.requestSubscribeMessage({
-        tmplIds: [tempId.current],
+        tmplIds: tempId.current,
         success(res) {}
       });
       // if (router.params.code === "9") {
@@ -355,7 +355,9 @@ export default function App() {
               {(questionIndex === 0 || questionIndex === 1) && (
                 <View className={styles.zhinan}>
                   <View className={styles.zhinanText}>
-                    请根据拍摄指南，拍摄孩子自发姿势运动视频
+                    {questionIndex === 0
+                      ? "请根据拍摄指南，拍摄孩子自发姿势运动视频"
+                      : "请根据拍摄指南，拍摄孩子扶持迈步激发运动视频"}
                   </View>
                   <View className={styles.chakanzhinan} onClick={getGuide}>
                     查看拍摄指南

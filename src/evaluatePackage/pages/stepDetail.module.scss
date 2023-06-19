@@ -541,6 +541,10 @@
     justify-content: center;
 }
 
+.warning {
+    background-color: var(--primary-color);
+}
+
 .error {
     background-color: #F44336;
 }

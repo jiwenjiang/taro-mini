@@ -152,6 +152,7 @@ export default function App() {
   useDidShow(() => {
     getAuth(() => {
       if (!router.params.channel && !router.params.scene) {
+        console.log("🚀 ~ file: index.tsx:156 ~ getAuth ~ wx._frontPage:", wx._frontPage)
         if (wx._frontPage === "xaaqer") {
           console.log("entey");
           setChannel(Channel.anqier);
