@@ -23,7 +23,8 @@ import styles from "./index.module.scss";
 
 enum Channel {
   fushu,
-  anqier
+  anqier,
+  quzhou
 }
 
 const anqierList = [
@@ -83,6 +84,14 @@ export default function App() {
     serve: "",
     logo: ""
   });
+  const [quzhouStatic, setQuzhouStatic] = useState({
+    carousel: [],
+    problemPhone: "",
+    supportPhone: "",
+    logo: "",
+    aiEvaluation: "",
+    record: ""
+  });
   const goto = url => {
     navigateTo({ url });
   };
@@ -120,41 +129,21 @@ export default function App() {
       wx._orgId = orgId;
       wx._channel = channel;
 
-      if (channel === "xaaqer") {
-        console.log("entey");
-        setChannel(Channel.anqier);
-        request({
-          url: "/wx/portal/angle",
-          method: "GET"
-        }).then(res => {
-          setAnqierStatic(res.data);
-        });
-      }
+      channelJudge();
     }
     if (router.params.orgId) {
       wx._orgId = router.params.orgId;
     }
     if (router.params.channel) {
       wx._channel = router.params.channel;
-      if (wx._channel === "xaaqer") {
-        console.log("entey");
-        setChannel(Channel.anqier);
-        request({
-          url: "/wx/portal/angle",
-          method: "GET"
-        }).then(res => {
-          setAnqierStatic(res.data);
-        });
-      }
+      channelJudge();
     }
   }, []);
 
   useDidShow(() => {
     getAuth(() => {
       if (!router.params.channel && !router.params.scene) {
-        console.log("🚀 ~ file: index.tsx:156 ~ getAuth ~ wx._frontPage:", wx._frontPage)
         if (wx._frontPage === "xaaqer") {
-          console.log("entey");
           setChannel(Channel.anqier);
           request({
             url: "/wx/portal/angle",
@@ -163,15 +152,47 @@ export default function App() {
             setAnqierStatic(res.data);
           });
         }
+        if (wx._frontPage === "qzxfybjy") {
+          setChannel(Channel.quzhou);
+          request({
+            url: "/wx/portal/quzhou",
+            method: "GET"
+          }).then(res => {
+            setQuzhouStatic(res.data);
+          });
+        }
       }
     });
   });
+
+  const channelJudge = () => {
+    if (wx._channel === "xaaqer") {
+      console.log("entey");
+      setChannel(Channel.anqier);
+      request({
+        url: "/wx/portal/angle",
+        method: "GET"
+      }).then(res => {
+        setAnqierStatic(res.data);
+      });
+    }
+    if (wx._channel === "qzxfybjy") {
+      console.log("entey");
+      setChannel(Channel.quzhou);
+      request({
+        url: "/wx/portal/quzhou",
+        method: "GET"
+      }).then(res => {
+        setQuzhouStatic(res.data);
+      });
+    }
+  };
 
   return (
     <View>
       {modules ? (
         <View>
-          {channel === Channel.fushu ? (
+          {channel === Channel.fushu && (
             <View className={styles.index}>
               <View className={styles.bottomPart}>
                 <View className={styles.title}>评估服务</View>
@@ -286,7 +307,8 @@ export default function App() {
               <Notify id="notify" />
               <TabBar current="index" />
             </View>
-          ) : (
+          )}
+          {channel === Channel.anqier && (
             <View className={styles.index}>
               <View className={styles.anqier}>
                 <View className={styles.head}>
@@ -365,6 +387,63 @@ export default function App() {
                       <View className={styles.text}>
                         <Text className={styles.h5}>详细介绍</Text>
                         /链接"机构”与〞家庭"场景，覆盖儿童大脑神经行为发育饰查、诊断、评估和干预全流程，打造一站式儿童保健和早期发展体系，助力儿童保健、儿童早期发展、儿童早期干预与康复的业务发展。
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <TabBar current="index" />
+            </View>
+          )}
+          {channel === Channel.quzhou && (
+            <View className={styles.index}>
+              <View className={styles.quzhou}>
+                <View className={styles.head}>
+                  <Image
+                    className={styles.bg}
+                    src={quzhouStatic.carousel[0]}
+                  ></Image>
+                  <View className={styles.logoBox}>
+                    <Image
+                      className={styles.logo}
+                      src={quzhouStatic.logo}
+                    ></Image>
+                  </View>
+                  <Text className={styles.phone}>
+                    电话：{quzhouStatic.supportPhone}
+                  </Text>
+                </View>
+                <View className={styles.body}>
+                  <View
+                    className={styles.card}
+                    onClick={() => goto("/pages/evaluate/list")}
+                  >
+                    <Image
+                      className={styles.img}
+                      src={quzhouStatic.aiEvaluation}
+                    ></Image>
+                    <View className={styles.content}>
+                      <View className={styles.quzhouTitle}>智能评估</View>
+                      <View className={styles.desc}>
+                        根据视频指导，在家庭真实场最下，手机便捷拍摄，云端Al智能与专家组双重保障下，更精准实现宝宝0-1岁发育评估状况检测，实现早发现/早诊断/早治疗。
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    className={styles.card}
+                    onClick={() => goto("/orderPackage/pages/book/records")}
+                  >
+                    <Image
+                      className={styles.img}
+                      src={quzhouStatic.aiEvaluation}
+                    ></Image>
+                    <View className={styles.content}>
+                      <View className={styles.quzhouTitle}>我的记录</View>
+                      <View className={styles.desc}>
+                        您订购的任何服务，可随时查看，有任何问题，可随时拨打电話。
+                        <View className={styles.phoneText}>
+                          {quzhouStatic.problemPhone}
+                        </View>
                       </View>
                     </View>
                   </View>

@@ -248,3 +248,85 @@
     }
   }
 }
+
+.quzhou {
+  .head {
+    height: 380px;
+    width: 100vw;
+    position: relative;
+
+    .bg {
+      height: 330px;
+      width: 100vw;
+    }
+
+    .logoBox {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      padding: 5px;
+      position: absolute;
+      left: 40px;
+      bottom: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+
+    }
+
+    .phone {
+      padding-left: 180px;
+      font-size: 24px;
+      color: #615A53;
+    }
+  }
+
+  .body {
+    padding: 40px;
+
+    .card {
+      width: 100%;
+      background: #FFFFFF;
+      box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
+      display: flex;
+      padding: 24px;
+      align-items: center;
+      box-sizing: border-box;
+      height: 248px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+
+      .quzhouTitle {
+        font-size: 32px;
+        line-height: 48px;
+        color: #112950;
+        margin-bottom: 6px;
+      }
+
+      .desc {
+        font-size: 24px;
+        line-height: 36px;
+        color: #615A53;
+      }
+
+      .phoneText {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+
+      .img {
+        min-width: 120px;
+        max-width: 120px;
+        min-height: 120px;
+        max-height: 120px;
+        margin-right: 20px;
+      }
+    }
+  }
+}
