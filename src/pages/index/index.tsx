@@ -431,11 +431,11 @@ export default function App() {
                   </View>
                   <View
                     className={styles.card}
-                    onClick={() => goto("/orderPackage/pages/book/records")}
+                    onClick={() => goto("/evaluatePackage/pages/recordList")}
                   >
                     <Image
                       className={styles.img}
-                      src={quzhouStatic.aiEvaluation}
+                      src={quzhouStatic.record}
                     ></Image>
                     <View className={styles.content}>
                       <View className={styles.quzhouTitle}>我的记录</View>
