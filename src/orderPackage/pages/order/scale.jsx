@@ -77,7 +77,7 @@ export default function App() {
         url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
       });
     } else {
-      const returnUrl = Base64.encode("/orderPackage/pages/order/scale?time=1");
+      const returnUrl = Base64.encode(`/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`);
       navigateTo({
         url: `/childPackage/pages/manage?returnUrl=${returnUrl}`
       });
