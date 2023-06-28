@@ -40,7 +40,7 @@ export default function App() {
           url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
         });
       } else {
-        const returnUrl = Base64.encode("/pages/evaluate/list?key=1");
+        const returnUrl = Base64.encode(`/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`);
 
         navigateTo({
           url: `/childPackage/pages/manage?code=${scaleTableCode}&returnUrl=${returnUrl}`

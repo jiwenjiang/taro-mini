@@ -3,13 +3,16 @@ import request from "@/service/request";
 import { Button, Notify } from "@taroify/core";
 import { Text, View } from "@tarojs/components";
 import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./scale.scss";
+import { ChildContext } from "@/service/context";
+import { Base64 } from "@/service/utils";
 
 export default function App() {
   const router = useRouter();
   const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
   const [orderList, setOrderList] = useState([]);
+  const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取量表订单
   const getScaleOrderList = () => {
@@ -69,9 +72,26 @@ export default function App() {
 
   // 跳转至GMs量表儿童选择页面
   const goChildChoosePage = v => {
-    navigateTo({
-      url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
-    });
+    if (childContext.child.len) {
+      navigateTo({
+        url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
+      });
+    } else {
+      const returnUrl = Base64.encode("/orderPackage/pages/order/scale?time=1");
+      navigateTo({
+        url: `/childPackage/pages/manage?returnUrl=${returnUrl}`
+      });
+    }
+  };
+
+  // 每次页面显示时获取儿童信息
+  useDidShow(() => {
+    getChildrenList();
+  });
+
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list" });
+    childContext.updateChild({ len: res.data.children.length });
   };
 
   return (
