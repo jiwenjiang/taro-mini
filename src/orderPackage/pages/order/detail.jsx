@@ -2,8 +2,8 @@ import { OrderStatus, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import { Button, Notify } from "@taroify/core";
 import { Text, View } from "@tarojs/components";
-import { navigateTo, useRouter } from "@tarojs/taro";
-import { useEffect, useState, useDidShow } from "react";
+import { navigateTo, useRouter, useDidShow } from "@tarojs/taro";
+import { useEffect, useState } from "react";
 import "./detail.scss";
 
 export default function App() {
