@@ -1,17 +1,17 @@
-import { OrderStatus, ScaleTableCode } from "@/service/const";
+import { OrderStatus } from "@/service/const";
+import { ChildContext } from "@/service/context";
 import request from "@/service/request";
+import { Base64 } from "@/service/utils";
 import { Button, Notify } from "@taroify/core";
 import { Text, View } from "@tarojs/components";
 import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
-import { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./scale.scss";
-import { ChildContext } from "@/service/context";
-import { Base64 } from "@/service/utils";
 
 export default function App() {
   const router = useRouter();
   const [page, setPage] = useState({ pageNo: 1, pageSize: 10 });
-  const [orderList, setOrderList] = useState([]);
+  const [orderList, setOrderList] = useState<any>([]);
   const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取量表订单

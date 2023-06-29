@@ -1,14 +1,17 @@
 import { OrderStatus, ScaleTableCode } from "@/service/const";
+import { ChildContext } from "@/service/context";
 import request from "@/service/request";
+import { Base64 } from "@/service/utils";
 import { Button, Notify } from "@taroify/core";
 import { Text, View } from "@tarojs/components";
-import { navigateTo, useRouter, useDidShow } from "@tarojs/taro";
-import { useEffect, useState } from "react";
+import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
+import React, { useContext, useEffect, useState } from "react";
 import "./detail.scss";
 
 export default function App() {
   const router = useRouter();
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState<any>({});
+  const childContext = useContext(ChildContext);
 
   // 页面加载时调用该方法获取量表订单详情
   const getScaleOrder = () => {
@@ -97,6 +100,11 @@ export default function App() {
     getChildrenList();
   });
 
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list" });
+    childContext.updateChild({ len: res.data.children.length });
+  };
+
   return (
     <View className="scale-orderinfo-wrapper">
       <View className="pay-info">
@@ -136,7 +144,7 @@ export default function App() {
       </View>
       {order.status === OrderStatus.UNPAID && (
         <View className="action">
-          <Button className="btn" type="primary" onClick={() => pay(order.id)}>
+          <Button className="btn" onClick={() => pay(order.id)}>
             立即支付
           </Button>
         </View>
