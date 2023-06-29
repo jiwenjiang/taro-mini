@@ -3,7 +3,7 @@ import request from "@/service/request";
 import { Button, Notify } from "@taroify/core";
 import { Text, View } from "@tarojs/components";
 import { navigateTo, useRouter } from "@tarojs/taro";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useDidShow } from "react";
 import "./detail.scss";
 
 export default function App() {
@@ -83,7 +83,9 @@ export default function App() {
         url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
       });
     } else {
-      const returnUrl = Base64.encode(`/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`);
+      const returnUrl = Base64.encode(
+        `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
+      );
       navigateTo({
         url: `/childPackage/pages/manage?returnUrl=${returnUrl}`
       });
