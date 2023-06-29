@@ -78,10 +78,22 @@ export default function App() {
 
   // 跳转至GMs量表儿童选择页面
   const goChildChoosePage = v => {
-    navigateTo({
-      url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
-    });
+    if (childContext.child.len) {
+      navigateTo({
+        url: `/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`
+      });
+    } else {
+      const returnUrl = Base64.encode(`/childPackage/pages/choose?code=${v.scaleTableCode}&orderId=${v.id}`);
+      navigateTo({
+        url: `/childPackage/pages/manage?returnUrl=${returnUrl}`
+      });
+    }
   };
+
+  // 每次页面显示时获取儿童信息
+  useDidShow(() => {
+    getChildrenList();
+  });
 
   return (
     <View className="scale-orderinfo-wrapper">

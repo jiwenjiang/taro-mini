@@ -75,7 +75,7 @@ export default function App() {
             onGetPhoneNumber={onGetPhoneNumber}
             openType="getPhoneNumber"
           >
-            微信登录
+            手机号快捷登录
           </Button>
           <Button className={styles.btn} onClick={back}>
             取消
