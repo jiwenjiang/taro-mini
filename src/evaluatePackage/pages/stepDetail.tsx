@@ -81,6 +81,7 @@ function Card() {
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const videoContext = useRef<any>();
   const [isfushu, setIsFushu] = useState(false);
+  const [showCourse, setShowCourse] = useState(false);
 
   useEffect(() => {
     // setIsFushu(isFushu());
@@ -98,6 +99,7 @@ function Card() {
       });
       console.log("🚀 ~ file: stepDetail.tsx:99 ~ res2:", res2);
       setIsFushu(res2.data.askDoctor);
+      setShowCourse(res2.data.scaleResult?.cerebralPalsyResult?.showVideo);
       if (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode) {
         const obj = {
           ...res2.data,
@@ -396,7 +398,7 @@ function Card() {
                   )}
                 </View>
               </View>
-              {isfushu && (
+              {showCourse && (
                 <View className={cls(styles.cardBox)}>
                   <View className={styles.bgTitle}>推荐课程</View>
                   <View className={styles.swiperBox}>
