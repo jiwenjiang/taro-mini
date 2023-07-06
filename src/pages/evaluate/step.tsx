@@ -86,7 +86,8 @@ export default function App() {
       url: "/scaleTable/guide",
       data: {
         code: router.params.code ?? 9,
-        questionSn: data[active].questions[questionIndex].sn
+        questionSn: data[active].questions[questionIndex].sn,
+        childId: router.params.childId
       }
     });
 
