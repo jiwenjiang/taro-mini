@@ -173,7 +173,7 @@ export default function App() {
   };
 
   const evaluate = async () => {
-    if (pic.length < 0) {
+    if (pic.length === 0) {
       Notify.open({ color: "warning", message: "请上传缴费单据" });
       return;
     }
