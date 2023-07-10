@@ -12,6 +12,7 @@ const request = (options: {
   url: string;
   method?: "POST" | "GET" | "DELETE" | "PUT";
   data?: any;
+  notLogin?: boolean;
   [key: string]: any;
 }): Promise<{ code?: number; data?: any; message: string } & Record<
   string,
@@ -33,7 +34,7 @@ const request = (options: {
               icon: "error",
               duration: 500
             });
-            if (request.data?.code === 2) {
+            if (request.data?.code === 2 && !options.notLogin) {
               const pages = getCurrentPages();
               const path = pages[pages.length - 1].route;
               navigateTo({

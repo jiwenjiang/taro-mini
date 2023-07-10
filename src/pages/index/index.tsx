@@ -93,6 +93,8 @@ export default function App() {
     record: ""
   });
   const goto = url => {
+    console.log("🚀 ~ file: index.tsx:96 ~ goto ~ url:", url);
+    getAuth("login");
     navigateTo({ url });
   };
 
