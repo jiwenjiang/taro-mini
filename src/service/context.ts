@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 export const ChildContext = createContext<{
   child: { len: number };
-  updateChild: ({ len: number }) => void;
+  updateChild: ({ len }) => void;
 }>({
   child: { len: 0 },
   updateChild: () => {}

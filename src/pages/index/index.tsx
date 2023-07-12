@@ -96,7 +96,6 @@ export default function App() {
     record: ""
   });
   const goto = url => {
-    console.log("🚀 ~ file: index.tsx:96 ~ goto ~ url:", url);
     getAuth(() => getChild(url));
   };
 
@@ -105,7 +104,7 @@ export default function App() {
       url: "/children/list",
       data: { pageNo: 1, pageSize: 1000 }
     });
-    childContext.updateChild(res.data.children?.length);
+    childContext.updateChild({ len: res.data.children?.length });
     navigateTo({ url });
   };
 
@@ -129,7 +128,6 @@ export default function App() {
   useEffect(() => {
     if (router.params.scene) {
       const str = router.params.scene as string;
-      console.log("🚀 ~ file: index.tsx:103 ~ useEffect ~ str:", str);
       // const orgId = str.split("orgId%3D")[1];
       // const channel = str.split("channel%3D")[1];
       const decodedStr = decodeURIComponent(str); // 解码字符串
@@ -137,7 +135,6 @@ export default function App() {
       const matchArr2 = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
       const orgId = matchArr1?.[1]; // 获取匹配到的内容
       const channel = matchArr2?.[1]; // 获取匹配到的内容
-      console.log(1111, orgId, channel); // 输出 xaaqer
       setStorageSync("orgId", orgId);
       setStorageSync("channel", channel);
 
@@ -159,7 +156,6 @@ export default function App() {
 
   useDidShow(() => {
     getPortal(res => {
-      console.log("🚀 ~ file: index.tsx:162 ~ useDidShow ~ res:", res);
       if (wx._frontPage === "xaaqer") {
         setChannel(Channel.anqier);
         request({

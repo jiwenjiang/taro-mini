@@ -35,6 +35,7 @@ export default function App() {
         url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
       });
     } else {
+      console.log("🚀 ~ file: list.tsx:39 ~ checkPay ~ childContext.child.len:", childContext.child.len)
       if (childContext.child.len) {
         navigateTo({
           url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
