@@ -27,7 +27,7 @@ export default function App() {
         ScaleTableCode.LEIBO_GMS
       ].includes(Number(router.params.code))
     ) {
-      Notify.open({ color: "warning", message: "GMs评测仅限0-12个月孩子" });
+      Notify.open({ color: "warning", message: "该测评仅限1岁内孩子评估" });
       return;
     }
     if (
