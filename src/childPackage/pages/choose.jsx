@@ -20,14 +20,14 @@ export default function App() {
   const start = () => {
     let age = dayjs().diff(dayjs(data[active]?.birthday), "month");
     if (
-      age > 5 &&
+      age > 12 &&
       [
         ScaleTableCode.GMS,
         ScaleTableCode.BRAIN_GMS,
         ScaleTableCode.LEIBO_GMS
       ].includes(Number(router.params.code))
     ) {
-      Notify.open({ color: "warning", message: "GMs评测仅限0-5个月孩子" });
+      Notify.open({ color: "warning", message: "GMs评测仅限0-12个月孩子" });
       return;
     }
     if (

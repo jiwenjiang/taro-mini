@@ -18,12 +18,14 @@ function App(props) {
   const getChild = async () => {
     const res = await request({
       url: "/children/list",
-      data: { pageNo: 1, pageSize: 1000 }
+      data: { pageNo: 1, pageSize: 1000 },
+      notLogin: true
     });
     setChild({ len: res.data.children?.length });
   };
 
   useDidShow(() => {
+    getChild();
     // getAuth(getChild);
   });
 

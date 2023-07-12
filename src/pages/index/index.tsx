@@ -97,16 +97,16 @@ export default function App() {
   });
   const goto = url => {
     console.log("🚀 ~ file: index.tsx:96 ~ goto ~ url:", url);
-    getAuth(getChild);
-    navigateTo({ url });
+    getAuth(() => getChild(url));
   };
 
-  const getChild = async () => {
+  const getChild = async url => {
     const res = await request({
       url: "/children/list",
       data: { pageNo: 1, pageSize: 1000 }
     });
     childContext.updateChild(res.data.children?.length);
+    navigateTo({ url });
   };
 
   const waitOpen = () => {
