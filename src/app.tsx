@@ -19,7 +19,8 @@ function App(props) {
     const res = await request({
       url: "/children/list",
       data: { pageNo: 1, pageSize: 1000 },
-      notLogin: true
+      notLogin: true,
+      hideToast: true
     });
     setChild({ len: res.data.children?.length });
   };

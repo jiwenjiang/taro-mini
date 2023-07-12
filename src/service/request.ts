@@ -13,6 +13,7 @@ const request = (options: {
   method?: "POST" | "GET" | "DELETE" | "PUT";
   data?: any;
   notLogin?: boolean;
+  hideToast?: boolean;
   [key: string]: any;
 }): Promise<{ code?: number; data?: any; message: string } & Record<
   string,
@@ -29,11 +30,14 @@ const request = (options: {
           if (request.data?.success) {
             resolve(request.data);
           } else {
-            Taro.showToast({
-              title: request.data?.message,
-              icon: "error",
-              duration: 500
-            });
+            if (!options.hideToast) {
+              Taro.showToast({
+                title: request.data?.message,
+                icon: "error",
+                duration: 500
+              });
+            }
+
             if (request.data?.code === 2 && !options.notLogin) {
               const pages = getCurrentPages();
               const path = pages[pages.length - 1].route;
