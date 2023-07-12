@@ -1,4 +1,5 @@
 import TabBar from "@/comps/TabBar";
+import { ChildContext } from "@/service/context";
 import { useAuth } from "@/service/hook";
 import request from "@/service/request";
 import Ganyu from "@/static/imgs/ganyufangan.png";
@@ -14,10 +15,11 @@ import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import {
   getStorageSync,
   navigateTo,
+  setStorageSync,
   useDidShow,
   useRouter
 } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
@@ -73,7 +75,8 @@ const descs = [
 
 export default function App() {
   const router = useRouter();
-  const { getAuth } = useAuth();
+  const childContext = useContext(ChildContext);
+  const { getAuth, getPortal } = useAuth();
   const [modules, setModules] = useState<any>();
   const [channel, setChannel] = useState<Channel>(Channel.fushu);
   const [anqierStatic, setAnqierStatic] = useState({
@@ -94,8 +97,16 @@ export default function App() {
   });
   const goto = url => {
     console.log("🚀 ~ file: index.tsx:96 ~ goto ~ url:", url);
-    getAuth("login");
+    getAuth(getChild);
     navigateTo({ url });
+  };
+
+  const getChild = async () => {
+    const res = await request({
+      url: "/children/list",
+      data: { pageNo: 1, pageSize: 1000 }
+    });
+    childContext.updateChild(res.data.children?.length);
   };
 
   const waitOpen = () => {
@@ -127,6 +138,8 @@ export default function App() {
       const orgId = matchArr1?.[1]; // 获取匹配到的内容
       const channel = matchArr2?.[1]; // 获取匹配到的内容
       console.log(1111, orgId, channel); // 输出 xaaqer
+      setStorageSync("orgId", orgId);
+      setStorageSync("channel", channel);
 
       wx._orgId = orgId;
       wx._channel = channel;
@@ -134,36 +147,38 @@ export default function App() {
       channelJudge();
     }
     if (router.params.orgId) {
+      setStorageSync("orgId", router.params.orgId);
       wx._orgId = router.params.orgId;
     }
     if (router.params.channel) {
       wx._channel = router.params.channel;
+      setStorageSync("channel", router.params.channel);
       channelJudge();
     }
   }, []);
 
   useDidShow(() => {
-    getAuth(() => {
-      if (!router.params.channel && !router.params.scene) {
-        if (wx._frontPage === "xaaqer") {
-          setChannel(Channel.anqier);
-          request({
-            url: "/wx/portal/angle",
-            method: "GET"
-          }).then(res => {
-            setAnqierStatic(res.data);
-          });
-        }
-        if (wx._frontPage === "qzxfybjy") {
-          setChannel(Channel.quzhou);
-          request({
-            url: "/wx/portal/quzhou",
-            method: "GET"
-          }).then(res => {
-            setQuzhouStatic(res.data);
-          });
-        }
+    getPortal(res => {
+      console.log("🚀 ~ file: index.tsx:162 ~ useDidShow ~ res:", res);
+      if (wx._frontPage === "xaaqer") {
+        setChannel(Channel.anqier);
+        request({
+          url: "/wx/portal/angle",
+          method: "GET"
+        }).then(res => {
+          setAnqierStatic(res.data);
+        });
       }
+      if (wx._frontPage === "qzxfybjy") {
+        setChannel(Channel.quzhou);
+        request({
+          url: "/wx/portal/quzhou",
+          method: "GET"
+        }).then(res => {
+          setQuzhouStatic(res.data);
+        });
+      }
+      setModules(res.modules);
     });
   });
 

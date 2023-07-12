@@ -1,4 +1,9 @@
-import Taro, { getCurrentPages, navigateTo, setStorageSync, useRouter } from "@tarojs/taro";
+import Taro, {
+  getCurrentPages,
+  navigateTo,
+  setStorageSync,
+  useRouter
+} from "@tarojs/taro";
 import { useRef, useState } from "react";
 import request from "./request";
 
@@ -102,7 +107,6 @@ export function useAuth() {
           iv: userInfo.iv,
           ...options
         },
-        notLogin: true
       });
       if (res.code === 0) {
         setStorageSync("token", res.data.token);
@@ -128,5 +132,37 @@ export function useAuth() {
       // cb?.(res);
     }
   };
-  return { getAuth };
+  const getPortal = async (cb?: Function | string, options: any = {}) => {
+    try {
+      const res = await request({
+        url: "/wx/portal/get",
+        data: {
+          ...options
+        },
+        notLogin: true
+      });
+      if (res.code === 0) {
+        console.log("🚀 ~ file: hook.ts:145 ~ getPortal ~ res:", res)
+        wx._frontPage = res.data.frontPage;
+        // Taro.reLaunch({
+        //   url: `/pages/index/index?channel=${wx._frontPage}`
+        // });
+        if (typeof cb === "function") {
+          cb?.(res.data);
+        }
+      }
+    } catch (res) {
+      if (typeof cb === "string") {
+        if (cb === "login") {
+          const pages = getCurrentPages();
+          const path = pages[pages.length - 1].route;
+          navigateTo({
+            url: `/pages/login/index?returnUrl=/${path}&channel=${options.channel}&orgid=${options.orgid}`
+          });
+        }
+      }
+      // cb?.(res);
+    }
+  };
+  return { getAuth, getPortal };
 }

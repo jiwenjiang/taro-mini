@@ -7,8 +7,8 @@ async function headerInterceptor(chain: Chain) {
     ...req["header"],
     "recovery-token": getStorageSync("token"),
     "app-id": projectConfig.appid,
-    "org-id": wx._orgId ?? "",
-    channel: wx._channel ?? ""
+    "org-id": getStorageSync("orgId") ?? "",
+    channel: getStorageSync("channel") ?? ""
   };
   let res;
   try {
