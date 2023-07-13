@@ -13,7 +13,6 @@ import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import {
-  getStorageSync,
   navigateTo,
   setStorageSync,
   useDidShow,
@@ -96,7 +95,8 @@ export default function App() {
     record: ""
   });
   const goto = url => {
-    getAuth(() => getChild(url));
+    navigateTo({ url });
+    // getAuth(() => getChild(url));
   };
 
   const getChild = async url => {
@@ -105,7 +105,6 @@ export default function App() {
       data: { pageNo: 1, pageSize: 1000 }
     });
     childContext.updateChild({ len: res.data.children?.length });
-    navigateTo({ url });
   };
 
   const waitOpen = () => {
@@ -116,13 +115,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const user = getStorageSync("user");
-      if (user) {
-        setModules(user?.modules);
-        clearInterval(timer);
-      }
-    }, 1000);
+    // const timer = setInterval(() => {
+    //   const user = getStorageSync("user");
+    //   if (user) {
+    //     setModules(user?.modules);
+    //     clearInterval(timer);
+    //   }
+    // }, 1000);
   }, []);
 
   useEffect(() => {
@@ -175,6 +174,9 @@ export default function App() {
         });
       }
       setModules(res.modules);
+    });
+    getAuth(res => {
+      wx._unLogin = res.code === 2;
     });
   });
 

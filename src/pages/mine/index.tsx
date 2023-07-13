@@ -2,11 +2,12 @@ import Box from "@/comps/Box";
 import ListItem from "@/comps/ListItem";
 import TabBar from "@/comps/TabBar";
 import request from "@/service/request";
+import { navWithLogin } from "@/service/utils";
 import Dingdan from "@/static/imgs/dingdan.png";
 import Shipin from "@/static/imgs/shipin.png";
 import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
-import { navigateTo, useDidShow } from "@tarojs/taro";
+import { useDidShow } from "@tarojs/taro";
 import React, { useState } from "react";
 import "./index.scss";
 
@@ -20,40 +21,43 @@ const cusStyle = {
 export default function App() {
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
+
   useDidShow(() => {
     (async () => {
-      const res = await request({
-        url: "/user/get",
-        method: "GET"
-      });
-      setUser(res.data?.name);
-      setUrl(res.data?.avatarUrl);
+      if (!wx._unLogin) {
+        const res = await request({
+          url: "/user/get",
+          method: "GET"
+        });
+        setUser(res.data?.name);
+        setUrl(res.data?.avatarUrl);
+      }
     })();
     // setUser(getStorageSync("user"));
   });
 
   const manage = () => {
-    navigateTo({ url: "/childPackage/pages/manage" });
+    navWithLogin("/childPackage/pages/manage");
   };
 
   const scale = () => {
-    navigateTo({ url: `/orderPackage/pages/order/scale` });
+    navWithLogin(`/orderPackage/pages/order/scale`);
   };
 
   const toVideoList = () => {
-    navigateTo({ url: `/orderPackage/pages/order/videoList` });
+    navWithLogin(`/orderPackage/pages/order/videoList`);
   };
 
   const record = () => {
-    navigateTo({ url: `/evaluatePackage/pages/recordList` });
+    navWithLogin(`/evaluatePackage/pages/recordList`);
   };
 
   const setting = () => {
-    navigateTo({ url: `/minePackage/pages/setting` });
+    navWithLogin(`/minePackage/pages/setting`);
   };
 
   const gotoInfo = () => {
-    navigateTo({ url: `/minePackage/pages/info` });
+    navWithLogin(`/minePackage/pages/info`);
   };
 
   return (

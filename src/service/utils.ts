@@ -1,3 +1,4 @@
+import { navigateTo } from "@tarojs/taro";
 import { FushuAppId } from "./const";
 
 export const Base64 = {
@@ -69,7 +70,7 @@ export const Base64 = {
     } // Whend
 
     output = Base64._utf8_decode(output);
-    console.log("🚀 ~ file: utils.ts:72 ~ output:", String(output).trim())
+    console.log("🚀 ~ file: utils.ts:72 ~ output:", String(output).trim());
 
     return String(output);
   }, // End Function decode
@@ -142,4 +143,14 @@ export function isFushu(): boolean {
   const accountInfo = wx.getAccountInfoSync();
   const appId = accountInfo.miniProgram.appId;
   return appId === FushuAppId;
+}
+
+export function navWithLogin(url: string) {
+  if (wx._unLogin) {
+    navigateTo({
+      url: `/pages/login/index?returnUrl=${url}`
+    });
+  } else {
+    navigateTo({ url });
+  }
 }

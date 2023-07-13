@@ -26,26 +26,33 @@ export default function App() {
   const { getAuth } = useAuth();
 
   const checkPay = async scaleTableCode => {
-    const res = await request({
-      url: "/order/check",
-      data: { scaleTableCode }
-    });
-    if (!res.data.hasPaidOrder) {
+    if (wx._unLogin) {
       navigateTo({
-        url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
+        url: `/pages/login/index?returnUrl=${"/pages/evaluate/list"}`
       });
     } else {
-      console.log("🚀 ~ file: list.tsx:39 ~ checkPay ~ childContext.child.len:", childContext.child.len)
-      if (childContext.child.len) {
+      const res = await request({
+        url: "/order/check",
+        data: { scaleTableCode }
+      });
+      if (!res.data.hasPaidOrder) {
         navigateTo({
-          url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+          url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
         });
       } else {
-        const returnUrl = Base64.encode(`/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`);
+        if (childContext.child.len) {
+          navigateTo({
+            url: `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+          });
+        } else {
+          const returnUrl = Base64.encode(
+            `/childPackage/pages/choose?code=${scaleTableCode}&orderId=${res.data.orderId}`
+          );
 
-        navigateTo({
-          url: `/childPackage/pages/manage?code=${scaleTableCode}&returnUrl=${returnUrl}`
-        });
+          navigateTo({
+            url: `/childPackage/pages/manage?code=${scaleTableCode}&returnUrl=${returnUrl}`
+          });
+        }
       }
     }
   };

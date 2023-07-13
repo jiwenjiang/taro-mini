@@ -106,7 +106,7 @@ export function useAuth() {
           encryptedData: userInfo.encryptedData,
           iv: userInfo.iv,
           ...options
-        },
+        }
       });
       if (res.code === 0) {
         setStorageSync("token", res.data.token);
@@ -129,7 +129,9 @@ export function useAuth() {
           });
         }
       }
-      // cb?.(res);
+      if (typeof cb === "function") {
+        cb?.(res);
+      }
     }
   };
   const getPortal = async (cb?: Function | string, options: any = {}) => {
@@ -142,7 +144,7 @@ export function useAuth() {
         notLogin: true
       });
       if (res.code === 0) {
-        console.log("🚀 ~ file: hook.ts:145 ~ getPortal ~ res:", res)
+        console.log("🚀 ~ file: hook.ts:145 ~ getPortal ~ res:", res);
         wx._frontPage = res.data.frontPage;
         // Taro.reLaunch({
         //   url: `/pages/index/index?channel=${wx._frontPage}`

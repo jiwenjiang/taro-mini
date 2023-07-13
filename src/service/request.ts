@@ -30,7 +30,7 @@ const request = (options: {
           if (request.data?.success) {
             resolve(request.data);
           } else {
-            if (!options.hideToast) {
+            if (!options.hideToast && request.data?.code !== 2) {
               Taro.showToast({
                 title: request.data?.message,
                 icon: "error",
@@ -38,7 +38,7 @@ const request = (options: {
               });
             }
 
-            if (request.data?.code === 2 && !options.notLogin) {
+            if (request.data?.code === 2 && !options.notLogin && false) {
               const pages = getCurrentPages();
               const path = pages[pages.length - 1].route;
               navigateTo({
