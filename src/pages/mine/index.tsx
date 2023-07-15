@@ -4,6 +4,7 @@ import TabBar from "@/comps/TabBar";
 import request from "@/service/request";
 import { navWithLogin } from "@/service/utils";
 import Dingdan from "@/static/imgs/dingdan.png";
+import Head from "@/static/imgs/head.png";
 import Shipin from "@/static/imgs/shipin.png";
 import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
@@ -64,13 +65,7 @@ export default function App() {
     <View className="index">
       <View>
         <View className="avator" onClick={gotoInfo}>
-          <Image
-            className="ava"
-            src={
-              url ||
-              "http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png"
-            }
-          />
+          <Image className="ava" src={url || Head} />
           <Text>{user || "未登录"}</Text>
         </View>
         <Box title="订单管理">

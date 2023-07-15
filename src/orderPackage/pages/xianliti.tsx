@@ -1,14 +1,14 @@
 import { categoryEnum } from "@/service/const";
+import { navWithLogin } from "@/service/utils";
 import { Tabbar } from "@taroify/core";
 import { Completed, NotesOutlined, TodoListOutlined } from "@taroify/icons";
 import { View } from "@tarojs/components";
-import { navigateTo } from "@tarojs/taro";
 import React from "react";
 import styles from "./xianliti.module.scss";
 
 export default function App() {
   const goto = url => {
-    navigateTo({ url });
+    navWithLogin(url)
   };
   return (
     <View className={styles.index}>

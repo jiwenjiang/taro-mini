@@ -94,6 +94,8 @@ export default function App() {
     aiEvaluation: "",
     record: ""
   });
+  const [unLogin, setUnLogin] = useState(true);
+
   const goto = url => {
     navigateTo({ url });
     // getAuth(() => getChild(url));
@@ -177,6 +179,7 @@ export default function App() {
     });
     getAuth(res => {
       wx._unLogin = res.code === 2;
+      setUnLogin(wx._unLogin)
     });
   });
 
@@ -290,34 +293,52 @@ export default function App() {
                   </View>
                   <View className={styles.manageBtn}>前往查看</View>
                 </View>
-                <View className={styles.title}>常用服务</View>
-                <View className={styles.cardBox}>
-                  <View
-                    className={styles.miniCard}
-                    onClick={() => goto("/evaluatePackage/pages/recordList")}
-                  >
-                    <Image src={Baogao} className={styles.miniCardImg}></Image>
-                    <View className={styles.miniCardTitle}>评估报告</View>
+                {!unLogin && (
+                  <View>
+                    <View className={styles.title}>常用服务</View>
+                    <View className={styles.cardBox}>
+                      <View
+                        className={styles.miniCard}
+                        onClick={() =>
+                          goto("/evaluatePackage/pages/recordList")
+                        }
+                      >
+                        <Image
+                          src={Baogao}
+                          className={styles.miniCardImg}
+                        ></Image>
+                        <View className={styles.miniCardTitle}>评估报告</View>
+                      </View>
+                      <View
+                        className={styles.miniCard}
+                        onClick={() => goto("/evaluatePackage/pages/ganyuList")}
+                      >
+                        <Image
+                          src={Ganyu}
+                          className={styles.miniCardImg}
+                        ></Image>
+                        <View className={styles.miniCardTitle}>干预方案</View>
+                      </View>
+                      <View className={styles.miniCard} onClick={waitOpen}>
+                        <Image
+                          src={Kecheng}
+                          className={styles.miniCardImg}
+                        ></Image>
+                        <View className={styles.miniCardTitle}>专属课程</View>
+                      </View>
+                      <View
+                        className={styles.miniCard}
+                        onClick={() => goto("/orderPackage/pages/book/records")}
+                      >
+                        <Image
+                          src={Yuyue}
+                          className={styles.miniCardImg}
+                        ></Image>
+                        <View className={styles.miniCardTitle}>预约记录</View>
+                      </View>
+                    </View>
                   </View>
-                  <View
-                    className={styles.miniCard}
-                    onClick={() => goto("/evaluatePackage/pages/ganyuList")}
-                  >
-                    <Image src={Ganyu} className={styles.miniCardImg}></Image>
-                    <View className={styles.miniCardTitle}>干预方案</View>
-                  </View>
-                  <View className={styles.miniCard} onClick={waitOpen}>
-                    <Image src={Kecheng} className={styles.miniCardImg}></Image>
-                    <View className={styles.miniCardTitle}>专属课程</View>
-                  </View>
-                  <View
-                    className={styles.miniCard}
-                    onClick={() => goto("/orderPackage/pages/book/records")}
-                  >
-                    <Image src={Yuyue} className={styles.miniCardImg}></Image>
-                    <View className={styles.miniCardTitle}>预约记录</View>
-                  </View>
-                </View>
+                )}
               </View>
               <Notify id="notify" />
               <TabBar current="index" />

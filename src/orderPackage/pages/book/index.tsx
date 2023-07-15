@@ -18,7 +18,7 @@ import xuanzhong from "@/static/imgs/xuanzhong.png";
 import { Notify, Popup } from "@taroify/core";
 import { Arrow, Clear, Plus } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
-import Taro, { useRouter } from "@tarojs/taro";
+import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
@@ -51,6 +51,10 @@ export default function App() {
   const tempId = useRef<any>();
   const [showImgPreview, setShowImgPreview] = useState(false);
   const [previewedImage, setPreviewedImage] = useState("");
+  const [bgImg, setBgImg] = useState({
+    type1: "",
+    type4: ""
+  });
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -59,18 +63,22 @@ export default function App() {
   const type = router.params.type!.replace(/[^0-9]/gi, "");
 
   const getOrg = async () => {
-    const res = await request({ url: "/org/get" });
+    const res = await request({ url: "/org/get", hideToast: true });
     setOrg(res.data);
   };
 
   const getChild = async () => {
-    const res = await request({ url: "/children/list", data: page });
+    const res = await request({
+      url: "/children/list",
+      data: page,
+      hideToast: true
+    });
     setChilds(res.data.children);
     setActiveChild(res.data.children[0]);
   };
 
   const getTable = async () => {
-    const res = await request({ url: "/scaleTable/clinic" });
+    const res = await request({ url: "/scaleTable/clinic", hideToast: true });
     setProject(res.data);
     setActiveCode([res.data[0].list[0]]);
   };
@@ -78,7 +86,8 @@ export default function App() {
   const initDate = async () => {
     const res = await request({
       url: "/workSchedule/getDayCount",
-      data: { type }
+      data: { type },
+      hideToast: true
     });
     const startDay = dayjs().day(0);
     const today = dayjs().format("MM.DD");
@@ -286,7 +295,7 @@ export default function App() {
     initDate();
     getTemp();
     if (type === String(EvaluateType.SHIPIN)) {
-      request({ url: "/videoGuide/price" }).then(res => {
+      request({ url: "/videoGuide/price", hideToast: true }).then(res => {
         setPriceInfo(res.data);
       });
     }
@@ -297,7 +306,18 @@ export default function App() {
         "4": "视频评估"
       }[type] || "门诊评估"
     );
+    if (wx._unLogin) {
+      request({ url: "/wx/portal/intro/picture", data: { type } }).then(res => {
+        setBgImg({
+          ...bgImg,
+          [`type${type}`]: res.data.url
+        });
+        console.log("🚀 ~ file: index.tsx:311 ~ request ~ res:", res);
+      });
+    }
   }, []);
+
+  console.log(1, bgImg);
 
   const add = () => {
     const returnUrl = Base64.encode("/orderPackage/pages/book/index?type=1");
@@ -333,351 +353,120 @@ export default function App() {
     setShowImgPreview(true);
   };
 
+  const gotoLogin = () => {
+    const url = Base64.decode("/orderPackage/pages/book/index?type=1");
+    navigateTo({
+      url: `/pages/login/index?returnUrl=${url}`
+    });
+  };
+
   return (
     <View className={styles.index}>
       <NavBar title={title} />
-      <View className={styles.bottomPart}>
-        {step === 1 && (
-          <View>
-            <View className={styles.title}>
-              选择被评估人
-              <View className={styles.subTitle} onClick={add}>
-                新增评估人 <Arrow color="#f2b04f" />
-              </View>
-            </View>
-            {childs.map((v, i) => (
-              <View
-                style={{ marginTop: i !== 0 ? 8 : 0 }}
-                className={cls(
-                  styles.personCard,
-                  activeChild.id === v.id && styles.active
-                )}
-                key={i}
-                onClick={() => changeChild(v)}
-              >
-                <View className={styles.left}>
-                  <Image
-                    src={v.gender === "男" ? nanhai : nvhai}
-                    className={styles.gender}
-                  ></Image>
-                  <View className={styles.nameBox}>
-                    <View className={styles.name}>{v.name}</View>
-                    <View className={styles.date}>{v.birthday}</View>
-                  </View>
-                </View>
-                <Image
-                  src={activeChild.id === v.id ? xuanzhong : weixuanzhong}
-                  className={styles.choose}
-                ></Image>
-              </View>
-            ))}
-            {type == "1" && (
-              <View>
-                <View className={styles.title}>选择评估项目</View>
-                <View className={styles.projectBox}>
-                  {project.map((v, i) => (
-                    <View key={i} style={{ marginTop: i !== 0 ? 16 : 0 }}>
-                      <View className={styles.pTitleBox}>
-                        <View className={styles.pTitle}>
-                          {v.classification}
-                        </View>
-                      </View>
-                      {v.list.map((c, i2) => (
-                        <View
-                          className={styles.contentBox}
-                          key={i2}
-                          onClick={() => changeProject(c)}
-                        >
-                          <View
-                            className={cls(
-                              styles.cTitle,
-                              activeCode.find(v => v.code === c.code) &&
-                                styles.active
-                            )}
-                          >
-                            {c.name}
-                          </View>
-                          {activeCode.find(v => v.code === c.code) && (
-                            <Image
-                              src={duigou}
-                              className={styles.duigou}
-                            ></Image>
-                          )}
-                        </View>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            <View className={styles.nextBtn} onClick={() => checkChild()}>
-              下一步
-            </View>
+      {wx._unLogin ? (
+        <View>
+          <Image
+            src={bgImg[`type${type}`]}
+            style={{ width: "100vw", height: `calc(100vh - 84px)` }}
+          />
+          <View className={styles.goto} onClick={() => gotoLogin()}>
+            立即前往评估
           </View>
-        )}
-        {step === 2 && (
-          <View>
-            {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
-              Number(type)
-            ) && (
-              <View>
-                <View className={styles.title}>机构信息</View>
+        </View>
+      ) : (
+        <View className={styles.bottomPart}>
+          {step === 1 && (
+            <View>
+              <View className={styles.title}>
+                选择被评估人
+                <View className={styles.subTitle} onClick={add}>
+                  新增评估人 <Arrow color="#f2b04f" />
+                </View>
+              </View>
+              {childs.map((v, i) => (
                 <View
-                  className={cls(styles.personCard, styles.active)}
-                  onClick={openMap}
+                  style={{ marginTop: i !== 0 ? 8 : 0 }}
+                  className={cls(
+                    styles.personCard,
+                    activeChild.id === v.id && styles.active
+                  )}
+                  key={i}
+                  onClick={() => changeChild(v)}
                 >
                   <View className={styles.left}>
-                    <Image src={nanhai} className={styles.gender}></Image>
+                    <Image
+                      src={v.gender === "男" ? nanhai : nvhai}
+                      className={styles.gender}
+                    ></Image>
                     <View className={styles.nameBox}>
-                      <View className={styles.name}>{org.name}</View>
-                      <View className={styles.date}>{org.address}</View>
+                      <View className={styles.name}>{v.name}</View>
+                      <View className={styles.date}>{v.birthday}</View>
                     </View>
                   </View>
-                  <Image src={weizhi} className={styles.choose}></Image>
-                </View>
-              </View>
-            )}
-
-            <View className={styles.title}>查看预约时间</View>
-            <View className={styles.riliBox}>
-              <View className={styles.riliHeads}>
-                {heads.map((v, i) => (
-                  <View key={i} className={styles.head}>
-                    {v}
-                  </View>
-                ))}
-              </View>
-              <View className={styles.riliBodys}>
-                {days.map(v => (
-                  <View
-                    key={v}
-                    className={cls(
-                      styles.body,
-                      activeDay === v.day && styles.activeDay,
-                      v.inweek && styles.inweek
-                    )}
-                    onClick={() => changeDay(v)}
-                  >
-                    <View>{v.day}</View>
-                    {v.inweek && (
-                      <View
-                        className={cls(
-                          styles.count,
-                          v.count && styles.hasCount
-                        )}
-                      >
-                        {v.count ? `余${v.count}` : "无剩余"}
-                      </View>
-                    )}
-                    {v.pre && <View className={cls(styles.count)}>已过时</View>}
-                    {v.after && (
-                      <View className={cls(styles.count)}>即将放号</View>
-                    )}
-                  </View>
-                ))}
-              </View>
-            </View>
-            <View className={styles.title}>
-              {activeDay}（{getWeekDay()}）可预约时间
-            </View>
-            <View className={styles.timeBox}>
-              {time.map(v => (
-                <View
-                  className={cls(
-                    styles.time,
-                    activeTime?.id === v.id && styles.activeTime
-                  )}
-                  onClick={() => changeTime(v)}
-                >
-                  <View className={styles.time1}>
-                    {v.startTime}-{v.endTime}
-                  </View>
-                  <View>余{v.availableReserveNumber}</View>
+                  <Image
+                    src={activeChild.id === v.id ? xuanzhong : weixuanzhong}
+                    className={styles.choose}
+                  ></Image>
                 </View>
               ))}
-            </View>
-            <View className={styles.btnBox}>
-              <View className={styles.preBtn} onClick={() => setStep(1)}>
-                上一步
-              </View>
-              <View className={styles.nextBtn} onClick={() => checkTime()}>
+              {type == "1" && (
+                <View>
+                  <View className={styles.title}>选择评估项目</View>
+                  <View className={styles.projectBox}>
+                    {project.map((v, i) => (
+                      <View key={i} style={{ marginTop: i !== 0 ? 16 : 0 }}>
+                        <View className={styles.pTitleBox}>
+                          <View className={styles.pTitle}>
+                            {v.classification}
+                          </View>
+                        </View>
+                        {v.list.map((c, i2) => (
+                          <View
+                            className={styles.contentBox}
+                            key={i2}
+                            onClick={() => changeProject(c)}
+                          >
+                            <View
+                              className={cls(
+                                styles.cTitle,
+                                activeCode.find(v => v.code === c.code) &&
+                                  styles.active
+                              )}
+                            >
+                              {c.name}
+                            </View>
+                            {activeCode.find(v => v.code === c.code) && (
+                              <Image
+                                src={duigou}
+                                className={styles.duigou}
+                              ></Image>
+                            )}
+                          </View>
+                        ))}
+                      </View>
+                    ))}
+                  </View>
+                </View>
+              )}
+
+              <View className={styles.nextBtn} onClick={() => checkChild()}>
                 下一步
               </View>
             </View>
-          </View>
-        )}
-        {step === 3 && (
-          <View>
-            <View className={styles.title}>确认订单</View>
-            <View className={styles.orderBox}>
-              <View className={styles.li}>
-                <View className={styles.k}>机构信息</View>
-                <View className={styles.v}>{org?.name}</View>
-              </View>
-              <View className={styles.li}>
-                <View className={styles.k}>预约时间</View>
-                <View className={styles.v}>{getTime()}</View>
-              </View>
-              <View className={cls(styles.li, styles.noBorder)}>
-                <View className={styles.k}>被评估人</View>
-                <View className={styles.v}>{activeChild?.name}</View>
-              </View>
-            </View>
-
-            <View className={cls(styles.orderBox, styles.mt16)}>
-              {activeCode.map((v, i) => (
-                <View className={cls(styles.li, styles.noBorder)} key={i}>
-                  <View className={styles.k}>{i === 0 ? "评估项目" : ""}</View>
-                  <View className={styles.v}>
-                    {type === String(EvaluateType.MENZHEN)
-                      ? v.name
-                      : type === String(EvaluateType.SHIPIN)
-                      ? "视频一对一"
-                      : "家庭康复指导"}
-                  </View>
-                </View>
-              ))}
-            </View>
-            {/* <View className={cls(styles.orderBox, styles.mt16)}>
-              <View className={cls(styles.li, styles.noBorder)}>
-                <View className={styles.k}>总计</View>
-                <View className={styles.p}>￥156</View>
-              </View>
-            </View> */}
-            {router.params.origin === String(categoryEnum.isLingDaoYi) && (
-              <View>
-                <View className={styles.payBox}>
-                  <View
-                    className={cls(
-                      styles.payCard,
-                      trainingType === 1 && styles.active
-                    )}
-                    onClick={() => setTrainingType(1)}
-                  >
-                    <Text>线下</Text>
-                    <Image
-                      src={trainingType === 1 ? xuanzhong : weixuanzhong}
-                      className={styles.choose}
-                    ></Image>
-                  </View>
-                  <View
-                    className={cls(
-                      styles.payCard,
-                      trainingType === 2 && styles.active
-                    )}
-                    onClick={() => setTrainingType(2)}
-                  >
-                    <Text>线上</Text>
-                    <Image
-                      src={trainingType === 2 ? xuanzhong : weixuanzhong}
-                      className={styles.choose}
-                    ></Image>
-                  </View>
-                </View>
-              </View>
-            )}
-            {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
-              Number(type)
-            ) && (
-              <View>
-                <View className={styles.payBox}>
-                  <View
-                    className={cls(
-                      styles.payCard,
-                      payMode === 1 && styles.active
-                    )}
-                    onClick={() => changePay(1)}
-                  >
-                    <Text>院内支付</Text>
-                    <Image src={xuanzhong} className={styles.choose}></Image>
-                  </View>
-                  {/* <View
-                className={cls(styles.payCard, payMode === 2 && styles.active)}
-                // onClick={() => changePay(2)}
-              >
-                <Text>在线支付</Text>
-                <Image src={weixuanzhong} className={styles.choose}></Image>
-              </View> */}
-                </View>
-                <View className={styles.picBox}>
-                  {pic.map((v, i) => (
-                    <View style={{ position: "relative" }} key={i}>
-                      <Clear
-                        className={styles.clear}
-                        onClick={e => del(i)}
-                        color="#f2b04f"
-                      />
-                      <Image
-                        src={v.url}
-                        className={styles.pic}
-                        mode="widthFix"
-                        onClick={() => previewImage(v.url)}
-                      />
-                    </View>
-                  ))}
-                </View>
-                <View className={styles.danjuBox}>
-                  <Plus className={styles.addIcon} onClick={chooseMedia} />
-                  <View>{DanjuTishi}</View>
-                </View>
-              </View>
-            )}
-            {[EvaluateType.SHIPIN].includes(Number(type)) && (
-              <View>
-                <View className={styles.title}>服务介绍</View>
-                <View className={styles.desc}>
-                  团队成员来自于北京儿童医院，对需要康复的孩子做1对1视频康复指导，并提供其他增值服务
-                </View>
-              </View>
-            )}
-
-            {[EvaluateType.SHIPIN].includes(Number(type)) && (
-              <View>
-                <View className={styles.title}>服务价格</View>
-                <View className={cls(styles.priceIitem)}>
-                  {priceInfo.price}元/{priceInfo.time}分钟
-                </View>
-              </View>
-            )}
-
-            <View className={styles.btnBox}>
-              <View className={styles.preBtn} onClick={() => setStep(2)}>
-                上一步
-              </View>
-              {type === String(EvaluateType.SHIPIN) ? (
-                <View className={styles.nextBtn} onClick={() => toPay()}>
-                  立即预约
-                </View>
-              ) : (
-                <View className={styles.nextBtn} onClick={() => complate()}>
-                  完成预约
-                </View>
-              )}
-            </View>
-          </View>
-        )}
-        {step === 4 && (
-          <View>
-            <View className={styles.succBox}>
-              <View className={styles.tiphead}>
-                <Image src={tip} className={styles.tip}></Image>
-                温馨提示
-              </View>
+          )}
+          {step === 2 && (
+            <View>
               {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
                 Number(type)
               ) && (
-                <View className={styles.tipBody}>
-                  <View className={styles.hasComplate}>已预约完成！</View>
-                  <View>后台审核单据无误后会短信通知；</View>
-                  <View>
-                    {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
-                    院内支付请于{activeDay} {activeTime?.startTime}
-                    前携带收费单据到指定地点。
-                  </View>
-                  <View>如有问题，请提前电话联系010-56190995</View>
-                  <View className={styles.loc} onClick={openMap}>
+                <View>
+                  <View className={styles.title}>机构信息</View>
+                  <View
+                    className={cls(styles.personCard, styles.active)}
+                    onClick={openMap}
+                  >
                     <View className={styles.left}>
+                      <Image src={nanhai} className={styles.gender}></Image>
                       <View className={styles.nameBox}>
                         <View className={styles.name}>{org.name}</View>
                         <View className={styles.date}>{org.address}</View>
@@ -687,24 +476,279 @@ export default function App() {
                   </View>
                 </View>
               )}
-              {[EvaluateType.SHIPIN].includes(Number(type)) && (
-                <View className={styles.tipBody}>
-                  <View className={styles.hasComplate}>已预约完成！</View>
-                  <View>后台审核单据无误后会短信通知；</View>
-                  <View>
-                    请在预约时间前10分钟，在【首页】-【预约记录】进入房间
+
+              <View className={styles.title}>查看预约时间</View>
+              <View className={styles.riliBox}>
+                <View className={styles.riliHeads}>
+                  {heads.map((v, i) => (
+                    <View key={i} className={styles.head}>
+                      {v}
+                    </View>
+                  ))}
+                </View>
+                <View className={styles.riliBodys}>
+                  {days.map(v => (
+                    <View
+                      key={v}
+                      className={cls(
+                        styles.body,
+                        activeDay === v.day && styles.activeDay,
+                        v.inweek && styles.inweek
+                      )}
+                      onClick={() => changeDay(v)}
+                    >
+                      <View>{v.day}</View>
+                      {v.inweek && (
+                        <View
+                          className={cls(
+                            styles.count,
+                            v.count && styles.hasCount
+                          )}
+                        >
+                          {v.count ? `余${v.count}` : "无剩余"}
+                        </View>
+                      )}
+                      {v.pre && (
+                        <View className={cls(styles.count)}>已过时</View>
+                      )}
+                      {v.after && (
+                        <View className={cls(styles.count)}>即将放号</View>
+                      )}
+                    </View>
+                  ))}
+                </View>
+              </View>
+              <View className={styles.title}>
+                {activeDay}（{getWeekDay()}）可预约时间
+              </View>
+              <View className={styles.timeBox}>
+                {time.map(v => (
+                  <View
+                    className={cls(
+                      styles.time,
+                      activeTime?.id === v.id && styles.activeTime
+                    )}
+                    onClick={() => changeTime(v)}
+                  >
+                    <View className={styles.time1}>
+                      {v.startTime}-{v.endTime}
+                    </View>
+                    <View>余{v.availableReserveNumber}</View>
                   </View>
-                  <View>如有问题，请提前电话联系010-56190995</View>
+                ))}
+              </View>
+              <View className={styles.btnBox}>
+                <View className={styles.preBtn} onClick={() => setStep(1)}>
+                  上一步
+                </View>
+                <View className={styles.nextBtn} onClick={() => checkTime()}>
+                  下一步
+                </View>
+              </View>
+            </View>
+          )}
+          {step === 3 && (
+            <View>
+              <View className={styles.title}>确认订单</View>
+              <View className={styles.orderBox}>
+                <View className={styles.li}>
+                  <View className={styles.k}>机构信息</View>
+                  <View className={styles.v}>{org?.name}</View>
+                </View>
+                <View className={styles.li}>
+                  <View className={styles.k}>预约时间</View>
+                  <View className={styles.v}>{getTime()}</View>
+                </View>
+                <View className={cls(styles.li, styles.noBorder)}>
+                  <View className={styles.k}>被评估人</View>
+                  <View className={styles.v}>{activeChild?.name}</View>
+                </View>
+              </View>
+
+              <View className={cls(styles.orderBox, styles.mt16)}>
+                {activeCode.map((v, i) => (
+                  <View className={cls(styles.li, styles.noBorder)} key={i}>
+                    <View className={styles.k}>
+                      {i === 0 ? "评估项目" : ""}
+                    </View>
+                    <View className={styles.v}>
+                      {type === String(EvaluateType.MENZHEN)
+                        ? v.name
+                        : type === String(EvaluateType.SHIPIN)
+                        ? "视频一对一"
+                        : "家庭康复指导"}
+                    </View>
+                  </View>
+                ))}
+              </View>
+              {/* <View className={cls(styles.orderBox, styles.mt16)}>
+             <View className={cls(styles.li, styles.noBorder)}>
+               <View className={styles.k}>总计</View>
+               <View className={styles.p}>￥156</View>
+             </View>
+           </View> */}
+              {router.params.origin === String(categoryEnum.isLingDaoYi) && (
+                <View>
+                  <View className={styles.payBox}>
+                    <View
+                      className={cls(
+                        styles.payCard,
+                        trainingType === 1 && styles.active
+                      )}
+                      onClick={() => setTrainingType(1)}
+                    >
+                      <Text>线下</Text>
+                      <Image
+                        src={trainingType === 1 ? xuanzhong : weixuanzhong}
+                        className={styles.choose}
+                      ></Image>
+                    </View>
+                    <View
+                      className={cls(
+                        styles.payCard,
+                        trainingType === 2 && styles.active
+                      )}
+                      onClick={() => setTrainingType(2)}
+                    >
+                      <Text>线上</Text>
+                      <Image
+                        src={trainingType === 2 ? xuanzhong : weixuanzhong}
+                        className={styles.choose}
+                      ></Image>
+                    </View>
+                  </View>
                 </View>
               )}
+              {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
+                Number(type)
+              ) && (
+                <View>
+                  <View className={styles.payBox}>
+                    <View
+                      className={cls(
+                        styles.payCard,
+                        payMode === 1 && styles.active
+                      )}
+                      onClick={() => changePay(1)}
+                    >
+                      <Text>院内支付</Text>
+                      <Image src={xuanzhong} className={styles.choose}></Image>
+                    </View>
+                    {/* <View
+               className={cls(styles.payCard, payMode === 2 && styles.active)}
+               // onClick={() => changePay(2)}
+             >
+               <Text>在线支付</Text>
+               <Image src={weixuanzhong} className={styles.choose}></Image>
+             </View> */}
+                  </View>
+                  <View className={styles.picBox}>
+                    {pic.map((v, i) => (
+                      <View style={{ position: "relative" }} key={i}>
+                        <Clear
+                          className={styles.clear}
+                          onClick={e => del(i)}
+                          color="#f2b04f"
+                        />
+                        <Image
+                          src={v.url}
+                          className={styles.pic}
+                          mode="widthFix"
+                          onClick={() => previewImage(v.url)}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                  <View className={styles.danjuBox}>
+                    <Plus className={styles.addIcon} onClick={chooseMedia} />
+                    <View>{DanjuTishi}</View>
+                  </View>
+                </View>
+              )}
+              {[EvaluateType.SHIPIN].includes(Number(type)) && (
+                <View>
+                  <View className={styles.title}>服务介绍</View>
+                  <View className={styles.desc}>
+                    团队成员来自于北京儿童医院，对需要康复的孩子做1对1视频康复指导，并提供其他增值服务
+                  </View>
+                </View>
+              )}
+
+              {[EvaluateType.SHIPIN].includes(Number(type)) && (
+                <View>
+                  <View className={styles.title}>服务价格</View>
+                  <View className={cls(styles.priceIitem)}>
+                    {priceInfo.price}元/{priceInfo.time}分钟
+                  </View>
+                </View>
+              )}
+
+              <View className={styles.btnBox}>
+                <View className={styles.preBtn} onClick={() => setStep(2)}>
+                  上一步
+                </View>
+                {type === String(EvaluateType.SHIPIN) ? (
+                  <View className={styles.nextBtn} onClick={() => toPay()}>
+                    立即预约
+                  </View>
+                ) : (
+                  <View className={styles.nextBtn} onClick={() => complate()}>
+                    完成预约
+                  </View>
+                )}
+              </View>
             </View>
-            <View className={styles.preBtn} onClick={() => goto()}>
-              我知道了
+          )}
+          {step === 4 && (
+            <View>
+              <View className={styles.succBox}>
+                <View className={styles.tiphead}>
+                  <Image src={tip} className={styles.tip}></Image>
+                  温馨提示
+                </View>
+                {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
+                  Number(type)
+                ) && (
+                  <View className={styles.tipBody}>
+                    <View className={styles.hasComplate}>已预约完成！</View>
+                    <View>后台审核单据无误后会短信通知；</View>
+                    <View>
+                      {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
+                      院内支付请于{activeDay} {activeTime?.startTime}
+                      前携带收费单据到指定地点。
+                    </View>
+                    <View>如有问题，请提前电话联系010-56190995</View>
+                    <View className={styles.loc} onClick={openMap}>
+                      <View className={styles.left}>
+                        <View className={styles.nameBox}>
+                          <View className={styles.name}>{org.name}</View>
+                          <View className={styles.date}>{org.address}</View>
+                        </View>
+                      </View>
+                      <Image src={weizhi} className={styles.choose}></Image>
+                    </View>
+                  </View>
+                )}
+                {[EvaluateType.SHIPIN].includes(Number(type)) && (
+                  <View className={styles.tipBody}>
+                    <View className={styles.hasComplate}>已预约完成！</View>
+                    <View>后台审核单据无误后会短信通知；</View>
+                    <View>
+                      请在预约时间前10分钟，在【首页】-【预约记录】进入房间
+                    </View>
+                    <View>如有问题，请提前电话联系010-56190995</View>
+                  </View>
+                )}
+              </View>
+              <View className={styles.preBtn} onClick={() => goto()}>
+                我知道了
+              </View>
             </View>
-          </View>
-        )}
-        <Notify id="notify" />
-      </View>
+          )}
+          <Notify id="notify" />
+        </View>
+      )}
+
       <Popup
         defaultOpen={false}
         open={showImgPreview}
