@@ -81,7 +81,7 @@ export default function App() {
             手机号快捷登录
           </Button>
           <Button className={styles.btn} onClick={back}>
-            取消
+            拒绝
           </Button>
         </View>
         <View className={styles.agreement}>

@@ -367,7 +367,7 @@ export default function App() {
         <View>
           <Image
             src={bgImg[`type${type}`]}
-            style={{ width: "100vw", height: `calc(100vh - 84px)` }}
+            style={{ width: "100vw", height: `calc(100vh - 94px)` }}
           />
           <View className={styles.goto} onClick={() => gotoLogin()}>
             立即前往评估

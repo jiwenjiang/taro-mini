@@ -3,7 +3,6 @@ import NavBar from "@/comps/NavBar";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import { chunk } from "@/service/utils";
-import Down from "@/static/icons/download.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import hospital from "@/static/imgs/hospital.png";
 import introImg from "@/static/imgs/intro.png";
@@ -11,7 +10,7 @@ import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import wenyisheng from "@/static/imgs/wenyisheng.png";
 import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
-import { ArrowDown, InfoOutlined } from "@taroify/icons";
+import { ArrowDown } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
@@ -262,7 +261,7 @@ function Card() {
           ) : (
             <View>
               <Info data={report} />
-              {report?.scaleTableCode === ScaleTableCode.LEIBO_GMS && (
+              {/* {report?.scaleTableCode === ScaleTableCode.LEIBO_GMS && (
                 <View className={styles.cardBox}>
                   <View className={styles.card}>
                     <View className={styles.title} style={{ paddingLeft: 10 }}>
@@ -290,33 +289,35 @@ function Card() {
                     </View>
                   </View>
                 </View>
-              )}
+              )} */}
 
               <View className={styles.cardBox}>
-                <View className={styles.bgTitle}>评估结果</View>
+                <View className={styles.bgTitle}>
+                  评估结果
+                  <View className={styles.downLoadBox} onClick={downloadImg}>
+                    下载电子报告&nbsp;
+                  </View>
+                </View>
                 <View className={cls(styles.card, styles.delBorder)}>
-                  <View className={styles.shenjingTitle}>
+                  <View className={styles.evaKey}>
+                    发育风险评估：
+                    <Text className={styles.evaVal}>
+                      {" "}
+                      {/* {report.scaleResult?.gmsResult?.stageResult} */}
+                    </Text>
+                  </View>
+                  <View className={styles.evaKey}>
+                    GMs结果：
+                    <Text className={styles.evaVal}>
+                      {" "}
+                      {report.scaleResult?.gmsResult?.stageResult}
+                    </Text>
+                  </View>
+                  <View className={styles.evaRed}>
                     神经运动发育风险：
                     {report?.scaleResult?.cerebralPalsyResult?.haveAbnormalIterm
-                      ? "有"
-                      : "无"}
-                  </View>
-                  <View style={{ marginBottom: 24 }}>
-                    <View className={styles.pinggu}>
-                      <Text className={styles.pingguk}>评估时间：</Text>
-                      <Text>{report.evaluateDate}</Text>
-                    </View>
-                    <View className={styles.pinggu}>
-                      <Text className={styles.pingguk}>评估专家：</Text>
-                      <Text>{report.doctorName}</Text>
-                    </View>
-                    <View className={styles.pinggu}>
-                      <Text className={styles.pingguk}>医学提示：</Text>
-                      <Text>{report.conclusion}</Text>
-                    </View>
-                    <View className={styles.desc}>
-                      *评估结果基于神经发育异常和高危因素给出，且评估结果不代表诊断结果
-                    </View>
+                      ? "有异常"
+                      : "无异常"}
                   </View>
                   <View>
                     <View className={cls(styles.head, styles.headTxt)}>
@@ -360,9 +361,26 @@ function Card() {
                         className={cls(isExpand && styles.isExpand)}
                       />
                     </View>
-                    <View className={styles.downLoadBox} onClick={downloadImg}>
-                      下载报告&nbsp;
-                      <Image src={Down} className={styles.downLoad} />{" "}
+                  </View>
+                  <View style={{ marginBottom: 24 }}>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>评估时间：</Text>
+                      <Text>{report.evaluateDate}</Text>
+                    </View>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>评估专家：</Text>
+                      <Text>{report.doctorName}</Text>
+                    </View>
+                    <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>审核人：</Text>
+                      <Text>{report.reviewDoctorName}</Text>
+                    </View>
+                    {/* <View className={styles.pinggu}>
+                      <Text className={styles.pingguk}>医学提示：</Text>
+                      <Text>{report.conclusion}</Text>
+                    </View> */}
+                    <View className={styles.desc}>
+                      *评估结果基于神经发育异常和高危因素给出，且评估结果不代表诊断结果
                     </View>
                   </View>
                 </View>
@@ -371,6 +389,19 @@ function Card() {
               <View className={cls(styles.cardBox)}>
                 <View className={styles.bgTitle}>结果解读</View>
                 <View className={styles.tabBox}>
+                  <View className={styles.evaBox3}>
+                    <View className={styles.evaKey}>
+                      GMs结果解读：
+                      <View
+                        className={styles.videoBtn}
+                        onClick={() => setIntro(true)}
+                      >
+                        立即查看
+                      </View>
+                    </View>
+                    <View className={styles.evaKey}>神经运动项异常解读：</View>
+                  </View>
+
                   {abnormal?.length > 0 ? (
                     <Tabs onChange={changeTab} value={activeTab}>
                       {abnormal.map((v, i) => (
@@ -396,6 +427,24 @@ function Card() {
                   ) : (
                     <View className={styles.nodata}>暂未发现异常</View>
                   )}
+                </View>
+              </View>
+
+              <View className={cls(styles.cardBox)}>
+                <View className={styles.bgTitle}>早期干预建议</View>
+                <View className={styles.tabBox}>
+                  <View className={styles.evaBox3}>
+                    <View className={styles.evaKey}>
+                      GMs结果解读：
+                      <View
+                        className={styles.videoBtn}
+                        onClick={() => setIntro(true)}
+                      >
+                        立即查看
+                      </View>
+                    </View>
+                    <View className={styles.evaKey}>神经运动项异常解读：</View>
+                  </View>
                 </View>
               </View>
               {showCourse && (

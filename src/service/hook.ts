@@ -112,6 +112,7 @@ export function useAuth() {
         setStorageSync("token", res.data.token);
         setStorageSync("user", res.data.user);
         wx._frontPage = res.data.user.frontPage;
+        wx._unLogin = false;
         // Taro.reLaunch({
         //   url: `/pages/index/index?channel=${wx._frontPage}`
         // });

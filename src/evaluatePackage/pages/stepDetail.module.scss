@@ -16,6 +16,36 @@
     background-color: transparent;
     padding: 20PX;
     padding-bottom: 0;
+
+    .evaKey {
+        font-size: 28px;
+        color: #615A53;
+        margin-bottom: 10px;
+        display: flex;
+        padding-top: 10px;
+
+        .videoBtn {
+            width: 200px;
+            height: 52px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 24px;
+            text-align: center;
+            line-height: 52px;
+
+        }
+    }
+
+    .evaVal {
+        font-size: 28px;
+        color: #181818;
+    }
+
+    .evaRed {
+        font-size: 28px;
+        color: #F44336;
+        margin-bottom: 10px;
+    }
 }
 
 .nopt {
@@ -248,6 +278,17 @@
 .evaBox2 {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.evaBox3 {
+    background-color: #fff;
+    padding-left: 30px;
+    padding-top: 30px;
+
+    .evaKey {
+        font-size: 32px;
+        margin-bottom: 0;
+    }
 }
 
 .cardContent {
@@ -556,6 +597,8 @@
     align-items: center;
     color: var(--primary-color);
     font-size: 24px;
+    position: absolute;
+    right: 50px;
 
     .downLoad {
         width: 24px;
