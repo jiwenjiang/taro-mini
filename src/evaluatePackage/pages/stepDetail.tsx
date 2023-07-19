@@ -303,7 +303,9 @@ function Card() {
                     发育风险评估：
                     <Text className={styles.evaVal}>
                       {" "}
-                      {/* {report.scaleResult?.gmsResult?.stageResult} */}
+                      {report.scaleResult?.developmentRisk
+                        ? "有异常"
+                        : "无异常"}
                     </Text>
                   </View>
                   <View className={styles.evaKey}>
@@ -443,7 +445,13 @@ function Card() {
                         立即查看
                       </View>
                     </View>
-                    <View className={styles.evaKey}>神经运动项异常解读：</View>
+                    <View
+                      className={styles.evaKey}
+                      style={{ marginBottom: 10 }}
+                    >
+                      神经运动项异常解读：
+                      {report?.scaleResult?.cerebralPalsyResult?.remark}
+                    </View>
                   </View>
                 </View>
               </View>
