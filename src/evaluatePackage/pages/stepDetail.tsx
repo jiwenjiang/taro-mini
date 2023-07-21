@@ -249,8 +249,7 @@ function Card() {
                   </View>
                   <View className={styles.noEvaluete}>
                     <View>
-                      已提交医学评估，请耐心等待，医学评估后，您可以收到微
-                      信服务通知或者在【我的】-【自测量表记录】查看结果
+                      已提交医学评估，预计3个工作日内完成评估，请耐心等待。医学评估后您可以收到微信服务通知，请注意查收并查看报告。您也可以在小程序首页查看报告。
                     </View>
                   </View>
                 </View>
@@ -301,25 +300,44 @@ function Card() {
                 <View className={cls(styles.card, styles.delBorder)}>
                   <View className={styles.evaKey}>
                     发育风险评估：
-                    <Text className={styles.evaVal}>
+                    <Text
+                      className={
+                        report.scaleResult?.developmentRisk
+                          ? styles.evaRed
+                          : styles.evaGreen
+                      }
+                    >
                       {" "}
                       {report.scaleResult?.developmentRisk
                         ? "有异常"
                         : "无异常"}
                     </Text>
                   </View>
-                  <View className={styles.evaKey}>
-                    GMs结果：
-                    <Text className={styles.evaVal}>
-                      {" "}
-                      {report.scaleResult?.gmsResult?.stageResult}
-                    </Text>
-                  </View>
-                  <View className={styles.evaRed}>
+                  {ScaleTableCode.LEIBO_GMS === report.scaleTableCode && (
+                    <View className={styles.evaKey}>
+                      GMs结果：
+                      <Text className={styles.evaVal}>
+                        {" "}
+                        {report.scaleResult?.gmsResult?.stageResult}
+                      </Text>
+                    </View>
+                  )}
+
+                  <View className={styles.evaVal}>
                     神经运动发育风险：
-                    {report?.scaleResult?.cerebralPalsyResult?.haveAbnormalIterm
-                      ? "有异常"
-                      : "无异常"}
+                    <Text
+                      className={
+                        report?.scaleResult?.cerebralPalsyResult
+                          ?.haveAbnormalIterm
+                          ? styles.evaRed
+                          : styles.evaGreen
+                      }
+                    >
+                      {report?.scaleResult?.cerebralPalsyResult
+                        ?.haveAbnormalIterm
+                        ? "有异常"
+                        : "无异常"}
+                    </Text>
                   </View>
                   <View>
                     <View className={cls(styles.head, styles.headTxt)}>
@@ -392,15 +410,18 @@ function Card() {
                 <View className={styles.bgTitle}>结果解读</View>
                 <View className={styles.tabBox}>
                   <View className={styles.evaBox3}>
-                    <View className={styles.evaKey}>
-                      GMs结果解读：
-                      <View
-                        className={styles.videoBtn}
-                        onClick={() => setIntro(true)}
-                      >
-                        立即查看
+                    {ScaleTableCode.LEIBO_GMS === report.scaleTableCode && (
+                      <View className={styles.evaKey}>
+                        GMs结果解读：
+                        <View
+                          className={styles.videoBtn}
+                          onClick={() => setIntro(true)}
+                        >
+                          立即查看
+                        </View>
                       </View>
-                    </View>
+                    )}
+
                     <View className={styles.evaKey}>神经运动项异常解读：</View>
                   </View>
 
@@ -436,21 +457,11 @@ function Card() {
                 <View className={styles.bgTitle}>早期干预建议</View>
                 <View className={styles.tabBox}>
                   <View className={styles.evaBox3}>
-                    <View className={styles.evaKey}>
-                      GMs结果解读：
-                      <View
-                        className={styles.videoBtn}
-                        onClick={() => setIntro(true)}
-                      >
-                        立即查看
-                      </View>
-                    </View>
                     <View
                       className={styles.evaKey}
                       style={{ marginBottom: 10 }}
                     >
-                      神经运动项异常解读：
-                      {report?.scaleResult?.cerebralPalsyResult?.remark}
+                      {report?.scaleResult?.cerebralPalsyResult?.suggests[0]}
                     </View>
                   </View>
                 </View>
@@ -513,7 +524,7 @@ function Card() {
 
       <Popup
         placement="bottom"
-        style={{ height: "80%" }}
+        style={{ height: "60%" }}
         onClose={() => setIntro(false)}
         open={intro}
       >

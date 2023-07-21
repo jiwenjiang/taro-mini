@@ -57,16 +57,19 @@ export default function App() {
       navigateTo({
         url: `/pages/evaluate/brainDetail?id=${item.id}`
       });
+      return;
     }
     if (item.scaleTableCode === ScaleTableCode.GMS) {
       navigateTo({
         url: `/pages/evaluate/gmsDetail?id=${item.id}`
       });
+      return;
     }
     if (item.scaleTableCode === ScaleTableCode.BRAIN_GMS) {
       navigateTo({
         url: `/pages/evaluate/brainGmsDetail?id=${item.id}`
       });
+      return;
     }
     if (
       item.scaleTableCode === ScaleTableCode.LEIBO_BRAIN ||
@@ -75,6 +78,7 @@ export default function App() {
       navigateTo({
         url: `/evaluatePackage/pages/stepDetail?id=${item.id}`
       });
+      return;
     }
     if (
       [ScaleTableCode.Griffiths, ScaleTableCode.Product88].includes(
@@ -84,7 +88,11 @@ export default function App() {
       navigateTo({
         url: `/pages/evaluate/previewReport?id=${item.id}&name=${item.scaleName}`
       });
+      return;
     }
+    navigateTo({
+      url: `/pages/evaluate/previewReport?id=${item.id}&name=${item.scaleName}`
+    });
   };
 
   useEffect(() => {}, []);

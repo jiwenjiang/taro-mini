@@ -162,7 +162,7 @@
         {
           "name": "",
           "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=20",
+          "query": "id=456",
           "launchMode": "default",
           "scene": null
         },

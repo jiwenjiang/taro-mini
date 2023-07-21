@@ -189,7 +189,7 @@ export default function App() {
             picList.push(v);
             num++;
             if (num === res.tempFiles.length) {
-              setPic(picList);
+              setPic([...picList, ...pic]);
             }
           });
         });
@@ -203,7 +203,7 @@ export default function App() {
   };
 
   const complate = async () => {
-    if (pic.some(v => !v.id)) {
+    if (pic.some(v => !v.id) || pic.length === 0) {
       Notify.open({
         color: "warning",
         message: "请上传票据"
