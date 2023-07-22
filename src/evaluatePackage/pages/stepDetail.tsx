@@ -298,32 +298,42 @@ function Card() {
                   </View>
                 </View>
                 <View className={cls(styles.card, styles.delBorder)}>
-                  <View className={styles.evaKey}>
-                    发育风险评估：
-                    <Text
-                      className={
-                        report.scaleResult?.developmentRisk
-                          ? styles.evaRed
-                          : styles.evaGreen
-                      }
-                    >
-                      {" "}
-                      {report.scaleResult?.developmentRisk
-                        ? "有异常"
-                        : "无异常"}
-                    </Text>
-                  </View>
                   {ScaleTableCode.LEIBO_GMS === report.scaleTableCode && (
-                    <View className={styles.evaKey}>
-                      GMs结果：
-                      <Text className={styles.evaVal}>
-                        {" "}
-                        {report.scaleResult?.gmsResult?.stageResult}
-                      </Text>
+                    <View style={{ marginBottom: 10 }}>
+                      <View className={styles.evaKey}>
+                        发育风险评估：
+                        <Text
+                          className={
+                            report.scaleResult?.developmentRisk
+                              ? styles.evaRed
+                              : styles.evaGreen
+                          }
+                        >
+                          {" "}
+                          {report.scaleResult?.developmentRisk
+                            ? "有异常"
+                            : "无异常"}
+                        </Text>
+                      </View>
+                      <View className={styles.evaKey}>
+                        GMs结果：
+                        <Text
+                          className={
+                            report.scaleResult?.gmsResult?.stageResult?.includes(
+                              "正常"
+                            )
+                              ? styles.evaGreen
+                              : styles.evaRed
+                          }
+                        >
+                          {" "}
+                          {report.scaleResult?.gmsResult?.stageResult}
+                        </Text>
+                      </View>
                     </View>
                   )}
 
-                  <View className={styles.evaVal}>
+                  <View className={styles.evaKey} style={{ marginBottom: 10 }}>
                     神经运动发育风险：
                     <Text
                       className={
