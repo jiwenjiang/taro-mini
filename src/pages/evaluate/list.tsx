@@ -64,6 +64,14 @@ export default function App() {
     setList(res.data);
   };
 
+  const getChild = async () => {
+    const res = await request({
+      url: "/children/list",
+      data: { pageNo: 1, pageSize: 1000 }
+    });
+    childContext.updateChild({ len: res.data.children?.length });
+  };
+
   useEffect(() => {
     if (router.params.channel || router.params.orgid || wx._orgId) {
       getAuth(getList, {
@@ -72,6 +80,7 @@ export default function App() {
       });
     } else {
       getList();
+      getChild();
     }
   }, []);
 

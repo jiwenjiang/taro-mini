@@ -602,7 +602,7 @@ function Info({ data }) {
           ) : (
             <Image src={nvhai} className={styles.imgIcon} />
           )}
-          &nbsp;{data.name}&emsp;{data.age}岁
+          &nbsp;{data.name}&emsp;{data.age}
         </View>
 
         <View className={cls(styles.listItem, styles.list)}>
