@@ -23,6 +23,7 @@
         margin-bottom: 10px;
         display: flex;
         padding-top: 10px;
+        position: relative;
 
         .videoBtn {
             width: 200px;
@@ -46,11 +47,30 @@
         color: #F44336;
         margin-bottom: 10px;
     }
+
     .evaGreen {
         font-size: 28px;
         color: #2ec25b;
         margin-bottom: 10px;
     }
+}
+
+.jiedu {
+    display: inline-block;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 2px 8px;
+    color: var(--primary-color);
+    position: absolute;
+    right: 10px;
+}
+
+.borderBtn {
+    display: inline-block;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 2px 8px;
+    color: var(--primary-color);
 }
 
 .nopt {

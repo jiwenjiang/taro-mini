@@ -9,9 +9,9 @@ import introImg from "@/static/imgs/intro.png";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import wenyisheng from "@/static/imgs/wenyisheng.png";
-import { Backdrop, Popup, Swiper, Tabs } from "@taroify/core";
+import { Backdrop, Popup, Swiper } from "@taroify/core";
 import { ArrowDown } from "@taroify/icons";
-import { Image, RichText, Text, Video, View } from "@tarojs/components";
+import { Image, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
@@ -81,6 +81,7 @@ function Card() {
   const videoContext = useRef<any>();
   const [isfushu, setIsFushu] = useState(false);
   const [showCourse, setShowCourse] = useState(false);
+  const [abnormalVisible, setAbnormalVisible] = useState(false);
 
   useEffect(() => {
     // setIsFushu(isFushu());
@@ -232,6 +233,14 @@ function Card() {
     }
   };
 
+  const openJiedu = v => {
+    if (v.status > 0) {
+      const index = abnormal.findIndex(c => c.name === v.name);
+      changeTab(index);
+    }
+    setAbnormalVisible(true);
+  };
+
   return (
     <View>
       <NavBar title={"评估详情" || report?.scaleTableName} />
@@ -299,9 +308,14 @@ function Card() {
                 </View>
                 <View className={cls(styles.card, styles.delBorder)}>
                   {ScaleTableCode.LEIBO_GMS === report.scaleTableCode && (
-                    <View style={{ marginBottom: 10 }}>
+                    <View
+                      style={{
+                        marginBottom: 10,
+                        borderBottom: "1px solid #ffd340"
+                      }}
+                    >
                       <View className={styles.evaKey}>
-                        发育风险评估：
+                        全身运动质量评估结果：
                         <Text
                           className={
                             report.scaleResult?.developmentRisk
@@ -316,7 +330,7 @@ function Card() {
                         </Text>
                       </View>
                       <View className={styles.evaKey}>
-                        GMs结果：
+                        评估结果：
                         <Text
                           className={
                             report.scaleResult?.gmsResult?.stageResult?.includes(
@@ -328,13 +342,19 @@ function Card() {
                         >
                           {" "}
                           {report.scaleResult?.gmsResult?.stageResult}
+                        </Text>{" "}
+                        <Text
+                          onClick={() => setIntro(true)}
+                          className={styles.jiedu}
+                        >
+                          解读
                         </Text>
                       </View>
                     </View>
                   )}
 
                   <View className={styles.evaKey} style={{ marginBottom: 10 }}>
-                    神经运动发育风险：
+                    姿势运动评估结果：
                     <Text
                       className={
                         report?.scaleResult?.cerebralPalsyResult
@@ -381,6 +401,14 @@ function Card() {
                                 ? "疑似"
                                 : "出现"}
                             </View>
+                            {v.optionSn !== 1 && (
+                              <Text
+                                className={styles.borderBtn}
+                                onClick={() => openJiedu(v)}
+                              >
+                                解读
+                              </Text>
+                            )}
                           </View>
                         )
                       )}
@@ -416,7 +444,7 @@ function Card() {
                 </View>
               </View>
 
-              <View className={cls(styles.cardBox)}>
+              {/* <View className={cls(styles.cardBox)}>
                 <View className={styles.bgTitle}>结果解读</View>
                 <View className={styles.tabBox}>
                   <View className={styles.evaBox3}>
@@ -461,7 +489,7 @@ function Card() {
                     <View className={styles.nodata}>暂未发现异常</View>
                   )}
                 </View>
-              </View>
+              </View> */}
 
               <View className={cls(styles.cardBox)}>
                 <View className={styles.bgTitle}>早期干预建议</View>
@@ -565,6 +593,12 @@ function Card() {
           </View>
         ))}
       </Popup>
+      <Popup
+        placement="bottom"
+        style={{ height: "60%" }}
+        onClose={() => setAbnormalVisible(false)}
+        open={abnormalVisible}
+      ></Popup>
       <Backdrop open={open} closeable onClose={() => setOpen(false)}>
         <View className={styles.bdContent}>
           <Image

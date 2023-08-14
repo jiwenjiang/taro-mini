@@ -8,7 +8,7 @@ export default function Contact() {
     <View className={styles.contactBox}>
       <View>对报告有疑问？</View>
       <Button className={styles.contact} openType="contact">
-        前往联系客服
+        在线解答
       </Button>
     </View>
   );
