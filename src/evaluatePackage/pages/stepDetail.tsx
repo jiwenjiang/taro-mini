@@ -3,6 +3,7 @@ import NavBar from "@/comps/NavBar";
 import { ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import { chunk } from "@/service/utils";
+import jiedu from "@/static/icons/jiedu.svg";
 import noticeIcon from "@/static/icons/notice.svg";
 import hospital from "@/static/imgs/hospital.png";
 import introImg from "@/static/imgs/intro.png";
@@ -11,7 +12,7 @@ import nvhai from "@/static/imgs/nvhai.png";
 import wenyisheng from "@/static/imgs/wenyisheng.png";
 import { Backdrop, Popup, Swiper } from "@taroify/core";
 import { ArrowDown } from "@taroify/icons";
-import { Image, Text, Video, View } from "@tarojs/components";
+import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
@@ -185,8 +186,11 @@ function Card() {
     setAbnormal([...abnormal]);
   };
 
-  const changeTab = async e => {
-    const index = abnormal.findIndex(c => c.name === e);
+  const changeTab = async index => {
+    console.log(
+      "🚀 ~ file: stepDetail.tsx:196 ~ changeTab ~ abnormal[index].name:",
+      abnormal[index].name
+    );
 
     if (!abnormal[index].detail) {
       const res = await request({
@@ -198,7 +202,11 @@ function Card() {
       abnormal[index].detail = handleRichText(res.data.detail);
       setAbnormal([...abnormal]);
     }
-    setActiveTab(abnormal[index].name);
+    setActiveTab(abnormal[index].detail);
+    console.log(
+      "🚀 ~ file: stepDetail.tsx:206 ~ changeTab ~ abnormal[index].name:",
+      abnormal
+    );
   };
 
   useEffect(() => {
@@ -343,12 +351,11 @@ function Card() {
                           {" "}
                           {report.scaleResult?.gmsResult?.stageResult}
                         </Text>{" "}
-                        <Text
-                          onClick={() => setIntro(true)}
+                        <Image
+                          src={jiedu}
                           className={styles.jiedu}
-                        >
-                          解读
-                        </Text>
+                          onClick={() => setIntro(true)}
+                        />
                       </View>
                     </View>
                   )}
@@ -401,14 +408,16 @@ function Card() {
                                 ? "疑似"
                                 : "出现"}
                             </View>
-                            {v.optionSn !== 1 && (
-                              <Text
-                                className={styles.borderBtn}
-                                onClick={() => openJiedu(v)}
-                              >
-                                解读
-                              </Text>
-                            )}
+                            <View style={{ width: 35, lineHeight: "1px" }}>
+                              {v.optionSn !== 1 && (
+                                <Image
+                                  src={jiedu}
+                                  className={styles.jiedu}
+                                  style={{ position: "static" }}
+                                  onClick={() => openJiedu(v)}
+                                />
+                              )}
+                            </View>
                           </View>
                         )
                       )}
@@ -598,7 +607,11 @@ function Card() {
         style={{ height: "60%" }}
         onClose={() => setAbnormalVisible(false)}
         open={abnormalVisible}
-      ></Popup>
+      >
+        <View className={styles.richBox}>
+          <RichText nodes={activeTab} />
+        </View>
+      </Popup>
       <Backdrop open={open} closeable onClose={() => setOpen(false)}>
         <View className={styles.bdContent}>
           <Image

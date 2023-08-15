@@ -56,11 +56,8 @@
 }
 
 .jiedu {
-    display: inline-block;
-    border: 1px solid var(--primary-color);
-    border-radius: 5px;
-    padding: 2px 8px;
-    color: var(--primary-color);
+    width: 80px;
+    height: 50px;
     position: absolute;
     right: 10px;
 }
@@ -946,5 +943,19 @@
         margin-left: auto;
         width: 30px;
         height: 30px;
+    }
+}
+
+.richBox {
+    padding: 20px;
+    :global(.p) {
+        font-size: 1.1em;
+        line-height: 1.5em;
+        margin-top: .5em;
+    }
+
+    :global(.img) {
+        max-width: 100%;
+        height: auto;
     }
 }
