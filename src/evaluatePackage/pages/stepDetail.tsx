@@ -100,7 +100,10 @@ function Card() {
       });
       console.log("🚀 ~ file: stepDetail.tsx:99 ~ res2:", res2);
       setIsFushu(res2.data.askDoctor);
-      setShowCourse(res2.data.scaleResult?.cerebralPalsyResult?.showVideo);
+      setShowCourse(
+        res2.data.scaleResult?.cerebralPalsyResult?.showVideo ||
+          res2.data.scaleResult?.showVideo
+      );
       if (ScaleTableCode.LEIBO_BRAIN === res2.data.scaleTableCode) {
         const obj = {
           ...res2.data,
@@ -526,6 +529,9 @@ function Card() {
                                 <Image
                                   src={c.coverUrl}
                                   className={styles.videoImg}
+                                  onClick={() =>
+                                    playVideo(c.url, `video${i1}${i2}`)
+                                  }
                                   mode="aspectFit"
                                 ></Image>
                                 <View className={styles.videoDescBox}>
@@ -534,14 +540,6 @@ function Card() {
                                   </View>
                                   <View className={styles.videoRemark}>
                                     {c.remark}
-                                  </View>
-                                  <View
-                                    className={styles.videoBtn}
-                                    onClick={() =>
-                                      playVideo(c.url, `video${i1}${i2}`)
-                                    }
-                                  >
-                                    立即查看
                                   </View>
                                 </View>
                               </View>

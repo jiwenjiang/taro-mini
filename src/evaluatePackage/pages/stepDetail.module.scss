@@ -795,11 +795,11 @@
 
         .videoItem {
             width: calc(50vw - 88px);
-            height: 568px;
             background-color: #fff;
             box-shadow: 2px 2px 16px 0px rgba(0, 0, 0, 0.04);
             border-radius: 16px;
             margin-bottom: 16px;
+            padding-bottom: 8px;
 
             .videoImg {
                 width: 100%;
@@ -820,6 +820,7 @@
                 color: #112950;
                 margin-top: 32px;
                 margin-bottom: 16px;
+                height: 80px;
             }
 
             .videoRemark {
