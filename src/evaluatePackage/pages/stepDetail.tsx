@@ -11,7 +11,7 @@ import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import wenyisheng from "@/static/imgs/wenyisheng.png";
 import { Backdrop, Popup, Swiper } from "@taroify/core";
-import { ArrowDown } from "@taroify/icons";
+import { ArrowDown, PlayCircleOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
 import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
@@ -526,6 +526,7 @@ function Card() {
                           <View className={styles.videoBox}>
                             {v?.map((c, i2) => (
                               <View className={styles.videoItem}>
+                                <PlayCircleOutlined className={styles.videoItemPlay}/>
                                 <Image
                                   src={c.coverUrl}
                                   className={styles.videoImg}

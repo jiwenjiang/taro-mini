@@ -800,6 +800,16 @@
             border-radius: 16px;
             margin-bottom: 16px;
             padding-bottom: 8px;
+            position: relative;
+
+            .videoItemPlay {
+                position: absolute;
+                font-size: 60px;
+                top: 130px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: var(--primary-color);
+            }
 
             .videoImg {
                 width: 100%;
@@ -949,6 +959,7 @@
 
 .richBox {
     padding: 20px;
+
     :global(.p) {
         font-size: 1.1em;
         line-height: 1.5em;
