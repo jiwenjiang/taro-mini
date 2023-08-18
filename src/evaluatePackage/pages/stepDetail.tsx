@@ -526,7 +526,12 @@ function Card() {
                           <View className={styles.videoBox}>
                             {v?.map((c, i2) => (
                               <View className={styles.videoItem}>
-                                <PlayCircleOutlined className={styles.videoItemPlay}/>
+                                <PlayCircleOutlined
+                                  className={styles.videoItemPlay}
+                                  onClick={() =>
+                                    playVideo(c.url, `video${i1}${i2}`)
+                                  }
+                                />
                                 <Image
                                   src={c.coverUrl}
                                   className={styles.videoImg}
