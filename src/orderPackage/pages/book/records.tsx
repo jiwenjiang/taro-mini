@@ -25,27 +25,6 @@ enum BizTypeEnums {
   Xianliti
 }
 
-let BizTypes = [
-  {
-    id: BizTypeEnums.Clinic,
-    name: "门诊评估",
-    icon: BizClinic,
-    category: categoryEnum.isNormal
-  },
-  {
-    id: BizTypeEnums.Recovery,
-    name: "康复指导",
-    icon: BizRecovery,
-    category: categoryEnum.isNormal
-  },
-  {
-    id: BizTypeEnums.Video,
-    name: "视频一对一咨询",
-    icon: BizVideo,
-    category: categoryEnum.isNormal
-  }
-];
-
 enum ReserveStatusEnums {
   PENDING = 2,
   REVIEWED = 3,
@@ -91,6 +70,26 @@ export default function App() {
     patientId: null,
     category: categoryEnum.isNormal
   });
+  const [BizTypes, setBizTypes] = useState([
+    {
+      id: BizTypeEnums.Clinic,
+      name: "门诊评估",
+      icon: BizClinic,
+      category: categoryEnum.isNormal
+    },
+    {
+      id: BizTypeEnums.Recovery,
+      name: "康复指导",
+      icon: BizRecovery,
+      category: categoryEnum.isNormal
+    },
+    {
+      id: BizTypeEnums.Video,
+      name: "视频一对一咨询",
+      icon: BizVideo,
+      category: categoryEnum.isNormal
+    }
+  ]);
   const [currBizType, setCurrBizType] = useState(BizTypes[0]);
   const isLoading = useRef(false);
   const [loadingText, setLoadingText] = useState("正在加载中");
@@ -168,24 +167,24 @@ export default function App() {
       setOrigin(+router.params.origin);
       params.current.category = +router.params.origin;
       if (+router.params.origin === categoryEnum.isXianLiTi) {
-        BizTypes = [
+        setBizTypes([
           {
             id: BizTypeEnums.Xianliti,
             name: "线粒体病",
             icon: BizClinic,
             category: categoryEnum.isXianLiTi
           }
-        ];
+        ]);
       }
       if (+router.params.origin === categoryEnum.isLingDaoYi) {
-        BizTypes = [
+        setBizTypes([
           {
             id: BizTypeEnums.Lingdaoyi,
             name: "0-1岁发育风险管理",
             icon: BizClinic,
             category: categoryEnum.isLingDaoYi
           }
-        ];
+        ]);
       }
       setCurrBizType(BizTypes[0]);
     }

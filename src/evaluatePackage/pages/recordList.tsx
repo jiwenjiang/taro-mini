@@ -52,7 +52,6 @@ export default function App() {
   };
 
   const goReport = item => {
-    console.log("🚀 ~ file: recordList.tsx ~ line 47 ~ goReport ~ item", item);
     if (item.scaleTableCode === ScaleTableCode.BRAIN) {
       navigateTo({
         url: `/pages/evaluate/brainDetail?id=${item.id}`
@@ -157,9 +156,11 @@ function Card({ data, report, detail }) {
           >
             查看报告
           </View>
-          <View className={styles.btn} onClick={() => toDetail()}>
-            量表详情
-          </View>
+          {data?.reserveType !== 1 && (
+            <View className={styles.btn} onClick={() => toDetail()}>
+              量表详情
+            </View>
+          )}
         </View>
       </View>
     </View>
