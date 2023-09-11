@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import { MediaType } from "@/service/const";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
+import noticeIcon from "@/static/icons/notice.svg";
 import { Picker as Pickerfy } from "@taroify/core";
 import { Clear, Plus } from "@taroify/icons";
 import React from "react";
@@ -100,6 +101,7 @@ export default function App() {
   const [showImgPreview, setShowImgPreview] = useState(false);
   const [previewedImage, setPreviewedImage] = useState("");
   const tempId = useRef<any>();
+  const [isSucc, setIsSucc] = useState(false);
 
   const getTemp = async () => {
     const res = await request({
@@ -155,7 +157,7 @@ export default function App() {
     const user = getStorageSync("user");
     setParentContact(user?.phone);
     getScaleList();
-    getTemp()
+    getTemp();
   }, []);
 
   init();
@@ -296,8 +298,8 @@ export default function App() {
     });
 
     Notify.open({ color: "success", message: "信息登记保存成功" });
-
-    autoNavigate();
+    setIsSucc(true)
+    // autoNavigate();
   };
 
   const autoNavigate = () => {
@@ -346,253 +348,290 @@ export default function App() {
   return (
     <View className="index">
       <Notify id="notify" />
-      <View className="register-box">
-        <View className="row name">
-          <FieldInput
-            label="家长姓名"
-            placeholder="请输入姓名"
-            value={name}
-            onInput={(e: any) => onNameChange(e.target.value)}
-          />
-        </View>
-
-        <View className="row name">
-          <FieldInput
-            label="儿童姓名"
-            placeholder="请输入姓名"
-            value={childName}
-            onInput={(e: any) => onChildNameChange(e.target.value)}
-          />
-        </View>
-        <View className="row gender">
-          <Picker mode="selector" range={genders} onChange={onGenderChange}>
-            <ListItem left="性别" customStyles={customStyle} right={gender} />
-          </Picker>
-        </View>
-        <View className="row birthday">
-          <Picker mode="date" value={birthday} onChange={onBirthdayChange}>
-            <ListItem
-              left="出生日期"
-              customStyles={customStyle}
-              right={birthday}
-            />
-          </Picker>
-        </View>
-        <View className="row gestational-week">
-          <Picker
-            mode="multiSelector"
-            range={gestationalWeeks}
-            value={defaultGestationalIndex}
-            onColumnChange={onGestationalWeekChange}
-            onChange={() => {}}
-          >
-            <ListItem
-              left="孕周"
-              customStyles={customStyle}
-              right={`${gestationalWeek} 周 ${gestationalWeekDay} 天`}
-            />
-          </Picker>
-        </View>
-        <View className="row">
-          <FieldInput
-            label="出生体重"
-            placeholder="请输入体重"
-            value={birthdayWeight}
-            onInput={(e: any) => onBirthdayWeightChange(e.target.value)}
-          />
-          <Text className="weight-input">克(g)</Text>
-        </View>
-        <View className="row">
-          <FieldInput
-            label="就诊卡号"
-            placeholder="请输入就诊卡号，非必填"
-            value={cardNumber}
-            onInput={(e: any) => onCardNumber(e.target.value)}
-          />
-        </View>
-        <View className="row">
-          <FieldInput
-            label="家长联系方式"
-            placeholder="请输入家长联系方式"
-            value={parentContact}
-            onInput={(e: any) => onParentContact(e.target.value)}
-          />
-        </View>
-        <View className="row child-risks">
-          <View className="risks">
-            <View className="row-inside" onClick={toggleChildRisksDropdown}>
-              <Text>儿童高危因素</Text>
-              <View className="dropdown">
-                <View className="dropdown-text">{showChildRisksSummary()}</View>
-                <Image src={DropdownIcon} className="dropdown-icon" />
+      {isSucc ? (
+        <View>
+          <View className={styles.cardBox}>
+            <View className={styles.card}>
+              <View className={styles.title}>
+                <Image src={noticeIcon} className={styles.imgIcon} />
+                &nbsp; 温馨提示
+              </View>
+              <View className={styles.noEvaluete}>
+                <View> 登记信息成功！</View>
+                <View>收费审核无误后将由相关工作人员采集儿童相关视频</View>
               </View>
             </View>
           </View>
         </View>
-        <View className="row mother-risks">
-          <View className="risks">
-            <View className="row-inside" onClick={toggleMotherRisksDropdown}>
-              <Text>母亲高危因素</Text>
-              <View className="dropdown">
-                <View className="dropdown-text">
-                  {showMotherRisksSummary()}
-                </View>
-                <Image src={DropdownIcon} className="dropdown-icon" />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View className="row mother-risks">
-          <View className="risks">
-            <View className="row-inside" onClick={() => setOpenPicker(true)}>
-              <Text>评估量表</Text>
-              <View className="dropdown">
-                <View className="dropdown-text">
-                  {scaleList.find(v => v.code === scaleTableCode)?.name}
-                </View>
-                <Image src={DropdownIcon} className="dropdown-icon" />
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View className={styles.picBox}>
-          {pic.map((v, i) => (
-            <View style={{ position: "relative" }} key={i}>
-              <Clear
-                className={styles.clear}
-                onClick={e => del(i)}
-                color="#f2b04f"
-              />
-              <Image
-                src={v.url}
-                className={styles.pic}
-                mode="widthFix"
-                onClick={() => previewImage(v.url)}
+      ) : (
+        <View>
+          <View className="register-box">
+            <View className="row name">
+              <FieldInput
+                label="家长姓名"
+                placeholder="请输入姓名"
+                value={name}
+                onInput={(e: any) => onNameChange(e.target.value)}
               />
             </View>
-          ))}
-        </View>
-        <View className={styles.danjuBox}>
-          <Plus className={styles.addIcon} onClick={chooseMedia} />
-          <View>请上传您的收费单据</View>
-        </View>
-      </View>
-      <View className="actions">
-        <Button onClick={() => onFinish()} className="confirm">
-          保存
-        </Button>
-      </View>
-      {showChildRisksDropdown && (
-        <View className="mask child-risks">
-          <View
-            className={`dropdown-items ${!showChildRisksDropdown && "hidden"}`}
-          >
-            {allChildRisks.map((item, index) => (
-              <View
-                className="item"
-                key={index}
-                onClick={e => onChildRisksChange(e, item)}
+
+            <View className="row name">
+              <FieldInput
+                label="儿童姓名"
+                placeholder="请输入姓名"
+                value={childName}
+                onInput={(e: any) => onChildNameChange(e.target.value)}
+              />
+            </View>
+            <View className="row gender">
+              <Picker mode="selector" range={genders} onChange={onGenderChange}>
+                <ListItem
+                  left="性别"
+                  customStyles={customStyle}
+                  right={gender}
+                />
+              </Picker>
+            </View>
+            <View className="row birthday">
+              <Picker mode="date" value={birthday} onChange={onBirthdayChange}>
+                <ListItem
+                  left="出生日期"
+                  customStyles={customStyle}
+                  right={birthday}
+                />
+              </Picker>
+            </View>
+            <View className="row gestational-week">
+              <Picker
+                mode="multiSelector"
+                range={gestationalWeeks}
+                value={defaultGestationalIndex}
+                onColumnChange={onGestationalWeekChange}
+                onChange={() => {}}
               >
-                <View className="icon-wrapper">
-                  <Image
-                    src={CheckedIcon}
-                    className={`checked-icon ${childRisks.includes(item) &&
-                      "checked"}`}
-                  />
-                </View>
-                <View
-                  className={`item-text ${childRisks.includes(item) &&
-                    "checked"}`}
-                >
-                  {item}
+                <ListItem
+                  left="孕周"
+                  customStyles={customStyle}
+                  right={`${gestationalWeek} 周 ${gestationalWeekDay} 天`}
+                />
+              </Picker>
+            </View>
+            <View className="row">
+              <FieldInput
+                label="出生体重"
+                placeholder="请输入体重"
+                value={birthdayWeight}
+                onInput={(e: any) => onBirthdayWeightChange(e.target.value)}
+              />
+              <Text className="weight-input">克(g)</Text>
+            </View>
+            <View className="row">
+              <FieldInput
+                label="就诊卡号"
+                placeholder="请输入就诊卡号，非必填"
+                value={cardNumber}
+                onInput={(e: any) => onCardNumber(e.target.value)}
+              />
+            </View>
+            <View className="row">
+              <FieldInput
+                label="家长联系方式"
+                placeholder="请输入家长联系方式"
+                value={parentContact}
+                onInput={(e: any) => onParentContact(e.target.value)}
+              />
+            </View>
+            <View className="row child-risks">
+              <View className="risks">
+                <View className="row-inside" onClick={toggleChildRisksDropdown}>
+                  <Text>儿童高危因素</Text>
+                  <View className="dropdown">
+                    <View className="dropdown-text">
+                      {showChildRisksSummary()}
+                    </View>
+                    <Image src={DropdownIcon} className="dropdown-icon" />
+                  </View>
                 </View>
               </View>
-            ))}
-            <View className="actions">
-              <Button
-                onClick={() => setShowChildRisksDropdown(false)}
-                className="confirm"
-              >
-                确定
-              </Button>
             </View>
-          </View>
-        </View>
-      )}
-      {showMotherRisksDropdown && (
-        <View className="mask child-risks">
-          <View
-            className={`dropdown-items ${!showMotherRisksDropdown && "hidden"}`}
-          >
-            {allMotherRisks.map((item, index) => (
-              <View
-                className="item"
-                key={index}
-                onClick={e => onMotherRisksChange(e, item)}
-              >
-                <View className="icon-wrapper">
-                  <Image
-                    src={CheckedIcon}
-                    className={`checked-icon ${motherRisks.includes(item) &&
-                      "checked"}`}
-                  />
-                </View>
+            <View className="row mother-risks">
+              <View className="risks">
                 <View
-                  className={`item-text ${motherRisks.includes(item) &&
-                    "checked"}`}
+                  className="row-inside"
+                  onClick={toggleMotherRisksDropdown}
                 >
-                  {item}
+                  <Text>母亲高危因素</Text>
+                  <View className="dropdown">
+                    <View className="dropdown-text">
+                      {showMotherRisksSummary()}
+                    </View>
+                    <Image src={DropdownIcon} className="dropdown-icon" />
+                  </View>
                 </View>
               </View>
-            ))}
-            <View className="actions">
-              <Button
-                onClick={() => setShowMotherRisksDropdown(false)}
-                className="confirm"
-              >
-                确定
-              </Button>
+            </View>
+            <View className="row mother-risks">
+              <View className="risks">
+                <View
+                  className="row-inside"
+                  onClick={() => setOpenPicker(true)}
+                >
+                  <Text>评估量表</Text>
+                  <View className="dropdown">
+                    <View className="dropdown-text">
+                      {scaleList.find(v => v.code === scaleTableCode)?.name}
+                    </View>
+                    <Image src={DropdownIcon} className="dropdown-icon" />
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            <View className={styles.picBox}>
+              {pic.map((v, i) => (
+                <View style={{ position: "relative" }} key={i}>
+                  <Clear
+                    className={styles.clear}
+                    onClick={e => del(i)}
+                    color="#f2b04f"
+                  />
+                  <Image
+                    src={v.url}
+                    className={styles.pic}
+                    mode="widthFix"
+                    onClick={() => previewImage(v.url)}
+                  />
+                </View>
+              ))}
+            </View>
+            <View className={styles.danjuBox}>
+              <Plus className={styles.addIcon} onClick={chooseMedia} />
+              <View>请上传您的收费单据</View>
             </View>
           </View>
+          <View className="actions">
+            <Button onClick={() => onFinish()} className="confirm">
+              保存
+            </Button>
+          </View>
+          {showChildRisksDropdown && (
+            <View className="mask child-risks">
+              <View
+                className={`dropdown-items ${!showChildRisksDropdown &&
+                  "hidden"}`}
+              >
+                {allChildRisks.map((item, index) => (
+                  <View
+                    className="item"
+                    key={index}
+                    onClick={e => onChildRisksChange(e, item)}
+                  >
+                    <View className="icon-wrapper">
+                      <Image
+                        src={CheckedIcon}
+                        className={`checked-icon ${childRisks.includes(item) &&
+                          "checked"}`}
+                      />
+                    </View>
+                    <View
+                      className={`item-text ${childRisks.includes(item) &&
+                        "checked"}`}
+                    >
+                      {item}
+                    </View>
+                  </View>
+                ))}
+                <View className="actions">
+                  <Button
+                    onClick={() => setShowChildRisksDropdown(false)}
+                    className="confirm"
+                  >
+                    确定
+                  </Button>
+                </View>
+              </View>
+            </View>
+          )}
+          {showMotherRisksDropdown && (
+            <View className="mask child-risks">
+              <View
+                className={`dropdown-items ${!showMotherRisksDropdown &&
+                  "hidden"}`}
+              >
+                {allMotherRisks.map((item, index) => (
+                  <View
+                    className="item"
+                    key={index}
+                    onClick={e => onMotherRisksChange(e, item)}
+                  >
+                    <View className="icon-wrapper">
+                      <Image
+                        src={CheckedIcon}
+                        className={`checked-icon ${motherRisks.includes(item) &&
+                          "checked"}`}
+                      />
+                    </View>
+                    <View
+                      className={`item-text ${motherRisks.includes(item) &&
+                        "checked"}`}
+                    >
+                      {item}
+                    </View>
+                  </View>
+                ))}
+                <View className="actions">
+                  <Button
+                    onClick={() => setShowMotherRisksDropdown(false)}
+                    className="confirm"
+                  >
+                    确定
+                  </Button>
+                </View>
+              </View>
+            </View>
+          )}
+          <Popup
+            open={openPicker}
+            rounded
+            placement="bottom"
+            onClose={setOpenPicker}
+          >
+            <Popup.Backdrop />
+            <Pickerfy
+              onCancel={() => setOpenPicker(false)}
+              onConfirm={values => {
+                setScaleTableCode(values[0]);
+                setOpenPicker(false);
+              }}
+            >
+              <Pickerfy.Toolbar>
+                <Pickerfy.Button>取消</Pickerfy.Button>
+                <Pickerfy.Title>评估量表</Pickerfy.Title>
+                <Pickerfy.Button>确认</Pickerfy.Button>
+              </Pickerfy.Toolbar>
+              <Pickerfy.Column>
+                {scaleList.map((v, i) => (
+                  <Pickerfy.Option key={i} value={v.code}>
+                    {v.name}
+                  </Pickerfy.Option>
+                ))}
+              </Pickerfy.Column>
+            </Pickerfy>
+          </Popup>
+          <Popup
+            defaultOpen={false}
+            open={showImgPreview}
+            onClose={() => setShowImgPreview(false)}
+          >
+            <Popup.Close />
+            <Image
+              className={styles.img}
+              src={previewedImage}
+              mode="widthFix"
+            />
+          </Popup>
         </View>
       )}
-      <Popup
-        open={openPicker}
-        rounded
-        placement="bottom"
-        onClose={setOpenPicker}
-      >
-        <Popup.Backdrop />
-        <Pickerfy
-          onCancel={() => setOpenPicker(false)}
-          onConfirm={values => {
-            setScaleTableCode(values[0]);
-            setOpenPicker(false);
-          }}
-        >
-          <Pickerfy.Toolbar>
-            <Pickerfy.Button>取消</Pickerfy.Button>
-            <Pickerfy.Title>评估量表</Pickerfy.Title>
-            <Pickerfy.Button>确认</Pickerfy.Button>
-          </Pickerfy.Toolbar>
-          <Pickerfy.Column>
-            {scaleList.map((v, i) => (
-              <Pickerfy.Option key={i} value={v.code}>
-                {v.name}
-              </Pickerfy.Option>
-            ))}
-          </Pickerfy.Column>
-        </Pickerfy>
-      </Popup>
-      <Popup
-        defaultOpen={false}
-        open={showImgPreview}
-        onClose={() => setShowImgPreview(false)}
-      >
-        <Popup.Close />
-        <Image className={styles.img} src={previewedImage} mode="widthFix" />
-      </Popup>
     </View>
   );
 }

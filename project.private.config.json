@@ -7,69 +7,6 @@
       "list": [
         {
           "name": "",
-          "pathName": "pages/evaluate/brainDetail",
-          "query": "id=120",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/brainDetail",
-          "query": "id=232",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/stepDetail",
-          "query": "id=255",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/edit",
-          "query": "childId=29",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/manage",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/index",
-          "query": "childId=29&age=1659283200&code=9&orderId=undefined",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/step",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/mine/password",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/mine/info",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/evaluate/step",
           "query": "childId=88&age=946656000&code=12&orderId=null",
           "launchMode": "default",
@@ -79,34 +16,6 @@
           "name": "",
           "pathName": "pages/evaluate/list",
           "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/evaluate/list",
-          "query": "orgid=1",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "orderPackage/pages/order/gmsPay",
-          "query": "code=13",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "orderPackage/pages/book/index",
-          "query": "type=4",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/child/edit",
-          "query": "code=undefined",
           "launchMode": "default",
           "scene": null
         },
@@ -135,48 +44,6 @@
           "name": "",
           "pathName": "evaluatePackage/pages/ganyuList",
           "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/ganyuDetail",
-          "query": "id=3",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/login/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=456",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=456",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=392",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "orderPackage/pages/order/gmsPay",
-          "query": "code=12",
           "launchMode": "default",
           "scene": null
         },
