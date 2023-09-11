@@ -112,7 +112,7 @@
         },
         {
           "name": "",
-          "pathName": "orderPackage/pages/AIevaluate/index",
+          "pathName": "childPackage/pages/register",
           "query": "",
           "launchMode": "default",
           "scene": null

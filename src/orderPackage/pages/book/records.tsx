@@ -238,6 +238,26 @@ export default function App() {
 }
 
 function Card({ data, report, detail }) {
+  const [BizTypes] = useState([
+    {
+      id: BizTypeEnums.Clinic,
+      name: "门诊评估",
+      icon: BizClinic,
+      category: categoryEnum.isNormal
+    },
+    {
+      id: BizTypeEnums.Recovery,
+      name: "康复指导",
+      icon: BizRecovery,
+      category: categoryEnum.isNormal
+    },
+    {
+      id: BizTypeEnums.Video,
+      name: "视频一对一咨询",
+      icon: BizVideo,
+      category: categoryEnum.isNormal
+    }
+  ]);
   const toReport = async data => {
     const result = await request({
       url: `/videoGuide/meetingRoom?id=${data.id}`

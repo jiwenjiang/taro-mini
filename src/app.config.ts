@@ -54,6 +54,7 @@ export default {
         "pages/choose",
         "pages/manage",
         "pages/edit",
+        "pages/register"
       ]
     },
   ],
