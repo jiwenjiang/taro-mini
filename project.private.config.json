@@ -7,6 +7,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "orderPackage/pages/book/index",
+          "query": "type=2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/evaluate/step",
           "query": "childId=88&age=946656000&code=12&orderId=null",
           "launchMode": "default",

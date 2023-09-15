@@ -28,8 +28,9 @@ export enum OrderStatus {
 
 export enum EvaluateType {
   MENZHEN = 1,
-  ZHUANSHU = 2,
-  SHIPIN = 4
+  ZHUANSHU = 2, // 康复线下
+  SHIPIN = 4,
+  KANGFU_ONLINE = 6
 }
 
 export enum PaymentType {

@@ -8,14 +8,13 @@ import {
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
-import duigou from "@/static/icons/duigou.svg";
 import tip from "@/static/icons/tip.svg";
 import weizhi from "@/static/icons/weizhi.svg";
 import nanhai from "@/static/imgs/nanhai.png";
 import nvhai from "@/static/imgs/nvhai.png";
 import weixuanzhong from "@/static/imgs/weixuanzhong.png";
 import xuanzhong from "@/static/imgs/xuanzhong.png";
-import { Notify, Popup } from "@taroify/core";
+import { Button, Notify, Popup } from "@taroify/core";
 import { Arrow, Clear, Plus } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
 import Taro, { navigateTo, useRouter } from "@tarojs/taro";
@@ -55,12 +54,11 @@ export default function App() {
     type1: "",
     type4: ""
   });
+  const [type, setType] = useState(router.params.type!.replace(/[^0-9]/gi, ""));
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
   };
-
-  const type = router.params.type!.replace(/[^0-9]/gi, "");
 
   const getOrg = async () => {
     const res = await request({ url: "/org/get", hideToast: true });
@@ -210,13 +208,13 @@ export default function App() {
       });
       return;
     }
-    if (activeCode?.length === 0) {
-      Notify.open({
-        color: "warning",
-        message: "请选择评估项目"
-      });
-      return;
-    }
+    // if (activeCode?.length === 0) {
+    //   Notify.open({
+    //     color: "warning",
+    //     message: "请选择评估项目"
+    //   });
+    //   return;
+    // }
     const params = {
       childrenId: activeChild.id,
       invoiceId: pic.map(v => v.id),
@@ -409,7 +407,7 @@ export default function App() {
                   ></Image>
                 </View>
               ))}
-              {type == "1" && (
+              {/* {type == "1" && (
                 <View>
                   <View className={styles.title}>选择评估项目</View>
                   <View className={styles.projectBox}>
@@ -447,7 +445,7 @@ export default function App() {
                     ))}
                   </View>
                 </View>
-              )}
+              )} */}
 
               <View className={styles.nextBtn} onClick={() => checkChild()}>
                 下一步
@@ -456,6 +454,37 @@ export default function App() {
           )}
           {step === 2 && (
             <View>
+              {[EvaluateType.KANGFU_ONLINE, EvaluateType.ZHUANSHU].includes(
+                Number(type)
+              ) && (
+                <View>
+                  <View className={styles.title}>选择康复指导方式</View>
+                  <Button.Group variant="contained">
+                    <Button
+                      onClick={() =>
+                        setType(String(EvaluateType.KANGFU_ONLINE))
+                      }
+                      color={
+                        Number(type) === EvaluateType.KANGFU_ONLINE
+                          ? "primary"
+                          : "default"
+                      }
+                    >
+                      线上远程
+                    </Button>
+                    <Button
+                      onClick={() => setType(String(EvaluateType.ZHUANSHU))}
+                      color={
+                        Number(type) === EvaluateType.ZHUANSHU
+                          ? "primary"
+                          : "default"
+                      }
+                    >
+                      线下门诊
+                    </Button>
+                  </Button.Group>
+                </View>
+              )}
               {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
                 Number(type)
               ) && (
@@ -565,7 +594,7 @@ export default function App() {
                 </View>
               </View>
 
-              <View className={cls(styles.orderBox, styles.mt16)}>
+              {/* <View className={cls(styles.orderBox, styles.mt16)}>
                 {activeCode.map((v, i) => (
                   <View className={cls(styles.li, styles.noBorder)} key={i}>
                     <View className={styles.k}>
@@ -580,7 +609,7 @@ export default function App() {
                     </View>
                   </View>
                 ))}
-              </View>
+              </View> */}
               {/* <View className={cls(styles.orderBox, styles.mt16)}>
              <View className={cls(styles.li, styles.noBorder)}>
                <View className={styles.k}>总计</View>
@@ -619,10 +648,27 @@ export default function App() {
                   </View>
                 </View>
               )}
+              {[EvaluateType.KANGFU_ONLINE, EvaluateType.ZHUANSHU].includes(
+                Number(type)
+              ) && (
+                <View>
+                  <View className={cls(styles.orderBox, styles.mt16)}>
+                    <View className={cls(styles.li, styles.noBorder)}>
+                      <View className={styles.k}>康复方式</View>
+                      <View className={styles.v}>
+                        {type === String(EvaluateType.ZHUANSHU)
+                          ? "线下门诊"
+                          : "线上远程"}
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              )}
               {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
                 Number(type)
               ) && (
                 <View>
+                  <View></View>
                   <View className={styles.payBox}>
                     <View
                       className={cls(
@@ -706,9 +752,7 @@ export default function App() {
                   <Image src={tip} className={styles.tip}></Image>
                   温馨提示
                 </View>
-                {[EvaluateType.MENZHEN, EvaluateType.ZHUANSHU].includes(
-                  Number(type)
-                ) && (
+                {[EvaluateType.MENZHEN].includes(Number(type)) && (
                   <View className={styles.tipBody}>
                     <View className={styles.hasComplate}>已预约完成！</View>
                     <View>后台审核单据无误后会短信通知；</View>
@@ -718,6 +762,34 @@ export default function App() {
                       前携带收费单据到指定地点。
                     </View>
                     <View>如有问题，请提前电话联系010-56190995</View>
+                    <View className={styles.loc} onClick={openMap}>
+                      <View className={styles.left}>
+                        <View className={styles.nameBox}>
+                          <View className={styles.name}>{org.name}</View>
+                          <View className={styles.date}>{org.address}</View>
+                        </View>
+                      </View>
+                      <Image src={weizhi} className={styles.choose}></Image>
+                    </View>
+                  </View>
+                )}
+                {[EvaluateType.KANGFU_ONLINE, EvaluateType.ZHUANSHU].includes(
+                  Number(type)
+                ) && (
+                  <View className={styles.tipBody}>
+                    <View className={styles.hasComplate}>已预约完成！</View>
+                    <View>后台审核单据无误后会短信通知；</View>
+                    {/* <View>
+                      院内支付请于{activeDay} {activeTime?.startTime}
+                      前携带收费单据到指定地点。
+                    </View> */}
+
+                    <View>
+                      ·线上远程方式：会在工作人员安排时间后通知时间视频时间，请在视频开始前5分钟进入房间
+                    </View>
+                    <View>
+                      ·线下门诊方式：在工作人员安排时间后会通知时间，请按排班时间携带单据到指定地点进行康复。
+                    </View>
                     <View className={styles.loc} onClick={openMap}>
                       <View className={styles.left}>
                         <View className={styles.nameBox}>
