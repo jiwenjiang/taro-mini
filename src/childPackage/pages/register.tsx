@@ -258,6 +258,12 @@ export default function App() {
       return;
     }
 
+    if (pic.length === 0) {
+      Notify.open({ color: "danger", message: "收费单据必传" });
+
+      return;
+    }
+
     const payload = {
       name,
       gender: gender === "男" ? 1 : 2,
@@ -298,7 +304,7 @@ export default function App() {
     });
 
     Notify.open({ color: "success", message: "信息登记保存成功" });
-    setIsSucc(true)
+    setIsSucc(true);
     // autoNavigate();
   };
 
