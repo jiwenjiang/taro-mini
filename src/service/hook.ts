@@ -4,7 +4,7 @@ import Taro, {
   setStorageSync,
   useRouter
 } from "@tarojs/taro";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import request from "./request";
 
 export function useReportBtnHandle() {
@@ -168,4 +168,37 @@ export function useAuth() {
     }
   };
   return { getAuth, getPortal };
+}
+
+export function useChannel(cb?: Function) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.params.scene) {
+      const str = router.params.scene as string;
+      // const orgId = str.split("orgId%3D")[1];
+      // const channel = str.split("channel%3D")[1];
+      const decodedStr = decodeURIComponent(str); // 解码字符串
+      const matchArr1 = decodedStr.match(/orgId=([^&]*)/); // 使用正则表达式匹配 channel 参数
+      const matchArr2 = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
+      const orgId = matchArr1?.[1]; // 获取匹配到的内容
+      const channel = matchArr2?.[1]; // 获取匹配到的内容
+      setStorageSync("orgId", orgId);
+      setStorageSync("channel", channel);
+
+      wx._orgId = orgId;
+      wx._channel = channel;
+
+      cb?.();
+    }
+    if (router.params.orgId) {
+      setStorageSync("orgId", router.params.orgId);
+      wx._orgId = router.params.orgId;
+    }
+    if (router.params.channel) {
+      wx._channel = router.params.channel;
+      setStorageSync("channel", router.params.channel);
+      cb?.();
+    }
+  }, []);
 }

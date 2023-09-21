@@ -13,6 +13,7 @@ import request from "@/service/request";
 import dayjs from "dayjs";
 
 import { MediaType } from "@/service/const";
+import { useChannel } from "@/service/hook";
 import upload2Server from "@/service/upload";
 import { Base64 } from "@/service/utils";
 import noticeIcon from "@/static/icons/notice.svg";
@@ -25,6 +26,7 @@ import styles from "./register.module.scss";
 const customStyle = { padding: 12, backgroundColor: "#fff" };
 
 export default function App() {
+  useChannel();
   const router = useRouter();
 
   const genders = ["男", "女"];

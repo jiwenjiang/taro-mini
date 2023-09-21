@@ -1,6 +1,6 @@
 import TabBar from "@/comps/TabBar";
 import { ChildContext } from "@/service/context";
-import { useAuth } from "@/service/hook";
+import { useAuth, useChannel } from "@/service/hook";
 import request from "@/service/request";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
@@ -12,12 +12,7 @@ import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
-import {
-  navigateTo,
-  setStorageSync,
-  useDidShow,
-  useRouter
-} from "@tarojs/taro";
+import { navigateTo, useDidShow } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
@@ -73,7 +68,6 @@ const descs = [
 ];
 
 export default function App() {
-  const router = useRouter();
   const childContext = useContext(ChildContext);
   const { getAuth, getPortal } = useAuth();
   const [modules, setModules] = useState<any>();
@@ -95,6 +89,30 @@ export default function App() {
     record: ""
   });
   const [unLogin, setUnLogin] = useState(true);
+
+  const channelJudge = () => {
+    if (wx._channel === "xaaqer") {
+      console.log("entey");
+      setChannel(Channel.anqier);
+      request({
+        url: "/wx/portal/angle",
+        method: "GET"
+      }).then(res => {
+        setAnqierStatic(res.data);
+      });
+    }
+    if (wx._channel === "qzxfybjy") {
+      console.log("entey");
+      setChannel(Channel.quzhou);
+      request({
+        url: "/wx/portal/quzhou",
+        method: "GET"
+      }).then(res => {
+        setQuzhouStatic(res.data);
+      });
+    }
+  };
+  useChannel(channelJudge);
 
   const goto = url => {
     navigateTo({ url });
@@ -126,35 +144,6 @@ export default function App() {
     // }, 1000);
   }, []);
 
-  useEffect(() => {
-    if (router.params.scene) {
-      const str = router.params.scene as string;
-      // const orgId = str.split("orgId%3D")[1];
-      // const channel = str.split("channel%3D")[1];
-      const decodedStr = decodeURIComponent(str); // 解码字符串
-      const matchArr1 = decodedStr.match(/orgId=([^&]*)/); // 使用正则表达式匹配 channel 参数
-      const matchArr2 = decodedStr.match(/channel=([^&]*)/); // 使用正则表达式匹配 channel 参数
-      const orgId = matchArr1?.[1]; // 获取匹配到的内容
-      const channel = matchArr2?.[1]; // 获取匹配到的内容
-      setStorageSync("orgId", orgId);
-      setStorageSync("channel", channel);
-
-      wx._orgId = orgId;
-      wx._channel = channel;
-
-      channelJudge();
-    }
-    if (router.params.orgId) {
-      setStorageSync("orgId", router.params.orgId);
-      wx._orgId = router.params.orgId;
-    }
-    if (router.params.channel) {
-      wx._channel = router.params.channel;
-      setStorageSync("channel", router.params.channel);
-      channelJudge();
-    }
-  }, []);
-
   useDidShow(() => {
     getPortal(res => {
       if (wx._frontPage === "xaaqer") {
@@ -179,32 +168,9 @@ export default function App() {
     });
     getAuth(res => {
       wx._unLogin = res.code === 2;
-      setUnLogin(wx._unLogin)
+      setUnLogin(wx._unLogin);
     });
   });
-
-  const channelJudge = () => {
-    if (wx._channel === "xaaqer") {
-      console.log("entey");
-      setChannel(Channel.anqier);
-      request({
-        url: "/wx/portal/angle",
-        method: "GET"
-      }).then(res => {
-        setAnqierStatic(res.data);
-      });
-    }
-    if (wx._channel === "qzxfybjy") {
-      console.log("entey");
-      setChannel(Channel.quzhou);
-      request({
-        url: "/wx/portal/quzhou",
-        method: "GET"
-      }).then(res => {
-        setQuzhouStatic(res.data);
-      });
-    }
-  };
 
   return (
     <View>
