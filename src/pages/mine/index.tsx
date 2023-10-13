@@ -37,44 +37,59 @@ export default function App() {
     // setUser(getStorageSync("user"));
   });
 
-  const manage = () => {
-    navWithLogin("/childPackage/pages/manage");
-  };
-
-  const scale = () => {
-    navWithLogin(`/orderPackage/pages/order/scale`);
-  };
-
-  const toVideoList = () => {
-    navWithLogin(`/orderPackage/pages/order/videoList`);
-  };
-
   const record = () => {
     navWithLogin(`/evaluatePackage/pages/recordList`);
   };
 
-  const setting = () => {
-    navWithLogin(`/minePackage/pages/setting`);
-  };
-
-  const gotoInfo = () => {
-    navWithLogin(`/minePackage/pages/info`);
+  const goto = url => {
+    navWithLogin(url);
   };
 
   return (
     <View className="index">
       <View>
-        <View className="avator" onClick={gotoInfo}>
+        <View
+          className="avator"
+          onClick={() => goto("/minePackage/pages/info")}
+        >
           <Image className="ava" src={url || Head} />
           <Text>{user || "未登录"}</Text>
         </View>
+        <Box title="生长发育">
+          <View className="grid">
+            <View
+              className="item"
+              onClick={() => goto("/minePackage/pages/grow")}
+            >
+              <Image className="trade" src={Dingdan} />
+              <Text className="sub-title">发育自评</Text>
+            </View>
+            <View
+              className="item"
+              onClick={() => goto("/minePackage/pages/vaccination")}
+            >
+              <Image className="trade" src={Dingdan} />
+              <Text className="sub-title">疫苗须知</Text>
+            </View>
+            {/* <View className="item">
+              <Image className="trade" src={Yuyue} />
+              <Text className="sub-title">预约订单</Text>
+            </View> */}
+          </View>
+        </Box>
         <Box title="订单管理">
           <View className="grid">
-            <View className="item" onClick={scale}>
+            <View
+              className="item"
+              onClick={() => goto("/orderPackage/pages/order/scale")}
+            >
               <Image className="trade" src={Dingdan} />
               <Text className="sub-title">量表订单</Text>
             </View>
-            <View className="item" onClick={toVideoList}>
+            <View
+              className="item"
+              onClick={() => goto("/orderPackage/pages/order/videoList")}
+            >
               <Image className="trade" src={Shipin} />
               <Text className="sub-title">视频订单</Text>
             </View>
@@ -92,14 +107,20 @@ export default function App() {
               customStyles={cusStyle}
             />
           </View> */}
-          <View className="list" onClick={manage}>
+          <View
+            className="list"
+            onClick={() => goto("/childPackage/pages/manage")}
+          >
             <ListItem
               left="儿童管理"
               right={<Arrow />}
               customStyles={cusStyle}
             />
           </View>
-          <View className="list" onClick={setting}>
+          <View
+            className="list"
+            onClick={() => goto("/minePackage/pages/setting")}
+          >
             <ListItem
               left="系统设置"
               right={<Arrow />}

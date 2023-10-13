@@ -7,6 +7,20 @@
       "list": [
         {
           "name": "",
+          "pathName": "minePackage/pages/grow",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "minePackage/pages/vaccination",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "orderPackage/pages/book/index",
           "query": "type=2",
           "launchMode": "default",

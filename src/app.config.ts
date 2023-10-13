@@ -46,6 +46,8 @@ export default {
         "pages/setting",
         "pages/password",
         "pages/info",
+        "pages/vaccination",
+        "pages/grow"
       ]
     },
     {
