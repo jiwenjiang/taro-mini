@@ -23,7 +23,6 @@ export default function App() {
   const [children, setChildren] = useState<any[]>([]);
   const [currentChildren, setCurrentChildren] = useState<any>({});
   const childContext = useContext(ChildContext);
-  const [birthday, setBirthday] = useState("");
   const [growData, setGrowData] = useState({
     weight: "",
     height: "",
@@ -39,6 +38,9 @@ export default function App() {
   // 每次页面显示时获取儿童信息
   useDidShow(() => {
     getChildrenList();
+    if (router.params.id) {
+      getGrowDetail();
+    }
   });
 
   const getChildrenList = async () => {
@@ -46,6 +48,15 @@ export default function App() {
     setChildren(res.data.children);
     setCurrentChildren(res.data.children?.[0]);
     childContext.updateChild({ len: res.data.children.length });
+  };
+
+  const getGrowDetail = async () => {
+    const res = await request({
+      url: "/growth/get",
+      data: { id: router.params.id }
+    });
+    setGrowData(res.data);
+    console.log("🚀 ~ file: grow.tsx:58 ~ getGrowDetail ~ res:", res);
   };
 
   const onBirthdayChange = e => {
@@ -65,6 +76,12 @@ export default function App() {
     }
   };
 
+  const goToList = () => {
+    navigateTo({
+      url: `/minePackage/pages/growList?childrenId=${currentChildren.id}`
+    });
+  };
+
   const chooseChild = v => {
     setCurrentChildren(v);
     setVisible(false);
@@ -82,6 +99,12 @@ export default function App() {
         childrenId: currentChildren.id,
         ...growData
       }
+    });
+    setGrowData({
+      weight: "",
+      height: "",
+      fillDate: "",
+      headCircumference: ""
     });
   };
 
@@ -111,6 +134,14 @@ export default function App() {
               />
             </View>
           </View>
+        </View>
+        <View className={styles.listBtnBox}>
+          <Button size="small" onClick={goToList}>
+            生长记录
+          </Button>
+          <Button size="small" style={{ marginLeft: 10 }}>
+            生长曲线
+          </Button>
         </View>
         <View className={styles.actions}>
           {children?.length === 0 && (

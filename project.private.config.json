@@ -7,6 +7,20 @@
       "list": [
         {
           "name": "",
+          "pathName": "minePackage/pages/growDetail",
+          "query": "id=2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "minePackage/pages/growList",
+          "query": "childrenId=246",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "minePackage/pages/grow",
           "query": "",
           "launchMode": "default",

@@ -18,6 +18,13 @@
         justify-content: center;
     }
 
+    .fixBottom {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: 60px;
+    }
+
     .list-wrap {
         padding-top: var(--space);
 
@@ -76,7 +83,37 @@
             }
         }
 
+        .listTitle {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
 
+    }
+
+    .detailList {
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 20px;
+        color: #88889c;
+
+        .listItem {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 26px;
+            padding-top: 20px;
+            padding-right: 40px;
+            border-top: 1px solid #cccccc;
+
+            .key {
+                color: #88889c;
+            }
+
+            .val {
+                color: #181818;
+            }
+        }
     }
 
     .listBox {
@@ -211,5 +248,15 @@
     .btn {
         width: 90%;
         margin: var(--space) auto 0;
+    }
+
+    .listBtnBox {
+        padding-left: 30px;
+        margin: 20px 0;
+    }
+
+    .title {
+        font-size: 32px;
+        font-weight: bold;
     }
 }
