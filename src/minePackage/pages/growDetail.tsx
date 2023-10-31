@@ -16,7 +16,9 @@ export default function App() {
     weight: "",
     height: "",
     fillDate: "",
-    headCircumference: ""
+    weightForHeight: "",
+    headCircumference: "",
+    bmi: ""
   });
 
   // 每次页面显示时获取儿童信息
@@ -34,11 +36,6 @@ export default function App() {
     setGrowData(res.data);
     console.log("🚀 ~ file: grow.tsx:58 ~ getGrowDetail ~ res:", res);
   };
-
-  const onBirthdayChange = e => {
-    // setBirthday(e.detail.value);
-    setGrowData({ ...growData, fillDate: e.detail.value });
-  };
   // 跳转至添加儿童页面，以添加儿童信息
   const add = () => {
     navigateTo({
@@ -50,6 +47,21 @@ export default function App() {
     navigateTo({
       url: `/minePackage/pages/growList?childrenId=${currentChildren.id}`
     });
+  };
+
+  const getCode = async classify => {
+    const res = await request({
+      url: "/growth/curve/type",
+      data: {
+        classify
+      }
+    });
+    return res;
+  };
+
+  const getChart = async v => {
+    const res = await getCode(v);
+    console.log("🚀 ~ file: growDetail.tsx:66 ~ getChart ~ res:", res)
   };
 
   return (
@@ -73,7 +85,7 @@ export default function App() {
           </View>
           <View className={styles.listItem}>
             <View className={styles.val}>身高：{growData.height}</View>
-            <View>
+            <View onClick={() => getChart(1)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>
@@ -81,6 +93,20 @@ export default function App() {
             <View className={styles.val}>
               头围：{growData.headCircumference}
             </View>
+            <View>
+              <ChartTrendingOutlined color="#cd5555" />
+            </View>
+          </View>
+          <View className={styles.listItem}>
+            <View className={styles.val}>
+              身高别体重：{growData.weightForHeight}
+            </View>
+            <View>
+              <ChartTrendingOutlined color="#cd5555" />
+            </View>
+          </View>
+          <View className={styles.listItem}>
+            <View className={styles.val}>BMI：{growData.bmi}</View>
             <View>
               <ChartTrendingOutlined color="#cd5555" />
             </View>

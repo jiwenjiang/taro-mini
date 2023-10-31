@@ -242,6 +242,17 @@
 
         .row {
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333333;
+            background-color: #fff;
+            padding-right: 8px;
+
+            .unit {
+                font-size: 28px;
+                background-color: #fff;
+            }
         }
     }
 

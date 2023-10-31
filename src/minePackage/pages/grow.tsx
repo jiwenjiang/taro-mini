@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 
 import FieldInput from "@/comps/Field";
 import ListItem from "@/comps/ListItem";
+import dayjs from "dayjs";
 import React from "react";
 import styles from "./vaccination.module.scss";
 
@@ -26,7 +27,7 @@ export default function App() {
   const [growData, setGrowData] = useState({
     weight: "",
     height: "",
-    fillDate: "",
+    fillDate: dayjs().format("YYYY-MM-DD"),
     headCircumference: ""
   });
 
@@ -152,14 +153,14 @@ export default function App() {
         </View>
       </View>
       <View className={styles.form}>
-        <View className={styles.row}>
+        <View style={{ marginBottom: 10 }}>
           <Picker
             mode="date"
             value={growData.fillDate}
             onChange={onBirthdayChange}
           >
             <ListItem
-              left="出生日期"
+              left="评估日期"
               customStyles={customStyle}
               right={growData.fillDate}
             />
@@ -175,6 +176,7 @@ export default function App() {
             labelStyles={{ color: "#333" }}
             inputStyles={{ textAlign: "right" }}
           />
+          <Text className={styles.unit}>KG</Text>
         </View>
 
         <View className={styles.row}>
@@ -187,6 +189,7 @@ export default function App() {
             labelStyles={{ color: "#333" }}
             inputStyles={{ textAlign: "right" }}
           />
+          <Text className={styles.unit}>CM</Text>
         </View>
         <View className={styles.row}>
           <FieldInput
@@ -198,6 +201,7 @@ export default function App() {
             labelStyles={{ color: "#333" }}
             inputStyles={{ textAlign: "right" }}
           />
+          <Text className={styles.unit}>CM</Text>
         </View>
         <View className={styles.actions}>
           <Button className={styles.btn} color="primary" onClick={save}>
