@@ -13,8 +13,7 @@ export default {
     "pages/evaluate/gmsDetail",
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/previewReport",
-    "pages/evaluate/detail",
-    "pages/other/webView"
+    "pages/evaluate/detail"
   ],
   subpackages: [
     {
@@ -23,8 +22,12 @@ export default {
         "pages/stepDetail",
         "pages/recordList",
         "pages/ganyuList",
-        "pages/ganyuDetail",
+        "pages/ganyuDetail"
       ]
+    },
+    {
+      root: "pages/other",
+      pages: ["webView"]
     },
     {
       root: "orderPackage",
@@ -37,7 +40,7 @@ export default {
         "pages/book/records",
         "pages/AIevaluate/index",
         "pages/xianliti",
-        "pages/lingdaoyi",
+        "pages/lingdaoyi"
       ]
     },
     {
@@ -49,18 +52,13 @@ export default {
         "pages/vaccination",
         "pages/grow",
         "pages/growList",
-        "pages/growDetail",
+        "pages/growDetail"
       ]
     },
     {
       root: "childPackage",
-      pages: [
-        "pages/choose",
-        "pages/manage",
-        "pages/edit",
-        "pages/register"
-      ]
-    },
+      pages: ["pages/choose", "pages/manage", "pages/edit", "pages/register"]
+    }
   ],
   window: {
     backgroundTextStyle: "light",
@@ -88,5 +86,5 @@ export default {
     "scope.userLocation": {
       desc: "你的位置信息将用于小程序定位"
     }
-  },
+  }
 };
