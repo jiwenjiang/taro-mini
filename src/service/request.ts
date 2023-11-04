@@ -1,12 +1,21 @@
 import Taro, { getCurrentPages, navigateTo } from "@tarojs/taro";
 
+const developHost = "https://wx-test.fushuhealth.com";
+const gaHost = "https://wx.fushuhealth.com/";
+
 const reqUrl = {
-  develop: "https://wx-test.fushuhealth.com/recovery-wx",
-  trial: "https://wx-test.fushuhealth.com/recovery-wx",
-  release: "https://wx.fushuhealth.com/recovery-wx"
+  develop: `${developHost}/recovery-wx`,
+  trial: `${developHost}/recovery-wx`,
+  release: `${gaHost}/recovery-wx`
 };
 const accountInfo = wx.getAccountInfoSync();
 const host = reqUrl[accountInfo.miniProgram.envVersion];
+
+export const envHost = {
+  develop: developHost,
+  trial: developHost,
+  release: gaHost
+}[accountInfo.miniProgram.envVersion];
 
 const request = (options: {
   url: string;

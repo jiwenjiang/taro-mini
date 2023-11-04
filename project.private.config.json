@@ -8,7 +8,7 @@
         {
           "name": "",
           "pathName": "minePackage/pages/growDetail",
-          "query": "id=2",
+          "query": "id=2&childrenId=246",
           "launchMode": "default",
           "scene": null
         },

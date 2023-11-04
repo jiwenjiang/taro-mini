@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'web-view'
-}
+  navigationStyle: "custom"
+};

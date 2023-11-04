@@ -1,10 +1,16 @@
-import request from "@/service/request";
+import request, { envHost } from "@/service/request";
 import { Button, Notify } from "@taroify/core";
 import { ChartTrendingOutlined } from "@taroify/icons";
 import { View } from "@tarojs/components";
-import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
+import {
+  getStorageSync,
+  navigateTo,
+  useDidShow,
+  useRouter
+} from "@tarojs/taro";
 import { useState } from "react";
 
+import { Base64 } from "@/service/utils";
 import React from "react";
 import { cls } from "reactutils";
 import styles from "./vaccination.module.scss";
@@ -59,9 +65,14 @@ export default function App() {
     return res;
   };
 
-  const getChart = async v => {
-    const res = await getCode(v);
-    console.log("🚀 ~ file: growDetail.tsx:66 ~ getChart ~ res:", res)
+  const nav = v => {
+    const url = `${envHost}?classify=${v}&token=${getStorageSync(
+      "token"
+    )}&childId=${router.params.childrenId}`;
+    console.log("🚀 ~ file: growDetail.tsx:76 ~ nav ~ url:", url);
+    navigateTo({
+      url: `/pages/other/webView?url=${Base64.encode(url)}`
+    });
   };
 
   return (
@@ -78,14 +89,14 @@ export default function App() {
         <View className={styles.detailList}>
           <View>测评日期：{growData.fillDate}</View>
           <View className={styles.listItem}>
-            <View className={styles.val}>体重：{growData.weight}</View>
-            <View>
+            <View className={styles.val}>身高：{growData.height}</View>
+            <View onClick={() => nav(1)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>
           <View className={styles.listItem}>
-            <View className={styles.val}>身高：{growData.height}</View>
-            <View onClick={() => getChart(1)}>
+            <View className={styles.val}>体重：{growData.weight}</View>
+            <View onClick={() => nav(2)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>
@@ -93,7 +104,7 @@ export default function App() {
             <View className={styles.val}>
               头围：{growData.headCircumference}
             </View>
-            <View>
+            <View onClick={() => nav(3)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>
@@ -101,13 +112,13 @@ export default function App() {
             <View className={styles.val}>
               身高别体重：{growData.weightForHeight}
             </View>
-            <View>
+            <View onClick={() => nav(4)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>
           <View className={styles.listItem}>
             <View className={styles.val}>BMI：{growData.bmi}</View>
-            <View>
+            <View onClick={() => nav(5)}>
               <ChartTrendingOutlined color="#cd5555" />
             </View>
           </View>

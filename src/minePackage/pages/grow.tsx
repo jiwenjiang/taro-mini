@@ -1,15 +1,21 @@
 import { ChildContext } from "@/service/context";
-import request from "@/service/request";
+import request, { envHost } from "@/service/request";
 import femaleImg from "@/static/imgs/female.png";
 import maleImg from "@/static/imgs/male.png";
 import { Button, Notify, Popup } from "@taroify/core";
 import { Checked, Exchange } from "@taroify/icons";
 import { Image, Picker, Text, View } from "@tarojs/components";
-import { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
+import {
+  getStorageSync,
+  navigateTo,
+  useDidShow,
+  useRouter
+} from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
 
 import FieldInput from "@/comps/Field";
 import ListItem from "@/comps/ListItem";
+import { Base64 } from "@/service/utils";
 import dayjs from "dayjs";
 import React from "react";
 import styles from "./vaccination.module.scss";
@@ -109,6 +115,15 @@ export default function App() {
     });
   };
 
+  const toChart = () => {
+    const url = `${envHost}?classify=${1}&token=${getStorageSync(
+      "token"
+    )}&childId=${currentChildren.id}`;
+    navigateTo({
+      url: `/pages/other/webView?url=${Base64.encode(url)}`
+    });
+  };
+
   return (
     <View className={styles.index}>
       <Notify id="notify" />
@@ -140,7 +155,7 @@ export default function App() {
           <Button size="small" onClick={goToList}>
             生长记录
           </Button>
-          <Button size="small" style={{ marginLeft: 10 }}>
+          <Button size="small" style={{ marginLeft: 10 }} onClick={toChart}>
             生长曲线
           </Button>
         </View>

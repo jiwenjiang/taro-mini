@@ -13,7 +13,8 @@ export default {
     "pages/evaluate/gmsDetail",
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/previewReport",
-    "pages/evaluate/detail"
+    "pages/evaluate/detail",
+    "pages/other/webView"
   ],
   subpackages: [
     {
@@ -24,10 +25,6 @@ export default {
         "pages/ganyuList",
         "pages/ganyuDetail"
       ]
-    },
-    {
-      root: "pages/other",
-      pages: ["webView"]
     },
     {
       root: "orderPackage",
