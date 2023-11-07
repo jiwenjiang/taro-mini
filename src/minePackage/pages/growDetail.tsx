@@ -51,7 +51,7 @@ export default function App() {
 
   const goToList = () => {
     navigateTo({
-      url: `/minePackage/pages/growList?childrenId=${currentChildren.id}`
+      url: `/minePackage/pages/growList?childrenId=${router.params.childrenId}`
     });
   };
 
