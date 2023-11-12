@@ -1,5 +1,4 @@
 import TabBar from "@/comps/TabBar";
-import { ChildContext } from "@/service/context";
 import { useAuth, useChannel } from "@/service/hook";
 import request from "@/service/request";
 import Ganyu from "@/static/imgs/ganyufangan.png";
@@ -13,14 +12,15 @@ import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import { navigateTo, useDidShow } from "@tarojs/taro";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
 enum Channel {
   fushu,
   anqier,
-  quzhou
+  quzhou,
+  leibo
 }
 
 const anqierList = [
@@ -68,7 +68,6 @@ const descs = [
 ];
 
 export default function App() {
-  const childContext = useContext(ChildContext);
   const { getAuth, getPortal } = useAuth();
   const [modules, setModules] = useState<any>();
   const [channel, setChannel] = useState<Channel>(Channel.fushu);
@@ -87,6 +86,18 @@ export default function App() {
     logo: "",
     aiEvaluation: "",
     record: ""
+  });
+  const [leiboStatic, setLeiboStatic] = useState({
+    background: "",
+    banner: "",
+    aiEvaluation: "",
+    clinic: "",
+    video: "",
+    guide: "",
+    evaluateRecord: "",
+    intervention: "",
+    lesson: "",
+    reserveRecord: ""
   });
   const [unLogin, setUnLogin] = useState(true);
 
@@ -119,30 +130,12 @@ export default function App() {
     // getAuth(() => getChild(url));
   };
 
-  const getChild = async url => {
-    const res = await request({
-      url: "/children/list",
-      data: { pageNo: 1, pageSize: 1000 }
-    });
-    childContext.updateChild({ len: res.data.children?.length });
-  };
-
   const waitOpen = () => {
     Notify.open({
       color: "warning",
       message: "敬请期待"
     });
   };
-
-  useEffect(() => {
-    // const timer = setInterval(() => {
-    //   const user = getStorageSync("user");
-    //   if (user) {
-    //     setModules(user?.modules);
-    //     clearInterval(timer);
-    //   }
-    // }, 1000);
-  }, []);
 
   useDidShow(() => {
     getPortal(res => {
@@ -162,6 +155,16 @@ export default function App() {
           method: "GET"
         }).then(res => {
           setQuzhouStatic(res.data);
+        });
+      }
+      if (wx._frontPage === "leibo") {
+        setChannel(Channel.leibo);
+        request({
+          url: "/wx/portal/leibo",
+          method: "GET"
+        }).then(res => {
+          console.log("🚀 ~ file: index.tsx:153 ~ useDidShow ~ res:", res);
+          setLeiboStatic(res.data);
         });
       }
       setModules(res.modules);
@@ -451,6 +454,105 @@ export default function App() {
                   </View>
                 </View>
               </View>
+              <TabBar current="index" />
+            </View>
+          )}
+          {channel === Channel.leibo && (
+            <View
+              className={styles.index}
+              style={{
+                backgroundImage: `url(${leiboStatic.background})`
+              }}
+            >
+              <View
+                className={styles.bottomPart}
+                style={{
+                  backgroundImage: `url(${leiboStatic.background})`,
+                  padding: 0
+                }}
+              >
+                <View
+                  className={styles.bannerSection}
+                  style={{ backgroundImage: `url(${leiboStatic.banner})` }}
+                ></View>
+                <View style={{ padding: "0 20px" }}>
+                  <View className={styles.circleTitle}>评估服务</View>
+                  <View className={styles.cardBox}>
+                    {modules.includes("AI_EVALUATE") && (
+                      <Image
+                        onClick={() => goto("/pages/evaluate/list")}
+                        src={leiboStatic.aiEvaluation}
+                        className={styles.leibocardImg}
+                      ></Image>
+                    )}
+                    {modules.includes("CLINIC_EVALUATE") && (
+                      <Image
+                        onClick={() =>
+                          goto("/orderPackage/pages/book/index?type=1")
+                        }
+                        src={leiboStatic.clinic}
+                        className={styles.leibocardImg}
+                      ></Image>
+                    )}
+                    {modules.includes("VIDEO_GUIDE") && (
+                      <Image
+                        onClick={() =>
+                          goto("/orderPackage/pages/book/index?type=4")
+                        }
+                        src={leiboStatic.video}
+                        className={styles.leibocardImg}
+                      ></Image>
+                    )}
+                    <Image
+                      onClick={() =>
+                        goto("/orderPackage/pages/AIevaluate/index")
+                      }
+                      src={leiboStatic.guide}
+                      className={styles.leibocardImg}
+                    ></Image>
+                  </View>
+                  <View
+                    className={styles.circleTitle}
+                    style={{ backgroundColor: "#775fc1" }}
+                  >
+                    常用服务
+                  </View>
+
+                  {!unLogin && (
+                    <View>
+                      <View className={styles.cardBox}>
+                        <Image
+                          onClick={() =>
+                            goto("/evaluatePackage/pages/recordList")
+                          }
+                          src={leiboStatic.evaluateRecord}
+                          className={styles.leibocardImg2}
+                        ></Image>
+                        <Image
+                          onClick={() =>
+                            goto("/evaluatePackage/pages/ganyuList")
+                          }
+                          src={leiboStatic.intervention}
+                          className={styles.leibocardImg2}
+                        ></Image>
+                        <Image
+                          onClick={waitOpen}
+                          src={leiboStatic.lesson}
+                          className={styles.leibocardImg2}
+                        ></Image>
+                        <Image
+                          onClick={() =>
+                            goto("/orderPackage/pages/book/records")
+                          }
+                          src={leiboStatic.reserveRecord}
+                          className={styles.leibocardImg2}
+                        ></Image>
+                      </View>
+                    </View>
+                  )}
+                </View>
+              </View>
+              <Notify id="notify" />
               <TabBar current="index" />
             </View>
           )}

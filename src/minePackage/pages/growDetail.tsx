@@ -55,21 +55,10 @@ export default function App() {
     });
   };
 
-  const getCode = async classify => {
-    const res = await request({
-      url: "/growth/curve/type",
-      data: {
-        classify
-      }
-    });
-    return res;
-  };
-
   const nav = v => {
     const url = `${envHost}?classify=${v}&token=${getStorageSync(
       "token"
     )}&childId=${router.params.childrenId}`;
-    console.log("🚀 ~ file: growDetail.tsx:76 ~ nav ~ url:", url);
     navigateTo({
       url: `/pages/other/webView?url=${Base64.encode(url)}`
     });

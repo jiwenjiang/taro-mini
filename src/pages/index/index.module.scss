@@ -2,6 +2,8 @@
   background: #f9fbfc;
   height: 100vh;
   --primary-color: #F2B04F;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .bottomPart {
@@ -9,6 +11,14 @@
   overflow: hidden;
   padding-bottom: 100px;
   background: #f9fbfc;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .bannerSection {
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 }
 
 .title {
@@ -21,6 +31,22 @@
   text-align: left;
   margin-bottom: 24px;
   margin-top: 32px;
+}
+
+.circleTitle {
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 40px;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #fff;
+  text-align: left;
+  margin-bottom: 24px;
+  margin-top: 32px;
+  background-color: #5b7bd6;
+  border-radius: 24px;
+  width: fit-content;
+  padding: 6px 10px;
 }
 
 .cardBox {
@@ -47,6 +73,18 @@
     }
 
 
+  }
+
+  .leibocardImg {
+    width: 327px;
+    height: 212px;
+    margin-bottom: 16px;
+  }
+
+  .leibocardImg2 {
+    width: 327px;
+    height: 142px;
+    margin-bottom: 16px;
   }
 
   .allCard {
