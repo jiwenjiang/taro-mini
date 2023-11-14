@@ -11,7 +11,7 @@ import weixuanzhong from "@/static/imgs/weixuanzhong.png";
 import xuanzhong from "@/static/imgs/xuanzhong.png";
 import { Button, Checkbox, Notify, Popup } from "@taroify/core";
 import { ArrowDown, Clear, Plus } from "@taroify/icons";
-import { Image, Text, View } from "@tarojs/components";
+import { Image, ScrollView, Text, View } from "@tarojs/components";
 import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
@@ -216,7 +216,7 @@ export default function App() {
           </View>
         </View>
       ) : (
-        <View>
+        <ScrollView>
           <Box
             title={
               <View>
@@ -319,7 +319,7 @@ export default function App() {
             )}
           </View>
           {payMode === 2 && (
-            <View>
+            <View style={{ paddingBottom: 20 }}>
               <Box
                 title={
                   <View>
@@ -429,7 +429,7 @@ export default function App() {
               </Button>
             </View>
           )}
-        </View>
+        </ScrollView>
       )}
       <Notify id="notify" />
     </View>
