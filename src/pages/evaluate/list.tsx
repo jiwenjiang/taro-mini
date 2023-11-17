@@ -26,9 +26,6 @@ export default function App() {
   const { getAuth } = useAuth();
 
   const checkPay = async scaleTableCode => {
-    navigateTo({
-      url: `/orderPackage/pages/order/gmsPay?code=${scaleTableCode}`
-    });
     if (wx._unLogin) {
       navigateTo({
         url: `/pages/login/index?returnUrl=${"/pages/evaluate/list"}`

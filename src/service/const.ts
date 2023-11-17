@@ -29,6 +29,7 @@ export enum OrderStatus {
 export enum EvaluateType {
   MENZHEN = 1,
   ZHUANSHU = 2, // 康复线下
+  ZHINENG = 3,
   SHIPIN = 4,
   KANGFU_ONLINE = 6
 }
