@@ -8,6 +8,13 @@
         {
           "name": "",
           "pathName": "pages/evaluate/detail",
+          "query": "id=555",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/evaluate/detail",
           "query": "id=537",
           "launchMode": "default",
           "scene": null

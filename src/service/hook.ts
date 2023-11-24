@@ -175,6 +175,7 @@ export function useChannel(cb?: Function) {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("router.params.scene", router.params.scene);
     if (router.params.scene) {
       const str = router.params.scene as string;
       // const orgId = str.split("orgId%3D")[1];

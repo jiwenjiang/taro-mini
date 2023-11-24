@@ -103,7 +103,6 @@ export default function App() {
 
   const channelJudge = () => {
     if (wx._channel === "xaaqer") {
-      console.log("entey");
       setChannel(Channel.anqier);
       request({
         url: "/wx/portal/angle",
@@ -113,7 +112,6 @@ export default function App() {
       });
     }
     if (wx._channel === "qzxfybjy") {
-      console.log("entey");
       setChannel(Channel.quzhou);
       request({
         url: "/wx/portal/quzhou",

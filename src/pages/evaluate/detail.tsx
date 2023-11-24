@@ -3,10 +3,10 @@ import request from "@/service/request";
 import { PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import { Image, Video, View } from "@tarojs/components";
 import {
-    createInnerAudioContext,
-    createVideoContext,
-    InnerAudioContext,
-    useRouter
+  InnerAudioContext,
+  createInnerAudioContext,
+  createVideoContext,
+  useRouter
 } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
@@ -60,11 +60,11 @@ function Card() {
 
   return (
     <View>
-      {data.questions?.map((v, i) => (
-        <View className={styles.cardBox} key={i}>
+      {data.questions?.map((v, i1) => (
+        <View className={styles.cardBox} key={i1}>
           <View className={styles.card}>
             <View className={styles.title}>
-              {i + 1}/{data?.questions?.length} &nbsp; {v.questionContent}
+              {i1 + 1}/{data?.questions?.length} &nbsp; {v.questionContent}
             </View>
             <View>
               <View className={styles.subTitle}>{v.answerContent}</View>
@@ -73,20 +73,20 @@ function Card() {
                 className={styles.mediaBox}
                 style={{ borderBottom: "none" }}
               >
-                {v.attachments?.map((m, i) => (
-                  <View key={i}>
+                {v.attachments?.map((m, i2) => (
+                  <View key={i2}>
                     {m.type === MediaType.PICTURE ? (
-                      <Image className={styles.imgs} key={i} src={m.url} />
+                      <Image className={styles.imgs} key={i2} src={m.url} />
                     ) : m.type === MediaType.VIDEO ? (
                       <View
                         className={cls(styles.iconBox, styles.videoBox)}
                         //   style={{ backgroundImage: `url(${v.coverUrl})` }}
-                        key={i}
-                        onClick={() => playVideo(m.url, `video${i}`)}
+                        key={i2}
+                        onClick={() => playVideo(m.url, `video${i1}${i2}`)}
                       >
                         <Video
                           src={m.url}
-                          id={`video${i}`}
+                          id={`video${i1}${i2}`}
                           loop={false}
                           autoplay={false}
                           controls={true}
@@ -97,7 +97,7 @@ function Card() {
                         {/* <Image src={luxiang} className={styles.luxiang} /> */}
                       </View>
                     ) : (
-                      <View className={styles.iconBox} key={i}>
+                      <View className={styles.iconBox} key={i2}>
                         {isPlay ? (
                           <PauseCircleOutlined onClick={() => stopVoice()} />
                         ) : (
