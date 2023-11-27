@@ -90,6 +90,7 @@ export default function App() {
   const [showChildRisksDropdown, setShowChildRisksDropdown] = useState(false);
   const [motherRisks, setMotherRisks] = useState([]);
   const [showMotherRisksDropdown, setShowMotherRisksDropdown] = useState(false);
+  const [extraRisks, setExtraRisks] = useState("");
 
   const init = () => {
     // 路由中没有儿童 ID 时，为新增儿童，无需获取儿童信息
@@ -122,6 +123,7 @@ export default function App() {
         setBirthdayWeight(childInfo.birthdayWeight);
         setCardNumber(childInfo.medicalCardNumber);
         setParentContact(childInfo.contactPhone);
+        setExtraRisks(childInfo.extraRisks);
         childInfo.childRisks && setChildRisks(childInfo.childRisks);
         childInfo.motherRisks && setMotherRisks(childInfo.motherRisks);
       })();
@@ -239,7 +241,8 @@ export default function App() {
       gestationalWeekDay,
       birthdayWeight: parseInt(birthdayWeight),
       medicalCardNumber: cardNumber,
-      contactPhone: parentContact
+      contactPhone: parentContact,
+      extraRisks
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -273,7 +276,8 @@ export default function App() {
       gestationalWeekDay,
       birthdayWeight: parseInt(birthdayWeight),
       medicalCardNumber: cardNumber,
-      contactPhone: parentContact
+      contactPhone: parentContact,
+      extraRisks
     };
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
@@ -297,9 +301,7 @@ export default function App() {
 
   const autoNavigate = () => {
     if (router.params.returnUrl) {
-      console.log("🚀 ~ file: edit.jsx:300 ~ autoNavigate ~ router.params.returnUrl:", router.params.returnUrl)
       const url = Base64.decode(router.params.returnUrl);
-      console.log("🚀 ~ file: edit.jsx:301 ~ autoNavigate ~ url", url)
       navigateTo({ url });
     }
     const pages = getCurrentPages();
@@ -319,10 +321,16 @@ export default function App() {
     //   delta: pages.length - backPageIndex - 1
     // });
     if (pages[pages.length - 3]?.route === "pages/evaluate/list") {
-      navigateTo({ url: `/childPackage/pages/choose?code=${router.params.code}` });
+      navigateTo({
+        url: `/childPackage/pages/choose?code=${router.params.code}`
+      });
     } else {
       navigateTo({ url: "/childPackage/pages/manage" });
     }
+  };
+
+  const onOtherRiskChange = value => {
+    setExtraRisks(value);
   };
 
   return (
@@ -410,6 +418,14 @@ export default function App() {
             </View>
           </View>
         </View>
+      </View>
+      <View className="row name">
+        <FieldInput
+          label="其他高危因素"
+          placeholder="请输入高危因素"
+          value={extraRisks}
+          onInput={e => onOtherRiskChange(e.target.value)}
+        />
       </View>
       <View className="actions">
         <Button onClick={() => onFinish()} className="confirm">

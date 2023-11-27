@@ -90,6 +90,7 @@ export default function App() {
   const [birthdayWeight, setBirthdayWeight] = useState<any>(null);
   const [cardNumber, setCardNumber] = useState<any>(null);
   const [parentContact, setParentContact] = useState("");
+  const [extraRisks, setExtraRisks] = useState("");
   const [childRisks, setChildRisks] = useState<any>([]);
   const [showChildRisksDropdown, setShowChildRisksDropdown] = useState(false);
   const [motherRisks, setMotherRisks] = useState<any>([]);
@@ -117,34 +118,6 @@ export default function App() {
     if (!router.params.childId) {
       return;
     }
-
-    // 路由中有儿童 ID 时，为更新儿童，需获取儿童信息
-    useEffect(() => {
-      //   (async () => {
-      //     const res = await request({
-      //       url: `/children/get?id=${router.params.childId}`
-      //     });
-      //     const childInfo = res.data;
-      //     if (!childInfo) {
-      //       return;
-      //     }
-      //     setName(childInfo.name);
-      //     // TODO: setGender 在这里无效，为什么？
-      //     setGender(childInfo.gender);
-      //     setBirthday(childInfo.birthday);
-      //     setGestationalWeek(childInfo.gestationalWeek);
-      //     setGestationalWeekDay(childInfo.gestationalWeekDay);
-      //     setDefaultGestationalIndex([
-      //       gestationalWeeks[0].indexOf(childInfo.gestationalWeek),
-      //       gestationalWeeks[1].indexOf(childInfo.gestationalWeekDay)
-      //     ]);
-      //     setBirthdayWeight(childInfo.birthdayWeight);
-      //     setCardNumber(childInfo.medicalCardNumber);
-      //     setParentContact(childInfo.contactPhone);
-      //     childInfo.childRisks && setChildRisks(childInfo.childRisks);
-      //     childInfo.motherRisks && setMotherRisks(childInfo.motherRisks);
-      //   })();
-    }, []);
   };
 
   const getScaleList = async () => {
@@ -206,6 +179,10 @@ export default function App() {
 
   const onParentContact = value => {
     setParentContact(value);
+  };
+
+  const onOtherRiskChange = value => {
+    setExtraRisks(value);
   };
 
   const toggleChildRisksDropdown = () => {
@@ -279,8 +256,10 @@ export default function App() {
       motherRisks: [],
       scaleTableCode,
       childName,
-      invoiceId: pic.map(v => v.id)
+      invoiceId: pic.map(v => v.id),
+      extraRisks
     };
+    debugger
     childRisks.length > 0 &&
       (payload.childRisks = childRisks.filter(item => !!item));
     motherRisks.length > 0 &&
@@ -477,6 +456,14 @@ export default function App() {
                   </View>
                 </View>
               </View>
+            </View>
+            <View className="row name">
+              <FieldInput
+                label="其他高危因素"
+                placeholder="请输入高危因素"
+                value={extraRisks}
+                onInput={(e: any) => onOtherRiskChange(e.target.value)}
+              />
             </View>
             <View className="row mother-risks">
               <View className="risks">

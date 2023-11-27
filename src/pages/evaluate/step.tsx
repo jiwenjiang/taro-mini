@@ -3,10 +3,13 @@ import Steper from "@/comps/Steper";
 import { MediaType, ScaleTableCode } from "@/service/const";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
+import AudioSvg from "@/static/icons/audio.svg";
+import StopSvg from "@/static/icons/stop.svg";
 import { Button, Loading, Notify, Popup, Textarea } from "@taroify/core";
 import {
   Clear,
   PauseCircleOutlined,
+  PhotoOutlined,
   PlayCircleOutlined,
   VideoOutlined
 } from "@taroify/icons";
@@ -466,33 +469,48 @@ export default function App() {
                           </View>
                         )
                     )}
-                    {/* <View
-                      className={styles.iconBox}
-                      onClick={() => chooseMedia(MediaType.PICTURE)}
-                    >
-                      <PhotoOutlined />
-                    </View> */}
-                    <View
-                      className={styles.iconBox}
-                      onClick={() => chooseMedia(MediaType.VIDEO)}
-                    >
-                      <VideoOutlined />
-                    </View>
-                    {/* <View
-                      className={styles.iconBox}
-                      onClick={() => {
-                        isRecord ? stopRecord() : startRecord();
-                      }}
-                    >
-                      {isRecord ? (
-                        <Image className={styles.iconImg} src={StopSvg}></Image>
-                      ) : (
-                        <Image
-                          className={styles.iconImg}
-                          src={AudioSvg}
-                        ></Image>
-                      )}
-                    </View> */}
+                    {data[active].questions[
+                      questionIndex
+                    ]?.attachmentType?.includes("PICTURE") && (
+                      <View
+                        className={styles.iconBox}
+                        onClick={() => chooseMedia(MediaType.PICTURE)}
+                      >
+                        <PhotoOutlined />
+                      </View>
+                    )}
+                    {data[active].questions[
+                      questionIndex
+                    ]?.attachmentType?.includes("VIDEO") && (
+                      <View
+                        className={styles.iconBox}
+                        onClick={() => chooseMedia(MediaType.VIDEO)}
+                      >
+                        <VideoOutlined />
+                      </View>
+                    )}
+                    {data[active].questions[
+                      questionIndex
+                    ]?.attachmentType?.includes("AUDIO") && (
+                      <View
+                        className={styles.iconBox}
+                        onClick={() => {
+                          isRecord ? stopRecord() : startRecord();
+                        }}
+                      >
+                        {isRecord ? (
+                          <Image
+                            className={styles.iconImg}
+                            src={StopSvg}
+                          ></Image>
+                        ) : (
+                          <Image
+                            className={styles.iconImg}
+                            src={AudioSvg}
+                          ></Image>
+                        )}
+                      </View>
+                    )}
                   </View>
                 </Form>
               </View>
