@@ -4,6 +4,7 @@ import { PauseCircleOutlined, PlayCircleOutlined } from "@taroify/icons";
 import { Image, Video, View } from "@tarojs/components";
 import {
   InnerAudioContext,
+  VideoContext,
   createInnerAudioContext,
   createVideoContext,
   useRouter
@@ -25,6 +26,7 @@ function Card() {
   const router = useRouter();
   const [isPlay, setIsPlay] = useState(false);
   const innerAudioContext = useRef<InnerAudioContext>();
+  const videoContext = useRef<VideoContext>();
 
   useEffect(() => {
     (async () => {
@@ -54,8 +56,14 @@ function Card() {
   };
 
   const playVideo = (v, id) => {
-    const videoContext = createVideoContext(id);
-    videoContext.requestFullScreen({ direction: 0 });
+    videoContext.current = createVideoContext(id);
+    videoContext.current.requestFullScreen({ direction: 0 });
+  };
+
+  const screenChange = e => {
+    if (!e.detail.fullScreen) {
+      videoContext.current?.pause();
+    }
   };
 
   return (
@@ -93,6 +101,7 @@ function Card() {
                           poster={v.coverUrl}
                           style={{ width: 54, height: 54 }}
                           objectFit="contain"
+                          onFullscreenChange={screenChange}
                         ></Video>
                         {/* <Image src={luxiang} className={styles.luxiang} /> */}
                       </View>

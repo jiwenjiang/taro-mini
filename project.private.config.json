@@ -7,6 +7,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=554",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/evaluate/step",
           "query": "childId=259&age=1672502400&code=12&orderId=371",
           "launchMode": "default",

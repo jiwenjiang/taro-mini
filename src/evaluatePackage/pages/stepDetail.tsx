@@ -321,11 +321,13 @@ function Card() {
                   {ScaleTableCode.LEIBO_GMS === report.scaleTableCode && (
                     <View
                       style={{
-                        marginBottom: 10,
-                        borderBottom: "1px solid #ffd340"
+                        marginBottom: 15,
+                        padding: 5,
+                        border: "1px solid #ffd340",
+                        borderRadius: 4
                       }}
                     >
-                      <View className={styles.evaKey}>
+                      <View className={cls(styles.evaKey, styles.bb)}>
                         全身运动质量评估结果：
                         <Text
                           className={
@@ -341,7 +343,6 @@ function Card() {
                         </Text>
                       </View>
                       <View className={styles.evaKey}>
-                        评估结果：
                         <Text
                           className={
                             report.scaleResult?.gmsResult?.stageResult?.includes(
@@ -363,73 +364,88 @@ function Card() {
                     </View>
                   )}
 
-                  <View className={styles.evaKey} style={{ marginBottom: 10 }}>
-                    姿势运动评估结果：
-                    <Text
-                      className={
-                        report?.scaleResult?.cerebralPalsyResult
-                          ?.haveAbnormalIterm
-                          ? styles.evaRed
-                          : styles.evaGreen
-                      }
-                    >
-                      {report?.scaleResult?.cerebralPalsyResult
-                        ?.haveAbnormalIterm
-                        ? "有异常"
-                        : "无异常"}
-                    </Text>
-                  </View>
-                  <View>
-                    <View className={cls(styles.head, styles.headTxt)}>
-                      <View>姿势和运动异常</View>
-                      <View>医学评估</View>
-                    </View>
+                  <View
+                    style={{
+                      marginBottom: 5,
+                      padding: 5,
+                      border: "1px solid #ffd340",
+                      borderRadius: 4
+                    }}
+                  >
                     <View
-                      className={cls(
-                        styles.positionBox,
-                        isExpand && styles.contentVisible
-                      )}
+                      className={cls(styles.evaKey, styles.bb)}
+                      style={{ marginBottom: 10 }}
                     >
-                      {report?.scaleResult?.cerebralPalsyResult?.positionAndSportAbnormal?.map(
-                        (v, i) => (
-                          <View
-                            key={i}
-                            className={cls(styles.head, styles.bBorder)}
-                          >
-                            <View className={styles.head2}>{v.name}</View>
-                            <View
-                              className={cls(
-                                styles.succ,
-                                v.optionSn === 2 && styles.warning,
-                                v.optionSn === 3 && styles.error
-                              )}
-                              onClick={() => toTab(v)}
-                            >
-                              {v.optionSn === 1
-                                ? "未出现"
-                                : v.optionSn === 2
-                                ? "疑似"
-                                : "出现"}
-                            </View>
-                            <View style={{ width: 35, lineHeight: "1px" }}>
-                              {v.optionSn !== 1 && (
-                                <Image
-                                  src={jiedu}
-                                  className={styles.jiedu}
-                                  style={{ position: "static" }}
-                                  onClick={() => openJiedu(v)}
-                                />
-                              )}
-                            </View>
-                          </View>
-                        )
-                      )}
+                      姿势运动评估结果：
+                      <Text
+                        className={
+                          report?.scaleResult?.cerebralPalsyResult
+                            ?.haveAbnormalIterm
+                            ? styles.evaRed
+                            : styles.evaGreen
+                        }
+                      >
+                        {report?.scaleResult?.cerebralPalsyResult
+                          ?.haveAbnormalIterm
+                          ? "有异常"
+                          : "无异常"}
+                      </Text>
                     </View>
-                    <View className={styles.expandBox} onClick={() => expand()}>
-                      <ArrowDown
-                        color="#ffd340"
-                        className={cls(isExpand && styles.isExpand)}
-                      />
+                    <View>
+                      {/* <View className={cls(styles.head, styles.headTxt)}>
+                        <View>姿势和运动异常</View>
+                        <View>医学评估</View>
+                      </View> */}
+                      <View
+                        className={cls(
+                          styles.positionBox,
+                          isExpand && styles.contentVisible
+                        )}
+                      >
+                        {report?.scaleResult?.cerebralPalsyResult?.positionAndSportAbnormal?.map(
+                          (v, i) => (
+                            <View
+                              key={i}
+                              className={cls(styles.head, styles.bBorder)}
+                            >
+                              <View className={styles.head2}>{v.name}</View>
+                              <View
+                                className={cls(
+                                  styles.succ,
+                                  v.optionSn === 2 && styles.warning,
+                                  v.optionSn === 3 && styles.error
+                                )}
+                                onClick={() => toTab(v)}
+                              >
+                                {v.optionSn === 1
+                                  ? "未出现"
+                                  : v.optionSn === 2
+                                  ? "疑似"
+                                  : "出现"}
+                              </View>
+                              <View style={{ width: 35, lineHeight: "1px" }}>
+                                {v.optionSn !== 1 && (
+                                  <Image
+                                    src={jiedu}
+                                    className={styles.jiedu}
+                                    style={{ position: "static" }}
+                                    onClick={() => openJiedu(v)}
+                                  />
+                                )}
+                              </View>
+                            </View>
+                          )
+                        )}
+                      </View>
+                      <View
+                        className={styles.expandBox}
+                        onClick={() => expand()}
+                      >
+                        <ArrowDown
+                          color="#ffd340"
+                          className={cls(isExpand && styles.isExpand)}
+                        />
+                      </View>
                     </View>
                   </View>
                   <View style={{ marginBottom: 24 }}>
