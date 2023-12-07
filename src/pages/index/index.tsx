@@ -11,8 +11,8 @@ import Pinggu from "@/static/imgs/zhinengpinggu.png";
 import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
-import { navigateTo, useDidShow } from "@tarojs/taro";
-import React, { useState } from "react";
+import Taro, { navigateTo, useDidShow } from "@tarojs/taro";
+import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
@@ -172,6 +172,13 @@ export default function App() {
       setUnLogin(wx._unLogin);
     });
   });
+
+  useEffect(() => {
+    Taro.showShareMenu({
+      // 可选的分享参数，如显示分享的按钮
+      withShareTicket: true
+    });
+  }, []);
 
   return (
     <View>
