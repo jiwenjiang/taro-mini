@@ -20,7 +20,8 @@ enum Channel {
   fushu,
   anqier,
   quzhou,
-  leibo
+  leibo,
+  meiyou
 }
 
 const anqierList = [
@@ -99,6 +100,13 @@ export default function App() {
     lesson: "",
     reserveRecord: ""
   });
+
+  const [meiyouStaticData, setMeiyouStaticData] = useState({
+    background: "",
+    banner: "",
+    aiEvaluation: "",
+    record: ""
+  });
   const [unLogin, setUnLogin] = useState(true);
 
   const channelJudge = () => {
@@ -163,6 +171,16 @@ export default function App() {
         }).then(res => {
           console.log("🚀 ~ file: index.tsx:153 ~ useDidShow ~ res:", res);
           setLeiboStatic(res.data);
+        });
+      }
+      if (wx._frontPage === "meiyou") {
+        setChannel(Channel.leibo);
+        request({
+          url: "/wx/portal/yujingping",
+          method: "GET"
+        }).then(res => {
+          console.log("🚀 ~ file: index.tsx:153 ~ useDidShow ~ res:", res);
+          setMeiyouStaticData(res.data);
         });
       }
       setModules(res.modules);
@@ -558,6 +576,39 @@ export default function App() {
                 </View>
               </View>
               <Notify id="notify" />
+              <TabBar current="index" />
+            </View>
+          )}
+          {channel === Channel.meiyou && (
+            <View
+              className={styles.index}
+              style={{ backgroundImage: `url(${meiyouStaticData.background})` }}
+            >
+              <View className={styles.section}>
+                <View className={styles.banner}>
+                  <Image
+                    className={styles.logo}
+                    mode="widthFix"
+                    src={meiyouStaticData.banner}
+                  ></Image>
+                </View>
+                <View className={styles.banner} style={{ marginTop: 0 }}>
+                  <Image
+                    className={styles.logo}
+                    src={meiyouStaticData.aiEvaluation}
+                    mode="widthFix"
+                    onClick={() => check(ScaleTableCode.LEIBO_GMS)}
+                  ></Image>
+                </View>
+                <View className={styles.banner}>
+                  <Image
+                    className={styles.logo}
+                    mode="widthFix"
+                    onClick={() => goto("/evaluatePackage/pages/recordList")}
+                    src={meiyouStaticData.record}
+                  ></Image>
+                </View>
+              </View>
               <TabBar current="index" />
             </View>
           )}

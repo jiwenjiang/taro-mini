@@ -8,7 +8,7 @@ import Head from "@/static/imgs/head.png";
 import Shipin from "@/static/imgs/shipin.png";
 import { Arrow } from "@taroify/icons";
 import { Image, Text, View } from "@tarojs/components";
-import { useDidShow } from "@tarojs/taro";
+import { getStorageSync, useDidShow } from "@tarojs/taro";
 import React, { useState } from "react";
 import "./index.scss";
 
@@ -22,6 +22,7 @@ const cusStyle = {
 export default function App() {
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
+  const [showGrowth, setShowGrowth] = useState(true);
 
   useDidShow(() => {
     (async () => {
@@ -32,6 +33,8 @@ export default function App() {
         });
         setUser(res.data?.name);
         setUrl(res.data?.avatarUrl);
+        const user = getStorageSync("user");
+        setShowGrowth(user.showGrowth);
       }
     })();
     // setUser(getStorageSync("user"));
@@ -57,13 +60,16 @@ export default function App() {
         </View>
         <Box title="生长发育">
           <View className="grid">
-            <View
-              className="item"
-              onClick={() => goto("/minePackage/pages/grow")}
-            >
-              <Image className="trade" src={Dingdan} />
-              <Text className="sub-title">发育自评</Text>
-            </View>
+            {showGrowth && (
+              <View
+                className="item"
+                onClick={() => goto("/minePackage/pages/grow")}
+              >
+                <Image className="trade" src={Dingdan} />
+                <Text className="sub-title">发育自评</Text>
+              </View>
+            )}
+
             <View
               className="item"
               onClick={() => goto("/minePackage/pages/vaccination")}
