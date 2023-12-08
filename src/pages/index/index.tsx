@@ -145,6 +145,8 @@ export default function App() {
 
   useDidShow(() => {
     getPortal(res => {
+      wx._frontPage = "meiyou";
+
       if (wx._frontPage === "xaaqer") {
         setChannel(Channel.anqier);
         request({

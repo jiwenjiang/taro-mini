@@ -368,3 +368,21 @@
     }
   }
 }
+
+.section {
+  padding-top: 330px;
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  margin-top: 10px;
+
+  .logo {
+    width: 100%;
+  }
+}
