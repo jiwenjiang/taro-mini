@@ -597,7 +597,7 @@ export default function App() {
                     className={styles.logo}
                     src={meiyouStaticData.aiEvaluation}
                     mode="widthFix"
-                    onClick={() => check(ScaleTableCode.LEIBO_GMS)}
+                    onClick={() => goto("/pages/evaluate/list")}
                   ></Image>
                 </View>
                 <View className={styles.banner}>
