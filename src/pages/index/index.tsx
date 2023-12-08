@@ -174,7 +174,7 @@ export default function App() {
         });
       }
       if (wx._frontPage === "meiyou") {
-        setChannel(Channel.leibo);
+        setChannel(Channel.meiyou);
         request({
           url: "/wx/portal/yujingping",
           method: "GET"
