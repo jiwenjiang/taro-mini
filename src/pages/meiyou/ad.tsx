@@ -36,12 +36,14 @@ export default function App() {
     Taro.switchTab({
       url: `/pages/index/index?channel=${Channel.meiyou}`,
       success(res) {
+        setStorageSync("orgId", "f9b6b0c4");
         setStorageSync("channel", "meiyou");
         wx._channel = "meiyou";
       },
       complete(res) {
-        // setStorageSync("channel", Channel.meiyou);
-        // wx._channel = Channel.meiyou;
+        setStorageSync("orgId", "f9b6b0c4");
+        setStorageSync("channel", "meiyou");
+        wx._channel = "meiyou";
       }
     });
     console.log(staticData.customerQrCode);

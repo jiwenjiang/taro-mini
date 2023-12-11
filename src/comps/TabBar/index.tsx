@@ -71,7 +71,7 @@ export default function TabBar({ current }) {
         </Tabbar.TabItem>
         <Tabbar.TabItem
           icon={<UserCircleOutlined />}
-          onClick={() => handleClick(1)}
+          onClick={() => handleClick(2)}
         >
           我的
         </Tabbar.TabItem>
