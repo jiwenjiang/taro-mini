@@ -145,6 +145,7 @@ export default function App() {
 
   useDidShow(() => {
     getPortal(res => {
+    console.log("🚀 ~ file: index.tsx:148 ~ useDidShow ~ res:", res)
 
       if (wx._frontPage === "xaaqer") {
         setChannel(Channel.anqier);

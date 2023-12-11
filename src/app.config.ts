@@ -1,7 +1,21 @@
+const projectConfig = require("../project.config.json");
+console.log("🚀 ~ file: app.config.ts:2 ~ projectConfig:", projectConfig.appid)
+const AppConfig = {
+  fushu: {
+    appId: "wxc662de75e52ad4d5"
+  },
+  child: {
+    appId: "wxb7471fee564e0831"
+  },
+  leibo: {
+    appId: "wx45988ee03543eb16"
+  }
+};
+
 export default {
   pages: [
     "pages/index/index",
-    // "pages/index/home",
+    "pages/kefu/index",
     "pages/mine/index",
     "pages/login/index",
     "pages/evaluate/list",
@@ -14,7 +28,8 @@ export default {
     "pages/evaluate/brainGmsDetail",
     "pages/evaluate/previewReport",
     "pages/evaluate/detail",
-    "pages/other/webView"
+    "pages/other/webView",
+    "pages/meiyou/ad",
   ],
   subpackages: [
     {
@@ -68,16 +83,32 @@ export default {
     color: "#000000",
     selectedColor: "#DC143C",
     backgroundColor: "#ffffff",
-    list: [
-      {
-        pagePath: "pages/index/index",
-        text: "首页"
-      },
-      {
-        pagePath: "pages/mine/index",
-        text: "个人中心"
-      }
-    ]
+    list:
+      projectConfig.appid === AppConfig.fushu.appId
+        ? [
+            {
+              pagePath: "pages/index/index",
+              text: "首页"
+            },
+            {
+              pagePath: "pages/kefu/index",
+              text: "客服"
+            },
+            {
+              pagePath: "pages/mine/index",
+              text: "个人中心"
+            }
+          ]
+        : [
+            {
+              pagePath: "pages/index/index",
+              text: "首页"
+            },
+            {
+              pagePath: "pages/mine/index",
+              text: "个人中心"
+            }
+          ]
   },
   permission: {
     "scope.userLocation": {

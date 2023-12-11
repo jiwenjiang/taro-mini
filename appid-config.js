@@ -18,7 +18,7 @@ const AppConfig = {
 const configFilePath = path.join(__dirname, "./project.config.json");
 
 // 读取样例文件，替换appid，生成正式project.config.json文件
-const setAppId = (env) => {
+const setAppId = env => {
   const option = { encoding: "utf-8" };
   const fileContent = readFileSync(configFilePath, option);
   const config = JSON.parse(fileContent.toString());
@@ -27,7 +27,7 @@ const setAppId = (env) => {
   config.appid = appId;
   const newContent = JSON.stringify(config, null, 2);
   writeFileSync(configFilePath, newContent, option);
-  return appId
+  return appId;
 };
 
 module.exports = setAppId;
