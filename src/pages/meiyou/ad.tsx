@@ -33,8 +33,9 @@ export default function App() {
     setStorageSync("channel", "meiyou");
     setStorageSync("orgId", "f9b6b0c4");
     wx._channel = "meiyou";
+    wx._orgId = "f9b6b0c4"
     Taro.switchTab({
-      url: `/pages/index/index?channel=${Channel.meiyou}`,
+      url: `/pages/index/index`,
       success(res) {
         setStorageSync("orgId", "f9b6b0c4");
         setStorageSync("channel", "meiyou");
