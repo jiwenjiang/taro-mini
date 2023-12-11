@@ -30,17 +30,18 @@ export default function App() {
 
   const preview = () => {
     console.log(111, `/pages/index/index?channel=${Channel.meiyou}`);
-    setStorageSync("channel", Channel.meiyou);
-    wx._channel = Channel.meiyou;
+    setStorageSync("channel", "meiyou");
+    setStorageSync("orgId", "f9b6b0c4");
+    wx._channel = "meiyou";
     Taro.switchTab({
       url: `/pages/index/index?channel=${Channel.meiyou}`,
       success(res) {
-        setStorageSync("channel", Channel.meiyou);
-        wx._channel = Channel.meiyou;
+        setStorageSync("channel", "meiyou");
+        wx._channel = "meiyou";
       },
       complete(res) {
-        setStorageSync("channel", Channel.meiyou);
-        wx._channel = Channel.meiyou;
+        // setStorageSync("channel", Channel.meiyou);
+        // wx._channel = Channel.meiyou;
       }
     });
     console.log(staticData.customerQrCode);
