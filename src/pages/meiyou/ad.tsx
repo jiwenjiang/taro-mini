@@ -29,23 +29,13 @@ export default function App() {
   }, []);
 
   const preview = () => {
-    console.log(111, `/pages/index/index?channel=${Channel.meiyou}`);
     setStorageSync("channel", "meiyou");
     setStorageSync("orgId", "f9b6b0c4");
     wx._channel = "meiyou";
-    wx._orgId = "f9b6b0c4"
+    wx._orgId = "f9b6b0c4";
     Taro.switchTab({
       url: `/pages/index/index`,
-      success(res) {
-        setStorageSync("orgId", "f9b6b0c4");
-        setStorageSync("channel", "meiyou");
-        wx._channel = "meiyou";
-      },
-      complete(res) {
-        setStorageSync("orgId", "f9b6b0c4");
-        setStorageSync("channel", "meiyou");
-        wx._channel = "meiyou";
-      }
+      success(res) {}
     });
     console.log(staticData.customerQrCode);
   };

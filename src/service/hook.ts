@@ -1,7 +1,6 @@
 import Taro, {
   getCurrentPages,
   navigateTo,
-  removeStorageSync,
   setStorageSync,
   useRouter
 } from "@tarojs/taro";
@@ -207,7 +206,7 @@ export function useChannel(cb?: Function) {
       !router.params.channel &&
       !router.params.scene
     ) {
-      removeStorageSync("orgId");
+      // removeStorageSync("orgId");
       // removeStorageSync("channel");
     }
   }, []);
