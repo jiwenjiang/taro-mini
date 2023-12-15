@@ -1,28 +1,31 @@
 import Box from "@/comps/Box";
-import { DanjuTishi, MediaType, PaymentType } from "@/service/const";
+import {
+  DanjuTishi,
+  EvaluateType,
+  MediaType,
+  PaymentType
+} from "@/service/const";
 import { ChildContext } from "@/service/context";
 import request from "@/service/request";
 import upload2Server from "@/service/upload";
 import Book from "@/static/icons/bookmark-3-fill.svg";
-import Cny from "@/static/icons/exchange-cny-fill.svg";
 import Psy from "@/static/icons/psychotherapy-fill.svg";
 import tip from "@/static/icons/tip.svg";
-import weixuanzhong from "@/static/imgs/weixuanzhong.png";
-import xuanzhong from "@/static/imgs/xuanzhong.png";
-import { Button, Checkbox, Notify, Popup } from "@taroify/core";
+import { Button, Notify } from "@taroify/core";
 import { ArrowDown, Clear, Plus } from "@taroify/icons";
-import { Image, ScrollView, Text, View } from "@tarojs/components";
+import { Image, ScrollView, View } from "@tarojs/components";
 import Taro, { navigateTo, useRouter } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
 
+import PayBtn from "@/comps/PayBtn";
+import PriceList from "@/comps/PriceList";
 import { Base64 } from "@/service/utils";
 import styles from "../book/index.module.scss";
 import "./gmsPay.scss";
 
 export default function App() {
   const [value, setValue] = useState(false);
-  const [open, setOpen] = useState(false);
   const [isExpand, setIsExpand] = useState(false);
   const [priceList, setPrice] = useState<
     NonNullable<
@@ -39,7 +42,6 @@ export default function App() {
   const childContext = useContext(ChildContext);
   const [payMode, setPayMode] = useState<1 | 2>(1);
   const [pic, setPic] = useState<any>([]);
-  const [payList, setPayList] = useState<("OFF_LINE" | "ON_LINE")[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadSucc, setUploadSucc] = useState(false);
 
@@ -48,7 +50,7 @@ export default function App() {
   const checkPay = async () => {
     const res = await request({
       url: "/order/check",
-      data: { scaleTableCode: router.params.code }
+      data: { scaleTableCode: router.params.code, type: EvaluateType.ZHINENG }
     });
     if (!res.data.hasPaidOrder) {
       navigateTo({ url: `/orderPackage/pages/order/gmsPay` });
@@ -72,13 +74,17 @@ export default function App() {
       return;
     }
     const res = await request({
-      url: "/order/create",
+      url: "/reserve/unified",
       method: "POST",
       data: {
-        scaleTableCode: router.params.code,
+        category: 1,
+        childrenId: 0,
+        scaleCodes: [Number(router.params.code)],
         priceId: priceList[currentPrice].id,
         payment: PaymentType.ONLINE,
-        invoiceId: 0
+        invoiceId: [0],
+        type: EvaluateType.ZHINENG,
+        workScheduleId: 0
       }
     });
     if (!res.data.hasPaidOrder) {
@@ -116,8 +122,6 @@ export default function App() {
         url: "/scaleTable/payment",
         data: { code: router.params.code }
       });
-      console.log("🚀 ~ file: gmsPay.tsx:100 ~ payRes:", payRes);
-      setPayList(payRes.data);
       setPayMode(payRes.data.includes("OFF_LINE") ? 1 : 2);
 
       setPrice(res.data);
@@ -178,15 +182,17 @@ export default function App() {
       return;
     }
     await request({
-      url: "/reserve/submit",
+      url: "/reserve/unified",
       method: "POST",
       data: {
-        scaleCodes: [router.params.code],
+        scaleCodes: [Number(router.params.code)],
         childrenId: 0,
-        type: 3,
+        type: EvaluateType.ZHINENG,
         workScheduleId: 0,
         payment: PaymentType.OFFLINE,
-        invoiceId: pic.map(v => v.id)
+        invoiceId: pic.map(v => v.id),
+        priceId: priceList[currentPrice].id,
+        category: 1
       }
     });
     setUploadSucc(true);
@@ -256,6 +262,12 @@ export default function App() {
             </View>
           </Box>
           <View>
+            <PayBtn
+              changePay={changePay}
+              payMode={payMode}
+              code={router.params.code}
+              type={EvaluateType.ZHINENG}
+            ></PayBtn>
             <View className={styles.picBox}>
               {pic.map((v, i) => (
                 <View style={{ position: "relative" }} key={i}>
@@ -267,38 +279,6 @@ export default function App() {
                   <Image src={v.url} className={styles.pic} />
                 </View>
               ))}
-            </View>
-            <View className={styles.payBox}>
-              {payList.includes("OFF_LINE") && (
-                <View
-                  className={cls(
-                    styles.payCard,
-                    payMode === 1 && styles.active
-                  )}
-                  onClick={() => changePay(1)}
-                >
-                  <Text>院内支付</Text>
-                  <Image
-                    src={payMode === 1 ? xuanzhong : weixuanzhong}
-                    className={styles.choose}
-                  ></Image>
-                </View>
-              )}
-              {payList.includes("ON_LINE") && (
-                <View
-                  className={cls(
-                    styles.payCard,
-                    payMode === 2 && styles.active
-                  )}
-                  onClick={() => changePay(2)}
-                >
-                  <Text>在线支付</Text>
-                  <Image
-                    src={payMode === 2 ? xuanzhong : weixuanzhong}
-                    className={styles.choose}
-                  ></Image>
-                </View>
-              )}
             </View>
 
             {payMode === 1 && (
@@ -319,6 +299,15 @@ export default function App() {
             )}
           </View>
           {payMode === 2 && (
+            <PriceList
+              value={value}
+              setValue={setValue}
+              buy={buy}
+              code={router.params.code}
+              type={EvaluateType.ZHINENG}
+            ></PriceList>
+          )}
+          {/* {payMode === 2 && (
             <View style={{ paddingBottom: 20 }}>
               <Box
                 title={
@@ -428,7 +417,7 @@ export default function App() {
                 立即购买
               </Button>
             </View>
-          )}
+          )} */}
         </ScrollView>
       )}
       <Notify id="notify" />
