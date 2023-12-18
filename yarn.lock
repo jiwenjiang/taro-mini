@@ -1968,6 +1968,18 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@taroify/commerce@^0.1.1-alpha.9":
+  version "0.1.1-alpha.9"
+  resolved "https://registry.npmjs.org/@taroify/commerce/-/commerce-0.1.1-alpha.9.tgz#def108e4991f40f6693d1035bd064fdb89754264"
+  integrity sha512-GO//2AXiK3S8rvs4wdhmDjtnr64/+YpUEdsXnvOUffZ6sCG2hKjlnIIm6eVsXRAltkDUfm2+usMdY0I7f+zXFA==
+  dependencies:
+    "@taroify/core" "^0.1.1-alpha.9"
+    classnames "^2.2.6"
+    lodash "^4.17.21"
+    raf "^3.4.1"
+    react-is "^18.2.0"
+    react-transition-group "^4.4.1"
+
 "@taroify/core@^0.0.29-alpha.9":
   version "0.0.29-alpha.9"
   resolved "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.9.tgz"
@@ -1982,6 +1994,20 @@
     react-is "^17.0.2"
     react-transition-group "^4.4.1"
 
+"@taroify/core@^0.1.1-alpha.9":
+  version "0.1.1-alpha.9"
+  resolved "https://registry.npmjs.org/@taroify/core/-/core-0.1.1-alpha.9.tgz#d05c4f94f606d2ca390309a738b524d5ccb29eb5"
+  integrity sha512-QVP4ihOlVgUyfwLzJvMY9HXLmSb2tc+UILS4jE1VyIQKnxeosDWJ0O6B97U5dMZ3XkhqQoSB2GI+5s8NIGc7Hw==
+  dependencies:
+    "@taroify/hooks" "^0.1.1-alpha.9"
+    "@taroify/icons" "^0.1.1-alpha.9"
+    classnames "^2.2.6"
+    lodash "^4.17.21"
+    promise "^8.1.0"
+    raf "^3.4.1"
+    react-is "^18.2.0"
+    react-transition-group "^4.4.1"
+
 "@taroify/hooks@^0.0.29-alpha.9":
   version "0.0.29-alpha.9"
   resolved "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.9.tgz"
@@ -1989,10 +2015,24 @@
   dependencies:
     "@vant/area-data" "^1.2.1"
 
+"@taroify/hooks@^0.1.1-alpha.9":
+  version "0.1.1-alpha.9"
+  resolved "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.1.1-alpha.9.tgz#6e30fab28c8c83abd44fb46f7e5a4933a3343178"
+  integrity sha512-2ieIexy1CFibaNMiM7OuPQHitlR5KrHbuQGGIP+sFovhP9NO7gYScpbBmfyHwQGqdmTMu585SvqI7a0FacBZYQ==
+  dependencies:
+    "@vant/area-data" "^1.2.1"
+
 "@taroify/icons@^0.0.29-alpha.9":
   version "0.0.29-alpha.9"
   resolved "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.9.tgz"
   integrity sha512-nAeSefjKLgqcE3WhPMdaghKVbKtw9kqKYClY9OeHrqdiU8wX41duab0KfqDME76oaGkLBrkgmOuNsqoQ0Q5Urw==
+  dependencies:
+    classnames "^2.2.6"
+
+"@taroify/icons@^0.1.1-alpha.9":
+  version "0.1.1-alpha.9"
+  resolved "https://registry.npmjs.org/@taroify/icons/-/icons-0.1.1-alpha.9.tgz#af6586a2799f871781b2d56f848bcfba6992b92a"
+  integrity sha512-uKkyCRsxb+wJsDWMvMKzS4djabOtZSypuFB5kctGv8spHBT/djaJXCIpEmCCbFahyFjVbaxLMrvKwwSr+zUtow==
   dependencies:
     classnames "^2.2.6"
 
@@ -12613,6 +12653,11 @@ react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-is@^18.2.0:
+  version "18.2.0"
+  resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
+  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
 react-reconciler@0.26.1:
   version "0.26.1"

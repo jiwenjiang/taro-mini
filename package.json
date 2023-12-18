@@ -1,6 +1,6 @@
 {
   "name": "fushu-mini",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "private": true,
   "description": "fushu-mini",
   "templateInfo": {
@@ -38,6 +38,7 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
+    "@taroify/commerce": "^0.1.1-alpha.9",
     "@taroify/core": "^0.0.29-alpha.9",
     "@tarojs/cli": "3.4.10",
     "@tarojs/components": "3.4.10",

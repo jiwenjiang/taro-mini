@@ -1,7 +1,12 @@
+import { PaymentType } from "@/service/const";
+import { ChildContext } from "@/service/context";
 import request from "@/service/request";
-import { Image, ScrollView, View } from "@tarojs/components";
-import Taro, { setStorageSync } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import { Base64 } from "@/service/utils";
+import { ActionSheet, Notify } from "@taroify/core";
+import { ChatOutlined } from "@taroify/icons";
+import { Image, ScrollView, Text, View } from "@tarojs/components";
+import Taro, { navigateTo, setStorageSync } from "@tarojs/taro";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./ad.module.scss";
 
 enum Channel {
@@ -18,21 +23,30 @@ export default function App() {
     button: ""
   });
 
+  const [open, setOpen] = useState(false);
+  const [price, setPrice] = useState<any>({});
+  const childContext = useContext(ChildContext);
+
   useEffect(() => {
     (async () => {
+      setStorageSync("channel", "meiyou");
+      setStorageSync("orgId", "f9b6b0c4");
+      wx._channel = "meiyou";
+      wx._orgId = "f9b6b0c4";
       const res = await request({
         url: "/promotion/get"
       });
       setStaticData(res.data);
-      console.log("🚀 ~ file: ad.tsx:15 ~ res:", res);
+
+      const res2 = await request({
+        url: "/promotion/scale/price/get"
+      });
+      setPrice(res2.data);
+      console.log("🚀 ~ file: ad.tsx:15 ~ res:", res2);
     })();
   }, []);
 
   const preview = () => {
-    setStorageSync("channel", "meiyou");
-    setStorageSync("orgId", "f9b6b0c4");
-    wx._channel = "meiyou";
-    wx._orgId = "f9b6b0c4";
     Taro.switchTab({
       url: `/pages/index/index`,
       success(res) {}
@@ -40,16 +54,84 @@ export default function App() {
     console.log(staticData.customerQrCode);
   };
 
+  const checkPay = id => {
+    if (childContext.child.len) {
+      navigateTo({
+        url: `/childPackage/pages/choose?code=${price.scaleTableCode}&orderId=${id}`
+      });
+    } else {
+      const returnUrl = Base64.encode("/pages/evaluate/list?key=1");
+      navigateTo({
+        url: `/childPackage/pages/manage?returnUrl=${returnUrl}`
+      });
+    }
+  };
+
+  const buy = async () => {
+    const res = await request({
+      url: "/order/create",
+      method: "POST",
+      data: {
+        scaleTableCode: price.scaleTableCode,
+        priceId: price.id,
+        payment: PaymentType.ONLINE,
+        invoiceId: 0
+      }
+    });
+    if (!res.data.hasPaidOrder) {
+      const payRes = await request({
+        url: "/order/pay",
+        data: { id: res.data.orderId, ip: "127.0.0.1" }
+      });
+      wx.requestPayment({
+        timeStamp: payRes.data.timeStamp,
+        nonceStr: payRes.data.nonceStr,
+        package: payRes.data.packageValue,
+        signType: payRes.data.signType,
+        paySign: payRes.data.paySign,
+        success(res2) {
+          Notify.open({ color: "success", message: "支付成功" });
+          checkPay(res.data.orderId);
+        }
+      });
+    } else {
+      checkPay(res.data.orderId);
+    }
+  };
+
   return (
     <View className="index">
       <ScrollView className={styles.imgView}>
         <Image src={staticData.detail} mode="widthFix" className={styles.m1} />
-        <Image
-          src={staticData.button}
-          mode="widthFix"
-          className={styles.m2}
-          onClick={preview}
-        />
+        <View className={styles.action}>
+          <View className={styles.kefu}>
+            <ChatOutlined size={20} />
+            <Text className={styles.kefu}>客服</Text>
+          </View>
+          <View>
+            <View className={styles.btn} onClick={() => setOpen(true)}>
+              立即购买
+            </View>
+          </View>
+        </View>
+        <ActionSheet
+          open={open}
+          onSelect={() => setOpen(false)}
+          onClose={setOpen}
+        >
+          <View className={styles.pop}>
+            <View className={styles.title}>{price.scaleTableName}</View>
+            <View className={styles.yuanjian}>原价：{price.listPrice}元</View>
+            <View className={styles.youhui}>
+              <View>
+                限时优惠：<Text>{price.salePrice}元</Text>
+              </View>
+              <View className={styles.payBtn} onClick={buy}>
+                立即支付
+              </View>
+            </View>
+          </View>
+        </ActionSheet>
       </ScrollView>
     </View>
   );
