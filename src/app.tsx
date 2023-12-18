@@ -5,7 +5,7 @@ import "@taroify/core/index.scss";
 import "@taroify/icons/index.scss";
 import { View } from "@tarojs/components";
 import { useDidShow } from "@tarojs/taro";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.scss";
 import "./custom-variables.scss";
 import { useAuth } from "./service/hook";
@@ -29,6 +29,10 @@ function App(props) {
     getChild();
     // getAuth(getChild);
   });
+
+  useEffect(() => {
+    wx._unLogin = true;
+  }, []);
 
   return (
     <ChildContext.Provider value={{ child, updateChild: setChild }}>

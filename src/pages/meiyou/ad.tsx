@@ -37,12 +37,6 @@ export default function App() {
         url: "/promotion/get"
       });
       setStaticData(res.data);
-
-      const res2 = await request({
-        url: "/promotion/scale/price/get"
-      });
-      setPrice(res2.data);
-      console.log("🚀 ~ file: ad.tsx:15 ~ res:", res2);
     })();
   }, []);
 
@@ -70,38 +64,47 @@ export default function App() {
   };
 
   const buy = async () => {
+    const res = await request({
+      url: "/order/create",
+      method: "POST",
+      data: {
+        scaleTableCode: price.scaleTableCode,
+        priceId: price.id,
+        payment: PaymentType.ONLINE,
+        invoiceId: 0
+      }
+    });
+    if (!res.data.hasPaidOrder) {
+      const payRes = await request({
+        url: "/order/pay",
+        data: { id: res.data.orderId, ip: "127.0.0.1" }
+      });
+      wx.requestPayment({
+        timeStamp: payRes.data.timeStamp,
+        nonceStr: payRes.data.nonceStr,
+        package: payRes.data.packageValue,
+        signType: payRes.data.signType,
+        paySign: payRes.data.paySign,
+        success(res2) {
+          Notify.open({ color: "success", message: "支付成功" });
+          checkPay(res.data.orderId);
+        }
+      });
+    } else {
+      checkPay(res.data.orderId);
+    }
+  };
+
+  const preBuy = async () => {
     if (wx._unLogin) {
       navWithLogin(`/pages/meiyou/ad`);
     } else {
-      const res = await request({
-        url: "/order/create",
-        method: "POST",
-        data: {
-          scaleTableCode: price.scaleTableCode,
-          priceId: price.id,
-          payment: PaymentType.ONLINE,
-          invoiceId: 0
-        }
+      const res2 = await request({
+        url: "/promotion/scale/price/get"
       });
-      if (!res.data.hasPaidOrder) {
-        const payRes = await request({
-          url: "/order/pay",
-          data: { id: res.data.orderId, ip: "127.0.0.1" }
-        });
-        wx.requestPayment({
-          timeStamp: payRes.data.timeStamp,
-          nonceStr: payRes.data.nonceStr,
-          package: payRes.data.packageValue,
-          signType: payRes.data.signType,
-          paySign: payRes.data.paySign,
-          success(res2) {
-            Notify.open({ color: "success", message: "支付成功" });
-            checkPay(res.data.orderId);
-          }
-        });
-      } else {
-        checkPay(res.data.orderId);
-      }
+      setPrice(res2.data);
+      console.log("🚀 ~ file: ad.tsx:15 ~ res:", res2);
+      setOpen(true);
     }
   };
 
@@ -115,7 +118,7 @@ export default function App() {
             <Text className={styles.kefu}>客服</Text>
           </View>
           <View>
-            <View className={styles.btn} onClick={() => setOpen(true)}>
+            <View className={styles.btn} onClick={() => preBuy()}>
               立即购买
             </View>
           </View>
