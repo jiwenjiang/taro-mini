@@ -1,11 +1,11 @@
 import { PaymentType } from "@/service/const";
 import { ChildContext } from "@/service/context";
 import request from "@/service/request";
-import { Base64 } from "@/service/utils";
+import { Base64, navWithLogin } from "@/service/utils";
 import { ActionSheet, Notify } from "@taroify/core";
 import { ChatOutlined } from "@taroify/icons";
 import { Image, ScrollView, Text, View } from "@tarojs/components";
-import Taro, { navigateTo, setStorageSync } from "@tarojs/taro";
+import { navigateTo, setStorageSync } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./ad.module.scss";
 
@@ -47,11 +47,13 @@ export default function App() {
   }, []);
 
   const preview = () => {
-    Taro.switchTab({
-      url: `/pages/index/index`,
-      success(res) {}
+    wx.openCustomerServiceChat({
+      extInfo: { url: "https://work.weixin.qq.com/kfid/kfc86155f0abef5c38b" },
+      corpId: "ww47f31bbc9556c2ef",
+      success(res) {
+        console.log("🚀 ~ file: index.tsx:38 ~ success ~ res:", res);
+      }
     });
-    console.log(staticData.customerQrCode);
   };
 
   const checkPay = id => {
@@ -68,34 +70,38 @@ export default function App() {
   };
 
   const buy = async () => {
-    const res = await request({
-      url: "/order/create",
-      method: "POST",
-      data: {
-        scaleTableCode: price.scaleTableCode,
-        priceId: price.id,
-        payment: PaymentType.ONLINE,
-        invoiceId: 0
-      }
-    });
-    if (!res.data.hasPaidOrder) {
-      const payRes = await request({
-        url: "/order/pay",
-        data: { id: res.data.orderId, ip: "127.0.0.1" }
-      });
-      wx.requestPayment({
-        timeStamp: payRes.data.timeStamp,
-        nonceStr: payRes.data.nonceStr,
-        package: payRes.data.packageValue,
-        signType: payRes.data.signType,
-        paySign: payRes.data.paySign,
-        success(res2) {
-          Notify.open({ color: "success", message: "支付成功" });
-          checkPay(res.data.orderId);
+    if (wx._unLogin) {
+      navWithLogin(`/pages/meiyou/ad`);
+    } else {
+      const res = await request({
+        url: "/order/create",
+        method: "POST",
+        data: {
+          scaleTableCode: price.scaleTableCode,
+          priceId: price.id,
+          payment: PaymentType.ONLINE,
+          invoiceId: 0
         }
       });
-    } else {
-      checkPay(res.data.orderId);
+      if (!res.data.hasPaidOrder) {
+        const payRes = await request({
+          url: "/order/pay",
+          data: { id: res.data.orderId, ip: "127.0.0.1" }
+        });
+        wx.requestPayment({
+          timeStamp: payRes.data.timeStamp,
+          nonceStr: payRes.data.nonceStr,
+          package: payRes.data.packageValue,
+          signType: payRes.data.signType,
+          paySign: payRes.data.paySign,
+          success(res2) {
+            Notify.open({ color: "success", message: "支付成功" });
+            checkPay(res.data.orderId);
+          }
+        });
+      } else {
+        checkPay(res.data.orderId);
+      }
     }
   };
 
@@ -104,7 +110,7 @@ export default function App() {
       <ScrollView className={styles.imgView}>
         <Image src={staticData.detail} mode="widthFix" className={styles.m1} />
         <View className={styles.action}>
-          <View className={styles.kefu}>
+          <View className={styles.kefu} onClick={preview}>
             <ChatOutlined size={20} />
             <Text className={styles.kefu}>客服</Text>
           </View>
