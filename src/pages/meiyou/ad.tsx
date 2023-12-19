@@ -64,34 +64,43 @@ export default function App() {
   };
 
   const buy = async () => {
-    const res = await request({
-      url: "/order/create",
-      method: "POST",
-      data: {
-        scaleTableCode: price.scaleTableCode,
-        priceId: price.id,
-        payment: PaymentType.ONLINE,
-        invoiceId: 0
-      }
+    const checkRes = await request({
+      url: "/order/check",
+      data: { scaleTableCode: price.scaleTableCode }
     });
-    if (!res.data.hasPaidOrder) {
-      const payRes = await request({
-        url: "/order/pay",
-        data: { id: res.data.orderId, ip: "127.0.0.1" }
-      });
-      wx.requestPayment({
-        timeStamp: payRes.data.timeStamp,
-        nonceStr: payRes.data.nonceStr,
-        package: payRes.data.packageValue,
-        signType: payRes.data.signType,
-        paySign: payRes.data.paySign,
-        success(res2) {
-          Notify.open({ color: "success", message: "支付成功" });
-          checkPay(res.data.orderId);
+    if (!checkRes.data.hasPaidOrder) {
+      const res = await request({
+        url: "/order/create",
+        method: "POST",
+        data: {
+          scaleTableCode: price.scaleTableCode,
+          priceId: price.id,
+          payment: PaymentType.ONLINE,
+          invoiceId: 0
         }
       });
+      if (!res.data.hasPaidOrder) {
+        const payRes = await request({
+          url: "/order/pay",
+          data: { id: res.data.orderId, ip: "127.0.0.1" }
+        });
+        wx.requestPayment({
+          timeStamp: payRes.data.timeStamp,
+          nonceStr: payRes.data.nonceStr,
+          package: payRes.data.packageValue,
+          signType: payRes.data.signType,
+          paySign: payRes.data.paySign,
+          success(res2) {
+            Notify.open({ color: "success", message: "支付成功" });
+            checkPay(res.data.orderId);
+          }
+        });
+      } else {
+        checkPay(res.data.orderId);
+      }
     } else {
-      checkPay(res.data.orderId);
+    //   console.log(checkRes);
+      checkPay(checkRes.data.orderId);
     }
   };
 
