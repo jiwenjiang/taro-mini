@@ -22,7 +22,6 @@ import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 
-import PayBtn from "@/comps/PayBtn";
 import styles from "./index.module.scss";
 
 const heads = ["日", "一", "二", "三", "四", "五", "六"];
@@ -44,7 +43,7 @@ export default function App() {
   const [activeChild, setActiveChild] = useState<
     NonNullable<{ name: string; id: string }>
   >({ name: "", id: "" });
-  const [payMode, setPayMode] = useState<1 | 2>(1);
+  const [payMode, setPayMode] = useState(1);
   const [trainingType, setTrainingType] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
@@ -56,17 +55,6 @@ export default function App() {
     type4: ""
   });
   const [type, setType] = useState(router.params.type!.replace(/[^0-9]/gi, ""));
-  const [priceList, setPrice] = useState<
-    NonNullable<
-      {
-        availableTimes: number;
-        listPrice: string;
-        salePrice: string;
-        id: number;
-      }[]
-    >
-  >([]);
-  const [currentPrice, setCurrentPrice] = useState(0);
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -237,11 +225,10 @@ export default function App() {
       category: router.params.origin
         ? +router.params.origin
         : categoryEnum.isNormal,
-      trainingType,
-      priceId: priceList[currentPrice].id
+      trainingType
     };
     const res = await request({
-      url: "/reserve/unified",
+      url: "/reserve/submit",
       method: "POST",
       data: params
     });
@@ -682,12 +669,25 @@ export default function App() {
               ) && (
                 <View>
                   <View></View>
-                  <PayBtn
-                    changePay={changePay}
-                    payMode={payMode}
-                    code={router.params.code}
-                    type={type as any}
-                  ></PayBtn>
+                  <View className={styles.payBox}>
+                    <View
+                      className={cls(
+                        styles.payCard,
+                        payMode === 1 && styles.active
+                      )}
+                      onClick={() => changePay(1)}
+                    >
+                      <Text>院内支付</Text>
+                      <Image src={xuanzhong} className={styles.choose}></Image>
+                    </View>
+                    {/* <View
+               className={cls(styles.payCard, payMode === 2 && styles.active)}
+               // onClick={() => changePay(2)}
+             >
+               <Text>在线支付</Text>
+               <Image src={weixuanzhong} className={styles.choose}></Image>
+             </View> */}
+                  </View>
                   <View className={styles.picBox}>
                     {pic.map((v, i) => (
                       <View style={{ position: "relative" }} key={i}>
@@ -705,22 +705,10 @@ export default function App() {
                       </View>
                     ))}
                   </View>
-                  {payMode === 1 && (
-                    <View className={styles.danjuBox}>
-                      <Plus className={styles.addIcon} onClick={chooseMedia} />
-                      <View>{DanjuTishi}</View>
-                    </View>
-                  )}
-                  {payMode === 2 && (
-                    <View></View>
-                    // <PriceList
-                    //   value={value}
-                    //   setValue={setValue}
-                    //   buy={buy}
-                    //   code={router.params.code}
-                    //   type={EvaluateType.ZHINENG}
-                    // ></PriceList>
-                  )}
+                  <View className={styles.danjuBox}>
+                    <Plus className={styles.addIcon} onClick={chooseMedia} />
+                    <View>{DanjuTishi}</View>
+                  </View>
                 </View>
               )}
               {[EvaluateType.SHIPIN].includes(Number(type)) && (
