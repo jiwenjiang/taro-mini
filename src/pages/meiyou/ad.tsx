@@ -5,7 +5,7 @@ import { Base64, navWithLogin } from "@/service/utils";
 import { ActionSheet, Notify } from "@taroify/core";
 import { ChatOutlined } from "@taroify/icons";
 import { Image, ScrollView, Text, View } from "@tarojs/components";
-import { navigateTo, setStorageSync } from "@tarojs/taro";
+import { navigateTo, setStorageSync, useDidShow } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./ad.module.scss";
 
@@ -99,13 +99,9 @@ export default function App() {
     if (wx._unLogin) {
       navWithLogin(`/pages/meiyou/ad`);
     } else {
-      const res2 = await request({
-        url: "/promotion/scale/price/get"
-      });
-      setPrice(res2.data);
       const checkRes = await request({
         url: "/order/check",
-        data: { scaleTableCode: res2.data.scaleTableCode }
+        data: { scaleTableCode: price.scaleTableCode }
       });
       if (!checkRes.data.hasPaidOrder) {
         setOpen(true);
@@ -115,6 +111,24 @@ export default function App() {
       }
     }
   };
+
+  // 每次页面显示时获取儿童信息
+
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list" });
+    childContext.updateChild({ len: res.data.children.length });
+  };
+
+  useDidShow(() => {
+    (async () => {
+      getChildrenList();
+      const res2 = await request({
+        url: "/promotion/scale/price/get"
+      });
+      setPrice(res2.data);
+      console.log("🚀 ~ file: ad.tsx:129 ~ res2.data:", res2.data);
+    })();
+  });
 
   return (
     <View className="index">
@@ -127,7 +141,7 @@ export default function App() {
           </View>
           <View>
             <View className={styles.btn} onClick={() => preBuy()}>
-              立即购买
+              {price.salePrice && <Text>￥{price.salePrice}</Text>} 立即购买
             </View>
           </View>
         </View>

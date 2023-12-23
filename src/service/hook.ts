@@ -134,6 +134,7 @@ export function useAuth() {
         cb?.(res);
       }
     }
+    return true;
   };
   const getPortal = async (cb?: Function | string, options: any = {}) => {
     try {
@@ -174,7 +175,6 @@ export function useChannel(cb?: Function) {
   const router = useRouter();
 
   useEffect(() => {
-
     if (router.params.scene) {
       const str = router.params.scene as string;
       // const orgId = str.split("orgId%3D")[1];

@@ -31,7 +31,7 @@ export default function App() {
       }
     });
     if (res.code === 0) {
-      getAuth();
+      await getAuth();
       if (router.params.returnUrl) {
         if (tabPages.includes(router.params.returnUrl)) {
           Taro.switchTab({ url: router.params.returnUrl });
