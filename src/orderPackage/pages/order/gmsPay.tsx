@@ -12,7 +12,7 @@ import xuanzhong from "@/static/imgs/xuanzhong.png";
 import { Button, Checkbox, Notify, Popup } from "@taroify/core";
 import { ArrowDown, Clear, Plus } from "@taroify/icons";
 import { Image, ScrollView, Text, View } from "@tarojs/components";
-import Taro, { navigateTo, useRouter } from "@tarojs/taro";
+import Taro, { navigateTo, useDidShow, useRouter } from "@tarojs/taro";
 import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
 
@@ -194,6 +194,16 @@ export default function App() {
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
+  };
+
+  // 每次页面显示时获取儿童信息
+  useDidShow(() => {
+    getChildrenList();
+  });
+
+  const getChildrenList = async () => {
+    const res = await request({ url: "/children/list" });
+    childContext.updateChild({ len: res.data.children.length });
   };
 
   return (
