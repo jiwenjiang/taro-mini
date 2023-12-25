@@ -7,6 +7,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=580&returnUrl=%2Fpages%2Findex%2Findex",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/meiyou/ad",
           "query": "",
           "launchMode": "default",

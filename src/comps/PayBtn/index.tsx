@@ -13,7 +13,7 @@ export default function PayBtn({
   code,
   type
 }: {
-  payMode: 1 | 2;
+  payMode: 1 | 2 | null;
   changePay: Function;
   code: String | undefined;
   type: EvaluateType;

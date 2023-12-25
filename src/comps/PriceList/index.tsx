@@ -2,10 +2,11 @@ import Box from "@/comps/Box";
 import { EvaluateType } from "@/service/const";
 import request from "@/service/request";
 import Cny from "@/static/icons/exchange-cny-fill.svg";
-import { Button, Checkbox, Popup } from "@taroify/core";
-import { ITouchEvent, Image, Text, View } from "@tarojs/components";
+import { Button, Checkbox, Notify, Popup } from "@taroify/core";
+import { Image, Text, View } from "@tarojs/components";
 import React, { useEffect, useState } from "react";
 import { cls } from "reactutils";
+import "./index.scss";
 
 export default function PriceList({
   buy,
@@ -14,7 +15,7 @@ export default function PriceList({
   code,
   type
 }: {
-  buy: (event: ITouchEvent) => void;
+  buy: (id: number) => void;
   value: boolean | undefined;
   setValue: (checked: boolean) => void;
   code: String | undefined;
@@ -37,14 +38,25 @@ export default function PriceList({
     (async () => {
       const res = await request({
         url: "/scaleTable/price",
-        data: { code, type }
+        data: { code: code ?? 0, type }
       });
       setPrice(res.data);
     })();
   }, []);
 
+  const preBuy = () => {
+    if (!value) {
+      Notify.open({
+        color: "warning",
+        message: "请同意购买服务条款"
+      });
+      return;
+    }
+    buy(priceList[currentPrice].id);
+  };
+
   return (
-    <View style={{ paddingBottom: 20 }}>
+    <View style={{ paddingBottom: 20 }} className="price-list">
       <Box
         title={
           <View>
@@ -137,12 +149,13 @@ export default function PriceList({
         </View>
       </Popup>
       <Button
-        onClick={buy}
+        onClick={() => preBuy()}
         style={{ width: "100%", marginTop: 20 }}
         color="primary"
       >
         立即购买
       </Button>
+      <Notify id="notify" />
     </View>
   );
 }

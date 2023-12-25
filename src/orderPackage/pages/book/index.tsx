@@ -22,6 +22,8 @@ import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 
+import PayBtn from "@/comps/PayBtn";
+import PriceList from "@/comps/PriceList";
 import styles from "./index.module.scss";
 
 const heads = ["日", "一", "二", "三", "四", "五", "六"];
@@ -43,7 +45,7 @@ export default function App() {
   const [activeChild, setActiveChild] = useState<
     NonNullable<{ name: string; id: string }>
   >({ name: "", id: "" });
-  const [payMode, setPayMode] = useState(1);
+  const [payMode, setPayMode] = useState<1 | 2 | null>(null);
   const [trainingType, setTrainingType] = useState(1);
   const [priceInfo, setPriceInfo] = useState({ price: "", time: "" });
   const [title, setTitle] = useState("");
@@ -55,6 +57,9 @@ export default function App() {
     type4: ""
   });
   const [type, setType] = useState(router.params.type!.replace(/[^0-9]/gi, ""));
+
+  const [value, setValue] = useState(false);
+  const [remark, setRemark] = useState("");
 
   const goto = () => {
     Taro.switchTab({ url: "/pages/index/index" });
@@ -121,6 +126,7 @@ export default function App() {
   };
 
   const changePay = type => {
+    console.log("🚀 ~ file: index.tsx:139 ~ changePay ~ type:", type);
     setPayMode(type);
   };
 
@@ -200,8 +206,15 @@ export default function App() {
     setPic(list);
   };
 
-  const complate = async () => {
-    if (pic.some(v => !v.id) || pic.length === 0) {
+  const complate = async (priceId?: any) => {
+    if (!payMode) {
+      Notify.open({
+        color: "warning",
+        message: "请选择支付方式"
+      });
+      return;
+    }
+    if (payMode === 1 && (pic.some(v => !v.id) || pic.length === 0)) {
       Notify.open({
         color: "warning",
         message: "请上传票据"
@@ -218,21 +231,59 @@ export default function App() {
     const params = {
       childrenId: activeChild.id,
       invoiceId: pic.map(v => v.id),
-      payment: 1,
+      payment: payMode,
       type: Number(type),
       scaleCodes: Number(type) === 1 ? activeCode.map(v => v.code) : null,
       workScheduleId: activeTime.id,
       category: router.params.origin
         ? +router.params.origin
         : categoryEnum.isNormal,
-      trainingType
+      trainingType,
+      priceId
     };
     const res = await request({
-      url: "/reserve/submit",
+      url: "/reserve/unified",
       method: "POST",
       data: params
     });
-    if (res.code === 0) {
+    console.log("🚀 ~ file: index.tsx:259 ~ complate ~ res:", res);
+    if (payMode === 2 && !res.data.hasPaidOrder) {
+      setRemark(res.data.remark);
+      const payRes = await request({
+        url: "/order/pay",
+        data: { id: res.data.orderId, ip: "127.0.0.1" }
+      });
+      wx.requestPayment({
+        timeStamp: payRes.data.timeStamp,
+        nonceStr: payRes.data.nonceStr,
+        package: payRes.data.packageValue,
+        signType: payRes.data.signType,
+        paySign: payRes.data.paySign,
+        success(res) {
+          Notify.open({ color: "success", message: "支付成功" });
+          wx.requestSubscribeMessage({
+            tmplIds: [
+              tempId.current.newReserveNotify,
+              tempId.current.scaleResultNotify
+            ],
+            success(res) {}
+          });
+
+          setStep(4);
+        }
+      });
+    } else {
+      wx.requestSubscribeMessage({
+        tmplIds: [
+          tempId.current.newReserveNotify,
+          tempId.current.scaleResultNotify
+        ],
+        success(res) {}
+      });
+
+      setStep(4);
+    }
+    if (payMode === 1 && res.code === 0) {
       wx.requestSubscribeMessage({
         tmplIds: [
           tempId.current.newReserveNotify,
@@ -310,12 +361,9 @@ export default function App() {
           ...bgImg,
           [`type${type}`]: res.data.url
         });
-        console.log("🚀 ~ file: index.tsx:311 ~ request ~ res:", res);
       });
     }
   }, []);
-
-  console.log(1, bgImg);
 
   const add = () => {
     const returnUrl = Base64.encode("/orderPackage/pages/book/index?type=1");
@@ -594,28 +642,6 @@ export default function App() {
                 </View>
               </View>
 
-              {/* <View className={cls(styles.orderBox, styles.mt16)}>
-                {activeCode.map((v, i) => (
-                  <View className={cls(styles.li, styles.noBorder)} key={i}>
-                    <View className={styles.k}>
-                      {i === 0 ? "评估项目" : ""}
-                    </View>
-                    <View className={styles.v}>
-                      {type === String(EvaluateType.MENZHEN)
-                        ? v.name
-                        : type === String(EvaluateType.SHIPIN)
-                        ? "视频一对一"
-                        : "家庭康复指导"}
-                    </View>
-                  </View>
-                ))}
-              </View> */}
-              {/* <View className={cls(styles.orderBox, styles.mt16)}>
-             <View className={cls(styles.li, styles.noBorder)}>
-               <View className={styles.k}>总计</View>
-               <View className={styles.p}>￥156</View>
-             </View>
-           </View> */}
               {router.params.origin === String(categoryEnum.isLingDaoYi) && (
                 <View>
                   <View className={styles.payBox}>
@@ -669,25 +695,12 @@ export default function App() {
               ) && (
                 <View>
                   <View></View>
-                  <View className={styles.payBox}>
-                    <View
-                      className={cls(
-                        styles.payCard,
-                        payMode === 1 && styles.active
-                      )}
-                      onClick={() => changePay(1)}
-                    >
-                      <Text>院内支付</Text>
-                      <Image src={xuanzhong} className={styles.choose}></Image>
-                    </View>
-                    {/* <View
-               className={cls(styles.payCard, payMode === 2 && styles.active)}
-               // onClick={() => changePay(2)}
-             >
-               <Text>在线支付</Text>
-               <Image src={weixuanzhong} className={styles.choose}></Image>
-             </View> */}
-                  </View>
+                  <PayBtn
+                    changePay={changePay}
+                    payMode={payMode}
+                    code={router.params.code}
+                    type={type as any}
+                  ></PayBtn>
                   <View className={styles.picBox}>
                     {pic.map((v, i) => (
                       <View style={{ position: "relative" }} key={i}>
@@ -705,10 +718,21 @@ export default function App() {
                       </View>
                     ))}
                   </View>
-                  <View className={styles.danjuBox}>
-                    <Plus className={styles.addIcon} onClick={chooseMedia} />
-                    <View>{DanjuTishi}</View>
-                  </View>
+                  {payMode === 1 && (
+                    <View className={styles.danjuBox}>
+                      <Plus className={styles.addIcon} onClick={chooseMedia} />
+                      <View>{DanjuTishi}</View>
+                    </View>
+                  )}
+                  {payMode === 2 && (
+                    <PriceList
+                      value={value}
+                      setValue={setValue}
+                      buy={complate}
+                      code={router.params.code ?? "0"}
+                      type={type as any}
+                    ></PriceList>
+                  )}
                 </View>
               )}
               {[EvaluateType.SHIPIN].includes(Number(type)) && (
@@ -738,9 +762,11 @@ export default function App() {
                     立即预约
                   </View>
                 ) : (
-                  <View className={styles.nextBtn} onClick={() => complate()}>
-                    完成预约
-                  </View>
+                  payMode !== 2 && (
+                    <View className={styles.nextBtn} onClick={() => complate()}>
+                      完成预约
+                    </View>
+                  )
                 )}
               </View>
             </View>
@@ -756,11 +782,16 @@ export default function App() {
                   <View className={styles.tipBody}>
                     <View className={styles.hasComplate}>已预约完成！</View>
                     <View>后台审核单据无误后会短信通知；</View>
-                    <View>
-                      {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
-                      院内支付请于{activeDay} {activeTime?.startTime}
-                      前携带收费单据到指定地点。
-                    </View>
+                    {payMode === 1 ? (
+                      <View>
+                        {/* 院内支付请于{dayjs(activeDay).format("YYYY-MM-DD")}{" "} */}
+                        院内支付请于{activeDay} {activeTime?.startTime}
+                        前携带收费单据到指定地点。
+                      </View>
+                    ) : (
+                      <View>{remark}</View>
+                    )}
+
                     <View>如有问题，请提前电话联系010-56190995</View>
                     <View className={styles.loc} onClick={openMap}>
                       <View className={styles.left}>

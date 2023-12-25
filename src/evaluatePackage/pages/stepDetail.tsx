@@ -13,7 +13,7 @@ import wenyisheng from "@/static/imgs/wenyisheng.png";
 import { Backdrop, Popup, Swiper } from "@taroify/core";
 import { ArrowDown, PlayCircleOutlined } from "@taroify/icons";
 import { Image, RichText, Text, Video, View } from "@tarojs/components";
-import { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
+import Taro, { createVideoContext, navigateTo, useRouter } from "@tarojs/taro";
 import React, { useEffect, useRef, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./stepDetail.module.scss";
@@ -252,6 +252,10 @@ function Card() {
     setAbnormalVisible(true);
   };
 
+  const back = () => {
+    Taro.switchTab({ url: "/pages/index/index" });
+  };
+
   return (
     <View>
       <NavBar title={"评估详情" || report?.scaleTableName} />
@@ -276,6 +280,11 @@ function Card() {
               </View>
 
               <Info data={report} />
+              <View className={styles.cardBox}>
+                <View className={styles.preBtn} onClick={() => back()}>
+                  返回首页
+                </View>
+              </View>
             </View>
           ) : (
             <View>
