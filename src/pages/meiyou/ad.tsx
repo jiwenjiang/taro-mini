@@ -1,12 +1,13 @@
-import { PaymentType } from "@/service/const";
+import { EvaluateType, PaymentType } from "@/service/const";
 import { ChildContext } from "@/service/context";
+import { useChannel } from "@/service/hook";
 import request from "@/service/request";
 import { Base64, navWithLogin } from "@/service/utils";
 import { ActionSheet, Notify } from "@taroify/core";
 import { ChatOutlined } from "@taroify/icons";
 import { Image, ScrollView, Text, View } from "@tarojs/components";
-import { navigateTo, setStorageSync, useDidShow } from "@tarojs/taro";
-import React, { useContext, useEffect, useState } from "react";
+import { navigateTo, useDidShow } from "@tarojs/taro";
+import React, { useContext, useState } from "react";
 import styles from "./ad.module.scss";
 
 enum Channel {
@@ -27,18 +28,14 @@ export default function App() {
   const [price, setPrice] = useState<any>({});
   const childContext = useContext(ChildContext);
 
-  useEffect(() => {
-    (async () => {
-      setStorageSync("channel", "meiyou");
-      setStorageSync("orgId", "f9b6b0c4");
-      wx._channel = "meiyou";
-      wx._orgId = "f9b6b0c4";
-      const res = await request({
-        url: "/promotion/get"
-      });
-      setStaticData(res.data);
-    })();
-  }, []);
+  const channelJudge = async () => {
+    const res = await request({
+      url: "/promotion/get"
+    });
+    setStaticData(res.data);
+  };
+
+  useChannel(channelJudge);
 
   const preview = () => {
     wx.openCustomerServiceChat({
@@ -65,13 +62,17 @@ export default function App() {
 
   const buy = async () => {
     const res = await request({
-      url: "/order/create",
+      url: "/reserve/unified",
       method: "POST",
       data: {
-        scaleTableCode: price.scaleTableCode,
+        category: 1,
+        childrenId: 0,
+        scaleCodes: [Number(price.scaleTableCode)],
         priceId: price.id,
         payment: PaymentType.ONLINE,
-        invoiceId: 0
+        invoiceId: [0],
+        type: EvaluateType.ZHINENG,
+        workScheduleId: 0
       }
     });
     if (!res.data.hasPaidOrder) {
