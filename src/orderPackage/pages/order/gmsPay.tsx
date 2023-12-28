@@ -68,7 +68,7 @@ export default function App() {
     }
   };
 
-  const buy = async () => {
+  const buy = async (id) => {
     if (!value) {
       Notify.open({ color: "warning", message: "请先同意服务条款" });
       return;
@@ -80,7 +80,7 @@ export default function App() {
         category: 1,
         childrenId: 0,
         scaleCodes: [Number(router.params.code)],
-        priceId: priceList[currentPrice].id,
+        priceId: id,
         payment: PaymentType.ONLINE,
         invoiceId: [0],
         type: EvaluateType.ZHINENG,
