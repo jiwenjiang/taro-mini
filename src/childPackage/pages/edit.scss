@@ -12,6 +12,10 @@
     // overflow-y: auto;
   }
 
+  .valid-box {
+    background-color: #fff;
+  }
+
   :global(.list-item) {
     padding: 24px !important;
   }
