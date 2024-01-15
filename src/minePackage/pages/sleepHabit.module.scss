@@ -1,0 +1,25 @@
+.habitBox {
+    padding: 40px;
+    background-color: #fff;
+    --primary-color: #ffd340;
+
+
+    .title {
+        font-weight: bold;
+        font-size: 34px;
+        position: relative;
+        padding-left: 26px;
+        margin: 22px 0;
+
+        &::before {
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 34px;
+            background-color: var(--primary-color);
+            display: inline-block;
+            left: 0;
+            top: 6px;
+        }
+    }
+}

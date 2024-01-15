@@ -77,6 +77,13 @@ export default function App() {
               <Image className="trade" src={Dingdan} />
               <Text className="sub-title">疫苗须知</Text>
             </View>
+            <View
+              className="item"
+              onClick={() => goto("/minePackage/pages/sleep")}
+            >
+              <Image className="trade" src={Dingdan} />
+              <Text className="sub-title">睡眠日志</Text>
+            </View>
             {/* <View className="item">
               <Image className="trade" src={Yuyue} />
               <Text className="sub-title">预约订单</Text>

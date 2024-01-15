@@ -7,6 +7,20 @@
       "list": [
         {
           "name": "",
+          "pathName": "minePackage/pages/sleepHabit",
+          "query": "childrenId=259",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "minePackage/pages/sleep",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "evaluatePackage/pages/stepDetail",
           "query": "id=580&returnUrl=%2Fpages%2Findex%2Findex",
           "launchMode": "default",

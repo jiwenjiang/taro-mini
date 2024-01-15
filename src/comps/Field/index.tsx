@@ -1,5 +1,5 @@
 import { Input, InputProps, View } from "@tarojs/components";
-import React, { ReactNode, CSSProperties } from "react";
+import React, { CSSProperties, ReactNode } from "react";
 import styles from "./index.module.scss";
 
 export default function FieldInput({
@@ -8,6 +8,7 @@ export default function FieldInput({
   rootStyles,
   labelStyles,
   inputStyles,
+  type,
   ...args
 }: {
   label?: ReactNode;
@@ -15,12 +16,16 @@ export default function FieldInput({
   rootStyles?: CSSProperties;
   labelStyles?: CSSProperties;
   inputStyles?: CSSProperties;
+  type?: string;
 } & InputProps) {
   return (
     <View className={styles.box} style={rootStyles}>
-      <View className={styles.label} style={labelStyles}>{label}</View>
+      <View className={styles.label} style={labelStyles}>
+        {label}
+      </View>
       <Input
         {...args}
+        type={type}
         className={styles.input}
         style={inputStyles}
         placeholderClass={styles.placeholder}

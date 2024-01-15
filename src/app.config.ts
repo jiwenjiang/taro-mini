@@ -1,5 +1,5 @@
 const projectConfig = require("../project.config.json");
-console.log("🚀 ~ file: app.config.ts:2 ~ projectConfig:", projectConfig.appid)
+console.log("🚀 ~ file: app.config.ts:2 ~ projectConfig:", projectConfig.appid);
 const AppConfig = {
   fushu: {
     appId: "wxc662de75e52ad4d5"
@@ -29,7 +29,7 @@ export default {
     "pages/evaluate/previewReport",
     "pages/evaluate/detail",
     "pages/other/webView",
-    "pages/meiyou/ad",
+    "pages/meiyou/ad"
   ],
   subpackages: [
     {
@@ -64,7 +64,10 @@ export default {
         "pages/vaccination",
         "pages/grow",
         "pages/growList",
-        "pages/growDetail"
+        "pages/growDetail",
+        "pages/sleep",
+        "pages/sleepList",
+        "pages/sleepHabit"
       ]
     },
     {
