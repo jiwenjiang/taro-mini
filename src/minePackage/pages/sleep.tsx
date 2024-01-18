@@ -5,11 +5,11 @@ import maleImg from "@/static/imgs/male.png";
 import { Button, Notify, Popup } from "@taroify/core";
 import { Checked, Exchange } from "@taroify/icons";
 import { Image, Picker, Text, View } from "@tarojs/components";
-import {
-    getStorageSync,
-    navigateTo,
-    useDidShow,
-    useRouter
+import Taro, {
+  getStorageSync,
+  navigateTo,
+  useDidShow,
+  useRouter
 } from "@tarojs/taro";
 import { useContext, useEffect, useState } from "react";
 
@@ -130,25 +130,54 @@ export default function App() {
   };
 
   const save = async () => {
-    const res = await request({
-      url: "/sleep/record/save",
-      method: "POST",
+    if (!/^\d+$/.test(growData.weight)) {
+      Notify.open({ color: "warning", message: "请填写整数体重" });
+      return;
+    }
+    const checkRes = await request({
+      url: "/sleep/record/check",
+      method: "GET",
       data: {
         childrenId: currentChildren.id,
-        ...growData
+        date: growData.recordDate
       }
     });
-    setGrowData({
-      weight: "",
-      sleepTime: "",
-      readyTime: "",
-      nightAwakenings: 0,
-      fallBackAsleepAvgTime: "",
-      longestSleepTime: "",
-      wakeUpTime: "",
-      recordDate: dayjs().format("YYYY-MM-DD"),
-      daySleep: []
-    });
+    if (checkRes.data) {
+      Taro.showModal({
+        title: "提醒",
+        content: "您记录的日期已经有睡眠日志，是否进行覆盖",
+        confirmText: "覆盖",
+        async success(res) {
+          if (res.confirm) {
+            const res = await request({
+              url: "/sleep/record/save",
+              method: "POST",
+              data: {
+                childrenId: currentChildren.id,
+                ...growData
+              }
+            });
+            if (res.code === 0) {
+              Notify.open({ color: "success", message: "保存成功" });
+              setGrowData({
+                weight: "",
+                sleepTime: "",
+                readyTime: "",
+                nightAwakenings: 0,
+                fallBackAsleepAvgTime: "",
+                longestSleepTime: "",
+                wakeUpTime: "",
+                recordDate: dayjs().format("YYYY-MM-DD"),
+                daySleep: []
+              });
+            }
+          } else if (res.cancel) {
+            console.log("用户点击了取消");
+            // 在这里可以执行取消后的操作
+          }
+        }
+      });
+    }
   };
 
   const toChart = () => {
@@ -246,14 +275,14 @@ export default function App() {
         <View className={styles.row}>
           <FieldInput
             label="体重"
-            placeholder="请输入体重"
+            placeholder="请输入体重(整数)"
             value={growData.weight}
             onInput={(e: any) => onChange(e.target.value, "weight")}
             rootStyles={{ padding: "12px" }}
             labelStyles={{ color: "#333" }}
             inputStyles={{ textAlign: "right" }}
           />
-          <Text className={styles.unit}>KG</Text>
+          <Text className={styles.unit}>g</Text>
         </View>
         <View className={styles2.title}>
           昨晚睡眠统计 {lastDay} 20:00 至{" "}
@@ -369,7 +398,7 @@ export default function App() {
                   onChange={e => onSleepChange(e, i, "end")}
                 >
                   <ListItem
-                    left="小睡入眠时间"
+                    left="小睡醒来时间"
                     customStyles={customStyle}
                     right={v.end || "请选择"}
                   />

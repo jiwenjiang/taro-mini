@@ -1,7 +1,7 @@
 import request from "@/service/request";
 import { Button, Dialog, List, Loading } from "@taroify/core";
-import { View } from "@tarojs/components";
-import { navigateTo, usePageScroll, useRouter } from "@tarojs/taro";
+import { Text, View } from "@tarojs/components";
+import Taro, { navigateTo, usePageScroll, useRouter } from "@tarojs/taro";
 import React, { useRef, useState } from "react";
 import styles from "./growList.module.scss";
 
@@ -37,7 +37,7 @@ export default function App() {
 
   const getList = async (init?: boolean) => {
     const res = await request({
-      url: "/growth/list",
+      url: "/sleep/record/list",
       data: params.current
     });
     total.current = res.data?.page?.totalPage;
@@ -55,17 +55,26 @@ export default function App() {
     });
   };
 
-  const del = item => {
-    setOpen(true);
-    currentItem.current = item;
-  };
-
-  const toDel = async () => {
-    const res = await request({
-      url: "/growth/list",
-      data: params.current
+  const del = () => {
+    Taro.showModal({
+      title: "提醒",
+      content: "确认删除本次记录?",
+      async success(res) {
+        if (res.confirm) {
+          const res = await request({
+            url: "/sleep/record/delete",
+            data: params.current
+          });
+          this.getList(true);
+        } else if (res.cancel) {
+          console.log("用户点击了取消");
+          // 在这里可以执行取消后的操作
+        }
+      }
     });
   };
+
+  const toDel = async () => {};
   return (
     <View className={styles.index}>
       <List
@@ -80,11 +89,10 @@ export default function App() {
               data={item}
               detail={() =>
                 navigateTo({
-                  url: `/minePackage/pages/grow?id=${item.id}`
+                  url: `/minePackage/pages/sleep?id=${item.id}`
                 })
               }
-              report={() => goReport(item)}
-              del={() => del(item)}
+              del={() => del()}
             ></Card>
           </View>
         ))}
@@ -92,11 +100,9 @@ export default function App() {
           {loading && <Loading>{loadingText}</Loading>}
         </List.Placeholder>
       </List>
-      <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>是否确认删除</Dialog.Header>
-        <Dialog.Content>
-          购买视频课程后，享有蕾波所有线上视频课程均可免费观看权益
-        </Dialog.Content>
+      <Dialog open={open} className={styles.delBox} onClose={setOpen}>
+        <Dialog.Header>确认删除本次记录</Dialog.Header>
+        <Dialog.Content></Dialog.Content>
         <Dialog.Actions>
           <Button onClick={() => setOpen(false)}>取消</Button>
           <Button onClick={() => toDel()}>确认</Button>
@@ -106,11 +112,7 @@ export default function App() {
   );
 }
 
-function Card({ data, report, detail, del }) {
-  const toReport = () => {
-    report?.(data);
-  };
-
+function Card({ data, detail, del }) {
   const toDetail = () => {
     detail?.(data);
   };
@@ -123,35 +125,28 @@ function Card({ data, report, detail, del }) {
     <View className={styles.cardBox}>
       <View className={styles.card}>
         <View className={styles.kv}>
-          <View className={styles.v}>{data?.fillDate}</View>
-          <View className={styles.k}>家长填写</View>
+          <View className={styles.k}>记录时间</View>
+          <View className={styles.v}>{data?.recordDate}</View>
         </View>
         <View className={styles.kv}>
-          <View className={styles.k}>{data?.dateFromBirth}</View>
+          <View className={styles.k}>早上醒来时间</View>
+          <View className={styles.v}>{data?.wakeUpTime}</View>
         </View>
         <View className={styles.kv}>
-          <View className={styles.k}>身高</View>
-          <View className={styles.v}>{data?.height}</View>
+          <View className={styles.k}>晚上入睡时间</View>
+          <View className={styles.v}>{data?.sleepTime}</View>
         </View>
         <View className={styles.kv}>
-          <View className={styles.k}>体重</View>
-          <View className={styles.v}>{data?.weight}</View>
-        </View>
-        <View className={styles.kv}>
-          <View className={styles.k}>头围</View>
-          <View className={styles.v}>{data?.headCircumference}</View>
+          <View className={styles.k}>白天小睡合计</View>
+          <View className={styles.v}>
+            {data?.sleepCountDayTime} {data?.sleepCountDayTime && "分钟"}
+          </View>
         </View>
         <View className={styles.btnbox}>
-          <View
-            className={styles.btn}
-            style={{ borderRight: "1px solid #f0f0f0", flex: 2 }}
-            onClick={() => toReport()}
-          >
-            查看生长评估
-          </View>
           <View className={styles.btn} onClick={() => toDetail()}>
             编辑
           </View>
+          <Text className={styles.vLine}> | </Text>
           <View className={styles.btn} onClick={() => toDel()}>
             删除
           </View>
