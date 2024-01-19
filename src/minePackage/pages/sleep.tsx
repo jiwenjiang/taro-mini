@@ -31,6 +31,7 @@ export default function App() {
   const [children, setChildren] = useState<any[]>([]);
   const [currentChildren, setCurrentChildren] = useState<any>({});
   const childContext = useContext(ChildContext);
+  const [weights, setWeights] = useState({ birthWeight: "", recordWeight: "" });
   const [growData, setGrowData] = useState<any>({
     weight: "",
     sleepTime: "",
@@ -74,12 +75,25 @@ export default function App() {
     const res = await request({ url: "/children/list", data: page });
     setChildren(res.data.children);
     setCurrentChildren(res.data.children?.[0]);
+    getWeight(res.data.children?.[0]);
     childContext.updateChild({ len: res.data.children.length });
+  };
+
+  const getWeight = async v => {
+    if (!router.params.id) {
+      const res = await request({
+        url: "/sleep/weight/get",
+        data: { childrenId: v.id }
+      });
+      setWeights(res.data);
+      setGrowData({ ...growData, weight: res.data.recordWeight });
+    }
+    // console.log("🚀 ~ getWeight ~ res:", res);
   };
 
   const getGrowDetail = async () => {
     const res = await request({
-      url: "/growth/get",
+      url: "/sleep/record/get",
       data: { id: router.params.id }
     });
     setGrowData(res.data);
@@ -134,6 +148,9 @@ export default function App() {
       Notify.open({ color: "warning", message: "请填写整数体重" });
       return;
     }
+    // if(growData.weight < weights.birthWeight){
+
+    // }
     const checkRes = await request({
       url: "/sleep/record/check",
       method: "GET",

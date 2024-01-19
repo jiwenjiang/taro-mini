@@ -51,7 +51,7 @@ export default function App() {
 
   const goReport = item => {
     navigateTo({
-      url: `/minePackage/pages/growDetail?id=${item.id}&childrenId=${router.params.childrenId}`
+      url: `/minePackage/pages/sleep?id=${item.id}&childrenId=${router.params.childrenId}`
     });
   };
 
