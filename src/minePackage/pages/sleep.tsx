@@ -194,13 +194,36 @@ export default function App() {
           }
         }
       });
+    } else {
+      const res = await request({
+        url: "/sleep/record/save",
+        method: "POST",
+        data: {
+          childrenId: currentChildren.id,
+          ...growData
+        }
+      });
+      if (res.code === 0) {
+        Notify.open({ color: "success", message: "保存成功" });
+        setGrowData({
+          weight: "",
+          sleepTime: "",
+          readyTime: "",
+          nightAwakenings: 0,
+          fallBackAsleepAvgTime: "",
+          longestSleepTime: "",
+          wakeUpTime: "",
+          recordDate: dayjs().format("YYYY-MM-DD"),
+          daySleep: []
+        });
+      }
     }
   };
 
   const toChart = () => {
-    const url = `${envHost}?classify=${1}&token=${getStorageSync(
-      "token"
-    )}&childId=${currentChildren.id}`;
+    const url = `${envHost}/sleep?token=${getStorageSync("token")}&childId=${
+      currentChildren.id
+    }`;
     navigateTo({
       url: `/pages/other/webView?url=${Base64.encode(url)}`
     });

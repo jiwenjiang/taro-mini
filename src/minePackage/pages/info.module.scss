@@ -1,6 +1,9 @@
 .index {
     background: #f6f6f6;
     height: 100vh;
+    --size: 30px;
+    --size-sm: 24px;
+    --size-2s: 16px;
     --primary-color: #ffd340;
     --rv-primary-color: var(--primary-color);
     --notify-warning-background-color: var(--primary-color);

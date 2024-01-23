@@ -20,9 +20,11 @@ export default function FieldInput({
 } & InputProps) {
   return (
     <View className={styles.box} style={rootStyles}>
-      <View className={styles.label} style={labelStyles}>
-        {label}
-      </View>
+      {label && (
+        <View className={styles.label} style={labelStyles}>
+          {label}
+        </View>
+      )}
       <Input
         {...args}
         type={type}

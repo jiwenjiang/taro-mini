@@ -1,7 +1,7 @@
 import Taro, { getCurrentPages, navigateTo } from "@tarojs/taro";
 
 const developHost = "https://wx-test.fushuhealth.com";
-const gaHost = "https://wx.fushuhealth.com/";
+const gaHost = "https://wx.fushuhealth.com";
 
 const reqUrl = {
   develop: `${developHost}/recovery-wx`,
