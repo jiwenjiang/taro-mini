@@ -21,7 +21,8 @@ enum Channel {
   anqier,
   quzhou,
   leibo,
-  meiyou
+  meiyou,
+  dongfangtong
 }
 
 const anqierList = [
@@ -145,7 +146,7 @@ export default function App() {
 
   useDidShow(() => {
     getPortal(res => {
-    console.log("🚀 ~ file: index.tsx:148 ~ useDidShow ~ res:", res)
+      console.log("🚀 ~ file: index.tsx:148 ~ useDidShow ~ res:", res);
 
       if (wx._frontPage === "xaaqer") {
         setChannel(Channel.anqier);
@@ -182,6 +183,15 @@ export default function App() {
           method: "GET"
         }).then(res => {
           console.log("🚀 ~ file: index.tsx:153 ~ useDidShow ~ res:", res);
+          setMeiyouStaticData(res.data);
+        });
+      }
+      if (wx._frontPage === "dongfangtong") {
+        setChannel(Channel.dongfangtong);
+        request({
+          url: "/wx/portal/dongfangtong",
+          method: "GET"
+        }).then(res => {
           setMeiyouStaticData(res.data);
         });
       }
@@ -595,6 +605,32 @@ export default function App() {
                   ></Image>
                 </View>
                 <View className={styles.banner} style={{ marginTop: 0 }}>
+                  <Image
+                    className={styles.logo}
+                    src={meiyouStaticData.aiEvaluation}
+                    mode="widthFix"
+                    onClick={() => goto("/pages/evaluate/list")}
+                  ></Image>
+                </View>
+                <View className={styles.banner}>
+                  <Image
+                    className={styles.logo}
+                    mode="widthFix"
+                    onClick={() => goto("/evaluatePackage/pages/recordList")}
+                    src={meiyouStaticData.record}
+                  ></Image>
+                </View>
+              </View>
+              <TabBar current="index" />
+            </View>
+          )}
+          {channel === Channel.dongfangtong && (
+            <View
+              className={styles.index}
+              style={{ backgroundImage: `url(${meiyouStaticData.background})` }}
+            >
+              <View className={styles.section}>
+                <View className={styles.banner} style={{ marginTop: 160 }}>
                   <Image
                     className={styles.logo}
                     src={meiyouStaticData.aiEvaluation}

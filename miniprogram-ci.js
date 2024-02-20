@@ -51,7 +51,7 @@
       type: "list",
       name: "name",
       message: "请选择上传的小程序",
-      choices: ["fushu", "child", "leibo"]
+      choices: ["fushu", "child", "leibo", "dongfangtong"]
     }
   ]);
   setAppId(app.name);

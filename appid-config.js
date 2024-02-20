@@ -12,6 +12,9 @@ const AppConfig = {
   },
   leibo: {
     appId: "wx45988ee03543eb16"
+  },
+  dongfangtong: {
+    appId: "wxf80aeac05b0b6503"
   }
 };
 // 配置文件路径
