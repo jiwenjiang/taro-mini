@@ -1,5 +1,5 @@
 const projectConfig = require("../project.config.json");
-console.log("🚀 ~ file: app.config.ts:2 ~ projectConfig:", projectConfig.appid);
+
 const AppConfig = {
   fushu: {
     appId: "wxc662de75e52ad4d5"
@@ -14,6 +14,11 @@ const AppConfig = {
     appId: "wxf80aeac05b0b6503"
   }
 };
+
+console.log(
+  "🚀 ~ file: app.config.ts:2 ~ projectConfig:",
+  projectConfig.appid === AppConfig.fushu.appId
+);
 
 export default {
   pages: [

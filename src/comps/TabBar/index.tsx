@@ -1,10 +1,12 @@
+import { FushuAppId } from "@/service/const";
 import Kefu from "@/static/icons/kefu.svg";
 import Kefu2 from "@/static/icons/kefu2.svg";
 import { Tabbar } from "@taroify/core";
 import { HomeOutlined, UserCircleOutlined } from "@taroify/icons";
 import { Image, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import pkgJSON from "../../../project.config.json";
 import "./index.scss";
 
 const pageList = [
@@ -23,7 +25,6 @@ const pageList = [
 ];
 
 export default function TabBar({ current }) {
-  const [kefuData, setKefuData] = useState({});
   const handleClick = e => {
     const page = pageList[e];
     Taro.switchTab({ url: page.url });
@@ -57,18 +58,21 @@ export default function TabBar({ current }) {
         <Tabbar.TabItem icon={<HomeOutlined />} onClick={() => handleClick(0)}>
           首页
         </Tabbar.TabItem>
-        <Tabbar.TabItem
-          icon={
-            <Image
-              src={current === "kefu" ? Kefu2 : Kefu}
-              style={{ width: 16, height: 16 }}
-            />
-          }
-          // onClick={() => handleClick(1)}
-          onClick={() => open()}
-        >
-          客服
-        </Tabbar.TabItem>
+        {pkgJSON.appid === FushuAppId && (
+          <Tabbar.TabItem
+            icon={
+              <Image
+                src={current === "kefu" ? Kefu2 : Kefu}
+                style={{ width: 16, height: 16 }}
+              />
+            }
+            // onClick={() => handleClick(1)}
+            onClick={() => open()}
+          >
+            客服
+          </Tabbar.TabItem>
+        )}
+
         <Tabbar.TabItem
           icon={<UserCircleOutlined />}
           onClick={() => handleClick(2)}
