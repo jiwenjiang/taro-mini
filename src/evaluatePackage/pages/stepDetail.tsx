@@ -536,7 +536,7 @@ function Card() {
                       className={styles.evaKey}
                       style={{ marginBottom: 10 }}
                     >
-                      {report?.scaleResult?.cerebralPalsyResult?.suggests[0]}
+                      {report?.scaleResult?.cerebralPalsyResult?.suggests?.[0]}
                     </View>
                   </View>
                 </View>

@@ -7,6 +7,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=277",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "minePackage/pages/sleep",
           "query": "id=3",
           "launchMode": "default",
@@ -30,13 +37,6 @@
           "name": "",
           "pathName": "minePackage/pages/sleep",
           "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=580&returnUrl=%2Fpages%2Findex%2Findex",
           "launchMode": "default",
           "scene": null
         },
