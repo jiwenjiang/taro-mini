@@ -8,6 +8,13 @@
         {
           "name": "",
           "pathName": "evaluatePackage/pages/stepDetail",
+          "query": "id=288",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "evaluatePackage/pages/stepDetail",
           "query": "id=277",
           "launchMode": "default",
           "scene": null
@@ -44,13 +51,6 @@
           "name": "",
           "pathName": "pages/meiyou/ad",
           "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "evaluatePackage/pages/stepDetail",
-          "query": "id=554",
           "launchMode": "default",
           "scene": null
         },
