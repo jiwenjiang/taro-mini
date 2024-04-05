@@ -46,7 +46,9 @@ export default {
         "pages/stepDetail",
         "pages/recordList",
         "pages/ganyuList",
-        "pages/ganyuDetail"
+        "pages/ganyuDetail",
+        "pages/jiuzhenjieduan",
+        "pages/kouchi",
       ]
     },
     {

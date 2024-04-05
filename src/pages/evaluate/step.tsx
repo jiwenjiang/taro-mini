@@ -43,9 +43,8 @@ const transTitle = e => {
 };
 
 const stepList = [
-  { label: "自发姿势运动", desc: "拍摄视频" },
-  { label: "扶持迈步激发运动", desc: "拍摄视频" },
-  { label: "补充其他信息", desc: "" }
+  { label: "自主描述", desc: "拍摄视频" },
+  { label: "自由对话", desc: "拍摄视频" },
 ];
 
 export default function App() {

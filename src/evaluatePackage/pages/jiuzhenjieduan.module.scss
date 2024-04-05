@@ -1,0 +1,18 @@
+.index {
+    background-color: #f9fbfc;
+    --primary-color: #F2B04F;
+    min-height: 100vh;
+    padding: 30px 40px;
+
+    .btnBox {
+        height: 120px;
+        border: 1px solid var(--primary-color);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+}

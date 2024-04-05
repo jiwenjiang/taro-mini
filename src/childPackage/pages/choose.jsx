@@ -42,7 +42,7 @@ export default function App() {
       });
     } else {
       navigateTo({
-        url: `/pages/evaluate/step?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
+        url: `/evaluatePackage/pages/jiuzhenjieduan?childId=${data[active]?.id}&age=${data[active]?.birthdayDate}&code=${router.params.code}&orderId=${router.params.orderId}`
       });
     }
   };

@@ -1,6 +1,8 @@
 import TabBar from "@/comps/TabBar";
+import { ChildContext } from "@/service/context";
 import { useAuth, useChannel } from "@/service/hook";
 import request from "@/service/request";
+import { Base64 } from "@/service/utils";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
 import VideoImg from "@/static/imgs/video.png";
@@ -12,7 +14,7 @@ import Kecheng from "@/static/imgs/zhuanshukecheng.png";
 import { Loading, Notify } from "@taroify/core";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import Taro, { navigateTo, useDidShow } from "@tarojs/taro";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { cls } from "reactutils";
 import styles from "./index.module.scss";
 
@@ -71,6 +73,8 @@ const descs = [
 
 export default function App() {
   const { getAuth, getPortal } = useAuth();
+  const childContext = useContext(ChildContext);
+
   const [modules, setModules] = useState<any>();
   const [channel, setChannel] = useState<Channel>(Channel.fushu);
   const [anqierStatic, setAnqierStatic] = useState({
@@ -209,6 +213,22 @@ export default function App() {
       withShareTicket: true
     });
   }, []);
+
+  const goto2 = () => {
+    if (childContext.child.len) {
+      navigateTo({
+        url: `/childPackage/pages/choose?code=${99}&orderId=${99}`
+      });
+    } else {
+      const returnUrl = Base64.encode(
+        `/childPackage/pages/choose?code=${99}&orderId=${99}`
+      );
+
+      navigateTo({
+        url: `/childPackage/pages/manage?code=${99}&returnUrl=${returnUrl}`
+      });
+    }
+  };
 
   return (
     <View>
@@ -635,7 +655,7 @@ export default function App() {
                     className={styles.logo}
                     src={meiyouStaticData.aiEvaluation}
                     mode="widthFix"
-                    onClick={() => goto("/pages/evaluate/list")}
+                    onClick={() => goto2()}
                   ></Image>
                 </View>
                 <View className={styles.banner}>

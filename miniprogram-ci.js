@@ -7,10 +7,10 @@
 
   // check in main branch
   const curbranch = getGitBranch();
-  if (curbranch !== "main" && curbranch !== "master") {
-    console.log("\x1b[41m%s\x1b[0m", "请在主分支发布");
-    return;
-  }
+  // if (curbranch !== "main" && curbranch !== "master") {
+  //   console.log("\x1b[41m%s\x1b[0m", "请在主分支发布");
+  //   return;
+  // }
 
   // diff code with remote and pull code
   execa.execaCommandSync("git remote update");
