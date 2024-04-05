@@ -72,7 +72,8 @@ export default function App() {
     }
     if (
       item.scaleTableCode === ScaleTableCode.LEIBO_BRAIN ||
-      item.scaleTableCode === ScaleTableCode.LEIBO_GMS
+      item.scaleTableCode === ScaleTableCode.LEIBO_GMS ||
+      1
     ) {
       navigateTo({
         url: `/evaluatePackage/pages/stepDetail?id=${item.id}`

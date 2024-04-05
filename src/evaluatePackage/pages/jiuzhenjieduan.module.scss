@@ -15,4 +15,14 @@
         color: var(--primary-color);
         margin-bottom: 20px;
     }
+
+    .red {
+        color: red
+    }
+
+    .btnBox2 {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
 }
