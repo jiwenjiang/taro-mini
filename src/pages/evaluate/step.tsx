@@ -85,7 +85,7 @@ export default function App() {
 
   const getGuide = async () => {
     const res = await request({
-      url: "/scaleTable/guide",
+      url: "/scaleTable/guide/stuttering",
       data: {
         code: router.params.code ?? 9,
         questionSn: data[active].questions[questionIndex].sn,
@@ -301,8 +301,11 @@ export default function App() {
         });
       } else {
         navigateTo({
-          url: `/pages/evaluate/brainGmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+          url: `/evaluatePackage/pages/kouchi?childId=${router.params?.childId}&age=${router.params?.age}&code=${router.params.code}&orderId=${router.params.orderId}&hasUpload=1`
         });
+        // navigateTo({
+        //   url: `/pages/evaluate/brainGmsDetail?id=${res.data.id}&returnUrl=/pages/index/index`
+        // });
       }
       wx.requestSubscribeMessage({
         tmplIds: tempId.current,
@@ -359,8 +362,8 @@ export default function App() {
                 <View className={styles.zhinan}>
                   <View className={styles.zhinanText}>
                     {questionIndex === 0
-                      ? "请根据拍摄指南，拍摄孩子自发姿势运动视频"
-                      : "请根据拍摄指南，拍摄孩子扶持迈步激发运动视频"}
+                      ? "请根据拍摄指南，拍摄孩子自主描述视频"
+                      : "请根据拍摄指南，拍摄孩子自由对话视频"}
                   </View>
                   <View className={styles.chakanzhinan} onClick={getGuide}>
                     查看拍摄指南

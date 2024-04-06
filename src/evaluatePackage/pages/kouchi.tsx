@@ -43,7 +43,9 @@ export default function App() {
     <View className={styles.index}>
       <View className={styles.btnBox} onClick={goto}>
         <View>儿童口吃调查表</View>
-        <View className={styles.red}>未上传 &rarr;</View>
+        <View className={router.params?.hasUpload ? styles.green : styles.red}>
+          {router.params?.hasUpload ? "已上传" : "未上传"} &rarr;
+        </View>
       </View>
       <View className={styles.btnBox} onClick={ing}>
         <View>口吃严重性评级</View>
