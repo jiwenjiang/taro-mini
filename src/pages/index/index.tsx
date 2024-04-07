@@ -2,7 +2,7 @@ import TabBar from "@/comps/TabBar";
 import { ChildContext } from "@/service/context";
 import { useAuth, useChannel } from "@/service/hook";
 import request from "@/service/request";
-import { Base64 } from "@/service/utils";
+import { Base64, navWithLogin } from "@/service/utils";
 import Ganyu from "@/static/imgs/ganyufangan.png";
 import Baogao from "@/static/imgs/pinggubaogao.png";
 import VideoImg from "@/static/imgs/video.png";
@@ -216,17 +216,15 @@ export default function App() {
 
   const goto2 = () => {
     if (childContext.child.len) {
-      navigateTo({
-        url: `/childPackage/pages/choose?code=${99}&orderId=${99}`
-      });
+      navWithLogin(`/childPackage/pages/choose?code=${99}&orderId=${99}`);
     } else {
       const returnUrl = Base64.encode(
         `/childPackage/pages/choose?code=${99}&orderId=${99}`
       );
 
-      navigateTo({
-        url: `/childPackage/pages/manage?code=${99}&returnUrl=${returnUrl}`
-      });
+      navWithLogin(
+        `/childPackage/pages/manage?code=${99}&returnUrl=${returnUrl}`
+      );
     }
   };
 
