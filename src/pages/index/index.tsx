@@ -189,7 +189,7 @@ export default function App() {
       if (wx._frontPage === "dongfangtong") {
         setChannel(Channel.dongfangtong);
         request({
-          url: "/wx/portal/dongfangtong",
+          url: "/wx/portal/dongfangtongfayuzhidao",
           method: "GET"
         }).then(res => {
           setMeiyouStaticData(res.data);
