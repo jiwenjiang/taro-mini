@@ -30,6 +30,7 @@ enum ReserveStatusEnums {
   REVIEWED = 3,
   CONFIRMED = 4,
   WAITING_START = 5,
+  JINXINGZHONG = 6,
   REJECTED = 10
 }
 
@@ -49,6 +50,10 @@ const ReserveStatuses = {
   [ReserveStatusEnums.WAITING_START]: {
     text: "待开始",
     className: "waitingstart"
+  },
+  [ReserveStatusEnums.JINXINGZHONG]: {
+    text: "进行中",
+    className: "confirmed"
   },
   [ReserveStatusEnums.REJECTED]: {
     text: "已驳回",
@@ -296,6 +301,11 @@ function Card({ data, report, detail }) {
           </View>
           <View className={styles.status}>
             {data?.reserveStatus === ReserveStatusEnums.PENDING && (
+              <View className={styles.pending}>
+                {ReserveStatuses[data.reserveStatus].text}
+              </View>
+            )}
+            {data?.reserveStatus === ReserveStatusEnums.JINXINGZHONG && (
               <View className={styles.pending}>
                 {ReserveStatuses[data.reserveStatus].text}
               </View>
